@@ -340,7 +340,7 @@ html {
 
 .year-switcher>[aria-current="page"] {
     padding: 0.15rem 0.55rem;
-    border-radius: 999px;
+    border-radius: 0;
     background: #efefef;
     color: #000;
     font-weight: 700;
@@ -355,7 +355,7 @@ html {
     margin: 1rem 0;
     padding: 0.45rem 0.75rem;
     border: 1px solid currentColor;
-    border-radius: 999px;
+    border-radius: 0;
     font-family: var(--body-font);
     font-size: 0.85rem;
 }

@@ -3,7 +3,7 @@ import Layout from "@/layouts/Layout.astro";
 import Footer from "@/components/Footer.astro";
 import Nav from "@/components/Nav.astro";
 import CourseInfo from "@/components/CourseInfo.astro";
-import P5Background from "@/components/P5Background.astro";
+import YearBackground from "@/components/YearBackground.astro";
 import HallofFame from "@/components/HallofFame.astro";
 import Marquee from "@/components/Marquee.astro";
 import YearSwitcher from "@/components/YearSwitcher.astro";
@@ -28,7 +28,7 @@ const courseHeading = yearConfig.sectionId
 ---
 
 <Layout title={courseHeading} description={SITE_DESCRIPTION}>
-  <P5Background />
+  <YearBackground year={year} />
 
   <header>
     <div>

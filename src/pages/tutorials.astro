@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import Footer from "@/components/Footer.astro";
-import P5Background from "@/components/P5Background.astro";
+import YearBackground from "@/components/YearBackground.astro";
 import YearSwitcher from "@/components/YearSwitcher.astro";
 import { ACTIVE_YEAR, SITE_TITLE, getYearConfig } from "@/config";
 import { isPublishedTutorial } from "@/lib/course-content";
@@ -35,7 +35,7 @@ const difficultyColors = {
   title="Tutorials"
   description="Collection of coding tutorials and resources"
 >
-  <P5Background />
+  <YearBackground year={ACTIVE_YEAR} />
 
   <header>
     <div>

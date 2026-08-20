@@ -1,0 +1,13 @@
+---
+import P5Background from "@/components/P5Background.astro";
+import P5Background2026 from "@/components/P5Background2026.astro";
+
+interface Props {
+  year: number;
+}
+
+const { year } = Astro.props;
+---
+
+{year === 2025 && <P5Background />}
+{year === 2026 && <P5Background2026 />}
