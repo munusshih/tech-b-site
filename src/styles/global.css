@@ -378,27 +378,48 @@ html {
     border: 0;
 }
 
-/* The 2026 Tech B palette borrows the sky-paper and wine-ink character of the
-   syllabus companion while keeping this site's existing notebook structure. */
+/* Tech B keeps one typographic system while its three computational studies
+   exchange paper, ink, and accent colors through the sketch switcher. */
 html[data-course-year="2026"] {
-    --border-dotted: 1px solid #392d2f;
     --title-font: "Instrument Serif", Georgia, serif;
     --body-font: "Source Serif 4", Georgia, serif;
-    background: #b8e1f5;
+    --sketch-paper: #f0efea;
+    --sketch-ink: #16336b;
+    --sketch-accent: #315ca8;
+    --sketch-echo: #9aa9c1;
+    --border-dotted: 1px solid var(--sketch-ink);
+    background: var(--sketch-paper);
     color-scheme: light;
     filter: none;
 }
 
+html[data-course-year="2026"][data-sketch-mode="2"] {
+    --sketch-paper: #fff2c7;
+    --sketch-ink: #2f2a58;
+    --sketch-accent: #de5b2d;
+    --sketch-echo: #9c91a5;
+}
+
+html[data-course-year="2026"][data-sketch-mode="3"] {
+    --sketch-paper: #e7e1ed;
+    --sketch-ink: #123c2e;
+    --sketch-accent: #477a66;
+    --sketch-echo: #8da99c;
+}
+
 html[data-course-year="2026"] body {
-    background-color: #b8e1f5;
-    background-image:
-        radial-gradient(circle, rgba(57, 45, 47, 0.16) 0 0.7px, transparent 0.9px),
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 72 72' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.1'/%3E%3C/svg%3E");
+    background-color: var(--sketch-paper);
+    background-image: radial-gradient(
+        circle,
+        color-mix(in srgb, var(--sketch-ink) 16%, transparent) 0 0.6px,
+        transparent 0.82px
+    );
     background-repeat: repeat;
-    background-size: 7px 7px, 5rem 5rem;
-    color: #392d2f;
+    background-size: 7px 7px;
+    color: var(--sketch-ink);
     filter: none;
     font-family: var(--body-font) !important;
+    transition: background-color 180ms ease, color 180ms ease;
 }
 
 html[data-course-year="2026"] body * {
@@ -442,7 +463,7 @@ html[data-course-year="2026"] a {
 html[data-course-year="2026"] main {
     background-color: transparent;
     background-image: none;
-    color: #392d2f;
+    color: var(--sketch-ink);
     filter: none;
 }
 
@@ -458,20 +479,20 @@ html[data-course-year="2026"] embed {
 }
 
 html[data-course-year="2026"] h1 {
-    text-decoration-color: #392d2f;
+    text-decoration-color: var(--sketch-ink);
 }
 
 html[data-course-year="2026"] h2::before {
-    color: #392d2f;
+    color: var(--sketch-ink);
     opacity: 0.65;
 }
 
 html[data-course-year="2026"] .btn-primary {
-    background: #392d2f;
-    color: #b8e1f5;
+    background: var(--sketch-ink);
+    color: var(--sketch-paper);
 }
 
 html[data-course-year="2026"] ::selection {
-    background: #392d2f;
-    color: #b8e1f5;
+    background: var(--sketch-accent);
+    color: var(--sketch-paper);
 }

@@ -4,6 +4,7 @@ import Layout from "@/layouts/Layout.astro";
 import Footer from "@/components/Footer.astro";
 import YearBackground from "@/components/YearBackground.astro";
 import YearSwitcher from "@/components/YearSwitcher.astro";
+import SketchSwitcher from "@/components/SketchSwitcher.astro";
 import { ACTIVE_YEAR, SITE_TITLE, getYearConfig } from "@/config";
 import { isPublishedTutorial } from "@/lib/course-content";
 
@@ -48,6 +49,7 @@ const difficultyColors = {
       <h2 class="heading-1">Tutorials</h2>
       <p>A collection of coding tutorials and resources for creative coding.</p>
       <YearSwitcher year={ACTIVE_YEAR} />
+      <SketchSwitcher />
     </div>
   </header>
 

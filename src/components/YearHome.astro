@@ -8,6 +8,7 @@ import HallofFame from "@/components/HallofFame.astro";
 import Marquee from "@/components/Marquee.astro";
 import YearSwitcher from "@/components/YearSwitcher.astro";
 import ArchiveNotice from "@/components/ArchiveNotice.astro";
+import SketchSwitcher from "@/components/SketchSwitcher.astro";
 import {
   SITE_DESCRIPTION,
   SITE_TITLE,
@@ -35,6 +36,7 @@ const courseHeading = yearConfig.sectionId
       <h1>{SITE_TITLE}{yearConfig.sectionId && <><br />({yearConfig.sectionId})</>}</h1>
       <p>{SITE_DESCRIPTION}</p>
       <YearSwitcher year={year} />
+      {year === 2026 && <SketchSwitcher />}
       {archived && <ArchiveNotice year={year} />}
     </div>
     <CourseInfo year={year} />

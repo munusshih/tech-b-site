@@ -1,171 +1,304 @@
 ---
-// 2026 follows Tech B's ant-colony visual language. The 2025 sketch is separate.
+// Three switchable 2026 studies: activations, boundaries, and latent tape.
 ---
 
-<div id="p5-background" aria-hidden="true"></div>
+<div id="p5-background" data-sketch-year="2026" aria-hidden="true"></div>
 
 <script is:client>
   /* eslint-disable no-undef, @typescript-eslint/no-unused-vars */
 
   const YEAR_SEED = 2026;
-  const INK = [57, 45, 47];
-  const PHEROMONE_LIMIT = 720;
+  const root = document.documentElement;
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  let ants = [];
-  let pheromones = [];
-  let foodSources = [];
-  let nest;
   let canvas;
+  let mode = 1;
+  let ink;
+  let accent;
+  let echo;
+  let activationStacks = [];
+  let stepPaths = [];
+  let scanChannels = [];
 
-  class Ant {
-    constructor(index) {
-      this.index = index;
-      this.phase = random(1000);
-      this.speed = random(0.65, 1.35);
-      this.carrying = index % 4 === 0;
-      this.foodIndex = index % foodSources.length;
-      const target = this.carrying ? nest : foodSources[this.foodIndex];
-      const progress = random();
-      this.x = lerp(nest.x, target.x, progress) + randomGaussian(0, 28);
-      this.y = lerp(nest.y, target.y, progress) + randomGaussian(0, 28);
-      this.heading = atan2(target.y - this.y, target.x - this.x) + random(-0.7, 0.7);
-      this.depositClock = floor(random(12));
+  function readMode() {
+    const nextMode = Number(root.dataset.sketchMode || "1");
+    return [1, 2, 3].includes(nextMode) ? nextMode : 1;
+  }
+
+  function readPalette() {
+    const styles = window.getComputedStyle(root);
+    ink = color(styles.getPropertyValue("--sketch-ink").trim() || "#17315c");
+    accent = color(styles.getPropertyValue("--sketch-accent").trim() || "#5274aa");
+    echo = color(styles.getPropertyValue("--sketch-echo").trim() || "#94a7c9");
+  }
+
+  function strokeColor(value, alpha = 255) {
+    stroke(red(value), green(value), blue(value), alpha);
+  }
+
+  function fillColor(value, alpha = 255) {
+    fill(red(value), green(value), blue(value), alpha);
+  }
+
+  function buildActivations() {
+    activationStacks = Array.from({ length: 16 }, (_, index) => ({
+      x: random(index % 5 === 0 ? width * 0.2 : width * 0.34, width * 0.96),
+      y: random(height * 0.08, height * 0.9),
+      count: floor(random(3, 8)),
+      gap: random(12, 22),
+      horizontal: index % 4 === 0,
+      phase: random(100),
+      square: index % 3 === 0,
+    }));
+
+    stepPaths = Array.from({ length: 8 }, (_, index) => {
+      const startX = random(index % 4 === 0 ? width * 0.22 : width * 0.38, width * 0.76);
+      const startY = random(height * 0.16, height * 0.88);
+      const segments = Array.from({ length: floor(random(3, 7)) }, () => ({
+        width: random(32, 110),
+        rise: random([-1, 1]) * random(18, 62),
+      }));
+      return { startX, startY, segments, phase: random(100), index };
+    });
+  }
+
+  function buildScanChannels() {
+    scanChannels = Array.from({ length: 24 }, (_, index) => ({
+      y: map(index, 0, 23, height * 0.07, height * 0.94) + random(-10, 10),
+      startX: random(index % 5 === 0 ? width * 0.18 : width * 0.32, width * 0.55),
+      endX: random(width * 0.62, width * 0.97),
+      phase: random(100),
+      dashed: index % 3 === 0,
+      echoOffset: random(7, 18),
+      registerCount: floor(random(2, 7)),
+      label: index % 6 === 0
+        ? random(["[SCAN]", "[ECHO]", "[DELAY]", "[PREDICT]"])
+        : "",
+    }));
+  }
+
+  function resetScene() {
+    mode = readMode();
+    randomSeed(YEAR_SEED + mode * 137);
+    noiseSeed(YEAR_SEED + mode * 211);
+    readPalette();
+    activationStacks = [];
+    stepPaths = [];
+    scanChannels = [];
+    if (mode === 1) buildActivations();
+    if (mode === 3) buildScanChannels();
+  }
+
+  function drawActivationStack(stack, index) {
+    const active = floor((frameCount * 0.035 + stack.phase) % stack.count);
+    const directionX = stack.horizontal ? stack.gap : 0;
+    const directionY = stack.horizontal ? 0 : stack.gap;
+
+    for (let item = 0; item < stack.count; item += 1) {
+      const x = stack.x + directionX * item;
+      const y = stack.y + directionY * item;
+      strokeColor(item === active ? accent : ink, item === active ? 210 : 112);
+      strokeWeight(item === active ? 1.6 : 1);
+      if (stack.square) {
+        if (item === active) fillColor(accent, 185);
+        else noFill();
+        square(x, y, item === active ? 7 : 5);
+      } else {
+        if (item === active) fillColor(accent, 155);
+        else noFill();
+        circle(x, y, item === active ? 9 : 7);
+      }
     }
 
-    update() {
-      const target = this.carrying ? nest : foodSources[this.foodIndex];
-      const desired = atan2(target.y - this.y, target.x - this.x);
-      const turn = atan2(sin(desired - this.heading), cos(desired - this.heading));
-      const wandering = map(noise(this.phase, frameCount * 0.006), 0, 1, -0.12, 0.12);
-      this.heading += turn * 0.025 + wandering;
-
-      const step = constrain(width / 760, 0.8, 2.15) * this.speed;
-      this.x += cos(this.heading) * step;
-      this.y += sin(this.heading) * step;
-      this.phase += 0.008;
-
-      const distance = dist(this.x, this.y, target.x, target.y);
-      if (distance < target.radius + 10) {
-        this.carrying = !this.carrying;
-        if (!this.carrying) this.foodIndex = (this.foodIndex + 1 + this.index) % foodSources.length;
-        this.heading += PI + random(-0.3, 0.3);
-      }
-
-      if (this.x < -20 || this.x > width + 20 || this.y < -20 || this.y > height + 20) {
-        this.x = nest.x + random(-nest.radius, nest.radius);
-        this.y = nest.y + random(-nest.radius, nest.radius);
-        this.heading = random(TWO_PI);
-      }
-
-      this.depositClock += 1;
-      if (this.depositClock >= 10 + (this.index % 9)) {
-        pheromones.push({
-          x: this.x,
-          y: this.y,
-          life: random(220, 480),
-          square: this.carrying,
-        });
-        this.depositClock = 0;
-      }
-    }
-
-    display() {
-      push();
-      translate(this.x, this.y);
-      rotate(this.heading);
-      stroke(...INK, 175);
-      strokeWeight(1);
-      line(-5, 0, 5, 0);
+    if (index % 4 === 0) {
       noStroke();
-      fill(...INK, 210);
-      circle(-4, 0, 2.6);
-      circle(0, 0, 3.4);
-      circle(4, 0, 2.4);
-      pop();
+      fillColor(ink, 125);
+      textFont("monospace");
+      textSize(10);
+      textAlign(LEFT, CENTER);
+      text(active % 2, stack.x - 16, stack.y - 10);
     }
   }
 
-  function createScene() {
-    randomSeed(YEAR_SEED);
-    noiseSeed(YEAR_SEED);
+  function drawStepPath(path) {
+    let x = path.startX;
+    let y = path.startY;
+    const totalWidth = path.segments.reduce((sum, segment) => sum + segment.width, 0);
+    const progress = (frameCount * 0.75 + path.phase * 8) % totalWidth;
+    let travelled = 0;
+    let pulseX = x;
+    let pulseY = y;
 
-    nest = {
-      x: width * 0.68,
-      y: height * 0.28,
-      radius: constrain(min(width, height) * 0.055, 30, 68),
-      label: "[BASE]",
-    };
+    strokeColor(ink, 118);
+    strokeWeight(path.index % 3 === 0 ? 2 : 1);
+    noFill();
+    for (const segment of path.segments) {
+      line(x, y, x + segment.width, y);
+      if (progress >= travelled && progress <= travelled + segment.width) {
+        pulseX = x + progress - travelled;
+        pulseY = y;
+      }
+      x += segment.width;
+      line(x, y, x, y + segment.rise);
+      y += segment.rise;
+      travelled += segment.width;
+    }
 
-    foodSources = [
-      { x: width * 0.17, y: height * 0.2, radius: 18, label: "{F:0}" },
-      { x: width * 0.27, y: height * 0.74, radius: 22, label: "[DATA]" },
-      { x: width * 0.82, y: height * 0.71, radius: 16, label: "<F/2>" },
-    ];
-
-    const population = constrain(floor((width * height) / 15000), 36, 90);
-    pheromones = [];
-    ants = Array.from({ length: population }, (_, index) => new Ant(index));
+    noStroke();
+    fillColor(accent, 210);
+    square(pulseX, pulseY, 6);
   }
 
-  function drawNode(node, index) {
-    push();
-    translate(node.x, node.y);
-    rotate(sin(frameCount * 0.003 + index) * 0.08);
-    noFill();
-    stroke(...INK, 75);
+  function drawQuantizedActivations() {
+    activationStacks.forEach(drawActivationStack);
+    stepPaths.forEach(drawStepPath);
+
+    strokeColor(echo, 95);
     strokeWeight(1);
-    circle(0, 0, node.radius * 2);
-    noStroke();
-    fill(...INK, 150);
+    for (let index = 0; index < 5; index += 1) {
+      const x = width * (0.42 + index * 0.11);
+      const barHeight = 18 + ((index * 23) % 54);
+      line(x, height * 0.74, x, height * 0.74 - barHeight);
+    }
+  }
+
+  function fieldValue(column, row, time) {
+    return (
+      noise(column * 0.075, row * 0.075, time) +
+      sin(column * 0.21 + time * 5) * 0.08 -
+      cos(row * 0.17 - time * 3) * 0.06
+    );
+  }
+
+  function drawDecisionBoundary() {
+    const spacing = constrain(width / 48, 20, 29);
+    const time = reducedMotion ? 0.16 : frameCount * 0.00028;
+    const firstColumn = floor((width * 0.34) / spacing);
+    const columns = ceil(width / spacing);
+    const rows = ceil(height / spacing);
+
     textFont("monospace");
-    textStyle(BOLD);
-    textSize(constrain(width / 105, 10, 15));
     textAlign(CENTER, CENTER);
-    text(node.label, 0, 0);
-    pop();
+    textSize(constrain(spacing * 0.48, 9, 13));
+    strokeWeight(1);
+
+    for (let column = firstColumn; column <= columns; column += 1) {
+      for (let row = 0; row <= rows; row += 1) {
+        const x = column * spacing + spacing * 0.5;
+        const y = row * spacing + spacing * 0.5;
+        const value = fieldValue(column, row, time);
+        const rareError = (column * 47 + row * 71) % 233 === 0;
+
+        if (rareError) {
+          strokeColor(accent, 220);
+          strokeWeight(1.5);
+          line(x - 4, y - 4, x + 4, y + 4);
+          line(x - 4, y + 4, x + 4, y - 4);
+        } else if (value > 0.61) {
+          noStroke();
+          fillColor(ink, 115);
+          text("+", x, y);
+        } else if (value < 0.39) {
+          noStroke();
+          fillColor(ink, 100);
+          text("−", x, y);
+        } else {
+          noFill();
+          strokeColor(echo, 105);
+          strokeWeight(1);
+          square(x, y, 4);
+        }
+      }
+    }
+
+    for (let band = 0; band < 3; band += 1) {
+      let previousY = 0;
+      strokeColor(ink, band === 1 ? 145 : 92);
+      strokeWeight(band === 1 ? 1.5 : 1);
+      for (let x = firstColumn * spacing; x <= width; x += spacing) {
+        const rawY =
+          height * (0.2 + band * 0.3) +
+          map(noise(x * 0.004, band * 8, time), 0, 1, -height * 0.18, height * 0.18);
+        const y = floor(rawY / spacing) * spacing;
+        if (x > 0) {
+          line(x - spacing, previousY, x, previousY);
+          line(x, previousY, x, y);
+        }
+        previousY = y;
+      }
+    }
+  }
+
+  function drawScanChannel(channel, index) {
+    const length = channel.endX - channel.startX;
+    const progress = (frameCount * (0.35 + (index % 4) * 0.08) + channel.phase * 10) % length;
+    const pulseX = channel.startX + progress;
+
+    drawingContext.setLineDash(channel.dashed ? [5, 6] : []);
+    strokeColor(index % 4 === 0 ? echo : ink, index % 4 === 0 ? 95 : 118);
+    strokeWeight(index % 5 === 0 ? 1.5 : 1);
+    line(channel.startX, channel.y, channel.endX, channel.y);
+    drawingContext.setLineDash([]);
+
+    strokeColor(echo, 58);
+    line(channel.startX + 18, channel.y + channel.echoOffset, channel.endX - 12, channel.y + channel.echoOffset);
+
+    noStroke();
+    fillColor(accent, 190);
+    square(pulseX, channel.y, index % 4 === 0 ? 7 : 5);
+
+    for (let register = 0; register < channel.registerCount; register += 1) {
+      const x = channel.startX + (length * register) / max(1, channel.registerCount - 1);
+      fillColor(ink, 105);
+      square(x, channel.y + (register % 2 === 0 ? -9 : 9), 4);
+    }
+
+    if (channel.label) {
+      noStroke();
+      fillColor(echo, 150);
+      textFont("monospace");
+      textSize(10);
+      textAlign(RIGHT, BOTTOM);
+      text(channel.label, channel.endX, channel.y - 6);
+    }
+  }
+
+  function drawLatentTape() {
+    scanChannels.forEach(drawScanChannel);
+
+    strokeColor(ink, 82);
+    strokeWeight(1);
+    const rulerY = height * 0.93;
+    for (let x = width * 0.36; x < width * 0.82; x += 13) {
+      line(x, rulerY, x, rulerY + ((floor(x / 13) % 4 === 0) ? 12 : 7));
+    }
   }
 
   function setup() {
     canvas = createCanvas(windowWidth, windowHeight);
     canvas.parent("p5-background");
     pixelDensity(1);
+    rectMode(CENTER);
+    strokeCap(SQUARE);
     frameRate(reducedMotion ? 10 : 40);
-    createScene();
+    resetScene();
   }
 
   function draw() {
     clear();
-
-    for (let index = pheromones.length - 1; index >= 0; index -= 1) {
-      const trace = pheromones[index];
-      trace.life -= reducedMotion ? 2.5 : 1;
-      if (trace.life <= 0) {
-        pheromones.splice(index, 1);
-        continue;
-      }
-      const alpha = map(trace.life, 0, 480, 0, 54, true);
-      noStroke();
-      fill(...INK, alpha);
-      if (trace.square) square(trace.x, trace.y, 2.2);
-      else circle(trace.x, trace.y, 2.2);
-    }
-
-    if (pheromones.length > PHEROMONE_LIMIT) {
-      pheromones.splice(0, pheromones.length - PHEROMONE_LIMIT);
-    }
-
-    drawNode(nest, 0);
-    foodSources.forEach((food, index) => drawNode(food, index + 1));
-
-    if (!reducedMotion || frameCount % 3 === 0) ants.forEach((ant) => ant.update());
-    ants.forEach((ant) => ant.display());
+    if (mode === 1) drawQuantizedActivations();
+    if (mode === 2) drawDecisionBoundary();
+    if (mode === 3) drawLatentTape();
   }
 
   function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
-    createScene();
+    resetScene();
   }
+
+  window.addEventListener("techb-sketch-change", () => {
+    if (canvas) resetScene();
+  });
 </script>
 
 <style>
@@ -174,7 +307,7 @@
     inset: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.82;
+    opacity: 0.9;
     z-index: 0;
     pointer-events: none;
   }
