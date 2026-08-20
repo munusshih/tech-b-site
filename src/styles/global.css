@@ -382,6 +382,8 @@ html {
    syllabus companion while keeping this site's existing notebook structure. */
 html[data-course-year="2026"] {
     --border-dotted: 1px solid #392d2f;
+    --title-font: "Instrument Serif", Georgia, serif;
+    --body-font: "Source Serif 4", Georgia, serif;
     background: #b8e1f5;
     color-scheme: light;
     filter: none;
@@ -396,6 +398,45 @@ html[data-course-year="2026"] body {
     background-size: 7px 7px, 5rem 5rem;
     color: #392d2f;
     filter: none;
+    font-family: var(--body-font) !important;
+}
+
+html[data-course-year="2026"] body * {
+    font-family: var(--body-font) !important;
+}
+
+html[data-course-year="2026"] h1,
+html[data-course-year="2026"] h2,
+html[data-course-year="2026"] h3,
+html[data-course-year="2026"] h4,
+html[data-course-year="2026"] h5,
+html[data-course-year="2026"] h6,
+html[data-course-year="2026"] .heading-1,
+html[data-course-year="2026"] .heading-2,
+html[data-course-year="2026"] .heading-3,
+html[data-course-year="2026"] .heading-4 {
+    font-family: var(--title-font) !important;
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: -0.025em;
+}
+
+html[data-course-year="2026"] header h1 {
+    margin-bottom: 1rem;
+    font-size: clamp(2rem, 3.5vw, 3.75rem);
+    line-height: 0.92;
+    text-decoration: none;
+}
+
+html[data-course-year="2026"] h2 {
+    font-size: clamp(1.35rem, 2vw, 2rem);
+    line-height: 1.05;
+}
+
+html[data-course-year="2026"] p,
+html[data-course-year="2026"] li,
+html[data-course-year="2026"] a {
+    font-family: var(--body-font) !important;
 }
 
 html[data-course-year="2026"] main {
