@@ -1,0 +1,480 @@
+---
+import FileViewer from "@/components/FileViewer.astro";
+
+interface Props {
+  entry: any;
+  variant?: 1 | 2 | 3;
+}
+
+const { entry, variant = 1 } = Astro.props as Props;
+
+// Build a flat list of src strings for media files
+let files: string[] = [];
+if (entry?.processedFiles?.length) {
+  files = entry.processedFiles
+    .map((f: any) => f?.local || f?.thumbnail || f?.original)
+    .filter(Boolean);
+} else if (entry?.uploadedFiles) {
+  files = String(entry.uploadedFiles)
+    .split(",")
+    .map((s: string) => s.trim())
+    .filter(Boolean);
+}
+
+// Extract week number from assignmentTitle (e.g., 'week-3 ...' or 'Week 3 ...')
+function getWeekLabel(title) {
+  const match = title.match(/week[-\s]?(\d+)/i);
+  return match ? `Week ${match[1]}` : "Assignment";
+}
+---
+
+<article class="content-section">
+  <h2 class="assignment-title">{getWeekLabel(entry.assignmentTitle)}</h2>
+
+  {
+    files.length > 1 ? (
+      <div class="media-swiper w-full mb-3" data-autoplay="true">
+        <div
+          class="swiper-pagination my-4"
+          role="tablist"
+          aria-label="Slide navigation"
+        >
+          {files.map((_, i) => (
+            <button
+              type="button"
+              class="pager-dot"
+              data-index={i}
+              role="tab"
+              aria-controls={`slide-${i}`}
+              aria-selected={i === 0 ? "true" : "false"}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
+        <div
+          class="swiper-track"
+          role="group"
+          aria-label="Project media gallery"
+        >
+          {files.map((src, i) => (
+            <div
+              id={`slide-${i}`}
+              class="swiper-slide"
+              key={i}
+              aria-roledescription="slide"
+              aria-label={`Slide ${i + 1} of ${files.length}`}
+            >
+              <FileViewer src={src} alt={`Project file ${i + 1}`} />
+            </div>
+          ))}
+        </div>
+      </div>
+    ) : files.length === 1 ? (
+      <div class="media-single w-full mb-3">
+        <FileViewer src={files[0]} alt="Project file 1" />
+      </div>
+    ) : null
+  }
+
+  {
+    Array.isArray(entry.linkToWorks) && entry.linkToWorks.length > 0 ? (
+      entry.linkToWorks.length === 1 ? (
+        <a
+          href={entry.linkToWorks[0]}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="!underline underline-offset-2 mb-4 inline-block"
+        >
+          Live Demo
+        </a>
+      ) : (
+        <div class="links-list mb-4">
+          {entry.linkToWorks.map((u: string, i: number) => (
+            <a
+              href={u}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="!underline underline-offset-2 mr-3 inline-block"
+            >
+              Live Demo {i + 1}
+            </a>
+          ))}
+        </div>
+      )
+    ) : entry.linkToWork && /^https?:\/\//i.test(entry.linkToWork) ? (
+      <a
+        href={entry.linkToWork}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="!underline underline-offset-2 mb-4 inline-block"
+      >
+        Live Demo
+      </a>
+    ) : entry.linkToWorkRaw?.trim() ? (
+      <p class="opacity-75 text-sm mb-4">{`> ${entry.linkToWorkRaw}`}</p>
+    ) : null
+  }
+
+  <div class="prose prose-invert max-w-none text-sm my-4">
+    <p>{entry.projectDescription}</p>
+  </div>
+
+  <!-- {
+    entry.teacherFeedback?.trim() && (
+      <div class="teacher-feedback mb-2">
+        <h3 class="text-sm font-medium mb-1 text-green-400">
+          Teacher Feedback
+        </h3>
+        <div class="prose prose-invert max-w-none text-xs bg-green-900/20 p-2 rounded">
+          <p class="whitespace-pre-wrap">{entry.teacherFeedback}</p>
+        </div>
+      </div>
+    )
+  } -->
+
+  {
+    entry.credit?.trim() && (variant === 2 || variant === 3) && (() => {
+      const credit = entry.credit.trim();
+      
+      // Split by newlines and clean up
+      let lines = credit.split(/\n+/).map(l => l.trim()).filter(Boolean);
+      
+      // Remove leading bullets/numbers from each line
+      lines = lines.map(line => line.replace(/^[-•*]\s*/, '').replace(/^\d+\.\s*/, ''));
+      
+      // Group lines with their following URLs
+      const groupedLines = [];
+      let i = 0;
+      while (i < lines.length) {
+        let current = lines[i];
+        // If next line is just a URL and current line is not, merge them
+        while (i + 1 < lines.length && /^https?:\/\//.test(lines[i + 1]) && !/https?:\/\//.test(current)) {
+          current += ' ' + lines[i + 1];
+          i++;
+        }
+        groupedLines.push(current);
+        i++;
+      }
+      
+      const formatLineWithLinks = (line, prevLine) => {
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        const codeRegex = /\b([a-zA-Z_][a-zA-Z0-9_]*\(\))/g;
+        const parts = [];
+        
+        // Check if this line is just a URL
+        const isJustUrl = /^https?:\/\/[^\s]+$/.test(line.trim());
+        
+        if (isJustUrl) {
+          // Line is just a URL - show as [link]
+          return <a href={line.trim()} target="_blank" rel="noopener noreferrer" class="!underline">[link]</a>;
+        }
+        
+        // Process line with URLs and code snippets
+        const segments = [];
+        let currentText = line;
+        let urlMatch;
+        
+        // Extract all URLs first
+        const urls = [];
+        while ((urlMatch = urlRegex.exec(line)) !== null) {
+          urls.push({ start: urlMatch.index, end: urlMatch.index + urlMatch[0].length, url: urlMatch[0] });
+        }
+        
+        let lastIndex = 0;
+        
+        urls.forEach((urlInfo, idx) => {
+          // Process text before URL
+          const textBefore = line.slice(lastIndex, urlInfo.start);
+          if (textBefore.trim()) {
+            // Format code snippets in text before URL
+            const formatted = formatCodeInText(textBefore);
+            segments.push(...formatted);
+          }
+          
+          // Add URL as [link]
+          const prevText = line.slice(0, urlInfo.start).trim();
+          if (prevText && prevText.length > 0) {
+            segments.push(' ');
+          }
+          segments.push(<a href={urlInfo.url} target="_blank" rel="noopener noreferrer" class="!underline">[link]</a>);
+          
+          lastIndex = urlInfo.end;
+        });
+        
+        // Process remaining text after last URL
+        if (lastIndex < line.length) {
+          const remaining = line.slice(lastIndex);
+          if (remaining.trim()) {
+            if (segments.length > 0) segments.push(' ');
+            const formatted = formatCodeInText(remaining);
+            segments.push(...formatted);
+          }
+        }
+        
+        // If no URLs, format the whole line for code
+        if (urls.length === 0) {
+          return formatCodeInText(line);
+        }
+        
+        return segments.length > 0 ? segments : [line];
+      };
+      
+      const formatCodeInText = (text) => {
+        const codeRegex = /\b([a-zA-Z_][a-zA-Z0-9_]*\(\))/g;
+        const parts = [];
+        let lastIndex = 0;
+        let match;
+        
+        while ((match = codeRegex.exec(text)) !== null) {
+          if (match.index > lastIndex) {
+            parts.push(text.slice(lastIndex, match.index));
+          }
+          parts.push(<code class="px-1 py-0.5 bg-white/10 rounded text-[0.9em]">{match[0]}</code>);
+          lastIndex = match.index + match[0].length;
+        }
+        
+        if (lastIndex < text.length) {
+          parts.push(text.slice(lastIndex));
+        }
+        
+        return parts.length > 0 ? parts : [text];
+      };
+      
+      return (
+        <div class="credits mt-2">
+          <h3 class="underline-wavy">Credits & References</h3>
+          <div class="prose prose-invert max-w-none text-xs opacity-80">
+            <p class="whitespace-pre-line leading-relaxed">
+              {groupedLines.map((line, idx) => {
+                const prevLine = idx > 0 ? groupedLines[idx - 1] : null;
+                const formattedLine = formatLineWithLinks(line, prevLine);
+                
+                return (
+                  <>
+                    {formattedLine}
+                    {idx < groupedLines.length - 1 && <br />}
+                  </>
+                );
+              })}
+            </p>
+          </div>
+        </div>
+      );
+    })()
+  }
+</article>
+
+<style>
+  .assignment-card {
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  .assignment-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  }
+  /* Swiper styles */
+  .media-swiper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+  .swiper-track {
+    display: flex;
+    gap: 0;
+    width: 100%;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    align-items: center;
+    cursor: grab;
+    background: transparent;
+    height: 500px;
+    touch-action: pan-y; /* allow horizontal drag */
+  }
+  .swiper-track.dragging {
+    cursor: grabbing;
+  }
+  .swiper-track::-webkit-scrollbar {
+    display: none;
+  }
+  .swiper-slide {
+    display: flex;
+    flex: 0 0 100%;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    width: 100%;
+    height: 500px;
+  }
+  .swiper-pagination {
+    display: flex;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  .pager-dot {
+    opacity: 0.8;
+    cursor: pointer;
+    border-radius: 50%;
+    background: white;
+    padding: 0.35rem 0.5rem;
+    color: var(--color-text, #000);
+    font-size: 0.875rem;
+    line-height: 1;
+  }
+  .pager-dot:hover {
+    opacity: 1;
+  }
+  .pager-dot.active,
+  .pager-dot[aria-selected="true"] {
+    opacity: 1;
+    border-color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .credit-list {
+    list-style: disc;
+    padding-left: 1.25rem;
+    margin: 0.5rem 0;
+  }
+  .credit-list li {
+    margin-bottom: 0.25rem;
+    opacity: 0.8;
+    line-height: 1.4;
+  }
+  .credit-list a,
+  .credits a {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    word-break: break-all;
+    opacity: 0.9;
+    transition: opacity 0.2s;
+  }
+  .credit-list a:hover,
+  .credits a:hover {
+    opacity: 1;
+  }
+
+  @media (max-width: 768px) {
+    .assignment-card {
+      padding: 1rem;
+    }
+  }
+</style>
+
+<script>
+  // Lightweight swiper: auto-advance and drag to scroll
+  const initMediaSwiper = (root) => {
+    const track = root.querySelector(".swiper-track");
+    const slides = root.querySelectorAll(".swiper-slide");
+    const pagers = root.querySelectorAll(".pager-dot");
+    if (!track || slides.length <= 1) return;
+
+    let index = 0;
+    let autoplay = root.dataset.autoplay !== "false";
+    const delay = 3000;
+    let slideWidth = root.clientWidth;
+
+    const goTo = (i) => {
+      index = (i + slides.length) % slides.length;
+      track.scrollTo({ left: index * slideWidth, behavior: "smooth" });
+      setActivePager();
+    };
+
+    const onResize = () => {
+      slideWidth = root.clientWidth;
+      // snap to current slide after resize
+      track.scrollTo({ left: index * slideWidth });
+    };
+    window.addEventListener("resize", onResize);
+
+    const setActivePager = () => {
+      pagers.forEach((btn, i) => {
+        const active = i === index;
+        btn.classList.toggle("active", active);
+        btn.setAttribute("aria-selected", active ? "true" : "false");
+      });
+    };
+
+    // Pager clicks
+    pagers.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const i = Number(btn.getAttribute("data-index")) || 0;
+        autoplay = false;
+        goTo(i);
+        // resume autoplay after a short delay
+        setTimeout(() => (autoplay = true), delay);
+      });
+    });
+
+    // Dragging
+    let isDown = false;
+    let startX = 0;
+    let startScrollLeft = 0;
+    track.addEventListener("pointerdown", (e) => {
+      isDown = true;
+      startX = e.clientX;
+      startScrollLeft = track.scrollLeft;
+      track.setPointerCapture(e.pointerId);
+      track.classList.add("dragging");
+      track.style.userSelect = "none";
+      autoplay = false;
+    });
+    track.addEventListener("pointermove", (e) => {
+      if (!isDown) return;
+      const dx = e.clientX - startX;
+      track.scrollLeft = startScrollLeft - dx;
+      e.preventDefault();
+    });
+    const endDrag = (e) => {
+      if (!isDown) return;
+      isDown = false;
+      try {
+        track.releasePointerCapture(e.pointerId);
+      } catch {
+        /* ignore */
+      }
+      track.classList.remove("dragging");
+      track.style.userSelect = "";
+      index = Math.round(track.scrollLeft / slideWidth);
+      goTo(index);
+      autoplay = true;
+    };
+    track.addEventListener("pointerup", endDrag);
+    track.addEventListener("pointercancel", endDrag);
+
+    // Update index after scroll end (for keyboard or momentum scroll)
+    let scrollTimer;
+    track.addEventListener("scroll", () => {
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => {
+        index = Math.round(track.scrollLeft / slideWidth);
+        setActivePager();
+      }, 100);
+    });
+
+    // Pause on hover
+    root.addEventListener("mouseenter", () => (autoplay = false));
+    root.addEventListener("mouseleave", () => (autoplay = true));
+
+    // Autoplay loop
+    setInterval(() => {
+      if (!autoplay) return;
+      goTo(index + 1);
+    }, delay);
+
+    // Initialize active state
+    setActivePager();
+  };
+
+  // Initialize all swipers on the page
+  document.addEventListener("DOMContentLoaded", () => {
+    document
+      .querySelectorAll(".media-swiper")
+      .forEach((el) => initMediaSwiper(el));
+  });
+</script>

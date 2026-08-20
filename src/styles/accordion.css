@@ -1,0 +1,78 @@
+.accordion {
+    margin-bottom: 1rem;
+    padding: 0.5rem 0;
+}
+
+.accordion-button {
+    all: unset;
+    position: relative;
+    align-items: center;
+    cursor: pointer;
+    width: 100%;
+    font-weight: bold;
+    font-size: clamp(0.8rem, 1.5vw, 2rem);
+    @apply box-border flex;
+}
+
+.accordion-button::before {
+    display: inline-block;
+    transform: rotate(0deg);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+    margin-right: 0.75em;
+    border-top: 0.7em solid transparent;
+    border-bottom: 0.7em solid transparent;
+    border-left: 1.2em solid #333;
+    width: 0;
+    height: 0;
+    content: "";
+}
+
+.accordion-button[aria-expanded="true"]::before {
+    transform: rotate(90deg);
+}
+
+.accordion-button:hover {
+    transform: translate(0, -2%);
+    transition: transform 0.3s ease;
+}
+
+.accordion-button[aria-expanded="true"]:hover::before {
+    transform: rotate(80deg);
+}
+
+.accordion-button[aria-expanded="false"]:hover::before {
+    transform: rotate(10deg);
+}
+
+.accordion-button::after {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: left;
+    transition: width 0.3s ease 0.3s;
+    margin: 1rem 0;
+    width: 0px;
+    height: 100%;
+    content: "";
+}
+
+.accordion-button[aria-expanded="false"]::after {
+    border-bottom: var(--border-dotted);
+    width: 100%;
+}
+
+.accordion-content {
+    transition: max-height 0.3s ease-out;
+    padding-top: 0;
+    max-height: 0;
+    overflow: hidden;
+}
+
+.accordion-content[aria-expanded="true"] {
+    @apply md:mb-20;
+    padding-top: 1rem;
+    max-height: 10000px;
+    /* big enough for expected content */
+}

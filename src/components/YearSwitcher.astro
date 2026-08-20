@@ -1,0 +1,27 @@
+---
+import { ACTIVE_YEAR, AVAILABLE_YEARS, getYearConfig } from "@/config";
+
+interface Props {
+  year: number;
+}
+
+const { year } = Astro.props;
+---
+
+<nav class="year-switcher" aria-label="Course year">
+  <span>Year</span>
+  {
+    AVAILABLE_YEARS.map((availableYear) => {
+      const isCurrent = availableYear === year;
+      const href = availableYear === ACTIVE_YEAR ? "/" : `/${availableYear}/`;
+      const semester = getYearConfig(availableYear).semester;
+      const label = semester || String(availableYear);
+
+      return isCurrent ? (
+        <span aria-current="page">{label}</span>
+      ) : (
+        <a href={href}>{label}</a>
+      );
+    })
+  }
+</nav>

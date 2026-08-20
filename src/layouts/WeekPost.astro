@@ -1,0 +1,136 @@
+---
+import type { CollectionEntry } from "astro:content";
+import BaseHead from "@/components/BaseHead.astro";
+import Footer from "@/components/Footer.astro";
+import Nav from "@/components/Nav.astro";
+import Analytics from "@vercel/analytics/astro";
+import GitHubEdit from "@/components/GitHubEdit.astro";
+import StudentResponses from "@/components/StudentResponses.astro";
+import YearSwitcher from "@/components/YearSwitcher.astro";
+import ArchiveNotice from "@/components/ArchiveNotice.astro";
+import {
+  SITE_TITLE,
+  getYearBasePath,
+  getYearConfig,
+  isArchivedYear,
+} from "@/config";
+import { disableSubmissionLinks } from "@/lib/course-content";
+import { marked } from "marked";
+
+type Props = CollectionEntry<"weeks">["data"] & {
+  year: number;
+  contentId: string;
+};
+
+const { title, description, week, longDescription, year, contentId } = Astro.props;
+const config = getYearConfig(year);
+const archived = isArchivedYear(year);
+const basePath = getYearBasePath(year);
+const courseHeading = config.sectionId
+  ? `${SITE_TITLE} (${config.sectionId})`
+  : SITE_TITLE;
+const longDescriptionHTML = longDescription
+  ? await marked(longDescription)
+  : null;
+const rawSlotContent = await Astro.slots.render("default");
+
+function resolveCourseLinks(html: string): string {
+  const links = {
+    assignmentFormUrl: config.submissionLinks.assignmentFormUrl,
+    projectFormUrl: config.submissionLinks.projectFormUrl,
+    bioFormUrl: config.submissionLinks.bioFormUrl,
+  };
+  return Object.entries(links).reduce((content, [token, url]) => {
+    const replacement = url || "#submission-link-not-configured";
+    return content
+      .replaceAll(`{{${token}}}`, replacement)
+      .replaceAll(
+        `%7B%7B${token}%7D%7D`,
+        encodeURI(replacement),
+      );
+  }, html);
+}
+
+function wrapContentSections(html: string): string {
+  const h2Regex = /(<h2[^>]*>.*?<\/h2>)/gi;
+  const parts = html.split(h2Regex);
+  let result = "";
+  let currentSection = "";
+  let hasHeading = false;
+
+  for (const rawPart of parts) {
+    const part = rawPart.trim();
+    if (!part) continue;
+    if (/^<h2[\s>]/i.test(part)) {
+      if (currentSection) {
+        const sectionClass = hasHeading
+          ? "content-section"
+          : "content-section intro-section";
+        result += `<div class="${sectionClass}">${currentSection}</div>\n`;
+      }
+      currentSection = part;
+      hasHeading = true;
+    } else {
+      currentSection += part;
+    }
+  }
+
+  if (currentSection) {
+    const sectionClass = hasHeading
+      ? "content-section"
+      : "content-section intro-section";
+    let dataSection = "";
+    if (hasHeading) {
+      const h2Match = currentSection.match(/<h2[^>]*>(.*?)<\/h2>/i);
+      if (h2Match) {
+        const sectionId = h2Match[1]
+          .replace(/<[^>]*>/g, "")
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-|-$/g, "");
+        dataSection = ` data-section="${sectionId}"`;
+      }
+    }
+    result += `<div class="${sectionClass}"${dataSection}>${currentSection}</div>\n`;
+  }
+  return result;
+}
+
+const linkedContent = resolveCourseLinks(rawSlotContent);
+const processedContent = wrapContentSections(
+  archived ? disableSubmissionLinks(linkedContent) : linkedContent,
+);
+const githubFilePath = `src/content/weeks/${contentId}.md`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`Week ${week}: ${title}`} description={description} image="/opengraph.jpg" />
+  </head>
+  <body>
+    <header id="week-header">
+      <div>
+        <a href={`${basePath}/`}><h1 class="heading-3 !leading-normal">{courseHeading}</h1></a>
+        <h2 class="heading-1">Week {week}: {title}</h2>
+        <YearSwitcher year={year} />
+        {archived && <ArchiveNotice year={year} />}
+        {longDescriptionHTML && <div class="long-description" set:html={longDescriptionHTML} />}
+        <nav class="weekly-schedule"><Nav year={year} /></nav>
+      </div>
+      {!archived && <GitHubEdit filePath={githubFilePath} />}
+    </header>
+
+    <main id="week-content" set:html={processedContent} />
+
+    <div class="border-t">
+      <StudentResponses year={year} week={week} />
+      <Footer year={year} />
+    </div>
+    <Analytics />
+    <script>
+      import "../scripts/page-animations.js";
+    </script>
+    <script src="/scripts/external-links.js" is:inline></script>
+  </body>
+</html>

@@ -1,0 +1,106 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Footer from "@/components/Footer.astro";
+import AssignmentCard from "@/components/AssignmentCard.astro";
+import HallofFame from "@/components/HallofFame.astro";
+import StudentBio from "@/components/StudentBio.astro";
+import YearSwitcher from "@/components/YearSwitcher.astro";
+import ArchiveNotice from "@/components/ArchiveNotice.astro";
+import {
+  SITE_TITLE,
+  getYearBasePath,
+  isArchivedYear,
+  type StudentWithId,
+} from "@/config";
+import { getStudentData } from "@/lib/year-data";
+
+interface Props {
+  year: number;
+  student: StudentWithId;
+}
+
+const { year, student } = Astro.props;
+const basePath = getYearBasePath(year);
+const archived = isArchivedYear(year);
+const studentEntries = getStudentData(year)
+  .filter((entry) => entry.studentId === student.studentId)
+  .sort((a, b) => {
+    if (a.timestamp && b.timestamp) {
+      return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+    }
+    return String(a.assignmentTitle).localeCompare(String(b.assignmentTitle));
+  });
+---
+
+<Layout
+  title={`${student.firstName} ${student.lastName} - ${SITE_TITLE}`}
+  description={`View ${student.firstName} ${student.lastName}'s creative coding assignments and projects.`}
+>
+  <main class="col-span-3 !p-0" id="student-page">
+    <div class="assignments-grid grid lg:grid-cols-3 min-h-screen">
+      <div class="flex flex-col border-r">
+        <a href={`${basePath}/`} class="px-[var(--margin)] border-b">
+          <h2>Back to homepage</h2>
+        </a>
+        <div class="p-[var(--margin)]">
+          <h1>{student.firstName} {student.lastName}</h1>
+          <YearSwitcher year={year} />
+          {archived && <ArchiveNotice year={year} />}
+          <StudentBio year={year} studentId={student.studentId} className="mb-6" />
+          <HallofFame year={year} excludeStudent={student.studentId} />
+        </div>
+      </div>
+      {studentEntries.length > 0 ? (
+        <>
+          <div class="flex flex-col gap-2 border-r p-[var(--margin)]">
+            {studentEntries.filter((_, index) => index % 2 === 0).map((entry) => (
+              <AssignmentCard entry={entry} variant={3} />
+            ))}
+          </div>
+          <div class="flex flex-col gap-2 border-r p-[var(--margin)]">
+            {studentEntries.filter((_, index) => index % 2 === 1).map((entry) => (
+              <AssignmentCard entry={entry} variant={3} />
+            ))}
+            <Footer year={year} />
+          </div>
+        </>
+      ) : (
+        <div class="no-assignments text-center py-12 lg:col-span-2">
+          <p class="text-xl opacity-70">No submissions yet.</p>
+        </div>
+      )}
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .assignment-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .assignment-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  }
+  .prose p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+  .processed-files {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+  .file-item {
+    transition: transform 0.2s ease;
+  }
+  .file-item:hover {
+    transform: translateY(-1px);
+  }
+  .file-preview img {
+    border-radius: 0.5rem;
+    background: white/5;
+  }
+  @media (max-width: 768px) {
+    .assignment-card { padding: 1rem; }
+    .processed-files { grid-template-columns: 1fr; }
+    .file-actions { justify-content: center; }
+  }
+</style>

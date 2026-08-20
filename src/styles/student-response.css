@@ -1,0 +1,43 @@
+  .student-responses {
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      background: var(--color-surface);
+  }
+
+  .responses-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+  }
+
+
+  .response-card {
+      transition: all 0.2s ease;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      background: var(--color-background);
+  }
+
+  .response-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border-color: var(--color-accent);
+  }
+
+  .student-name,
+  .underline-wavy {
+      margin-bottom: 0.75rem;
+      color: var(--color-accent);
+      font-weight: 600;
+      font-size: 1.1rem;
+      font-style: normal;
+      text-decoration: yellowgreen wavy underline;
+  }
+
+  .response-text {
+      margin: 0;
+      border-left: 3px solid var(--color-accent);
+      padding-left: 1rem;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+  }

@@ -1,0 +1,125 @@
+.marquee {
+    bottom: 0;
+    left: 0;
+    z-index: 999999;
+    backdrop-filter: blur(30px);
+    border-top: 1px solid rgba(255, 255, 255, 1);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.5rem 0;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    @apply md:fixed;
+}
+
+.marquee-content {
+    display: inline-flex;
+    animation: scroll-left 30s linear infinite;
+    /* Ensure seamless loop by making content wide enough */
+    width: max-content;
+}
+
+.marquee-text {
+    display: inline-block;
+    padding-right: 3rem;
+    color: white;
+    font-weight: 500;
+    font-size: 1.1rem;
+    /* Prevent text wrapping */
+    white-space: nowrap;
+}
+
+/* Direction animations */
+.marquee-left .marquee-content {
+    animation-name: scroll-left;
+}
+
+.marquee-right .marquee-content {
+    animation-name: scroll-right;
+}
+
+/* Speed variations */
+.marquee-slow .marquee-content {
+    animation-duration: 45s;
+}
+
+.marquee-medium .marquee-content {
+    animation-duration: 30s;
+}
+
+.marquee-fast .marquee-content {
+    animation-duration: 15s;
+}
+
+/* Pause on hover */
+.marquee-pause:hover .marquee-content {
+    animation-play-state: paused;
+}
+
+/* Keyframes for seamless infinite scroll */
+@keyframes scroll-left {
+    0% {
+        transform: translateX(0%);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes scroll-right {
+    0% {
+        transform: translateX(-50%);
+    }
+
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .marquee {
+        padding: 0.75rem 0;
+    }
+
+    .marquee-text {
+        padding-right: 3rem;
+        font-size: 1rem;
+    }
+
+    .marquee-slow .marquee-content {
+        animation-duration: 35s;
+    }
+
+    .marquee-medium .marquee-content {
+        animation-duration: 25s;
+    }
+
+    .marquee-fast .marquee-content {
+        animation-duration: 12s;
+    }
+}
+
+/* Additional styling variants */
+.marquee.marquee-minimal {
+    border: none;
+    background: transparent;
+    padding: 0.5rem 0;
+}
+
+.marquee.marquee-bold .marquee-text {
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.marquee.marquee-small .marquee-text {
+    font-size: 0.9rem;
+}
+
+.marquee.marquee-gradient {
+    background: linear-gradient(90deg,
+            rgba(102, 126, 234, 0.1) 0%,
+            rgba(118, 75, 162, 0.1) 50%,
+            rgba(102, 126, 234, 0.1) 100%);
+}

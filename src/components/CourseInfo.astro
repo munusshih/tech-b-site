@@ -1,0 +1,64 @@
+---
+import {
+  DEPARTMENT_NAME,
+  EMAIL,
+  SCHOOL_NAME,
+  SITE_AUTHOR,
+  courseConfig,
+  getYearConfig,
+  isArchivedYear,
+} from "@/config";
+
+interface Props {
+  year: number;
+}
+
+const { year } = Astro.props;
+const config = getYearConfig(year);
+const archived = isArchivedYear(year);
+const quickLinks = [
+  { label: "Big Class Site", url: config.companionSiteUrl },
+  { label: "Syllabus", url: config.syllabusUrl },
+  { label: "Office Hours", url: config.officeHoursUrl },
+  ...(!archived
+    ? [
+        { label: "Submit Assignment", url: config.submissionLinks.assignmentFormUrl },
+        { label: "Submit Bio/Links", url: config.submissionLinks.bioFormUrl },
+      ]
+    : []),
+  ...courseConfig.common.resourceLinks,
+].filter((link) => link.url);
+---
+
+<div class="course-info">
+  <section class="course-header">
+    <h2 class="heading-3">{SCHOOL_NAME}</h2>
+    <p>{DEPARTMENT_NAME}</p>
+    {config.semester && <p>{config.semester}</p>}
+  </section>
+
+  {(config.meetingTimes || config.location) && (
+    <section class="course-details">
+      <h2 class="heading-3">Course Details</h2>
+      <ul>
+        {config.meetingTimes && <li>{config.meetingTimes}</li>}
+        {config.location && <li>{config.location}</li>}
+      </ul>
+    </section>
+  )}
+
+  <section class="instructor-info">
+    <h2 class="heading-3">Instructor</h2>
+    <p>{SITE_AUTHOR}</p>
+    <p><a href={`mailto:${EMAIL}`}>{EMAIL}</a></p>
+  </section>
+</div>
+
+{quickLinks.length > 0 && (
+  <section class="quick-links">
+    <h2>Quick Links</h2>
+    <ul>
+      {quickLinks.map((link) => <li><a href={link.url}>{link.label}</a></li>)}
+    </ul>
+  </section>
+)}

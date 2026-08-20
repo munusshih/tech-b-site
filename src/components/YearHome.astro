@@ -1,0 +1,54 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Footer from "@/components/Footer.astro";
+import Nav from "@/components/Nav.astro";
+import CourseInfo from "@/components/CourseInfo.astro";
+import P5Background from "@/components/P5Background.astro";
+import HallofFame from "@/components/HallofFame.astro";
+import Marquee from "@/components/Marquee.astro";
+import YearSwitcher from "@/components/YearSwitcher.astro";
+import ArchiveNotice from "@/components/ArchiveNotice.astro";
+import {
+  SITE_DESCRIPTION,
+  SITE_TITLE,
+  getYearConfig,
+  isArchivedYear,
+} from "@/config";
+
+interface Props {
+  year: number;
+}
+
+const { year } = Astro.props;
+const yearConfig = getYearConfig(year);
+const archived = isArchivedYear(year);
+const courseHeading = yearConfig.sectionId
+  ? `${SITE_TITLE} (${yearConfig.sectionId})`
+  : SITE_TITLE;
+---
+
+<Layout title={courseHeading} description={SITE_DESCRIPTION}>
+  <P5Background />
+
+  <header>
+    <div>
+      <h1>{SITE_TITLE}{yearConfig.sectionId && <><br />({yearConfig.sectionId})</>}</h1>
+      <p>{SITE_DESCRIPTION}</p>
+      <YearSwitcher year={year} />
+      {archived && <ArchiveNotice year={year} />}
+    </div>
+    <CourseInfo year={year} />
+  </header>
+
+  <main class="cutoff">
+    <Nav year={year} />
+  </main>
+
+  <div id="third-column" class="border-t">
+    <HallofFame year={year} />
+    <Footer year={year} />
+  </div>
+  {yearConfig.marqueeText && (
+    <Marquee text={yearConfig.marqueeText} speed="slow" direction="right" />
+  )}
+</Layout>

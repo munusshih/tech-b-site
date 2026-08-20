@@ -1,0 +1,48 @@
+.github-edit {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+}
+
+.github-edit-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.5rem 1rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+    text-decoration: none;
+}
+
+.github-edit-link:hover {
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.github-edit-link svg {
+    opacity: 0.8;
+    width: 16px;
+    height: 16px;
+}
+
+.github-edit-link:hover svg {
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    .github-edit {
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+    }
+
+    .github-edit-link {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
+}

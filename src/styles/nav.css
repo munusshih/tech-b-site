@@ -1,0 +1,23 @@
+nav {
+    @apply py-4 border-y;
+}
+
+nav li {
+    @apply w-full;
+}
+
+header section {
+    @apply py-[var(--padding)];
+}
+
+nav ul li {
+    @apply max-w-none;
+}
+
+nav h2::before,
+.heading-2::before {
+    vertical-align: baseline;
+    margin-right: 0.3em;
+    content: "↳";
+    font-size: 1.2em;
+}

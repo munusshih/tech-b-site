@@ -1,0 +1,21 @@
+---
+import { SITE_AUTHOR, getStudentsWithId } from "@/config";
+
+interface Props {
+  year?: number;
+}
+
+const { year } = Astro.props;
+const studentNames = year
+  ? getStudentsWithId(year)
+      .map((student) => `${student.firstName} ${student.lastName}`)
+      .sort()
+      .join(", ")
+  : "";
+---
+
+<footer>
+  <div>
+    &copy; {year || new Date().getFullYear()} {SITE_AUTHOR}{studentNames && `, ${studentNames}`}. All rights reserved.
+  </div>
+</footer>

@@ -1,0 +1,112 @@
+---
+import { getCollection } from "astro:content";
+import { marked } from "marked";
+import {
+  getYearBasePath,
+  getYearConfig,
+  isArchivedYear,
+} from "@/config";
+import {
+  disableSubmissionLinks,
+  getWeekYearAndSlug,
+  isPublishedWeek,
+} from "@/lib/course-content";
+
+interface Props {
+  year: number;
+}
+
+const { year } = Astro.props;
+const basePath = getYearBasePath(year);
+const archived = isArchivedYear(year);
+const yearConfig = getYearConfig(year);
+const pathname = Astro.url.pathname.replace(/\/$/, "");
+const isIndex = pathname === basePath || pathname === `${basePath}/`;
+const currentSlug = pathname.split("/").filter(Boolean).at(-1) || "index";
+
+const allPosts = (await getCollection("weeks"))
+  .filter(isPublishedWeek)
+  .filter((post) => getWeekYearAndSlug(post.id).year === year)
+  .sort((a, b) => a.data.week - b.data.week);
+
+const posts = isIndex
+  ? allPosts
+  : allPosts.filter(
+      (post) =>
+        getWeekYearAndSlug(post.id).slug !== currentSlug && post.data.week > 0,
+    );
+
+const numberedWeeks = allPosts.filter((post) => post.data.week > 0);
+const latestWeek = numberedWeeks.length
+  ? Math.max(...numberedWeeks.map((post) => post.data.week))
+  : null;
+
+const processedPosts = await Promise.all(
+  posts.map(async (post) => {
+    const html = post.data.description
+      ? await marked(post.data.description, { breaks: true })
+      : null;
+    return {
+      ...post,
+      slug: getWeekYearAndSlug(post.id).slug,
+      processedDescription: archived && html ? disableSubmissionLinks(html) : html,
+    };
+  }),
+);
+
+const sectionByWeek = new Map(
+  yearConfig.scheduleSections.map((section) => [section.startWeek, section.title]),
+);
+---
+
+{
+  processedPosts.length > 0 ? (
+    <ul>
+      <h1 class="heading-1">{isIndex ? "Weekly Schedule" : "Other Weeks"}</h1>
+      {processedPosts.map((post) => (
+        <>
+          {isIndex && sectionByWeek.has(post.data.week) && (
+            <h1 class="smaller-h1">{sectionByWeek.get(post.data.week)}</h1>
+          )}
+          <div class={isIndex ? "weekly-section" : ""}>
+            {post.data.week === 0 ? (
+              <li class="week-zero">
+                <h2 class="title">Week {post.data.week}: {post.data.title}</h2>
+                {post.processedDescription && (
+                  <p class="description" set:html={post.processedDescription} />
+                )}
+              </li>
+            ) : post.data.page === false ? (
+              <li class="no-link">
+                <h2 class="title">
+                  Week {post.data.week}: {post.data.title}
+                  {post.data.week === latestWeek && " ✨"}
+                </h2>
+                {post.processedDescription && isIndex && (
+                  <p class="description" set:html={post.processedDescription} />
+                )}
+              </li>
+            ) : (
+              <a href={`${basePath}/${post.slug}/`}>
+                <li>
+                  <h2 class="title">
+                    Week {post.data.week}: {post.data.title}
+                    {post.data.week === latestWeek && " ✨"}
+                  </h2>
+                  {post.processedDescription && isIndex && (
+                    <p class="description" set:html={post.processedDescription} />
+                  )}
+                </li>
+              </a>
+            )}
+          </div>
+        </>
+      ))}
+    </ul>
+  ) : (
+    <div class="empty-year">
+      <h1 class="heading-1">Weekly Schedule</h1>
+      <p>No weeks have been published for {year} yet. Check back soon!</p>
+    </div>
+  )
+}

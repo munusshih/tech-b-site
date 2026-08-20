@@ -1,0 +1,650 @@
+---
+// P5Background.astro - Reusable p5.js background component
+---
+
+<div id="p5-background"></div>
+<script is:client>
+  /* eslint-disable no-undef, @typescript-eslint/no-unused-vars */
+
+  /* ====== CONFIG & COLORS ====== */
+  let COLORS = {
+    backgroundTop: [5, 0, 20],
+    backgroundBottom: [0, 0, 5],
+    ringParticles: [
+      [255, 100, 20],
+      [220, 60, 0],
+      [180, 20, 0],
+    ],
+    comet: [
+      [0, 220, 255],
+      [0, 180, 255],
+      [50, 255, 230],
+    ],
+    blackHole: [[255, 180, 80]],
+    starBase: [
+      [255, 255, 255],
+      [0, 230, 180],
+      [180, 0, 255],
+      [255, 10, 200],
+      [180, 255, 0],
+    ],
+    nebula: [
+      [120, 20, 200],
+      [200, 30, 180],
+      [30, 160, 255],
+      [160, 60, 255],
+    ],
+    connectionLine: [
+      [180, 180, 200],
+      [0, 200, 80],
+    ],
+  };
+
+  const maxSize = 30;
+
+  let CONFIG = {
+    SPEED_MULTIPLIER: {
+      ringRotation: 0.5,
+      comet: 1.0,
+      nebula: 1.0,
+      planetRotation: 0.2,
+      backgroundStars: 1.0,
+    },
+    counts: {
+      initialBodies: Math.floor(Math.random() * 10) + 5,
+      backgroundStars: 60,
+      ringStars: Math.floor(Math.random() * 10) + 5,
+    },
+    physics: {
+      G: 0.006,
+      EPS: 40,
+      DAMPING: 0.95,
+      WALL_BOUNCE: 0.9,
+      COLLISION_E: 0.2,
+      MAX_ACCEL: 0.6,
+      MAX_SPEED: 12,
+      NEAR_LINK_DIST: 120,
+    },
+  };
+
+  /* ====== HELPERS ====== */
+  function randomizeConfigInPlace(obj, factor = 0.1) {
+    for (let key in obj) {
+      if (typeof obj[key] === "number") {
+        const variation = 1 + (Math.random() * 2 - 1) * factor; // ±factor
+        obj[key] *= variation;
+      } else if (typeof obj[key] === "object" && obj[key] !== null) {
+        randomizeConfigInPlace(obj[key], factor);
+      }
+    }
+  }
+
+  function randomizeColorsInPlace(colors, factor = 0.05) {
+    function randomizeChannel(value) {
+      // Slightly change each channel by ±factor, clamp 0-255
+      const variation = 1 + (Math.random() * 2 - 1) * factor;
+      return Math.min(255, Math.max(0, Math.round(value * variation)));
+    }
+
+    for (let key in colors) {
+      if (Array.isArray(colors[key])) {
+        colors[key] = colors[key].map((item) => {
+          if (Array.isArray(item)) {
+            // It's an RGB array
+            return item.map(randomizeChannel);
+          } else if (typeof item === "number") {
+            return randomizeChannel(item);
+          }
+          return item;
+        });
+      } else if (typeof colors[key] === "object" && colors[key] !== null) {
+        randomizeColorsInPlace(colors[key], factor);
+      }
+    }
+  }
+
+  function tooManyStars(bodies) {
+    if (bodies.length > maxSize) {
+      let excess = bodies.length - maxSize;
+      for (let i = 0; i < excess; i++) {
+        if (!bodies[i].disappearing) {
+          bodies[i].disappearing = true;
+        }
+      }
+    }
+  }
+
+  function clamp(n, min, max) {
+    return Math.max(min, Math.min(max, n));
+  }
+  function unit(dx, dy) {
+    const d = Math.hypot(dx, dy) || 1;
+    return { x: dx / d, y: dy / d, d };
+  }
+
+  /* ====== BODY CLASS ====== */
+  class Body {
+    constructor(x, y, type = null) {
+      this.x = x;
+      this.y = y;
+      this.vx = random(-0.5, 0.5);
+      this.vy = random(-0.5, 0.5);
+      this.type =
+        type ||
+        random(["star", "spiky", "comet", "blackHole", "nebula", "planet"]);
+
+      // Size & mass
+      this.size =
+        this.type === "blackHole"
+          ? random(32, 54)
+          : this.type === "nebula"
+            ? random(60, 120)
+            : random(18, 38);
+      this.radius = this.size * 0.5;
+      this.mass =
+        this.type === "blackHole"
+          ? this.size * 4.5
+          : this.type === "nebula"
+            ? this.size * 0.5
+            : this.size * 1.2;
+
+      if (this.type === "comet") {
+        const angle = random(TWO_PI);
+        const speed = random(4, 8);
+        this.vx = cos(angle) * speed;
+        this.vy = sin(angle) * speed;
+      }
+
+      // Base color
+      if (this.type === "blackHole")
+        this.baseColor = color(...random(COLORS.blackHole));
+      else if (this.type === "nebula")
+        this.baseColor = color(...random(COLORS.nebula));
+      else if (this.type === "comet")
+        this.baseColor = color(...random(COLORS.comet));
+      else this.baseColor = color(...random(COLORS.starBase));
+
+      this.isDragging = false;
+
+      // Star-specific
+      this.starType = floor(random(4));
+      this.pulseSpeed = random(0.02, 0.08);
+      this.spikes = floor(random(20, 40));
+      this.coreSize = random(0.3, 0.7);
+      this.layers = floor(random(2, 5));
+
+      // Comet trail
+      this.trail = [];
+      this.trailMax = 40;
+
+      // Nebula noise seed
+      this.noiseSeed = random(1000);
+
+      this.scaleFactor = 0; // start invisible
+      this.appearing = true; // first spawn grows in
+      this.disappearing = false; // only triggered before removal
+
+      // Rings
+      this.rings = [];
+      if (this.type !== "nebula" && this.type !== "comet" && random() < 0.8) {
+        const numRings = floor(random(1, 5));
+        for (let i = 0; i < numRings; i++) {
+          const r = {
+            baseRadius: this.size + (i + 1) * random(16, 52),
+            speed: random(-0.035, 0.035),
+            rotation: random(TWO_PI),
+            particles: floor(random(4, CONFIG.counts.ringStars)),
+            particleSize: random(1.5, 7),
+            opacity: random(90, 220),
+            ringWidth: random(2, 7),
+            skewAmpX: random(0.25, 0.75),
+            skewAmpY: random(0.35, 0.75),
+            skewBaseX: random(0.55, 0.95),
+            skewBaseY: random(0.55, 0.95),
+            skewPhaseX: random(TWO_PI),
+            skewPhaseY: random(TWO_PI),
+            tilt: random(TWO_PI),
+            tiltSpeed: random(-0.004, 0.004),
+            shimmerSpeed: random(0.05, 0.22),
+            shimmerOffset: random(TWO_PI),
+          };
+          // Slight color variation per ring
+          const base = this.baseColor;
+          r.color = color(
+            constrain(red(base) + random(-20, 20), 0, 255),
+            constrain(green(base) + random(-20, 20), 0, 255),
+            constrain(blue(base) + random(-20, 20), 0, 255),
+            r.opacity
+          );
+          this.rings.push(r);
+        }
+      }
+    }
+
+    applyGravity(others) {
+      if (this.isDragging) return;
+      let ax = 0,
+        ay = 0;
+      for (const o of others) {
+        if (o === this) continue;
+        let dx = o.x - this.x,
+          dy = o.y - this.y;
+        let dist2 = dx * dx + dy * dy + CONFIG.physics.EPS;
+        let invDist = 1 / Math.sqrt(dist2);
+        let force = (CONFIG.physics.G * o.mass) / dist2;
+        ax += force * dx * invDist;
+        ay += force * dy * invDist;
+      }
+      ax = clamp(ax, -CONFIG.physics.MAX_ACCEL, CONFIG.physics.MAX_ACCEL);
+      ay = clamp(ay, -CONFIG.physics.MAX_ACCEL, CONFIG.physics.MAX_ACCEL);
+      this.vx += ax;
+      this.vy += ay;
+
+      const speed = Math.hypot(this.vx, this.vy);
+      if (speed > CONFIG.physics.MAX_SPEED) {
+        const s = CONFIG.physics.MAX_SPEED / speed;
+        this.vx *= s;
+        this.vy *= s;
+      }
+    }
+
+    integrate() {
+      if (!this.isDragging) {
+        this.vx *= CONFIG.physics.DAMPING;
+        this.vy *= CONFIG.physics.DAMPING;
+        this.x += this.vx;
+        this.y += this.vy;
+
+        if (this.x < this.radius || this.x > width - this.radius) {
+          this.vx *= -CONFIG.physics.WALL_BOUNCE;
+          this.x = constrain(this.x, this.radius, width - this.radius);
+        }
+        if (this.y < this.radius || this.y > height - this.radius) {
+          this.vy *= -CONFIG.physics.WALL_BOUNCE;
+          this.y = constrain(this.y, this.radius, height - this.radius);
+        }
+      }
+
+      for (const ring of this.rings) {
+        ring.rotation += ring.speed * CONFIG.SPEED_MULTIPLIER.ringRotation;
+        ring.tilt += ring.tiltSpeed * CONFIG.SPEED_MULTIPLIER.ringRotation;
+        ring.skewX =
+          ring.skewBaseX +
+          ring.skewAmpX *
+            Math.sin(
+              frameCount * 0.01 * CONFIG.SPEED_MULTIPLIER.ringRotation +
+                ring.skewPhaseX
+            );
+        ring.skewY =
+          ring.skewBaseY +
+          ring.skewAmpY *
+            Math.cos(
+              frameCount * 0.013 * CONFIG.SPEED_MULTIPLIER.ringRotation +
+                ring.skewPhaseY
+            );
+      }
+
+      if (this.type === "comet") {
+        this.trail.push({ x: this.x, y: this.y });
+        if (this.trail.length > this.trailMax) this.trail.shift();
+      }
+
+      // Appearance animation
+      const easing = 0.25; // adjust 0.1–0.4 for speed
+
+      if (this.appearing) {
+        this.scaleFactor = lerp(this.scaleFactor, 1, easing);
+        if (this.scaleFactor > 0.99) {
+          this.scaleFactor = 1;
+          this.appearing = false;
+        }
+      }
+
+      if (this.disappearing) {
+        this.scaleFactor = lerp(this.scaleFactor, 0, easing);
+        if (this.scaleFactor < 0.01) {
+          this.scaleFactor = 0;
+          this._remove = true; // mark for removal
+        }
+      }
+    }
+
+    display() {
+      push();
+      translate(this.x, this.y);
+      scale(this.scaleFactor);
+
+      // Comet tail
+      if (this.type === "comet") {
+        noStroke();
+        for (let i = this.trail.length - 1; i > 0; i--) {
+          let a = map(i, 0, this.trail.length, 0, 180);
+          const p = this.trail[i];
+          fill(
+            red(this.baseColor),
+            green(this.baseColor),
+            blue(this.baseColor),
+            a * 0.5
+          );
+          const s = map(
+            i,
+            0,
+            this.trail.length,
+            this.size * 0.1,
+            this.size * 0.8
+          );
+          ellipse(p.x - this.x, p.y - this.y, s);
+        }
+      }
+
+      // Rings
+      for (const ring of this.rings) {
+        push();
+        rotate(ring.tilt);
+        scale(ring.skewX, ring.skewY);
+        stroke(
+          red(ring.color),
+          green(ring.color),
+          blue(ring.color),
+          ring.opacity
+        );
+        strokeWeight(ring.ringWidth);
+        noFill();
+        circle(0, 0, ring.baseRadius * 2);
+        stroke(255, 255, 255, ring.opacity * 0.35);
+        strokeWeight(ring.ringWidth * 0.5);
+        circle(0, 0, ring.baseRadius * 2);
+
+        for (let i = 0; i < ring.particles; i++) {
+          const a = ring.rotation + (TWO_PI / ring.particles) * i;
+          const px = Math.cos(a) * ring.baseRadius;
+          const py = Math.sin(a) * ring.baseRadius;
+          push();
+          translate(px, py);
+          scale(1 / ring.skewX, 1 / ring.skewY);
+          const shimmer =
+            Math.sin(
+              frameCount * ring.shimmerSpeed + ring.shimmerOffset + i * 0.5
+            ) *
+              0.5 +
+            0.5;
+          const pSize = ring.particleSize * (0.5 + shimmer * 0.8);
+          const pAlpha = ring.opacity * (0.6 + shimmer * 0.4);
+          fill(red(ring.color), green(ring.color), blue(ring.color), pAlpha);
+          ellipse(0, 0, pSize * 1.5);
+          fill(255, 255, 255, pAlpha * 0.8 * shimmer);
+          ellipse(0, 0, pSize);
+          fill(255, 255, 255, shimmer * 90);
+          ellipse(0, 0, pSize * 2);
+          pop();
+        }
+        pop();
+      }
+
+      // Core
+      this.drawCore();
+      pop();
+    }
+
+    drawCore() {
+      if (this.type === "blackHole") {
+        for (let r = this.size * 2.6; r > this.size * 1.1; r -= 2.4) {
+          const a = map(r, this.size * 1.1, this.size * 2.6, 160, 0);
+          stroke(
+            red(this.baseColor),
+            green(this.baseColor),
+            blue(this.baseColor),
+            a
+          );
+          noFill();
+          strokeWeight(3);
+          circle(0, 0, r);
+        }
+        noStroke();
+        fill(10, 10, 15);
+        ellipse(0, 0, this.size);
+        return;
+      }
+      if (this.type === "nebula") {
+        noStroke();
+        for (let r = this.size * 1.6; r > 10; r -= 8) {
+          const n = noise(
+            this.noiseSeed,
+            r * 0.01,
+            frameCount * 0.005 * CONFIG.SPEED_MULTIPLIER.nebula
+          );
+          const a = map(r, 10, this.size * 1.6, 8, 120) * n;
+          fill(
+            red(this.baseColor),
+            green(this.baseColor),
+            blue(this.baseColor),
+            0.2
+          );
+          ellipse(0, 0, r * (0.8 + a * 0.6), r);
+        }
+        return;
+      }
+
+      const pulse = Math.sin(frameCount * this.pulseSpeed) * 0.3 + 1;
+      for (let r = this.size * 2.5; r > 0; r -= 3) {
+        let alpha = map(r, 0, this.size * 2.5, 200, 0);
+        fill(
+          red(this.baseColor),
+          green(this.baseColor),
+          blue(this.baseColor),
+          alpha * 0.1
+        );
+        noStroke();
+        ellipse(0, 0, r);
+      }
+
+      switch (this.type) {
+        case "spiky":
+          fill(this.baseColor);
+          noStroke();
+          beginShape();
+          for (let i = 0; i < this.spikes * 2; i++) {
+            let ang = (TWO_PI / (this.spikes * 2)) * i;
+            let rad =
+              i % 2 === 0
+                ? this.size * (0.5 + random(0.05, 0.15))
+                : this.size * 0.2;
+            vertex(Math.cos(ang) * rad, Math.sin(ang) * rad);
+          }
+          endShape(CLOSE);
+          fill(255, 255, 255, 200);
+          ellipse(0, 0, this.size * 0.3);
+          break;
+        case "comet":
+        case "star":
+        default:
+          fill(this.baseColor);
+          noStroke();
+          ellipse(0, 0, this.size);
+          fill(255, 255, 255, 180);
+          ellipse(0, 0, this.size * this.coreSize);
+      }
+      fill(255);
+      noStroke();
+      ellipse(0, 0, this.size * 0.2);
+    }
+
+    contains(px, py) {
+      return dist(px, py, this.x, this.y) < this.radius;
+    }
+    setPosition(x, y) {
+      this.x = x;
+      this.y = y;
+      this.vx = 0;
+      this.vy = 0;
+    }
+  }
+
+  /* ====== COLLISIONS ====== */
+  function resolveCollisions(arr) {
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = i + 1; j < arr.length; j++) {
+        const A = arr[i],
+          B = arr[j];
+        const { x: nx, y: ny, d: distAB } = unit(B.x - A.x, B.y - A.y);
+        const minDist = A.radius + B.radius;
+        if (distAB < minDist) {
+          const overlap = minDist - distAB;
+          const totalMass = A.mass + B.mass;
+          const pushA = overlap * (B.mass / totalMass);
+          const pushB = overlap * (A.mass / totalMass);
+          if (!A.isDragging) {
+            A.x -= nx * pushA;
+            A.y -= ny * pushA;
+          }
+          if (!B.isDragging) {
+            B.x += nx * pushB;
+            B.y += ny * pushB;
+          }
+          const rvx = B.vx - A.vx,
+            rvy = B.vy - A.vy;
+          const rvn = rvx * nx + rvy * ny;
+          if (rvn < 0) {
+            const invMassA = 1 / A.mass,
+              invMassB = 1 / B.mass;
+            const j =
+              ((-1 - CONFIG.physics.COLLISION_E) * rvn) / (invMassA + invMassB);
+            if (!A.isDragging) {
+              A.vx -= j * nx * invMassA;
+              A.vy -= j * ny * invMassA;
+            }
+            if (!B.isDragging) {
+              B.vx += j * nx * invMassB;
+              B.vy += j * ny * invMassB;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /* ====== SKETCH ====== */
+
+  let bodies = [],
+    dragged = null,
+    dragOffset = { x: 0, y: 0 };
+  let cnv;
+
+  function setup() {
+    cnv = createCanvas(windowWidth, windowHeight);
+    cnv.parent("p5-background");
+    pixelDensity(1);
+    randomizeColorsInPlace(COLORS, 0.05);
+    randomizeConfigInPlace(CONFIG, 0.05);
+
+    for (let i = 0; i < CONFIG.counts.initialBodies; i++) {
+      bodies.push(
+        new Body(random(120, width - 120), random(120, height - 120))
+      );
+    }
+  }
+
+  function draw() {
+    clear();
+    // Background stars
+    for (let i = 0; i < CONFIG.counts.backgroundStars; i++) {
+      let x = noise(0, 0) * width;
+      let y =
+        noise(
+          i * 0.11 + 100,
+          frameCount * 0.01 * CONFIG.SPEED_MULTIPLIER.backgroundStars
+        ) * height;
+      let b =
+        noise(
+          i * 0.11,
+          frameCount * 0.02 * CONFIG.SPEED_MULTIPLIER.backgroundStars
+        ) * 255;
+      noStroke();
+      fill(b, b, 255, b * 0.5);
+      ellipse(x, y, 1, 1);
+    }
+
+    // Too Many
+    tooManyStars(bodies);
+
+    // Physics
+    for (const b of bodies) b.applyGravity(bodies);
+    resolveCollisions(bodies);
+    bodies = bodies.filter((b) => !b._remove);
+    for (const b of bodies) b.integrate();
+
+    // Display
+    for (const b of bodies) b.display();
+
+    // Connection lines
+    stroke(...COLORS.connectionLine, 30);
+    strokeWeight(1);
+    for (let i = 0; i < bodies.length; i++) {
+      for (let j = i + 1; j < bodies.length; j++) {
+        const a = bodies[i],
+          b = bodies[j];
+        const d = dist(a.x, a.y, b.x, b.y);
+        if (d < CONFIG.physics.NEAR_LINK_DIST) {
+          stroke(
+            ...COLORS.connectionLine,
+            map(d, 0, CONFIG.physics.NEAR_LINK_DIST, 60, 0)
+          );
+          line(a.x, a.y, b.x, b.y);
+        }
+      }
+    }
+  }
+
+  /* ====== INTERACTIONS ====== */
+  function mousePressed() {
+    dragged = null;
+    for (const b of bodies) {
+      if (b.contains(mouseX, mouseY)) {
+        dragged = b;
+        dragOffset.x = mouseX - b.x;
+        dragOffset.y = mouseY - b.y;
+        b.isDragging = true;
+        break;
+      }
+    }
+    if (!dragged) bodies.push(new Body(mouseX, mouseY));
+  }
+
+  function mouseDragged() {
+    if (dragged)
+      dragged.setPosition(mouseX - dragOffset.x, mouseY - dragOffset.y);
+  }
+  function mouseReleased() {
+    if (dragged) {
+      dragged.isDragging = false;
+      dragged = null;
+    }
+  }
+  function doubleClicked() {
+    for (let i = bodies.length - 1; i >= 0; i--) {
+      if (bodies[i].contains(mouseX, mouseY)) {
+        bodies[i].disappearing = true;
+        bodies[i].appearing = false;
+        break;
+      }
+    }
+  }
+  function windowResized() {
+    console.log("Window resized");
+    resizeCanvas(windowWidth, windowHeight);
+  }
+</script>
+
+<style>
+  #p5-background {
+    position: fixed;
+    top: 0;
+    right: 0;
+    opacity: 0.5;
+    z-index: -9999;
+    transition: none;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+</style>

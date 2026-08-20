@@ -1,0 +1,139 @@
+---
+export interface Props {
+  src: string;
+  alt: string;
+  className?: string;
+  style?: string;
+}
+
+const { src, alt, className = "", style = "" } = Astro.props;
+
+// Determine file type from URL
+function getFileType(url: string): string {
+  // Extract file extension from URL
+  let extension = "";
+
+  // Handle local files
+  if (url.startsWith("/student-files/")) {
+    const match = url.match(/\.([a-zA-Z0-9]+)(?:\?|$)/);
+    extension = match ? match[1].toLowerCase() : "";
+  }
+  // Handle Google Drive URLs - try to determine from URL patterns
+  else if (url.includes("drive.google.com")) {
+    // For Google Drive, we'll default to image and let the browser handle it
+    extension = "image";
+  }
+  // Handle other URLs
+  else {
+    const match = url.match(/\.([a-zA-Z0-9]+)(?:\?|$)/);
+    extension = match ? match[1].toLowerCase() : "";
+  }
+
+  // Categorize file types
+  const imageTypes = ["jpg", "jpeg", "png", "gif", "webp", "svg", "bmp", "ico"];
+  const videoTypes = ["mp4", "webm", "ogg", "mov", "avi", "mkv"];
+  const audioTypes = ["mp3", "wav", "ogg", "aac", "m4a"];
+  const documentTypes = ["pdf", "doc", "docx", "txt", "rtf"];
+  const codeTypes = ["js", "ts", "html", "css", "json", "md"];
+
+  if (imageTypes.includes(extension)) return "image";
+  if (videoTypes.includes(extension)) return "video";
+  if (audioTypes.includes(extension)) return "audio";
+  if (documentTypes.includes(extension)) return "document";
+  if (codeTypes.includes(extension)) return "code";
+
+  // Default to image for unknown types (many student uploads are images)
+  return "image";
+}
+
+const fileType = getFileType(src);
+---
+
+<div class={`file-viewer ${className}`} style={style}>
+  {
+    fileType === "image" && (
+      <img
+        src={src}
+        alt={alt}
+        class="w-full h-auto block"
+        loading="lazy"
+        style=""
+      />
+    )
+  }
+
+  {
+    fileType === "video" && (
+      <video
+        controls
+        autoplay
+        muted
+        loop
+        class="w-full h-auto rounded border border-white/20"
+        style=""
+        preload="metadata"
+      >
+        <source src={src} />
+        <track kind="captions" src="" label="No captions available" default />
+        <p class="text-sm opacity-70">
+          Your browser doesn't support video playback.
+          <a
+            href={src}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-blue-400 hover:text-blue-300 underline"
+          >
+            Download the video
+          </a>
+        </p>
+      </video>
+    )
+  }
+
+  {
+    fileType === "audio" && (
+      <div class="audio-player bg-white/5 rounded border border-white/20 p-4">
+        <audio controls class="w-full">
+          <source src={src} />
+          <track kind="captions" src="" label="No captions available" default />
+          <p class="text-sm opacity-70">
+            Your browser doesn't support audio playback.
+            <a
+              href={src}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-blue-400 hover:text-blue-300 underline"
+            >
+              Download the audio
+            </a>
+          </p>
+        </audio>
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .file-viewer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 500px;
+  }
+
+  .file-viewer img {
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .audio-player audio {
+    min-width: 300px;
+  }
+
+  @media (max-width: 768px) {
+    .audio-player audio {
+      min-width: 100%;
+    }
+  }
+</style>

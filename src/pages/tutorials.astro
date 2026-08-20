@@ -1,0 +1,95 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Footer from "@/components/Footer.astro";
+import P5Background from "@/components/P5Background.astro";
+import YearSwitcher from "@/components/YearSwitcher.astro";
+import { ACTIVE_YEAR, SITE_TITLE, getYearConfig } from "@/config";
+import { isPublishedTutorial } from "@/lib/course-content";
+
+const activeConfig = getYearConfig(ACTIVE_YEAR);
+const courseHeading = activeConfig.sectionId
+  ? `${SITE_TITLE} (${activeConfig.sectionId})`
+  : SITE_TITLE;
+const tutorials = (await getCollection("tutorials")).filter(isPublishedTutorial).sort((a, b) => {
+  // Sort by order if available, then by publishDate, then by title
+  if (a.data.order !== undefined && b.data.order !== undefined) {
+    return a.data.order - b.data.order;
+  }
+  if (a.data.order !== undefined) return -1;
+  if (b.data.order !== undefined) return 1;
+
+  const dateA = a.data.publishDate || new Date(0);
+  const dateB = b.data.publishDate || new Date(0);
+  return dateA.getTime() - dateB.getTime();
+});
+
+const difficultyColors = {
+  beginner: "bg-green-100 text-green-800",
+  intermediate: "bg-yellow-100 text-yellow-800",
+  advanced: "bg-red-100 text-red-800",
+};
+---
+
+<Layout
+  title="Tutorials"
+  description="Collection of coding tutorials and resources"
+>
+  <P5Background />
+
+  <header>
+    <div>
+      <a href="/">
+        <h1 class="heading-3 !leading-normal">
+          {courseHeading}
+        </h1>
+      </a>
+      <h2 class="heading-1">Tutorials</h2>
+      <p>A collection of coding tutorials and resources for creative coding.</p>
+      <YearSwitcher year={ACTIVE_YEAR} />
+    </div>
+  </header>
+
+  <main class="tutorials-grid">
+    {
+      tutorials.map((tutorial) => (
+        <article class="tutorial-card">
+          <div class="tutorial-header">
+            <h3 class="tutorial-title">
+              <a href={`/tutorials/${tutorial.id}/`}>{tutorial.data.title}</a>
+            </h3>
+
+            <div class="tutorial-meta">
+              {tutorial.data.difficulty && (
+                <span
+                  class={`difficulty ${difficultyColors[tutorial.data.difficulty]}`}
+                >
+                  {tutorial.data.difficulty}
+                </span>
+              )}
+              {tutorial.data.duration && (
+                <span class="duration">{tutorial.data.duration}</span>
+              )}
+            </div>
+          </div>
+
+          {tutorial.data.description && (
+            <p class="tutorial-description">{tutorial.data.description}</p>
+          )}
+
+          {tutorial.data.tags && tutorial.data.tags.length > 0 && (
+            <div class="tutorial-tags">
+              {tutorial.data.tags.map((tag) => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+          )}
+        </article>
+      ))
+    }
+  </main>
+
+  <div>
+    <Footer year={ACTIVE_YEAR} />
+  </div>
+</Layout>

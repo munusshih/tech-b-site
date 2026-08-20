@@ -1,0 +1,38 @@
+---
+import { getStudentsSorted, getYearBasePath } from "@/config";
+
+interface Props {
+  year: number;
+  excludeStudent?: string;
+}
+
+const { year, excludeStudent } = Astro.props;
+const students = getStudentsSorted(year);
+const basePath = getYearBasePath(year);
+---
+
+{students.length > 0 && (
+  <section class="hall-of-fame">
+    <h1 class="heading-1">{excludeStudent ? "Other Students" : "Hall of Fame"}</h1>
+    <div class="students-grid">
+      {students.map((student) => {
+        const isCurrentStudent = excludeStudent === student.studentId;
+        return (
+          <div class="student-card">
+            <h3 class="student-name">
+              {isCurrentStudent ? (
+                <span class="opacity-30 cursor-default">
+                  {student.firstName} {student.lastName}
+                </span>
+              ) : (
+                <a href={`${basePath}/students/${student.studentId}/`}>
+                  {student.firstName} {student.lastName}
+                </a>
+              )}
+            </h3>
+          </div>
+        );
+      })}
+    </div>
+  </section>
+)}

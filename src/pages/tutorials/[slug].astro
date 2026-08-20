@@ -1,0 +1,145 @@
+---
+import { getCollection, render } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Footer from "@/components/Footer.astro";
+import P5Background from "@/components/P5Background.astro";
+import YearSwitcher from "@/components/YearSwitcher.astro";
+import { ACTIVE_YEAR, SITE_TITLE, getYearConfig } from "@/config";
+import { isPublishedTutorial } from "@/lib/course-content";
+
+export async function getStaticPaths() {
+  const tutorials = (await getCollection("tutorials")).filter(isPublishedTutorial);
+  return tutorials.map((tutorial) => ({
+    params: { slug: tutorial.id },
+    props: tutorial,
+  }));
+}
+
+type Props = CollectionEntry<"tutorials">;
+
+const tutorial = Astro.props;
+const { Content } = await render(tutorial);
+const activeConfig = getYearConfig(ACTIVE_YEAR);
+const courseHeading = activeConfig.sectionId
+  ? `${SITE_TITLE} (${activeConfig.sectionId})`
+  : SITE_TITLE;
+
+const difficultyColors = {
+  beginner: "bg-green-100 text-green-800",
+  intermediate: "bg-yellow-100 text-yellow-800",
+  advanced: "bg-red-100 text-red-800",
+};
+---
+
+<Layout
+  title={tutorial.data.title}
+  description={tutorial.data.description || "Tutorial"}
+>
+  <P5Background />
+
+  <header>
+    <div>
+      <a href="/">
+        <h1 class="heading-3 !leading-normal">
+          {courseHeading}
+        </h1>
+      </a>
+      <a href="/tutorials">← Back to Tutorials</a>
+      <h2 class="heading-1">{tutorial.data.title}</h2>
+      <YearSwitcher year={ACTIVE_YEAR} />
+
+      <div class="tutorial-meta">
+        {
+          tutorial.data.difficulty && (
+            <span
+              class={`difficulty ${difficultyColors[tutorial.data.difficulty]}`}
+            >
+              {tutorial.data.difficulty}
+            </span>
+          )
+        }
+        {
+          tutorial.data.duration && (
+            <span class="duration">{tutorial.data.duration}</span>
+          )
+        }
+      </div>
+
+      {
+        tutorial.data.tags && tutorial.data.tags.length > 0 && (
+          <div class="tutorial-tags">
+            {tutorial.data.tags.map((tag) => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+        )
+      }
+    </div>
+    <Footer year={ACTIVE_YEAR} />
+  </header>
+
+  <main class="tutorial-content col-span-2">
+    <Content />
+  </main>
+</Layout>
+
+<style>
+  .tutorial-meta {
+    display: flex;
+    gap: 1rem;
+    opacity: 0.8;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+
+  .difficulty {
+    border-radius: 4px;
+    padding: 0.2rem 0.5rem;
+    font-weight: bold;
+    font-size: 0.8rem;
+  }
+
+  .tutorial-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1rem 0;
+  }
+
+  .tag {
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.2rem 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .tutorial-links {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  .btn-primary {
+    background: #0066cc;
+    color: white;
+  }
+
+  .btn-secondary {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    color: inherit;
+  }
+
+  .tutorial-content {
+    padding: var(--margin);
+  }
+</style>

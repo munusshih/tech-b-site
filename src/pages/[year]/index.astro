@@ -1,0 +1,16 @@
+---
+import YearHome from "@/components/YearHome.astro";
+import { ACTIVE_YEAR, AVAILABLE_YEARS } from "@/config";
+
+export function getStaticPaths() {
+  return AVAILABLE_YEARS.map((year) => ({
+    params: { year: String(year) },
+    props: { year },
+  }));
+}
+
+const { year } = Astro.props;
+if (year === ACTIVE_YEAR) return Astro.redirect("/", 302);
+---
+
+<YearHome year={year} />

@@ -1,0 +1,80 @@
+---
+import { marked } from "marked";
+import {
+  getStudentsByEmail,
+  getYearBasePath,
+  getYearConfig,
+} from "@/config";
+import { getStudentData } from "@/lib/year-data";
+
+interface Props {
+  year: number;
+  week: number;
+}
+
+const { year, week } = Astro.props;
+const studentMapping = getStudentsByEmail(year);
+const basePath = getYearBasePath(year);
+const studentData = getStudentData(year);
+
+const weekResponses = studentData.filter((entry) => {
+  const assignment = entry.assignmentTitle;
+  if (!assignment) return false;
+  const weekMatch = assignment.toLowerCase().match(/(?:week|assignment)\s*(\d+)/);
+  return weekMatch && Number.parseInt(weekMatch[1]) === week;
+});
+
+const responsesWithNames = weekResponses
+  .filter((entry) => entry.weeklyResponse?.trim())
+  .map((entry) => {
+    const student = studentMapping[entry.studentEmail];
+    return {
+      studentName: student
+        ? `${student.firstName} ${student.lastName}`
+        : "Unknown Student",
+      studentId: student?.studentId ?? null,
+      response: entry.weeklyResponse,
+      feedback: entry.teacherFeedback,
+    };
+  })
+  .sort((a, b) => a.studentName.localeCompare(b.studentName));
+
+const specialProject = getYearConfig(year).specialProjectWeeks[String(week)];
+---
+
+{responsesWithNames.length > 0 ? (
+  <section class="student-responses p-4">
+    <h2 class="!mb-4">Class Notebook</h2>
+    <div class="responses-grid">
+      {responsesWithNames.map((response) => (
+        <div class="response-card">
+          <h3 class="student-name">
+            {response.studentId ? (
+              <a href={`${basePath}/students/${response.studentId}/`}>
+                {response.studentName}
+              </a>
+            ) : response.studentName}
+          </h3>
+          <blockquote class="response-text">{response.response}</blockquote>
+          {response.feedback?.trim() && (
+            <div class="teacher-feedback mt-4 ml-4">
+              <h4 class="feedback-label font-bold">↳ Munus:</h4>
+              <div class="feedback-text" set:html={marked(response.feedback)} />
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  </section>
+) : specialProject ? (
+  <div class="no-responses p-4">
+    <p class="mb-4">{specialProject.description}</p>
+    <a href={specialProject.url} class="btn-primary" target="_blank" rel="noopener noreferrer">
+      {specialProject.projectName}
+    </a>
+  </div>
+) : (
+  <div class="no-responses p-4">
+    <p>No student responses available for this week yet.</p>
+  </div>
+)}

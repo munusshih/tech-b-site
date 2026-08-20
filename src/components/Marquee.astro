@@ -1,0 +1,24 @@
+---
+const {
+  text = "Welcome to our class! • Check out amazing student work • Stay tuned for updates • ",
+  speed = "medium",
+  direction = "left",
+  pauseOnHover = true,
+  className = "",
+} = Astro.props;
+
+const speedClass = `marquee-${speed}`;
+const directionClass = `marquee-${direction}`;
+const pauseClass = pauseOnHover ? "marquee-pause" : "";
+---
+
+<div
+  class={`marquee ${speedClass} ${directionClass} ${pauseClass} ${className}`}
+>
+  <div class="marquee-content">
+    <span class="marquee-text">{text}</span>
+    <span class="marquee-text">{text}</span>
+    <span class="marquee-text">{text}</span>
+    <span class="marquee-text">{text}</span>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+{
+  "activeYear": 2026,
+  "common": {
+    "siteTitle": "Graduate Studio: Technology B [Class Notebook]",
+    "siteDescription": "This site is our class notebook, a place to document and share what we learn.",
+    "schoolName": "Pratt Institute",
+    "departmentName": "Graduate Communications Design",
+    "instructor": {
+      "name": "Munus Shih",
+      "email": "munus.shih@pratt.edu"
+    },
+    "repositoryUrl": "https://github.com/munusshih/tech-b-site",
+    "resourceLinks": []
+  },
+  "years": {
+    "2026": {
+      "semester": "Fall 2026",
+      "sectionId": "DES-720B",
+      "meetingTimes": "2:00–4:50 PM every Tuesday",
+      "location": "",
+      "marqueeText": "",
+      "companionSiteUrl": "https://tech-b.designfuture.space",
+      "syllabusUrl": "",
+      "officeHoursUrl": "",
+      "submissionLinks": {
+        "assignmentFormUrl": "",
+        "projectFormUrl": "",
+        "bioFormUrl": ""
+      },
+      "sheets": {
+        "assignments": { "id": "", "name": "" },
+        "bios": { "id": "", "name": "" }
+      },
+      "scheduleSections": [],
+      "specialProjectWeeks": {},
+      "students": []
+    }
+  }
+}

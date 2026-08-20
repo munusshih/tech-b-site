@@ -1,0 +1,15 @@
+---
+import StudentPage from "@/components/StudentPage.astro";
+import { ACTIVE_YEAR, getStudentsWithId } from "@/config";
+
+export function getStaticPaths() {
+  return getStudentsWithId(ACTIVE_YEAR).map((student) => ({
+    params: { student: student.studentId },
+    props: { student },
+  }));
+}
+
+const { student } = Astro.props;
+---
+
+<StudentPage year={ACTIVE_YEAR} student={student} />
