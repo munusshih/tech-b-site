@@ -35,6 +35,7 @@ const studentEntries = getStudentData(year)
 <Layout
   title={`${student.firstName} ${student.lastName} - ${SITE_TITLE}`}
   description={`View ${student.firstName} ${student.lastName}'s creative coding assignments and projects.`}
+  year={year}
 >
   <main class="col-span-3 !p-0" id="student-page">
     <div class="assignments-grid grid lg:grid-cols-3 min-h-screen">

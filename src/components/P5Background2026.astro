@@ -1,5 +1,5 @@
 ---
-// 2026 uses a signal-flow field. The 2025 orbital sketch remains untouched.
+// 2026 follows Tech B's ant-colony visual language. The 2025 sketch is separate.
 ---
 
 <div id="p5-background" aria-hidden="true"></div>
@@ -8,159 +8,163 @@
   /* eslint-disable no-undef, @typescript-eslint/no-unused-vars */
 
   const YEAR_SEED = 2026;
-  const TRAIL_LENGTH = 34;
-  const COLORS = [
-    [112, 255, 190],
-    [75, 190, 255],
-    [225, 255, 145],
-    [235, 235, 235],
-  ];
+  const INK = [57, 45, 47];
+  const PHEROMONE_LIMIT = 720;
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  let streams = [];
+  let ants = [];
+  let pheromones = [];
+  let foodSources = [];
+  let nest;
   let canvas;
 
-  class SignalStream {
+  class Ant {
     constructor(index) {
       this.index = index;
-      this.reset(false);
-    }
-
-    reset(fromEdge = true) {
-      if (fromEdge) {
-        const edge = floor(random(4));
-        if (edge === 0) {
-          this.x = -10;
-          this.y = random(height);
-        } else if (edge === 1) {
-          this.x = width + 10;
-          this.y = random(height);
-        } else if (edge === 2) {
-          this.x = random(width);
-          this.y = -10;
-        } else {
-          this.x = random(width);
-          this.y = height + 10;
-        }
-      } else {
-        this.x = random(width);
-        this.y = random(height);
-      }
-
-      this.speed = random(0.45, 1.35);
-      this.weight = random([1, 1, 1.5, 2]);
-      this.offset = random(1000);
-      this.color = random(COLORS);
-      this.trail = [];
+      this.phase = random(1000);
+      this.speed = random(0.65, 1.35);
+      this.carrying = index % 4 === 0;
+      this.foodIndex = index % foodSources.length;
+      const target = this.carrying ? nest : foodSources[this.foodIndex];
+      const progress = random();
+      this.x = lerp(nest.x, target.x, progress) + randomGaussian(0, 28);
+      this.y = lerp(nest.y, target.y, progress) + randomGaussian(0, 28);
+      this.heading = atan2(target.y - this.y, target.x - this.x) + random(-0.7, 0.7);
+      this.depositClock = floor(random(12));
     }
 
     update() {
-      const field = noise(
-        this.x * 0.0022,
-        this.y * 0.0022,
-        frameCount * 0.0015 + this.offset,
-      );
-      const angle = field * TWO_PI * 3.5 + sin(frameCount * 0.004 + this.index);
+      const target = this.carrying ? nest : foodSources[this.foodIndex];
+      const desired = atan2(target.y - this.y, target.x - this.x);
+      const turn = atan2(sin(desired - this.heading), cos(desired - this.heading));
+      const wandering = map(noise(this.phase, frameCount * 0.006), 0, 1, -0.12, 0.12);
+      this.heading += turn * 0.025 + wandering;
 
-      this.x += cos(angle) * this.speed;
-      this.y += sin(angle) * this.speed;
-      this.trail.push({ x: this.x, y: this.y });
+      const step = constrain(width / 760, 0.8, 2.15) * this.speed;
+      this.x += cos(this.heading) * step;
+      this.y += sin(this.heading) * step;
+      this.phase += 0.008;
 
-      if (this.trail.length > TRAIL_LENGTH) this.trail.shift();
-      if (this.x < -30 || this.x > width + 30 || this.y < -30 || this.y > height + 30) {
-        this.reset(true);
+      const distance = dist(this.x, this.y, target.x, target.y);
+      if (distance < target.radius + 10) {
+        this.carrying = !this.carrying;
+        if (!this.carrying) this.foodIndex = (this.foodIndex + 1 + this.index) % foodSources.length;
+        this.heading += PI + random(-0.3, 0.3);
+      }
+
+      if (this.x < -20 || this.x > width + 20 || this.y < -20 || this.y > height + 20) {
+        this.x = nest.x + random(-nest.radius, nest.radius);
+        this.y = nest.y + random(-nest.radius, nest.radius);
+        this.heading = random(TWO_PI);
+      }
+
+      this.depositClock += 1;
+      if (this.depositClock >= 10 + (this.index % 9)) {
+        pheromones.push({
+          x: this.x,
+          y: this.y,
+          life: random(220, 480),
+          square: this.carrying,
+        });
+        this.depositClock = 0;
       }
     }
 
     display() {
-      noFill();
-      strokeWeight(this.weight);
-      beginShape();
-      for (let i = 0; i < this.trail.length; i++) {
-        const point = this.trail[i];
-        const alpha = map(i, 0, this.trail.length - 1, 0, 145);
-        stroke(this.color[0], this.color[1], this.color[2], alpha);
-        vertex(point.x, point.y);
-      }
-      endShape();
-
+      push();
+      translate(this.x, this.y);
+      rotate(this.heading);
+      stroke(...INK, 175);
+      strokeWeight(1);
+      line(-5, 0, 5, 0);
       noStroke();
-      fill(this.color[0], this.color[1], this.color[2], 190);
-      rect(this.x, this.y, 3 + this.weight, 3 + this.weight);
+      fill(...INK, 210);
+      circle(-4, 0, 2.6);
+      circle(0, 0, 3.4);
+      circle(4, 0, 2.4);
+      pop();
     }
   }
 
-  function streamCount() {
-    return constrain(floor((windowWidth * windowHeight) / 8500), 55, 150);
-  }
-
-  function resetField() {
+  function createScene() {
     randomSeed(YEAR_SEED);
     noiseSeed(YEAR_SEED);
-    streams = Array.from({ length: streamCount() }, (_, index) => new SignalStream(index));
+
+    nest = {
+      x: width * 0.68,
+      y: height * 0.28,
+      radius: constrain(min(width, height) * 0.055, 30, 68),
+      label: "[BASE]",
+    };
+
+    foodSources = [
+      { x: width * 0.17, y: height * 0.2, radius: 18, label: "{F:0}" },
+      { x: width * 0.27, y: height * 0.74, radius: 22, label: "[DATA]" },
+      { x: width * 0.82, y: height * 0.71, radius: 16, label: "<F/2>" },
+    ];
+
+    const population = constrain(floor((width * height) / 15000), 36, 90);
+    pheromones = [];
+    ants = Array.from({ length: population }, (_, index) => new Ant(index));
   }
 
-  function drawSignalGrid() {
-    strokeWeight(1);
-    stroke(235, 235, 235, 20);
-    for (let x = 48; x < width; x += 96) {
-      for (let y = 48; y < height; y += 96) {
-        line(x - 4, y, x + 4, y);
-        line(x, y - 4, x, y + 4);
-      }
-    }
-  }
-
-  function drawCarrierWaves() {
+  function drawNode(node, index) {
+    push();
+    translate(node.x, node.y);
+    rotate(sin(frameCount * 0.003 + index) * 0.08);
     noFill();
+    stroke(...INK, 75);
     strokeWeight(1);
-    for (let lane = 0; lane < 3; lane++) {
-      const color = COLORS[lane];
-      stroke(color[0], color[1], color[2], 42);
-      beginShape();
-      for (let x = -20; x <= width + 20; x += 18) {
-        const baseY = ((lane + 1) * height) / 4;
-        const y =
-          baseY +
-          sin(x * 0.009 + frameCount * (0.006 + lane * 0.002)) * (24 + lane * 12) +
-          (noise(x * 0.004, lane * 20, frameCount * 0.001) - 0.5) * 90;
-        curveVertex(x, y);
-      }
-      endShape();
-    }
+    circle(0, 0, node.radius * 2);
+    noStroke();
+    fill(...INK, 150);
+    textFont("monospace");
+    textStyle(BOLD);
+    textSize(constrain(width / 105, 10, 15));
+    textAlign(CENTER, CENTER);
+    text(node.label, 0, 0);
+    pop();
   }
 
   function setup() {
     canvas = createCanvas(windowWidth, windowHeight);
     canvas.parent("p5-background");
     pixelDensity(1);
-    rectMode(CENTER);
-    strokeCap(SQUARE);
-    resetField();
+    frameRate(reducedMotion ? 10 : 40);
+    createScene();
   }
 
   function draw() {
     clear();
-    drawSignalGrid();
-    drawCarrierWaves();
-    for (const stream of streams) {
-      stream.update();
-      stream.display();
-    }
-  }
 
-  function mousePressed() {
-    for (let i = 0; i < 10; i++) {
-      const stream = new SignalStream(streams.length + i);
-      stream.x = mouseX + random(-18, 18);
-      stream.y = mouseY + random(-18, 18);
-      stream.trail = [];
-      streams.push(stream);
+    for (let index = pheromones.length - 1; index >= 0; index -= 1) {
+      const trace = pheromones[index];
+      trace.life -= reducedMotion ? 2.5 : 1;
+      if (trace.life <= 0) {
+        pheromones.splice(index, 1);
+        continue;
+      }
+      const alpha = map(trace.life, 0, 480, 0, 54, true);
+      noStroke();
+      fill(...INK, alpha);
+      if (trace.square) square(trace.x, trace.y, 2.2);
+      else circle(trace.x, trace.y, 2.2);
     }
+
+    if (pheromones.length > PHEROMONE_LIMIT) {
+      pheromones.splice(0, pheromones.length - PHEROMONE_LIMIT);
+    }
+
+    drawNode(nest, 0);
+    foodSources.forEach((food, index) => drawNode(food, index + 1));
+
+    if (!reducedMotion || frameCount % 3 === 0) ants.forEach((ant) => ant.update());
+    ants.forEach((ant) => ant.display());
   }
 
   function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
-    resetField();
+    createScene();
   }
 </script>
 
@@ -170,7 +174,7 @@
     inset: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.58;
+    opacity: 0.82;
     z-index: -9999;
     pointer-events: none;
   }

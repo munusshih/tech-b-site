@@ -313,21 +313,16 @@ html {
 .year-switcher {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem 0.5rem;
-    align-items: center;
+    gap: 0.75rem;
+    align-items: baseline;
     margin: 1.25rem 0;
     font-family: var(--body-font);
     font-size: 0.9rem;
 }
 
-.year-switcher>span:first-child {
-    margin-right: 0.25rem;
-    opacity: 0.65;
-}
-
 .year-switcher>a {
-    padding: 0.15rem 0.45rem;
-    opacity: 0.65;
+    padding: 0;
+    opacity: 0.4;
     text-decoration: none;
 }
 
@@ -339,12 +334,13 @@ html {
 }
 
 .year-switcher>[aria-current="page"] {
-    padding: 0.15rem 0.55rem;
-    border-radius: 0;
-    background: #efefef;
-    color: #000;
+    padding: 0;
+    background: transparent;
+    color: inherit;
     font-weight: 700;
     opacity: 1;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
 }
 
 .archive-notice {
@@ -380,4 +376,55 @@ html {
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border: 0;
+}
+
+/* The 2026 Tech B palette borrows the sky-paper and wine-ink character of the
+   syllabus companion while keeping this site's existing notebook structure. */
+html[data-course-year="2026"] {
+    --border-dotted: 1px solid #392d2f;
+    background: #b8e1f5;
+    color-scheme: light;
+    filter: none;
+}
+
+html[data-course-year="2026"] body,
+html[data-course-year="2026"] main {
+    background-color: #b8e1f5;
+    background-image:
+        radial-gradient(circle, rgba(57, 45, 47, 0.16) 0 0.7px, transparent 0.9px),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 72 72' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.1'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 7px 7px, 5rem 5rem;
+    color: #392d2f;
+    filter: none;
+}
+
+html[data-course-year="2026"] #p5-background,
+html[data-course-year="2026"] img,
+html[data-course-year="2026"] video,
+html[data-course-year="2026"] svg,
+html[data-course-year="2026"] iframe,
+html[data-course-year="2026"] canvas,
+html[data-course-year="2026"] object,
+html[data-course-year="2026"] embed {
+    filter: none;
+}
+
+html[data-course-year="2026"] h1 {
+    text-decoration-color: #392d2f;
+}
+
+html[data-course-year="2026"] h2::before {
+    color: #392d2f;
+    opacity: 0.65;
+}
+
+html[data-course-year="2026"] .btn-primary {
+    background: #392d2f;
+    color: #b8e1f5;
+}
+
+html[data-course-year="2026"] ::selection {
+    background: #392d2f;
+    color: #b8e1f5;
 }

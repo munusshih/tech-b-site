@@ -1,15 +1,11 @@
 ---
-import { getYearConfig } from "@/config";
-
 interface Props {
   year: number;
 }
 
 const { year } = Astro.props;
-const yearConfig = getYearConfig(year);
 ---
 
-<aside class="archive-notice" role="status">
-  <strong>{yearConfig.semester || year}</strong>
+<aside class="archive-notice" role="status" data-archive-year={year}>
   <span>Archived · Read-only</span>
 </aside>
