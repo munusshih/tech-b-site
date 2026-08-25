@@ -1,0 +1,44 @@
+---
+import { Code } from "astro-expressive-code/components";
+
+interface Props {
+  code: string;
+  language?: string;
+  title?: string;
+  startLineNumber?: number;
+}
+
+const {
+  code,
+  language = "text",
+  title,
+  startLineNumber = 1,
+} = Astro.props as Props;
+const lang = language.trim().toLowerCase() || "text";
+const names: Record<string, string> = {
+  bash: "Bash",
+  css: "CSS",
+  html: "HTML",
+  js: "JavaScript",
+  javascript: "JavaScript",
+  json: "JSON",
+  jsx: "JSX",
+  md: "Markdown",
+  python: "Python",
+  sh: "Shell",
+  shell: "Shell",
+  ts: "TypeScript",
+  typescript: "TypeScript",
+  tsx: "TSX",
+};
+const caption = title || names[lang] || lang.toUpperCase();
+---
+
+<Code
+  code={code}
+  lang={lang}
+  frame="code"
+  title={caption}
+  showLineNumbers={true}
+  startLineNumber={startLineNumber}
+/>

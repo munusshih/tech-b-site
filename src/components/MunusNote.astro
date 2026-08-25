@@ -1,0 +1,118 @@
+---
+interface Props {
+  label?: string;
+  class?: string;
+}
+
+const { label = "note from munus", class: className } = Astro.props as Props;
+---
+
+<aside class:list={["munus-note", className]} aria-label={label}>
+  <div class="munus-note__heading">
+    <img
+      class="munus-note__portrait"
+      src="/munus-note.png"
+      width="96"
+      height="96"
+      alt=""
+      loading="lazy"
+      aria-hidden="true"
+    />
+    <p>{label}</p>
+  </div>
+  <div class="munus-note__body">
+    <slot />
+  </div>
+</aside>
+
+<style>
+  .munus-note {
+    position: relative;
+    box-sizing: border-box;
+    margin: 1rem 0 1.5rem;
+    border: 2px dashed currentColor;
+    border-radius: 0.75rem;
+    background: #ebe7f3;
+    padding: 0.75rem 0.875rem 0.875rem;
+    width: 100%;
+    max-width: var(--week-content-max, 53.75rem);
+    overflow: visible;
+  }
+
+  .munus-note__heading {
+    display: flex;
+    align-items: center;
+    margin: 0 0 0.5rem 5rem;
+    min-height: 4.5rem;
+  }
+
+  .munus-note__heading p {
+    margin: 0;
+    max-width: none;
+    font-weight: 700;
+    font-size: 1.1rem;
+    line-height: 1.3;
+    text-transform: lowercase;
+  }
+
+  .munus-note .munus-note__portrait {
+    position: absolute;
+    top: -0.5rem;
+    left: -0.5rem;
+    transform: rotate(12deg);
+    filter: drop-shadow(0.15rem 0.2rem 0 rgba(0, 0, 0, 0.2));
+    width: 6rem;
+    height: 6rem;
+    object-fit: contain;
+    pointer-events: none;
+  }
+
+  .munus-note__body :global(p),
+  .munus-note__body :global(li) {
+    font-size: clamp(1rem, 1.15vw, 1.125rem);
+    line-height: 1.5;
+  }
+
+  .munus-note__body > :global(:first-child) {
+    margin-top: 0;
+  }
+
+  .munus-note__body > :global(:last-child) {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 37.5rem) {
+    .munus-note {
+      padding: 0.66rem 0.66rem 0.7rem;
+    }
+
+    .munus-note__heading {
+      margin-bottom: 0.32rem;
+      margin-left: 3.7rem;
+      min-height: 3.2rem;
+    }
+
+    .munus-note__heading p {
+      font-size: 1rem;
+    }
+
+    .munus-note .munus-note__portrait {
+      top: -0.28rem;
+      left: -0.3rem;
+      width: 4.2rem;
+      height: 4.2rem;
+    }
+  }
+
+  @media (max-width: 20rem) {
+    .munus-note__heading {
+      margin-left: 3.35rem;
+      min-height: 2.95rem;
+    }
+
+    .munus-note .munus-note__portrait {
+      width: 3.8rem;
+      height: 3.8rem;
+    }
+  }
+</style>

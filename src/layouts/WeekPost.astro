@@ -1,38 +1,89 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { Image } from "astro:assets";
 import BaseHead from "@/components/BaseHead.astro";
+import CourseTitle from "@/components/CourseTitle.astro";
 import Footer from "@/components/Footer.astro";
 import Nav from "@/components/Nav.astro";
 import Analytics from "@vercel/analytics/astro";
-import GitHubEdit from "@/components/GitHubEdit.astro";
 import StudentResponses from "@/components/StudentResponses.astro";
-import YearSwitcher from "@/components/YearSwitcher.astro";
 import ArchiveNotice from "@/components/ArchiveNotice.astro";
-import {
-  SITE_TITLE,
-  getYearBasePath,
-  getYearConfig,
-  isArchivedYear,
-} from "@/config";
+import "@/styles/lectures.css";
+import { getYearBasePath, getYearConfig, isArchivedYear } from "@/config";
 import { disableSubmissionLinks } from "@/lib/course-content";
 import { marked } from "marked";
 
 type Props = CollectionEntry<"weeks">["data"] & {
   year: number;
-  contentId: string;
+  contentId?: string;
 };
 
-const { title, description, week, longDescription, year, contentId } = Astro.props;
+const {
+  title,
+  description,
+  week,
+  longDescription,
+  heroImage,
+  heroImageAlt,
+  year,
+} = Astro.props;
 const config = getYearConfig(year);
 const archived = isArchivedYear(year);
 const basePath = getYearBasePath(year);
-const courseHeading = config.sectionId
-  ? `${SITE_TITLE} (${config.sectionId})`
-  : SITE_TITLE;
 const longDescriptionHTML = longDescription
   ? await marked(longDescription)
   : null;
 const rawSlotContent = await Astro.slots.render("default");
+
+type OutlineItem = {
+  id: string;
+  level: 2 | 3;
+  title: string;
+};
+
+function cleanHeadingText(value: string): string {
+  return value
+    .replace(/<[^>]*>/g, "")
+    .replaceAll("&amp;", "&")
+    .replaceAll("&quot;", '"')
+    .replaceAll("&#39;", "'")
+    .replaceAll("&lt;", "<")
+    .replaceAll("&gt;", ">")
+    .trim();
+}
+
+function headingSlug(value: string): string {
+  return cleanHeadingText(value)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function addHeadingAnchors(html: string): {
+  content: string;
+  outline: OutlineItem[];
+} {
+  const outline: OutlineItem[] = [];
+  const slugCounts = new Map<string, number>();
+  const content = html.replace(
+    /<h([23])([^>]*)>(.*?)<\/h\1>/gi,
+    (heading, rawLevel, rawAttributes, innerHTML) => {
+      const level = Number(rawLevel) as 2 | 3;
+      const title = cleanHeadingText(innerHTML);
+      const existingId = rawAttributes.match(/\sid=["']([^"']+)["']/i)?.[1];
+      const baseId = existingId || headingSlug(title) || `section-${level}`;
+      const seen = slugCounts.get(baseId) || 0;
+      const id = seen === 0 ? baseId : `${baseId}-${seen + 1}`;
+      slugCounts.set(baseId, seen + 1);
+      outline.push({ id, level, title });
+
+      if (existingId) return heading;
+      return `<h${level}${rawAttributes} id="${id}">${innerHTML}</h${level}>`;
+    },
+  );
+
+  return { content, outline };
+}
 
 function resolveCourseLinks(html: string): string {
   const links = {
@@ -44,10 +95,7 @@ function resolveCourseLinks(html: string): string {
     const replacement = url || "#submission-link-not-configured";
     return content
       .replaceAll(`{{${token}}}`, replacement)
-      .replaceAll(
-        `%7B%7B${token}%7D%7D`,
-        encodeURI(replacement),
-      );
+      .replaceAll(`%7B%7B${token}%7D%7D`, encodeURI(replacement));
   }, html);
 }
 
@@ -58,30 +106,14 @@ function wrapContentSections(html: string): string {
   let currentSection = "";
   let hasHeading = false;
 
-  for (const rawPart of parts) {
-    const part = rawPart.trim();
-    if (!part) continue;
-    if (/^<h2[\s>]/i.test(part)) {
-      if (currentSection) {
-        const sectionClass = hasHeading
-          ? "content-section"
-          : "content-section intro-section";
-        result += `<div class="${sectionClass}">${currentSection}</div>\n`;
-      }
-      currentSection = part;
-      hasHeading = true;
-    } else {
-      currentSection += part;
-    }
-  }
-
-  if (currentSection) {
-    const sectionClass = hasHeading
+  function renderSection(content: string, sectionHasHeading: boolean): string {
+    const sectionClass = sectionHasHeading
       ? "content-section"
       : "content-section intro-section";
     let dataSection = "";
-    if (hasHeading) {
-      const h2Match = currentSection.match(/<h2[^>]*>(.*?)<\/h2>/i);
+
+    if (sectionHasHeading) {
+      const h2Match = content.match(/<h2[^>]*>(.*?)<\/h2>/i);
       if (h2Match) {
         const sectionId = h2Match[1]
           .replace(/<[^>]*>/g, "")
@@ -91,44 +123,106 @@ function wrapContentSections(html: string): string {
         dataSection = ` data-section="${sectionId}"`;
       }
     }
-    result += `<div class="${sectionClass}"${dataSection}>${currentSection}</div>\n`;
+
+    return `<div class="${sectionClass}"${dataSection}>${content}</div>\n`;
+  }
+
+  for (const rawPart of parts) {
+    const part = rawPart.trim();
+    if (!part) continue;
+    if (/^<h2[\s>]/i.test(part)) {
+      if (currentSection) {
+        result += renderSection(currentSection, hasHeading);
+      }
+      currentSection = part;
+      hasHeading = true;
+    } else {
+      currentSection += part;
+    }
+  }
+
+  if (currentSection) {
+    result += renderSection(currentSection, hasHeading);
   }
   return result;
 }
 
-const linkedContent = resolveCourseLinks(rawSlotContent);
+const { content: anchoredContent, outline: pageOutline } =
+  addHeadingAnchors(rawSlotContent);
+const linkedContent = resolveCourseLinks(anchoredContent);
 const processedContent = wrapContentSections(
   archived ? disableSubmissionLinks(linkedContent) : linkedContent,
 );
-const githubFilePath = `src/content/weeks/${contentId}.md`;
+const shouldTrackAnalytics = import.meta.env.PROD;
 ---
 
 <!doctype html>
 <html lang="en" data-course-year={year}>
   <head>
-    <BaseHead title={`Week ${week}: ${title}`} description={description} image="/opengraph.jpg" />
+    <BaseHead
+      title={`Week ${week}: ${title}`}
+      description={description}
+      image="/opengraph.jpg"
+    />
   </head>
   <body>
     <header id="week-header">
       <div>
-        <a href={`${basePath}/`}><h1 class="heading-3 !leading-normal">{courseHeading}</h1></a>
+        <a href={`${basePath}/`}>
+          <CourseTitle year={year} />
+        </a>
         <h2 class="heading-1">Week {week}: {title}</h2>
-        <YearSwitcher year={year} />
         {archived && <ArchiveNotice year={year} />}
-        {longDescriptionHTML && <div class="long-description" set:html={longDescriptionHTML} />}
+        {
+          longDescriptionHTML && (
+            <div class="long-description" set:html={longDescriptionHTML} />
+          )
+        }
         <nav class="weekly-schedule"><Nav year={year} /></nav>
+        {
+          pageOutline.length > 0 && (
+            <nav class="week-toc" aria-label={`Week ${week} page sections`}>
+              <h2 class="sidebar-section-title">On This Page</h2>
+              <ol>
+                <li class="toc-level-2">
+                  <a href="#week-content">Week {week} overview</a>
+                </li>
+                {pageOutline.map((item) => (
+                  <li class={`toc-level-${item.level}`}>
+                    <a href={`#${item.id}`}>{item.title}</a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          )
+        }
+        <div class="week-sidebar-responses">
+          <StudentResponses year={year} week={week} />
+        </div>
       </div>
-      {!archived && <GitHubEdit filePath={githubFilePath} />}
+      <div class="week-sidebar-meta">
+        <Footer year={year} />
+      </div>
     </header>
 
-    <main id="week-content" set:html={processedContent} />
-
-    <div class="border-t">
-      <StudentResponses year={year} week={week} />
-      <Footer year={year} />
-    </div>
-    <Analytics />
+    <main id="week-content" class="week-main-content">
+      {
+        heroImage && (
+          <figure class="week-hero">
+            <Image
+              src={heroImage}
+              alt={heroImageAlt || `Week ${week}: ${title}`}
+              loading="eager"
+              decoding="async"
+            />
+          </figure>
+        )
+      }
+      <Fragment set:html={processedContent} />
+    </main>
+    {shouldTrackAnalytics && <Analytics />}
     <script>
+      import "../scripts/code-copy.js";
       import "../scripts/page-animations.js";
     </script>
     <script src="/scripts/external-links.js" is:inline></script>

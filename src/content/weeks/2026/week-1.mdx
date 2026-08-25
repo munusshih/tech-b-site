@@ -1,0 +1,135 @@
+---
+title: "Hello Class!"
+description: "This week, we'll get introduced to the course and start building from setup, drawing, and code habits."
+longDescription: |
+  This week follows the opening arc from Tech A: course overview, setup, and first drawing experiments.
+  <br/><br/>
+  For this class cycle, we are not using Figma lecture decks. Lecture plans live directly on the class notebook and can be updated week by week.
+week: 1
+draft: false
+heroImage: "../../../assets/week-placeholder-1.jpg"
+heroImageAlt: "Build the web you want against a colorful dark gradient"
+---
+
+import MunusNote from "@/components/MunusNote.astro";
+
+## Lecture: Setup, Draw, and System Thinking
+
+This opening lecture introduces the course rhythm, establishes a reliable p5.js workflow, and moves from a single drawing toward a small generative system.
+
+### Learning Goals
+
+- Understand the course rhythm and project expectations.
+- Set up a reliable p5 workflow for weekly sketching.
+- Move from one static output toward a small generative system.
+
+### Class Flow
+
+1. Course framing and examples.
+2. p5 setup and first drawing.
+3. Variables and loops for variation.
+4. Making workshop, critique, and assignment briefing.
+
+### Demo
+
+<iframe
+  src="https://editor.p5js.org/munusshih/embed/Vd_gqg5fz"
+  title="Week 1 p5 sketch"
+></iframe>
+
+### Starter Sketch
+
+```js title="Starter Sketch"
+function setup() {
+  createCanvas(640, 420);
+  background(245);
+  noLoop();
+}
+
+function draw() {
+  fill(25, 40, 90);
+  circle(width * 0.5, height * 0.5, 160);
+}
+```
+
+### Variation Pattern
+
+```js title="Variation Pattern"
+function draw() {
+  background(250, 245, 236);
+  noStroke();
+
+  for (let i = 0; i < 40; i += 1) {
+    const x = random(width);
+    const y = random(height);
+    const d = random(8, 40);
+    fill(20, 30, 60, 120);
+    circle(x, y, d);
+  }
+}
+```
+
+### Workshop
+
+- Laser Cutting (guest workshop)
+- Intro to 3D printers
+- Safety and file preparation basics
+
+### Examples
+
+- [p5 SVG](https://editor.p5js.org/munusshih/sketches/Vd_gqg5fz)
+
+### Crit Prompts
+
+- Which variables are doing the most visual work?
+- What rule can you remove to make your system clearer?
+- Where does randomness help, and where does it dilute intent?
+
+## Assignment
+
+**Due:** Sep 2, 2026
+
+<br />
+<br />
+Choose a short piece of text in your preferred language. It can be a poem, a
+quote, a diary excerpt, or another personal statement that reflects your values.
+<br />
+<br />
+Collect visual and material inspirations (typography, print experiments,
+manifestos), then recreate at least one direction in [**p5.js
+Editor**](https://editor.p5js.org/).
+<br />
+<br />
+Document what is working and what is not yet working, then submit both your
+sketch link and a short reflection.
+<br />
+<br />
+<a class="btn-primary" href="{{assignmentFormUrl}}">
+  Submit Assignment
+</a>
+
+## Readings
+
+No required reading this week. Browse references for inspiration and material ideas.
+
+## Tutorials
+
+- [Creative Coding for Beginners with p5.js - The Coding Train](https://youtu.be/yPWkPOfnGsw?feature=shared)
+- [2D Primitives - Xin Xin](https://www.youtube.com/watch?v=hISICBkFa4Q)
+- [p5.js Web Editor with Cassie Tarakajian - Processing Foundation](https://www.youtube.com/watch?v=x1rJJRVTpAI)
+- [p5.js 2.0 with Kit Kuksenok - The Coding Train](https://www.youtube.com/watch?v=1KqQeqZ3R9Y)
+
+## Prep For Next Week
+
+- Bring 3 references from design history or contemporary digital practice.
+- Bring one refined sketch and one messy experiment.
+
+## Note from Munus
+
+<MunusNote>
+
+- Keep writing lectures directly in this week file.
+- Add titled code blocks with language tags for highlighting and line numbers.
+- Keep class links and resources in this file so students can copy from one source.
+
+</MunusNote>

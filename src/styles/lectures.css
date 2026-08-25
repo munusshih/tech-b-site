@@ -1,0 +1,103 @@
+/* The combined Week 1 lecture is a long-form reading surface, not a card. */
+#week-content [data-section^="lecture-"] {
+  margin-bottom: 2.5rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+}
+
+#week-content [data-section^="lecture-"]:hover {
+  background: transparent;
+}
+
+#week-content [data-section^="lecture-"] > h2 {
+  margin: 0 0 1rem;
+  border: 0;
+  padding: 0;
+  font-size: clamp(1.35rem, 2vw, 1.7rem);
+  line-height: 1.18;
+}
+
+#week-content [data-section^="lecture-"] h3 {
+  margin: 2rem 0 0.65rem;
+  font-weight: 650;
+  font-size: 1.15rem;
+  line-height: 1.25;
+  text-decoration: var(--sketch-accent, currentColor) wavy underline;
+  text-underline-offset: 0.3em;
+}
+
+#week-content [data-section^="lecture-"] h4 {
+  margin: 1.4rem 0 0.5rem;
+  font-weight: 650;
+  font-size: var(--body-copy-size, 1.0625rem);
+  line-height: 1.35;
+}
+
+#week-content [data-section^="lecture-"] p {
+  margin: 0 0 1rem;
+  max-width: 72ch;
+  line-height: var(--body-copy-line-height, 1.55);
+}
+
+#week-content [data-section^="lecture-"] ol {
+  margin: 0.75rem 0 1.4rem 1.4rem;
+  padding: 0;
+  max-width: 68ch;
+  list-style: decimal;
+}
+
+#week-content [data-section^="lecture-"] ol li {
+  margin: 0.45rem 0;
+  padding-left: 0.25rem;
+  line-height: 1.5;
+}
+
+#week-content [data-section^="lecture-"] ul {
+  margin: 0.75rem 0 1.4rem;
+  max-width: 68ch;
+}
+
+#week-content [data-section^="lecture-"] .expressive-code,
+#week-content [data-section^="lecture-"] .iframe-wrap {
+  margin: 0.75rem 0 1.75rem;
+  box-shadow: none;
+  width: 100%;
+  max-width: none;
+}
+
+/* The note has its own reference-derived frame, so remove the generic card. */
+#week-content [data-section="note-from-munus"] {
+  position: relative;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+}
+
+#week-content [data-section="note-from-munus"]:hover {
+  background: transparent;
+}
+
+#week-content [data-section="note-from-munus"] > h2 {
+  position: absolute;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 48rem) {
+  #week-content [data-section^="lecture-"] > h2 {
+    font-size: 1.3rem;
+  }
+
+  #week-content [data-section^="lecture-"] h3 {
+    margin-top: 1.6rem;
+  }
+}

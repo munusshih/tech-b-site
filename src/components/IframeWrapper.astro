@@ -1,0 +1,36 @@
+---
+interface Props {
+  src: string;
+  title?: string;
+  allow?: string;
+  loading?: "lazy" | "eager";
+}
+
+const {
+  src,
+  title = "Embedded content",
+  allow = "fullscreen; autoplay; clipboard-write",
+  loading = "lazy",
+} = Astro.props as Props;
+---
+
+<div class="iframe-wrap" data-iframe-source={src}>
+  <div class="iframe-toolbar">
+    <span class="iframe-title">{title}</span>
+    <div class="iframe-actions">
+      <button type="button" data-iframe-refresh>Refresh</button>
+      <a href={src} target="_blank" rel="noopener noreferrer" data-iframe-open
+        >Open New Tab</a
+      >
+    </div>
+  </div>
+  <div class="iframe-frame">
+    <iframe
+      src={src}
+      title={title}
+      loading={loading}
+      allow={allow}
+      allowfullscreen
+      referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+</div>

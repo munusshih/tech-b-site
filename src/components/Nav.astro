@@ -1,11 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import { marked } from "marked";
-import {
-  getYearBasePath,
-  getYearConfig,
-  isArchivedYear,
-} from "@/config";
+import { getYearBasePath, getYearConfig, isArchivedYear } from "@/config";
 import {
   disableSubmissionLinks,
   getWeekYearAndSlug,
@@ -49,13 +45,17 @@ const processedPosts = await Promise.all(
     return {
       ...post,
       slug: getWeekYearAndSlug(post.id).slug,
-      processedDescription: archived && html ? disableSubmissionLinks(html) : html,
+      processedDescription:
+        archived && html ? disableSubmissionLinks(html) : html,
     };
   }),
 );
 
 const sectionByWeek = new Map(
-  yearConfig.scheduleSections.map((section) => [section.startWeek, section.title]),
+  yearConfig.scheduleSections.map((section) => [
+    section.startWeek,
+    section.title,
+  ]),
 );
 ---
 
@@ -71,7 +71,9 @@ const sectionByWeek = new Map(
           <div class={isIndex ? "weekly-section" : ""}>
             {post.data.week === 0 ? (
               <li class="week-zero">
-                <h2 class="title">Week {post.data.week}: {post.data.title}</h2>
+                <h2 class="title">
+                  Week {post.data.week}: {post.data.title}
+                </h2>
                 {post.processedDescription && (
                   <p class="description" set:html={post.processedDescription} />
                 )}
@@ -94,7 +96,10 @@ const sectionByWeek = new Map(
                     {post.data.week === latestWeek && " ✨"}
                   </h2>
                   {post.processedDescription && isIndex && (
-                    <p class="description" set:html={post.processedDescription} />
+                    <p
+                      class="description"
+                      set:html={post.processedDescription}
+                    />
                   )}
                 </li>
               </a>
@@ -105,8 +110,12 @@ const sectionByWeek = new Map(
     </ul>
   ) : (
     <div class="empty-year">
-      <h1 class="heading-1">Weekly Schedule</h1>
-      <p>No weeks have been published for {year} yet. Check back soon!</p>
+      <h1 class="heading-1">{isIndex ? "Weekly Schedule" : "Other Weeks"}</h1>
+      <p>
+        {isIndex
+          ? `No weeks have been published for ${year} yet. Check back soon!`
+          : "No more weeks yet!"}
+      </p>
     </div>
   )
 }

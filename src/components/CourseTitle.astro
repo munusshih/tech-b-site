@@ -1,0 +1,25 @@
+---
+import { SITE_TITLE, getYearConfig } from "@/config";
+
+interface Props {
+  year: number;
+  class?: string;
+}
+
+const { year, class: className } = Astro.props;
+const config = getYearConfig(year);
+---
+
+<h1 class:list={["course-title", className]}>
+  {SITE_TITLE}
+  {
+    config.sectionId && (
+      <>
+        <>
+          <br />
+          <span class="course-section-id">({config.sectionId})</span>
+        </>
+      </>
+    )
+  }
+</h1>
