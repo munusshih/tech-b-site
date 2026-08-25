@@ -572,7 +572,7 @@ html[data-course-year="2026"] embed {
 }
 
 html[data-course-year="2026"] img:not([data-no-dither]) {
-    filter: url("#techb-image-dither");
+    /* filter: url("#techb-image-dither"); */
 }
 
 html[data-course-year="2026"] .munus-note__portrait:not([data-no-dither]) {

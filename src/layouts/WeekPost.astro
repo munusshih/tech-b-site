@@ -61,6 +61,10 @@ function cleanHeadingText(value: string): string {
     .trim();
 }
 
+const heroImageAltHTML = heroImageAlt
+  ? await marked.parseInline(heroImageAlt)
+  : null;
+
 function headingSlug(value: string): string {
   return cleanHeadingText(value)
     .toLowerCase()
@@ -198,6 +202,11 @@ const shouldTrackAnalytics = import.meta.env.PROD;
           <CourseTitle year={year} />
         </a>
         <h2 class="heading-1">Week {week}</h2>
+        {
+          tldr && (
+            <p class="week-description my-8" set:html={tldr}/>
+          )
+        }
         {archived && <ArchiveNotice year={year} />}
         {
           longDescriptionHTML && (
@@ -250,7 +259,7 @@ const shouldTrackAnalytics = import.meta.env.PROD;
     </header>
 
     <main id="week-content" class="week-main-content">
-      <h1 class="heading-1">{title}</h1>
+      <h1 class="heading-1 !no-underline !mt-0 text-center !max-w-[var(--week-content-max)]">Week {week}: {title}</h1>
       {
         heroImage && (
           <figure class:list={["week-hero", tldrHTML && "week-hero--has-tldr"]}>
@@ -261,15 +270,11 @@ const shouldTrackAnalytics = import.meta.env.PROD;
               decoding="async"
             />
           </figure>
+          <figcaption class="week-hero-caption mb-8 text-center !max-w-[var(--week-content-max)]">
+            {heroImageAltHTML ? <div set:html={heroImageAltHTML} /> : heroImageAlt}
+          </figcaption>
         )
-      }
-      {
-        tldrHTML && (
-          <WeekTldr>
-            <Fragment set:html={tldrHTML} />
-          </WeekTldr>
-        )
-      }
+        }
       <Fragment set:html={processedContent} />
     </main>
     {shouldTrackAnalytics && <Analytics />}

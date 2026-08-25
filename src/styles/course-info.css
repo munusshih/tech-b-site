@@ -7,8 +7,7 @@
 }
 
 .weekly-section {
-    border: 0;
-    background: rgba(255, 255, 255, 1);
+    background: var(--sketch-paper);
     @apply mb-4 px-4 py-2;
 }
 
@@ -17,7 +16,6 @@
 }
 
 html[data-course-year="2026"] .weekly-section {
-    border: 2px solid var(--sketch-accent);
     border-radius: 0;
     /* background: #fff; */
 }

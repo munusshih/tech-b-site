@@ -14,6 +14,7 @@
       height="100%"
       color-interpolation-filters="sRGB"
     >
+      <!-- Grayscale -->
       <feColorMatrix
         in="SourceGraphic"
         type="matrix"
@@ -22,19 +23,16 @@
           0.2126 0.7152 0.0722 0 0
           0.2126 0.7152 0.0722 0 0
           0      0      0      1 0"
-        result="luminance"
-      >
-      </feColorMatrix>
+        result="luminance"></feColorMatrix>
 
+      <!-- Dither noise -->
       <feTurbulence
         type="fractalNoise"
         baseFrequency="0.48"
         numOctaves="1"
         seed="23"
         stitchTiles="stitch"
-        result="noise"
-      >
-      </feTurbulence>
+        result="noise"></feTurbulence>
 
       <feColorMatrix
         in="noise"
@@ -44,9 +42,7 @@
           0.333 0.333 0.333 0 -0.5
           0.333 0.333 0.333 0 -0.5
           0     0     0     1  0"
-        result="signed-noise"
-      >
-      </feColorMatrix>
+        result="signed-noise"></feColorMatrix>
 
       <feComposite
         in="luminance"
@@ -54,9 +50,7 @@
         operator="arithmetic"
         k2="1"
         k3="1"
-        result="noisy-luminance"
-      >
-      </feComposite>
+        result="noisy-luminance"></feComposite>
 
       <feComponentTransfer in="noisy-luminance" result="dithered">
         <feFuncR type="discrete" tableValues="0 1"></feFuncR>
@@ -64,6 +58,7 @@
         <feFuncB type="discrete" tableValues="0 1"></feFuncB>
       </feComponentTransfer>
 
+      <!-- Existing duotone -->
       <feColorMatrix
         in="dithered"
         type="matrix"
@@ -72,11 +67,40 @@
           0     0.757 0     0 0.086
           0     0     0.761 0 0.239
           0     0     0     1 0"
-        result="duotone"
-      >
-      </feColorMatrix>
+        result="duotone"></feColorMatrix>
 
-      <feComposite in="duotone" in2="SourceAlpha" operator="in"> </feComposite>
+      <!-- Add a regular pixel/checker texture -->
+      <feTurbulence
+        type="turbulence"
+        baseFrequency="0.08 0.08"
+        numOctaves="1"
+        seed="4"
+        result="gridNoise"></feTurbulence>
+
+      <!-- Hard threshold makes square-ish digital blocks -->
+      <feComponentTransfer in="gridNoise" result="grid">
+        <feFuncR type="discrete" tableValues="0 0 1 1"></feFuncR>
+        <feFuncG type="discrete" tableValues="0 0 1 1"></feFuncG>
+        <feFuncB type="discrete" tableValues="0 0 1 1"></feFuncB>
+        <feFuncA type="table" tableValues="0 0.22"></feFuncA>
+      </feComponentTransfer>
+
+      <!-- Tint the added pixels -->
+      <feColorMatrix
+        in="grid"
+        type="matrix"
+        values="
+          0 0 0 0 0.91
+          0 0 0 0 0.96
+          0 0 0 0 0.45
+          0 0 0 1 0"
+        result="colored-grid"></feColorMatrix>
+
+      <!-- Overlay grid onto dithered image -->
+      <feBlend in="duotone" in2="colored-grid" mode="screen" result="with-grid"
+      ></feBlend>
+
+      <feComposite in="with-grid" in2="SourceAlpha" operator="in"></feComposite>
     </filter>
   </defs>
 </svg>
