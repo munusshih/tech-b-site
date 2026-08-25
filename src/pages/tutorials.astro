@@ -2,28 +2,25 @@
 import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import Footer from "@/components/Footer.astro";
-import YearBackground from "@/components/YearBackground.astro";
+import CourseTitle from "@/components/CourseTitle.astro";
 import YearSwitcher from "@/components/YearSwitcher.astro";
-import SketchSwitcher from "@/components/SketchSwitcher.astro";
-import { ACTIVE_YEAR, SITE_TITLE, getYearConfig } from "@/config";
+import { ACTIVE_YEAR } from "@/config";
 import { isPublishedTutorial } from "@/lib/course-content";
 
-const activeConfig = getYearConfig(ACTIVE_YEAR);
-const courseHeading = activeConfig.sectionId
-  ? `${SITE_TITLE} (${activeConfig.sectionId})`
-  : SITE_TITLE;
-const tutorials = (await getCollection("tutorials")).filter(isPublishedTutorial).sort((a, b) => {
-  // Sort by order if available, then by publishDate, then by title
-  if (a.data.order !== undefined && b.data.order !== undefined) {
-    return a.data.order - b.data.order;
-  }
-  if (a.data.order !== undefined) return -1;
-  if (b.data.order !== undefined) return 1;
+const tutorials = (await getCollection("tutorials"))
+  .filter(isPublishedTutorial)
+  .sort((a, b) => {
+    // Sort by order if available, then by publishDate, then by title
+    if (a.data.order !== undefined && b.data.order !== undefined) {
+      return a.data.order - b.data.order;
+    }
+    if (a.data.order !== undefined) return -1;
+    if (b.data.order !== undefined) return 1;
 
-  const dateA = a.data.publishDate || new Date(0);
-  const dateB = b.data.publishDate || new Date(0);
-  return dateA.getTime() - dateB.getTime();
-});
+    const dateA = a.data.publishDate || new Date(0);
+    const dateB = b.data.publishDate || new Date(0);
+    return dateA.getTime() - dateB.getTime();
+  });
 
 const difficultyColors = {
   beginner: "bg-green-100 text-green-800",
@@ -37,19 +34,14 @@ const difficultyColors = {
   description="Collection of coding tutorials and resources"
   year={ACTIVE_YEAR}
 >
-  <YearBackground year={ACTIVE_YEAR} />
-
   <header>
     <div>
       <a href="/">
-        <h1 class="heading-3 !leading-normal">
-          {courseHeading}
-        </h1>
+        <CourseTitle year={ACTIVE_YEAR} />
       </a>
       <h2 class="heading-1">Tutorials</h2>
       <p>A collection of coding tutorials and resources for creative coding.</p>
       <YearSwitcher year={ACTIVE_YEAR} />
-      <SketchSwitcher />
     </div>
   </header>
 

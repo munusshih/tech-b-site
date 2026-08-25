@@ -10,15 +10,28 @@
       "email": "munus.shih@pratt.edu"
     },
     "repositoryUrl": "https://github.com/munusshih/tech-b-site",
-    "resourceLinks": []
+    "resourceLinks": [
+      {
+        "label": "Pratt Anyware",
+        "url": "https://prc.pratt.edu/"
+      },
+      {
+        "label": "llm.pratt.edu",
+        "url": "http://llm.pratt.edu/"
+      },
+      {
+        "label": "ai.pratt.edu",
+        "url": "http://ai.pratt.edu/"
+      }
+    ]
   },
   "years": {
     "2026": {
       "semester": "Fall 2026",
-      "sectionId": "DES-720B",
+      "sectionId": "DES-720B-04",
       "meetingTimes": "2:00–4:50 PM every Tuesday",
-      "location": "",
-      "marqueeText": "",
+      "location": "Steuben Hall, Room 401",
+      "marqueeText": "Hello! Welcome to Tech B!",
       "companionSiteUrl": "https://tech-b.designfuture.space",
       "syllabusUrl": "",
       "officeHoursUrl": "",
@@ -28,8 +41,14 @@
         "bioFormUrl": ""
       },
       "sheets": {
-        "assignments": { "id": "", "name": "" },
-        "bios": { "id": "", "name": "" }
+        "assignments": {
+          "id": "",
+          "name": ""
+        },
+        "bios": {
+          "id": "",
+          "name": ""
+        }
       },
       "scheduleSections": [],
       "specialProjectWeeks": {},

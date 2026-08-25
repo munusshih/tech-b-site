@@ -1,314 +1,1335 @@
 ---
-// Three switchable 2026 studies: activations, boundaries, and latent tape.
+// Continuous MET collage with client-side object detection annotations.
 ---
 
 <div id="p5-background" data-sketch-year="2026" aria-hidden="true"></div>
 
-<script is:client>
-  /* eslint-disable no-undef, @typescript-eslint/no-unused-vars */
+<script
+  is:inline
+  src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"
+></script>
+<script
+  is:inline
+  src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js"
+></script>
 
-  const YEAR_SEED = 2026;
-  const root = document.documentElement;
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+<script is:inline>
+  const mount = document.querySelector(
+    '#p5-background[data-sketch-year="2026"]',
+  );
 
-  let canvas;
-  let mode = 1;
-  let ink;
-  let accent;
-  let echo;
-  let activationStacks = [];
-  let stepPaths = [];
-  let scanChannels = [];
+  if (mount && !mount.dataset.metSketchInitialized) {
+    mount.dataset.metSketchInitialized = "true";
 
-  function readMode() {
-    const nextMode = Number(root.dataset.sketchMode || "1");
-    return [1, 2, 3].includes(nextMode) ? nextMode : 1;
-  }
+    const MET_SEARCH_URL =
+      "https://collectionapi.metmuseum.org/public/collection/v1/search";
+    const MET_OBJECT_URL =
+      "https://collectionapi.metmuseum.org/public/collection/v1/objects";
+    const IMAGE_PROXY_BASE = "https://images.weserv.nl/?url=";
+    const DETECTION_THRESHOLD = 0.5;
+    const SEARCH_TERMS = [
+      "portrait",
+      "landscape",
+      "architecture",
+      "bird",
+      "horse",
+      "dog",
+      "flower",
+      "plant",
+      "fruit",
+      "ship",
+      "armor",
+      "sword",
+      "mask",
+      "vase",
+      "ceramic",
+      "textile",
+      "furniture",
+      "instrument",
+      "myth",
+      "city",
+      "ocean",
+      "dragon",
+      "statue",
+      "abstract",
+    ];
+    const DEPARTMENT_IDS = [
+      1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17, 18, 19, 21,
+    ];
+    const FALLBACK_IMAGE_PATHS = [
+      "CRDImages/ad/web-large/DP245825.jpg",
+      "CRDImages/ad/web-large/DP245812.jpg",
+      "CRDImages/ad/web-large/263708.jpg",
+      "CRDImages/ad/web-large/266534.jpg",
+      "CRDImages/ad/web-large/266415.jpg",
+      "CRDImages/ad/web-large/260706.jpg",
+      "CRDImages/ad/web-large/AW_83_2_13-001.jpg",
+      "CRDImages/dp/web-large/DP815238.jpg",
+      "CRDImages/dp/web-large/DP865516.jpg",
+      "CRDImages/dp/web-large/DP829888.jpg",
+      "CRDImages/dp/web-large/DP827136.jpg",
+      "CRDImages/dp/web-large/DP859130.jpg",
+      "CRDImages/md/web-large/DP228809.jpg",
+      "CRDImages/md/web-large/DT224196.jpg",
+      "CRDImages/es/web-large/DP-16194-131.jpg",
+    ];
 
-  function readPalette() {
-    const styles = window.getComputedStyle(root);
-    ink = color(styles.getPropertyValue("--sketch-ink").trim() || "#17315c");
-    accent = color(styles.getPropertyValue("--sketch-accent").trim() || "#5274aa");
-    echo = color(styles.getPropertyValue("--sketch-echo").trim() || "#94a7c9");
-  }
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d", { alpha: true });
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const state = {
+      detector: null,
+      detectorReady: false,
+      objectPool: [],
+      running: false,
+      busy: false,
+      cycleTimer: null,
+      rafId: 0,
+      layers: [],
+      maxLayers: 36,
+      recentQueryTerms: [],
+      recentQueryDepartments: [],
+      recentRenderedDepartments: [],
+      retry404Ids: new Set(),
+      seededCenterCount: 0,
+      consecutiveSourceFailures: 0,
+      pointer: {
+        x: window.innerWidth * 0.5,
+        y: window.innerHeight * 0.5,
+        active: false,
+      },
+      cursors: [],
+      nextLayerId: 1,
+      cursorLastNow: 0,
+    };
 
-  function strokeColor(value, alpha = 255) {
-    stroke(red(value), green(value), blue(value), alpha);
-  }
+    const ENTER_ANIMATION_MS = 2400;
+    const EXIT_ANIMATION_MS = 1800;
+    const CURSOR_COUNT = 9;
 
-  function fillColor(value, alpha = 255) {
-    fill(red(value), green(value), blue(value), alpha);
-  }
+    mount.appendChild(canvas);
 
-  function buildActivations() {
-    activationStacks = Array.from({ length: 16 }, (_, index) => ({
-      x: random(index % 5 === 0 ? width * 0.2 : width * 0.34, width * 0.96),
-      y: random(height * 0.08, height * 0.9),
-      count: floor(random(3, 8)),
-      gap: random(12, 22),
-      horizontal: index % 4 === 0,
-      phase: random(100),
-      square: index % 3 === 0,
-    }));
+    function randomItem(items) {
+      return items[Math.floor(Math.random() * items.length)];
+    }
 
-    stepPaths = Array.from({ length: 8 }, (_, index) => {
-      const startX = random(index % 4 === 0 ? width * 0.22 : width * 0.38, width * 0.76);
-      const startY = random(height * 0.16, height * 0.88);
-      const segments = Array.from({ length: floor(random(3, 7)) }, () => ({
-        width: random(32, 110),
-        rise: random([-1, 1]) * random(18, 62),
+    function randomBetween(min, max) {
+      return min + Math.random() * (max - min);
+    }
+
+    function pushRecent(list, value, max = 8) {
+      if (!value) return;
+      list.push(value);
+      if (list.length > max) list.splice(0, list.length - max);
+    }
+
+    function pickAvoidingRecent(options, recentList, avoidCount = 2) {
+      if (!options.length) return null;
+      const recentSet = new Set(recentList.slice(-avoidCount));
+      const candidates = options.filter((option) => !recentSet.has(option));
+      const source = candidates.length > 0 ? candidates : options;
+      return randomItem(source);
+    }
+
+    function resizeCanvas() {
+      const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+      const width = Math.max(1, window.innerWidth);
+      const height = Math.max(1, window.innerHeight);
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function seedCursors() {
+      state.cursors = Array.from({ length: CURSOR_COUNT }, (_, index) => ({
+        id: index + 1,
+        x: randomBetween(0, window.innerWidth),
+        y: randomBetween(0, window.innerHeight),
+        vx: randomBetween(-0.24, 0.24),
+        vy: randomBetween(-0.2, 0.2),
+        jitter: randomBetween(0.0018, 0.005),
+        phase: randomBetween(0, Math.PI * 2),
+        size: randomBetween(0.8, 1.5),
+        mode: "idle",
+        modeUntil: performance.now() + randomBetween(600, 3000),
+        state: "roaming",
+        targetLayerId: null,
+        nextAcquireAt: performance.now() + randomBetween(700, 2600),
+        action: Math.random() < 0.52 ? "click" : "drag",
+        dragLayerId: null,
+        dragUntil: 0,
+        dragDropX: 0,
+        dragDropY: 0,
+        clickBurstUntil: 0,
+        curiosity: randomBetween(0.22, 0.68),
       }));
-      return { startX, startY, segments, phase: random(100), index };
-    });
-  }
+    }
 
-  function buildScanChannels() {
-    scanChannels = Array.from({ length: 24 }, (_, index) => ({
-      y: map(index, 0, 23, height * 0.07, height * 0.94) + random(-10, 10),
-      startX: random(index % 5 === 0 ? width * 0.18 : width * 0.32, width * 0.55),
-      endX: random(width * 0.62, width * 0.97),
-      phase: random(100),
-      dashed: index % 3 === 0,
-      echoOffset: random(7, 18),
-      registerCount: floor(random(2, 7)),
-      label: index % 6 === 0
-        ? random(["[SCAN]", "[ECHO]", "[DELAY]", "[PREDICT]"])
-        : "",
-    }));
-  }
+    function getLayerById(layerId) {
+      if (!layerId) return null;
+      return state.layers.find((layer) => layer.id === layerId) || null;
+    }
 
-  function resetScene() {
-    mode = readMode();
-    randomSeed(YEAR_SEED + mode * 137);
-    noiseSeed(YEAR_SEED + mode * 211);
-    readPalette();
-    activationStacks = [];
-    stepPaths = [];
-    scanChannels = [];
-    if (mode === 1) buildActivations();
-    if (mode === 3) buildScanChannels();
-  }
+    function chooseCursorAction() {
+      return Math.random() < 0.58 ? "click" : "drag";
+    }
 
-  function drawActivationStack(stack, index) {
-    const active = floor((frameCount * 0.035 + stack.phase) % stack.count);
-    const directionX = stack.horizontal ? stack.gap : 0;
-    const directionY = stack.horizontal ? 0 : stack.gap;
+    function isLayerInteractive(layer) {
+      return Boolean(layer && !layer.exitStartedAt && layer.currentPlacement);
+    }
 
-    for (let item = 0; item < stack.count; item += 1) {
-      const x = stack.x + directionX * item;
-      const y = stack.y + directionY * item;
-      strokeColor(item === active ? accent : ink, item === active ? 210 : 112);
-      strokeWeight(item === active ? 1.6 : 1);
-      if (stack.square) {
-        if (item === active) fillColor(accent, 185);
-        else noFill();
-        square(x, y, item === active ? 7 : 5);
-      } else {
-        if (item === active) fillColor(accent, 155);
-        else noFill();
-        circle(x, y, item === active ? 9 : 7);
+    function findClosestLayerForCursor(cursor, maxDistance = 360) {
+      let best = null;
+      let bestDist = Infinity;
+
+      for (const layer of state.layers) {
+        if (!isLayerInteractive(layer)) continue;
+
+        const p = layer.currentPlacement;
+        const cx = p.x + p.drawWidth * 0.5;
+        const cy = p.y + p.drawHeight * 0.5;
+        const dx = cx - cursor.x;
+        const dy = cy - cursor.y;
+        const dist = Math.hypot(dx, dy);
+
+        const inside =
+          cursor.x >= p.x &&
+          cursor.x <= p.x + p.drawWidth &&
+          cursor.y >= p.y &&
+          cursor.y <= p.y + p.drawHeight;
+
+        if (inside) return layer;
+        if (dist <= maxDistance && dist < bestDist) {
+          best = layer;
+          bestDist = dist;
+        }
       }
+
+      return best;
     }
 
-    if (index % 4 === 0) {
-      noStroke();
-      fillColor(ink, 125);
-      textFont("monospace");
-      textSize(10);
-      textAlign(LEFT, CENTER);
-      text(active % 2, stack.x - 16, stack.y - 10);
-    }
-  }
+    function findCompetitiveTarget(cursor) {
+      const contestedIds = state.cursors
+        .filter((other) => other.id !== cursor.id && other.targetLayerId)
+        .map((other) => other.targetLayerId);
 
-  function drawStepPath(path) {
-    let x = path.startX;
-    let y = path.startY;
-    const totalWidth = path.segments.reduce((sum, segment) => sum + segment.width, 0);
-    const progress = (frameCount * 0.75 + path.phase * 8) % totalWidth;
-    let travelled = 0;
-    let pulseX = x;
-    let pulseY = y;
+      if (contestedIds.length === 0) return null;
 
-    strokeColor(ink, 118);
-    strokeWeight(path.index % 3 === 0 ? 2 : 1);
-    noFill();
-    for (const segment of path.segments) {
-      line(x, y, x + segment.width, y);
-      if (progress >= travelled && progress <= travelled + segment.width) {
-        pulseX = x + progress - travelled;
-        pulseY = y;
+      const shuffled = contestedIds.sort(() => Math.random() - 0.5);
+      for (const id of shuffled) {
+        const layer = getLayerById(id);
+        if (isLayerInteractive(layer)) return layer;
       }
-      x += segment.width;
-      line(x, y, x, y + segment.rise);
-      y += segment.rise;
-      travelled += segment.width;
+      return null;
     }
 
-    noStroke();
-    fillColor(accent, 210);
-    square(pulseX, pulseY, 6);
-  }
-
-  function drawQuantizedActivations() {
-    activationStacks.forEach(drawActivationStack);
-    stepPaths.forEach(drawStepPath);
-
-    strokeColor(echo, 95);
-    strokeWeight(1);
-    for (let index = 0; index < 5; index += 1) {
-      const x = width * (0.42 + index * 0.11);
-      const barHeight = 18 + ((index * 23) % 54);
-      line(x, height * 0.74, x, height * 0.74 - barHeight);
+    function triggerLayerExit(layer, now, duration = EXIT_ANIMATION_MS) {
+      if (!layer || layer.exitStartedAt) return;
+      layer.exitStartedAt = now;
+      layer.exitAnimationMs = duration;
+      layer.draggedByCursorId = null;
     }
-  }
 
-  function fieldValue(column, row, time) {
-    return (
-      noise(column * 0.075, row * 0.075, time) +
-      sin(column * 0.21 + time * 5) * 0.08 -
-      cos(row * 0.17 - time * 3) * 0.06
-    );
-  }
+    function steerCursor(cursor, targetX, targetY, dtNorm = 1, speed = 1.45) {
+      const dx = targetX - cursor.x;
+      const dy = targetY - cursor.y;
+      const dist = Math.hypot(dx, dy) || 1;
+      const arrive = Math.max(0.25, Math.min(1, dist / 130));
+      const desiredSpeed = speed * (0.55 + arrive * 0.65);
+      const desiredVx = (dx / dist) * desiredSpeed;
+      const desiredVy = (dy / dist) * desiredSpeed;
 
-  function drawDecisionBoundary() {
-    const spacing = constrain(width / 48, 20, 29);
-    const time = reducedMotion ? 0.16 : frameCount * 0.00028;
-    const firstColumn = floor((width * 0.34) / spacing);
-    const columns = ceil(width / spacing);
-    const rows = ceil(height / spacing);
+      const blend = Math.min(0.28, 0.11 * dtNorm);
+      const damping = Math.max(0.76, 0.92 - 0.06 * dtNorm);
+      cursor.vx = cursor.vx * damping + (desiredVx - cursor.vx) * blend;
+      cursor.vy = cursor.vy * damping + (desiredVy - cursor.vy) * blend;
+      cursor.vx = Math.max(-2.3, Math.min(2.3, cursor.vx));
+      cursor.vy = Math.max(-2.3, Math.min(2.3, cursor.vy));
+      cursor.x += cursor.vx * dtNorm;
+      cursor.y += cursor.vy * dtNorm;
+    }
 
-    textFont("monospace");
-    textAlign(CENTER, CENTER);
-    textSize(constrain(spacing * 0.48, 9, 13));
-    strokeWeight(1);
+    function roamCursor(cursor, now, dtNorm = 1) {
+      const t = now * 0.001;
+      const wanderX = Math.cos(t * 0.82 + cursor.phase) * 0.42;
+      const wanderY = Math.sin(t * 0.91 + cursor.phase * 1.13) * 0.38;
+      cursor.vx +=
+        (Math.cos(t + cursor.phase) * cursor.jitter + wanderX * 0.015) * dtNorm;
+      cursor.vy +=
+        (Math.sin(t * 1.1 + cursor.phase) * cursor.jitter + wanderY * 0.015) *
+        dtNorm;
 
-    for (let column = firstColumn; column <= columns; column += 1) {
-      for (let row = 0; row <= rows; row += 1) {
-        const x = column * spacing + spacing * 0.5;
-        const y = row * spacing + spacing * 0.5;
-        const value = fieldValue(column, row, time);
-        const rareError = (column * 47 + row * 71) % 233 === 0;
+      const roamDamping = Math.max(0.84, 0.93 - 0.05 * dtNorm);
+      cursor.vx *= roamDamping;
+      cursor.vy *= roamDamping;
+      cursor.vx = Math.max(-0.78, Math.min(0.78, cursor.vx));
+      cursor.vy = Math.max(-0.78, Math.min(0.78, cursor.vy));
+      cursor.x += cursor.vx * dtNorm;
+      cursor.y += cursor.vy * dtNorm;
+    }
 
-        if (rareError) {
-          strokeColor(accent, 220);
-          strokeWeight(1.5);
-          line(x - 4, y - 4, x + 4, y + 4);
-          line(x - 4, y + 4, x + 4, y - 4);
-        } else if (value > 0.61) {
-          noStroke();
-          fillColor(ink, 115);
-          text("+", x, y);
-        } else if (value < 0.39) {
-          noStroke();
-          fillColor(ink, 100);
-          text("−", x, y);
+    function updateCursorBounds(cursor) {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      if (cursor.x < -24) cursor.x = width + 24;
+      if (cursor.x > width + 24) cursor.x = -24;
+      if (cursor.y < -24) cursor.y = height + 24;
+      if (cursor.y > height + 24) cursor.y = -24;
+    }
+
+    function updateCursors(now) {
+      const deltaMs =
+        state.cursorLastNow > 0 ? now - state.cursorLastNow : 16.7;
+      const dtNorm = Math.max(0.7, Math.min(1.6, deltaMs / 16.7));
+      state.cursorLastNow = now;
+
+      for (const cursor of state.cursors) {
+        if (cursor.state !== "dragging" && now >= cursor.nextAcquireAt) {
+          const wantsAction = Math.random() < cursor.curiosity;
+          const isCompeting = Math.random() < 0.22;
+          const competitiveTarget = isCompeting
+            ? findCompetitiveTarget(cursor)
+            : null;
+          const target = wantsAction
+            ? competitiveTarget || findClosestLayerForCursor(cursor, 310)
+            : null;
+
+          if (target) {
+            cursor.targetLayerId = target.id;
+            cursor.action = chooseCursorAction();
+            cursor.state = "seeking";
+          } else {
+            cursor.state = "roaming";
+            cursor.targetLayerId = null;
+          }
+          cursor.nextAcquireAt = now + randomBetween(1400, 4200);
+        }
+
+        if (cursor.state === "dragging") {
+          const dragLayer = getLayerById(cursor.dragLayerId);
+          if (
+            !dragLayer ||
+            dragLayer.exitStartedAt ||
+            now >= cursor.dragUntil
+          ) {
+            if (dragLayer && dragLayer.draggedByCursorId === cursor.id) {
+              dragLayer.draggedByCursorId = null;
+            }
+            cursor.dragLayerId = null;
+            cursor.state = "roaming";
+            cursor.mode = "idle";
+            cursor.targetLayerId = null;
+            cursor.nextAcquireAt = now + randomBetween(700, 2200);
+          } else {
+            cursor.mode = "drag";
+            steerCursor(
+              cursor,
+              cursor.dragDropX,
+              cursor.dragDropY,
+              dtNorm,
+              1.85,
+            );
+            const p = dragLayer.currentPlacement;
+            if (p) {
+              const targetX = cursor.x - p.drawWidth * 0.5;
+              const targetY = cursor.y - p.drawHeight * 0.5;
+              dragLayer.basePlacement.x +=
+                (targetX - dragLayer.basePlacement.x) *
+                Math.min(0.28, 0.18 * dtNorm);
+              dragLayer.basePlacement.y +=
+                (targetY - dragLayer.basePlacement.y) *
+                Math.min(0.28, 0.18 * dtNorm);
+            }
+
+            const nearDrop =
+              Math.hypot(
+                cursor.dragDropX - cursor.x,
+                cursor.dragDropY - cursor.y,
+              ) < 26;
+            if (nearDrop) {
+              cursor.dragUntil = now;
+            }
+          }
+
+          updateCursorBounds(cursor);
+          continue;
+        }
+
+        const targetLayer = getLayerById(cursor.targetLayerId);
+        if (!isLayerInteractive(targetLayer)) {
+          cursor.state = "roaming";
+          cursor.targetLayerId = null;
+          cursor.mode = "idle";
+          roamCursor(cursor, now);
+          updateCursorBounds(cursor);
+          continue;
+        }
+
+        if (cursor.state === "seeking") {
+          const p = targetLayer.currentPlacement;
+          const tx = p.x + p.drawWidth * 0.5;
+          const ty = p.y + p.drawHeight * 0.5;
+          const dist = Math.hypot(tx - cursor.x, ty - cursor.y);
+
+          if (cursor.action === "click") {
+            cursor.mode = dist < 48 ? "click" : "idle";
+          } else {
+            cursor.mode = dist < 56 ? "drag" : "idle";
+          }
+
+          steerCursor(
+            cursor,
+            tx,
+            ty,
+            dtNorm,
+            cursor.action === "drag" ? 1.64 : 1.38,
+          );
+
+          if (dist < 22) {
+            if (cursor.action === "click") {
+              triggerLayerExit(targetLayer, now, randomBetween(700, 980));
+              cursor.mode = "click";
+              cursor.clickBurstUntil = now + randomBetween(320, 520);
+              cursor.state = "roaming";
+              cursor.targetLayerId = null;
+              cursor.nextAcquireAt = now + randomBetween(1800, 4600);
+            } else {
+              targetLayer.draggedByCursorId = cursor.id;
+              targetLayer.orbit = null;
+              cursor.dragLayerId = targetLayer.id;
+              cursor.dragDropX = randomBetween(70, window.innerWidth - 70);
+              cursor.dragDropY = randomBetween(70, window.innerHeight - 70);
+              cursor.dragUntil = now + randomBetween(900, 1900);
+              cursor.state = "dragging";
+              cursor.mode = "drag";
+            }
+          }
         } else {
-          noFill();
-          strokeColor(echo, 105);
-          strokeWeight(1);
-          square(x, y, 4);
+          cursor.mode = now < cursor.clickBurstUntil ? "click" : "idle";
+          roamCursor(cursor, now, dtNorm);
+        }
+
+        updateCursorBounds(cursor);
+      }
+    }
+
+    function drawMacArrowCursor(scale = 1) {
+      const s = 16 * scale;
+
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(0, s);
+      ctx.lineTo(s * 0.24, s * 0.74);
+      ctx.lineTo(s * 0.46, s * 1.22);
+      ctx.lineTo(s * 0.62, s * 1.14);
+      ctx.lineTo(s * 0.4, s * 0.66);
+      ctx.lineTo(s * 0.82, s * 0.66);
+      ctx.closePath();
+
+      ctx.fillStyle = "#ffffff";
+      ctx.strokeStyle = "#111111";
+      ctx.lineWidth = 1.2;
+      ctx.fill();
+      ctx.stroke();
+    }
+
+    function drawMacPointingHand(scale = 1) {
+      const s = 15 * scale;
+
+      ctx.beginPath();
+      ctx.moveTo(s * 0.46, s * 0.05);
+      ctx.lineTo(s * 0.56, s * 0.05);
+      ctx.lineTo(s * 0.56, s * 0.42);
+      ctx.lineTo(s * 0.68, s * 0.42);
+      ctx.quadraticCurveTo(s * 0.76, s * 0.43, s * 0.76, s * 0.52);
+      ctx.lineTo(s * 0.76, s * 0.84);
+      ctx.quadraticCurveTo(s * 0.76, s * 0.95, s * 0.64, s * 0.95);
+      ctx.lineTo(s * 0.31, s * 0.95);
+      ctx.quadraticCurveTo(s * 0.2, s * 0.95, s * 0.2, s * 0.84);
+      ctx.lineTo(s * 0.2, s * 0.56);
+      ctx.quadraticCurveTo(s * 0.2, s * 0.5, s * 0.25, s * 0.5);
+      ctx.quadraticCurveTo(s * 0.3, s * 0.5, s * 0.3, s * 0.56);
+      ctx.lineTo(s * 0.3, s * 0.8);
+      ctx.lineTo(s * 0.38, s * 0.8);
+      ctx.lineTo(s * 0.38, s * 0.48);
+      ctx.quadraticCurveTo(s * 0.38, s * 0.41, s * 0.44, s * 0.41);
+      ctx.quadraticCurveTo(s * 0.5, s * 0.41, s * 0.5, s * 0.48);
+      ctx.lineTo(s * 0.5, s * 0.8);
+      ctx.lineTo(s * 0.58, s * 0.8);
+      ctx.lineTo(s * 0.58, s * 0.05);
+      ctx.closePath();
+
+      ctx.fillStyle = "#ffffff";
+      ctx.strokeStyle = "#111111";
+      ctx.lineWidth = 1.1;
+      ctx.fill();
+      ctx.stroke();
+    }
+
+    function drawMacClosedHand(scale = 1) {
+      const s = 16 * scale;
+
+      ctx.beginPath();
+      ctx.moveTo(s * 0.2, s * 0.58);
+      ctx.quadraticCurveTo(s * 0.2, s * 0.4, s * 0.38, s * 0.4);
+      ctx.lineTo(s * 0.62, s * 0.4);
+      ctx.quadraticCurveTo(s * 0.8, s * 0.4, s * 0.8, s * 0.58);
+      ctx.lineTo(s * 0.8, s * 0.74);
+      ctx.quadraticCurveTo(s * 0.8, s * 0.94, s * 0.6, s * 0.94);
+      ctx.lineTo(s * 0.4, s * 0.94);
+      ctx.quadraticCurveTo(s * 0.2, s * 0.94, s * 0.2, s * 0.74);
+      ctx.closePath();
+
+      ctx.fillStyle = "#ffffff";
+      ctx.strokeStyle = "#111111";
+      ctx.lineWidth = 1.1;
+      ctx.fill();
+      ctx.stroke();
+
+      for (let i = 0; i < 3; i += 1) {
+        const x = s * (0.33 + i * 0.16);
+        ctx.beginPath();
+        ctx.moveTo(x, s * 0.45);
+        ctx.lineTo(x, s * 0.7);
+        ctx.strokeStyle = "rgba(0, 0, 0, 0.35)";
+        ctx.lineWidth = 0.9;
+        ctx.stroke();
+      }
+    }
+
+    function drawCursorIcon(
+      x,
+      y,
+      scale = 1,
+      mode = "idle",
+      now = 0,
+      clickBurstUntil = 0,
+    ) {
+      const modeScale = mode === "drag" ? 1.42 : mode === "click" ? 1.16 : 1;
+      const finalScale = scale * modeScale;
+
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.shadowColor = "rgba(0, 0, 0, 0.18)";
+      ctx.shadowBlur = 3;
+      ctx.shadowOffsetY = 1.5;
+
+      if (mode === "click") {
+        drawMacPointingHand(finalScale);
+      } else if (mode === "drag") {
+        drawMacClosedHand(finalScale);
+      } else {
+        drawMacArrowCursor(finalScale);
+      }
+
+      if (now < clickBurstUntil) {
+        const burstT = 1 - (clickBurstUntil - now) / 520;
+        const pulse = Math.max(0, Math.min(1, burstT));
+        const radius = 9 + pulse * 22;
+        ctx.strokeStyle = `rgba(255, 255, 255, ${0.95 - pulse * 0.85})`;
+        ctx.lineWidth = 2.2;
+        ctx.beginPath();
+        ctx.arc(0, 0, radius, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.strokeStyle = `rgba(0, 0, 0, ${0.75 - pulse * 0.65})`;
+        ctx.lineWidth = 1.3;
+        ctx.beginPath();
+        ctx.arc(0, 0, radius + 3, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      ctx.restore();
+    }
+
+    function drawCursors(now) {
+      updateCursors(now);
+      for (const cursor of state.cursors) {
+        drawCursorIcon(
+          cursor.x,
+          cursor.y,
+          cursor.size,
+          cursor.mode,
+          now,
+          cursor.clickBurstUntil,
+        );
+      }
+    }
+
+    function getFallbackImageEntry() {
+      const path = randomItem(FALLBACK_IMAGE_PATHS);
+      return {
+        imageUrl: `${IMAGE_PROXY_BASE}${encodeURIComponent(`images.metmuseum.org/${path}`)}`,
+        metadata: {
+          title: "Open Access Work",
+          department: "The Met Collection",
+          medium: "Archival image",
+        },
+      };
+    }
+
+    async function fetchMetJson(url) {
+      const urls = [
+        url,
+        `https://r.jina.ai/http://${url.replace(/^https?:\/\//, "")}`,
+      ];
+
+      for (const candidate of urls) {
+        try {
+          const response = await fetch(candidate);
+          if (!response.ok) continue;
+
+          const contentType = response.headers.get("content-type") || "";
+          if (contentType.includes("application/json")) {
+            return await response.json();
+          }
+
+          const text = await response.text();
+          const marker = "Markdown Content:";
+          const body = text.includes(marker)
+            ? text.slice(text.indexOf(marker) + marker.length).trim()
+            : text.trim();
+
+          const start = body.indexOf("{");
+          const end = body.lastIndexOf("}");
+          if (start === -1 || end <= start) continue;
+
+          return JSON.parse(body.slice(start, end + 1));
+        } catch {
+          // Try next candidate source.
+        }
+      }
+
+      return null;
+    }
+
+    async function fetchObjectPool() {
+      for (let i = 0; i < 6; i += 1) {
+        const term = pickAvoidingRecent(
+          SEARCH_TERMS,
+          state.recentQueryTerms,
+          3,
+        );
+        const departmentId = pickAvoidingRecent(
+          DEPARTMENT_IDS,
+          state.recentQueryDepartments,
+          3,
+        );
+        const url = `${MET_SEARCH_URL}?hasImages=true&departmentId=${departmentId}&q=${encodeURIComponent(term)}`;
+
+        try {
+          const data = await fetchMetJson(url);
+          if (!data) continue;
+          if (!Array.isArray(data.objectIDs) || data.objectIDs.length === 0)
+            continue;
+
+          const ids = data.objectIDs.slice();
+          for (let j = ids.length - 1; j > 0; j -= 1) {
+            const k = Math.floor(Math.random() * (j + 1));
+            [ids[j], ids[k]] = [ids[k], ids[j]];
+          }
+
+          pushRecent(state.recentQueryTerms, term, 10);
+          pushRecent(state.recentQueryDepartments, departmentId, 10);
+          state.objectPool.push(...ids.slice(0, 180));
+          return;
+        } catch {
+          // Try the next search term.
         }
       }
     }
 
-    for (let band = 0; band < 3; band += 1) {
-      let previousY = 0;
-      strokeColor(ink, band === 1 ? 145 : 92);
-      strokeWeight(band === 1 ? 1.5 : 1);
-      for (let x = firstColumn * spacing; x <= width; x += spacing) {
-        const rawY =
-          height * (0.2 + band * 0.3) +
-          map(noise(x * 0.004, band * 8, time), 0, 1, -height * 0.18, height * 0.18);
-        const y = floor(rawY / spacing) * spacing;
-        if (x > 0) {
-          line(x - spacing, previousY, x, previousY);
-          line(x, previousY, x, y);
+    async function getNextMetImage() {
+      for (let attempt = 0; attempt < 24; attempt += 1) {
+        if (state.objectPool.length === 0) {
+          await fetchObjectPool();
+          if (state.objectPool.length === 0) return null;
         }
-        previousY = y;
+
+        const objectId = state.objectPool.pop();
+        if (state.retry404Ids.has(objectId)) continue;
+        const url = `${MET_OBJECT_URL}/${objectId}`;
+
+        try {
+          const data = await fetchMetJson(url);
+          if (!data) continue;
+          if (!data.primaryImageSmall) continue;
+
+          const metadata = {
+            title: data.title,
+            artist: data.artistDisplayName,
+            medium: data.medium,
+            culture: data.culture,
+            period: data.period,
+            date: data.objectDate,
+            department: data.department,
+            city: data.city,
+            country: data.country,
+            dynasty: data.dynasty,
+          };
+
+          const departmentLabel =
+            typeof data.department === "string" ? data.department.trim() : "";
+          const recentDepartments = state.recentRenderedDepartments.slice(-2);
+          const isRecentDepartment =
+            departmentLabel && recentDepartments.includes(departmentLabel);
+          if (isRecentDepartment && attempt < 20) {
+            continue;
+          }
+
+          pushRecent(state.recentRenderedDepartments, departmentLabel, 12);
+
+          return {
+            imageUrl: `${IMAGE_PROXY_BASE}${encodeURIComponent(data.primaryImageSmall.replace(/^https?:\/\//, ""))}`,
+            metadata,
+          };
+        } catch {
+          // Skip failed objects and continue.
+        }
+      }
+
+      return null;
+    }
+
+    function loadImage(url) {
+      return new Promise((resolve, reject) => {
+        const image = new Image();
+        image.crossOrigin = "anonymous";
+        image.decoding = "async";
+        image.onload = () => resolve(image);
+        image.onerror = () => reject(new Error("Image failed to load"));
+        image.src = url;
+      });
+    }
+
+    function computePlacement(image) {
+      const viewWidth = window.innerWidth;
+      const viewHeight = window.innerHeight;
+      const maxEdge = Math.max(180, Math.min(viewWidth, viewHeight) * 0.58);
+      const targetLongEdge =
+        Math.random() < 0.28
+          ? randomBetween(maxEdge * 0.6, maxEdge * 0.9)
+          : randomBetween(110, maxEdge * 0.58);
+      const longEdge = Math.max(image.naturalWidth, image.naturalHeight);
+      const scale = targetLongEdge / longEdge;
+      const drawWidth = Math.max(84, image.naturalWidth * scale);
+      const drawHeight = Math.max(84, image.naturalHeight * scale);
+      const x = randomBetween(-drawWidth * 0.25, viewWidth - drawWidth * 0.75);
+      const y = randomBetween(
+        -drawHeight * 0.25,
+        viewHeight - drawHeight * 0.75,
+      );
+
+      return {
+        x,
+        y,
+        drawWidth,
+        drawHeight,
+        sourceWidth: image.naturalWidth,
+        sourceHeight: image.naturalHeight,
+      };
+    }
+
+    function computeCenteredRingPlacement(image, index, total = 5) {
+      const viewWidth = window.innerWidth;
+      const viewHeight = window.innerHeight;
+      const minSide = Math.min(viewWidth, viewHeight);
+      const ringRadius = Math.max(130, minSide * 0.28);
+      const angle = (index / total) * Math.PI * 2 - Math.PI * 0.5;
+
+      const targetLongEdge = Math.max(130, minSide * 0.24);
+      const longEdge = Math.max(image.naturalWidth, image.naturalHeight);
+      const scale = targetLongEdge / longEdge;
+      const drawWidth = Math.max(90, image.naturalWidth * scale);
+      const drawHeight = Math.max(90, image.naturalHeight * scale);
+
+      const centerX = viewWidth * 0.5 + Math.cos(angle) * ringRadius;
+      const centerY = viewHeight * 0.5 + Math.sin(angle) * ringRadius;
+
+      return {
+        x: centerX - drawWidth * 0.5,
+        y: centerY - drawHeight * 0.5,
+        drawWidth,
+        drawHeight,
+        sourceWidth: image.naturalWidth,
+        sourceHeight: image.naturalHeight,
+      };
+    }
+
+    function drawHandlePoint(x, y, size, stroke) {
+      const half = size * 0.5;
+      ctx.fillStyle = "#ffffff";
+      ctx.strokeStyle = stroke;
+      ctx.lineWidth = 1.5;
+      ctx.fillRect(x - half, y - half, size, size);
+      ctx.strokeRect(x - half, y - half, size, size);
+    }
+
+    function wrapLines(text, maxWidth) {
+      const words = String(text || "")
+        .split(/\s+/)
+        .filter(Boolean);
+      if (words.length === 0) return [];
+
+      const lines = [];
+      let current = words[0];
+
+      for (let i = 1; i < words.length; i += 1) {
+        const candidate = `${current} ${words[i]}`;
+        if (ctx.measureText(candidate).width <= maxWidth) {
+          current = candidate;
+        } else {
+          lines.push(current);
+          current = words[i];
+        }
+      }
+      lines.push(current);
+      return lines.slice(0, 3);
+    }
+
+    function drawSelectionAnnotation(x, y, w, h, label, stroke) {
+      const handleSize = 7;
+      const px = [x, x + w * 0.5, x + w];
+      const py = [y, y + h * 0.5, y + h];
+
+      ctx.save();
+      ctx.strokeStyle = stroke;
+      ctx.lineWidth = 2;
+      ctx.strokeRect(x, y, w, h);
+
+      for (let yi = 0; yi < py.length; yi += 1) {
+        for (let xi = 0; xi < px.length; xi += 1) {
+          drawHandlePoint(px[xi], py[yi], handleSize, stroke);
+        }
+      }
+
+      ctx.font = "12px 'Source Serif 4', Georgia, serif";
+      const maxTextWidth = Math.min(280, Math.max(132, w * 0.95));
+      const lines = wrapLines(label, maxTextWidth);
+      const textWidth =
+        Math.max(96, ...lines.map((line) => ctx.measureText(line).width)) + 12;
+      const labelHeight = Math.max(18, lines.length * 14 + 8);
+      const labelX = x;
+      const labelY = Math.max(2, y - labelHeight - 4);
+
+      ctx.fillStyle = "rgba(255, 255, 255, 0.96)";
+      ctx.strokeStyle = "#000000";
+      ctx.lineWidth = 1.5;
+      ctx.fillRect(labelX, labelY, textWidth, labelHeight);
+      ctx.strokeRect(labelX, labelY, textWidth, labelHeight);
+      ctx.fillStyle = "#000000";
+      lines.forEach((line, index) => {
+        ctx.fillText(line, labelX + 6, labelY + 12.5 + index * 14);
+      });
+      ctx.restore();
+    }
+
+    function drawImageSelection(placement, label) {
+      const stroke = "#000000";
+      drawSelectionAnnotation(
+        placement.x,
+        placement.y,
+        placement.drawWidth,
+        placement.drawHeight,
+        label,
+        stroke,
+      );
+    }
+
+    function pickRandomMetadataLabel(metadata) {
+      const options = [
+        ["Title", metadata?.title],
+        ["Artist", metadata?.artist],
+        ["Date", metadata?.date],
+        ["Medium", metadata?.medium],
+        ["Culture", metadata?.culture],
+        ["Period", metadata?.period],
+        ["Department", metadata?.department],
+        ["City", metadata?.city],
+        ["Country", metadata?.country],
+        ["Dynasty", metadata?.dynasty],
+      ]
+        .filter(
+          ([, value]) => typeof value === "string" && value.trim().length > 0,
+        )
+        .map(([key, value]) => `${key}: ${value.trim()}`);
+
+      if (options.length === 0) return "MET object";
+      return randomItem(options);
+    }
+
+    function colorFromLabel(label) {
+      let hash = 0;
+      for (let i = 0; i < label.length; i += 1) {
+        hash = (hash * 31 + label.charCodeAt(i)) >>> 0;
+      }
+      const hue = hash % 360;
+      return `hsl(${hue} 90% 58%)`;
+    }
+
+    function drawDetections(predictions, placement) {
+      const sx = placement.drawWidth / placement.sourceWidth;
+      const sy = placement.drawHeight / placement.sourceHeight;
+
+      predictions.forEach((prediction) => {
+        const [bx, by, bw, bh] = prediction.bbox;
+        const x = placement.x + bx * sx;
+        const y = placement.y + by * sy;
+        const w = bw * sx;
+        const h = bh * sy;
+        const label = `${prediction.class} ${(prediction.score * 100).toFixed(1)}%`;
+        const stroke = colorFromLabel(prediction.class);
+
+        drawSelectionAnnotation(x, y, w, h, label, stroke);
+      });
+    }
+
+    function drawStatusTag(placement, text) {
+      const stroke = "#000000";
+      const x = placement.x + 10;
+      const y = placement.y + 10;
+      const w = Math.max(108, text.length * 7.2);
+      const h = 20;
+
+      ctx.save();
+      ctx.fillStyle = "rgba(255, 255, 255, 0.95)";
+      ctx.strokeStyle = stroke;
+      ctx.lineWidth = 1.25;
+      ctx.fillRect(x, y, w, h);
+      ctx.strokeRect(x, y, w, h);
+      ctx.fillStyle = "#000000";
+      ctx.font = "12px 'Source Serif 4', Georgia, serif";
+      ctx.fillText(text, x + 8, y + 13.2);
+      ctx.restore();
+    }
+
+    async function detectLayer(layer) {
+      if (
+        !state.detector ||
+        layer.detectionState === "running" ||
+        layer.detectionState === "done"
+      ) {
+        return;
+      }
+
+      layer.detectionState = "running";
+      try {
+        const predictions = await state.detector.detect(
+          layer.image,
+          40,
+          DETECTION_THRESHOLD,
+        );
+        layer.predictions = predictions.filter(
+          (prediction) => prediction.score >= DETECTION_THRESHOLD,
+        );
+      } catch {
+        layer.predictions = [];
+      } finally {
+        layer.detectionState = "done";
       }
     }
-  }
 
-  function drawScanChannel(channel, index) {
-    const length = channel.endX - channel.startX;
-    const progress = (frameCount * (0.35 + (index % 4) * 0.08) + channel.phase * 10) % length;
-    const pulseX = channel.startX + progress;
-
-    drawingContext.setLineDash(channel.dashed ? [5, 6] : []);
-    strokeColor(index % 4 === 0 ? echo : ink, index % 4 === 0 ? 95 : 118);
-    strokeWeight(index % 5 === 0 ? 1.5 : 1);
-    line(channel.startX, channel.y, channel.endX, channel.y);
-    drawingContext.setLineDash([]);
-
-    strokeColor(echo, 58);
-    line(channel.startX + 18, channel.y + channel.echoOffset, channel.endX - 12, channel.y + channel.echoOffset);
-
-    noStroke();
-    fillColor(accent, 190);
-    square(pulseX, channel.y, index % 4 === 0 ? 7 : 5);
-
-    for (let register = 0; register < channel.registerCount; register += 1) {
-      const x = channel.startX + (length * register) / max(1, channel.registerCount - 1);
-      fillColor(ink, 105);
-      square(x, channel.y + (register % 2 === 0 ? -9 : 9), 4);
+    async function backfillPendingDetections() {
+      for (const layer of state.layers) {
+        if (!state.running) return;
+        if (layer.detectionState === "pending") {
+          await detectLayer(layer);
+        }
+      }
     }
 
-    if (channel.label) {
-      noStroke();
-      fillColor(echo, 150);
-      textFont("monospace");
-      textSize(10);
-      textAlign(RIGHT, BOTTOM);
-      text(channel.label, channel.endX, channel.y - 6);
+    function easeInOutCubic(t) {
+      if (t < 0.5) return 4 * t * t * t;
+      return 1 - (-2 * t + 2) ** 3 / 2;
     }
-  }
 
-  function drawLatentTape() {
-    scanChannels.forEach(drawScanChannel);
+    function animatePlacement(
+      placement,
+      now,
+      startTime,
+      durationMs,
+      exiting = false,
+    ) {
+      const progress = Math.min(1, Math.max(0, (now - startTime) / durationMs));
+      const eased = easeInOutCubic(progress);
+      const scale = exiting
+        ? Math.max(0.03, 1 - eased * 0.97)
+        : 0.72 + eased * 0.28;
+      const cx = placement.x + placement.drawWidth * 0.5;
+      const cy = placement.y + placement.drawHeight * 0.5;
+      const drawWidth = placement.drawWidth * scale;
+      const drawHeight = placement.drawHeight * scale;
 
-    strokeColor(ink, 82);
-    strokeWeight(1);
-    const rulerY = height * 0.93;
-    for (let x = width * 0.36; x < width * 0.82; x += 13) {
-      line(x, rulerY, x, rulerY + ((floor(x / 13) % 4 === 0) ? 12 : 7));
+      return {
+        ...placement,
+        x: cx - drawWidth * 0.5,
+        y: cy - drawHeight * 0.5,
+        drawWidth,
+        drawHeight,
+      };
     }
-  }
 
-  function setup() {
-    canvas = createCanvas(windowWidth, windowHeight);
-    canvas.parent("p5-background");
-    pixelDensity(1);
-    rectMode(CENTER);
-    strokeCap(SQUARE);
-    frameRate(reducedMotion ? 10 : 40);
-    resetScene();
-  }
+    function applyOrbitToPlacement(layer, placement, now) {
+      if (!layer.orbit) return placement;
 
-  function draw() {
-    clear();
-    if (mode === 1) drawQuantizedActivations();
-    if (mode === 2) drawDecisionBoundary();
-    if (mode === 3) drawLatentTape();
-  }
+      const seconds = now * 0.001;
+      const angle = layer.orbit.startAngle + seconds * layer.orbit.speed;
+      const wobbleX =
+        Math.sin(seconds * layer.orbit.wobbleFreq + layer.orbit.wobblePhase) *
+        layer.orbit.wobbleAmpX;
+      const wobbleY =
+        Math.cos(
+          seconds * (layer.orbit.wobbleFreq * 0.86) +
+            layer.orbit.wobblePhase * 0.7,
+        ) * layer.orbit.wobbleAmpY;
+      const cx =
+        window.innerWidth * 0.5 +
+        Math.cos(angle) * layer.orbit.radiusX +
+        wobbleX;
+      const cy =
+        window.innerHeight * 0.5 +
+        Math.sin(angle) * layer.orbit.radiusY +
+        wobbleY;
 
-  function windowResized() {
-    resizeCanvas(windowWidth, windowHeight);
-    resetScene();
-  }
+      return {
+        ...placement,
+        x: cx - placement.drawWidth * 0.5,
+        y: cy - placement.drawHeight * 0.5,
+      };
+    }
 
-  window.addEventListener("techb-sketch-change", () => {
-    if (canvas) resetScene();
-  });
+    function applyFaux3dContext(layer, placement, now) {
+      if (!layer.faux3d || !state.pointer.active) return;
+
+      const screenW = Math.max(1, window.innerWidth);
+      const screenH = Math.max(1, window.innerHeight);
+      const cx = placement.x + placement.drawWidth * 0.5;
+      const cy = placement.y + placement.drawHeight * 0.5;
+      const dx = state.pointer.x - cx;
+      const dy = state.pointer.y - cy;
+      const nx = dx / screenW;
+      const ny = dy / screenH;
+
+      // Nearby layers react more, far layers barely react.
+      const distance = Math.hypot(dx, dy);
+      const proximity = Math.max(
+        0,
+        1 - distance / Math.max(240, Math.min(screenW, screenH) * 0.55),
+      );
+      if (proximity <= 0) return;
+
+      // Deeper layers react less, near layers react more.
+      const depth = layer.depth || 0.5;
+      const influence = (0.18 + depth * 0.62) * proximity;
+
+      // Keep each layer's transform local so the whole collection does not skew together.
+      const oscillation =
+        Math.sin(now * 0.00045 + layer.tiltPhase) * 0.06 * influence;
+      const pointerTilt =
+        (nx * layer.tiltDirX + ny * layer.tiltDirY) * 0.14 * influence;
+      const rot = oscillation + pointerTilt;
+
+      ctx.translate(cx, cy);
+      ctx.rotate(rot);
+      ctx.translate(-cx, -cy);
+    }
+
+    function renderLayers(now = performance.now()) {
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+      const retainedLayers = [];
+      for (const layer of state.layers) {
+        const exiting = Boolean(layer.exitStartedAt);
+        const startTime = exiting ? layer.exitStartedAt : layer.createdAt;
+        const duration = exiting
+          ? layer.exitAnimationMs || EXIT_ANIMATION_MS
+          : layer.animationMs;
+        const progress = Math.min(1, Math.max(0, (now - startTime) / duration));
+        let placement = animatePlacement(
+          layer.basePlacement,
+          now,
+          startTime,
+          duration,
+          exiting,
+        );
+        placement = applyOrbitToPlacement(layer, placement, now);
+        layer.currentPlacement = placement;
+
+        if (exiting && progress >= 1) {
+          continue;
+        }
+
+        retainedLayers.push(layer);
+
+        ctx.save();
+        if (exiting) {
+          ctx.globalAlpha = 1 - progress;
+        }
+        applyFaux3dContext(layer, placement, now);
+
+        ctx.drawImage(
+          layer.image,
+          placement.x,
+          placement.y,
+          placement.drawWidth,
+          placement.drawHeight,
+        );
+
+        drawImageSelection(placement, layer.metaLabel);
+
+        if (
+          layer.detectionState === "pending" ||
+          layer.detectionState === "running"
+        ) {
+          drawStatusTag(placement, "detecting...");
+        }
+
+        drawDetections(layer.predictions, placement);
+        ctx.restore();
+      }
+
+      state.layers = retainedLayers;
+      drawCursors(now);
+
+      if (state.running) {
+        state.rafId = window.requestAnimationFrame(renderLayers);
+      }
+    }
+
+    async function processNextImage() {
+      if (!state.running || state.busy) return;
+
+      state.busy = true;
+      try {
+        let meta = await getNextMetImage();
+        const allowFallback =
+          state.layers.length < 5 || state.consecutiveSourceFailures >= 3;
+        if (!meta && allowFallback) {
+          meta = getFallbackImageEntry();
+        }
+        if (!meta) {
+          state.consecutiveSourceFailures += 1;
+          return;
+        }
+
+        let image;
+        try {
+          image = await loadImage(meta.imageUrl);
+        } catch {
+          const allowFallbackImage =
+            state.layers.length < 5 || state.consecutiveSourceFailures >= 3;
+          if (!allowFallbackImage) {
+            state.consecutiveSourceFailures += 1;
+            return;
+          }
+          const fallback = getFallbackImageEntry();
+          meta = fallback;
+          image = await loadImage(fallback.imageUrl);
+        }
+
+        state.consecutiveSourceFailures = 0;
+        const shouldSeedCenterRing = state.seededCenterCount < 5;
+        const placement = shouldSeedCenterRing
+          ? computeCenteredRingPlacement(image, state.seededCenterCount, 5)
+          : computePlacement(image);
+
+        const layer = {
+          id: state.nextLayerId++,
+          image,
+          basePlacement: placement,
+          orbit: {
+            radiusX: shouldSeedCenterRing
+              ? Math.max(300, window.innerWidth * 0.46)
+              : randomBetween(260, Math.max(520, window.innerWidth * 0.64)),
+            radiusY: shouldSeedCenterRing
+              ? Math.max(120, window.innerHeight * 0.22)
+              : randomBetween(110, Math.max(230, window.innerHeight * 0.33)),
+            speed: randomBetween(0.035, 0.085) * (Math.random() < 0.5 ? -1 : 1),
+            startAngle: shouldSeedCenterRing
+              ? (state.seededCenterCount / 5) * Math.PI * 2 - Math.PI * 0.5
+              : randomBetween(0, Math.PI * 2),
+            wobbleAmpX: randomBetween(5, 20),
+            wobbleAmpY: randomBetween(4, 16),
+            wobbleFreq: randomBetween(0.28, 0.72),
+            wobblePhase: randomBetween(0, Math.PI * 2),
+          },
+          faux3d: Math.random() < 0.5,
+          depth: randomBetween(0.2, 1),
+          tiltPhase: randomBetween(0, Math.PI * 2),
+          tiltDirX: randomBetween(-1, 1),
+          tiltDirY: randomBetween(-1, 1),
+          metadata: meta.metadata,
+          metaLabel: pickRandomMetadataLabel(meta.metadata),
+          predictions: [],
+          detectionState: state.detectorReady ? "pending" : "pending",
+          createdAt: performance.now(),
+          animationMs: ENTER_ANIMATION_MS,
+          currentPlacement: placement,
+          draggedByCursorId: null,
+        };
+
+        state.layers.push(layer);
+        if (shouldSeedCenterRing) state.seededCenterCount += 1;
+
+        if (state.detectorReady) {
+          void detectLayer(layer);
+        }
+
+        if (state.layers.length > state.maxLayers) {
+          const hasPendingExit = state.layers.some(
+            (candidate) => candidate.exitStartedAt,
+          );
+          if (!hasPendingExit) {
+            for (const candidate of state.layers) {
+              if (!candidate.exitStartedAt) {
+                triggerLayerExit(candidate, performance.now());
+                break;
+              }
+            }
+          }
+        }
+      } catch {
+        // Keep cycling on any per-image errors.
+      } finally {
+        state.busy = false;
+      }
+    }
+
+    async function preloadInitialLayers(minCount = 5) {
+      const target = Math.max(minCount, 5);
+      while (state.running && state.layers.length < target) {
+        await processNextImage();
+      }
+    }
+
+    function queueNextCycle() {
+      window.clearTimeout(state.cycleTimer);
+      if (!state.running) return;
+
+      state.cycleTimer = window.setTimeout(async () => {
+        await processNextImage();
+        queueNextCycle();
+      }, 6500);
+    }
+
+    function start() {
+      if (state.running) return;
+      state.running = true;
+      state.rafId = window.requestAnimationFrame(renderLayers);
+
+      void (async () => {
+        await preloadInitialLayers(5);
+        queueNextCycle();
+      })();
+    }
+
+    function stop() {
+      state.running = false;
+      window.clearTimeout(state.cycleTimer);
+      if (state.rafId) {
+        window.cancelAnimationFrame(state.rafId);
+        state.rafId = 0;
+      }
+    }
+
+    function handleVisibility() {
+      if (document.hidden) stop();
+      else start();
+    }
+
+    async function initialize() {
+      resizeCanvas();
+      seedCursors();
+      window.addEventListener("resize", resizeCanvas);
+      window.addEventListener("mousemove", (event) => {
+        state.pointer.x = event.clientX;
+        state.pointer.y = event.clientY;
+        state.pointer.active = true;
+      });
+      window.addEventListener("mouseleave", () => {
+        state.pointer.active = false;
+      });
+      document.addEventListener("visibilitychange", handleVisibility);
+      motionQuery.addEventListener("change", () => {
+        if (state.running) queueNextCycle();
+      });
+
+      start();
+
+      // Load detector in the background so image rendering never waits on model fetch.
+      (async () => {
+        try {
+          if (window.cocoSsd) {
+            state.detector = await window.cocoSsd.load({
+              base: "mobilenet_v2",
+            });
+            state.detectorReady = true;
+            void backfillPendingDetections();
+          }
+        } catch {
+          state.detector = null;
+          state.detectorReady = false;
+        }
+      })();
+    }
+
+    initialize();
+  }
 </script>
 
 <style>
   #p5-background {
     position: fixed;
+    z-index: 0;
+    inset: 0;
+    isolation: isolate;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  #p5-background canvas {
+    display: block;
+    position: absolute;
+    z-index: 0;
     inset: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.9;
-    z-index: 0;
     pointer-events: none;
+  }
+
+  #p5-background::before {
+    position: absolute;
+    opacity: 0.2;
+    z-index: 1;
+    mix-blend-mode: multiply;
+    inset: 0;
+    background-image: radial-gradient(
+      circle,
+      rgba(26, 96, 196, 0.82) 1px,
+      transparent 1.05px
+    );
+    background-position: 0 0;
+    background-size: 12px 12px;
+    pointer-events: none;
+    content: "";
+  }
+
+  #p5-background::after {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    background: rgba(167, 147, 219, 0.14);
+    pointer-events: none;
+    content: "";
+  }
+
+  @media (max-width: 768px) {
+    #p5-background::after {
+      background: rgba(167, 147, 219, 0.22);
+    }
   }
 </style>

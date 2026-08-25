@@ -1,0 +1,57 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  caption: string;
+  label?: string;
+  credit?: string;
+  sourceHref?: string;
+  sourceLabel?: string;
+  relatedHref?: string;
+  relatedLabel?: string;
+  relatedPrefix?: string;
+  class?: string;
+}
+
+const {
+  src,
+  alt,
+  caption,
+  label,
+  credit,
+  sourceHref,
+  sourceLabel = "Source",
+  relatedHref,
+  relatedLabel,
+  relatedPrefix = "Read",
+  class: className,
+} = Astro.props as Props;
+---
+
+<figure class={className}>
+  <img src={src} alt={alt} loading="lazy" decoding="async" />
+  <figcaption>
+    {label && <strong>{label}:</strong>}{label && " "}{caption}
+    {credit && <span class="lecture-figure__credit"> {credit}</span>}
+    {
+      sourceHref && (
+        <>
+          {" "}
+          <a href={sourceHref} target="_blank" rel="noopener noreferrer">
+            {`${sourceLabel}.`}
+          </a>
+        </>
+      )
+    }
+    {
+      relatedHref && relatedLabel && (
+        <>
+          {` ${relatedPrefix} `}
+          <a href={relatedHref} target="_blank" rel="noopener noreferrer">
+            {`${relatedLabel}.`}
+          </a>
+        </>
+      )
+    }
+  </figcaption>
+</figure>

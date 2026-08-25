@@ -3,6 +3,8 @@ title: "Week title"
 description: "Short description shown on the weekly schedule."
 week: 1
 draft: true
+tldr: |
+  Add a concise summary of the week's central ideas and activities.
 ---
 
 ## This Week's Focus

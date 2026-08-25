@@ -37,10 +37,11 @@ const quickLinks = [
     {config.semester && <p>{config.semester}</p>}
   </section>
 
-  {(config.meetingTimes || config.location) && (
+  {(config.sectionId || config.meetingTimes || config.location) && (
     <section class="course-details">
       <h2 class="heading-3">Course Details</h2>
       <ul>
+        {config.sectionId && <li>Section: {config.sectionId}</li>}
         {config.meetingTimes && <li>{config.meetingTimes}</li>}
         {config.location && <li>{config.location}</li>}
       </ul>

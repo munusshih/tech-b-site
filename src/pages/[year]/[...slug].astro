@@ -1,13 +1,11 @@
 ---
 import { getCollection, render } from "astro:content";
 import WeekPost from "@/layouts/WeekPost.astro";
-import { ACTIVE_YEAR } from "@/config";
 import { getWeekYearAndSlug, isPublishedWeek } from "@/lib/course-content";
 
 export async function getStaticPaths() {
   const posts = (await getCollection("weeks")).filter(isPublishedWeek);
   return posts
-    .filter((post) => getWeekYearAndSlug(post.id).year !== ACTIVE_YEAR)
     .filter((post) => post.data.week !== 0 && post.data.page !== false)
     .map((post) => {
       const { year, slug } = getWeekYearAndSlug(post.id);
@@ -19,9 +17,10 @@ export async function getStaticPaths() {
 }
 
 const { post, year } = Astro.props;
+const yearNumber = Number(year);
 const { Content } = await render(post);
 ---
 
-<WeekPost {...post.data} year={year} contentId={post.id}>
+<WeekPost {...post.data} year={yearNumber}>
   <Content />
 </WeekPost>

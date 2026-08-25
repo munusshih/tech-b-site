@@ -10,7 +10,8 @@ export function getStaticPaths() {
 }
 
 const { year } = Astro.props;
-if (year === ACTIVE_YEAR) return Astro.redirect("/", 302);
+const yearNumber = Number(year);
+if (yearNumber === ACTIVE_YEAR) return Astro.redirect("/", 302);
 ---
 
-<YearHome year={year} />
+<YearHome year={yearNumber} />

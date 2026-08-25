@@ -4,10 +4,12 @@ import { Image } from "astro:assets";
 import BaseHead from "@/components/BaseHead.astro";
 import CourseTitle from "@/components/CourseTitle.astro";
 import Footer from "@/components/Footer.astro";
+import ImageDitherFilter from "@/components/ImageDitherFilter.astro";
 import Nav from "@/components/Nav.astro";
 import Analytics from "@vercel/analytics/astro";
 import StudentResponses from "@/components/StudentResponses.astro";
 import ArchiveNotice from "@/components/ArchiveNotice.astro";
+import WeekTldr from "@/components/WeekTldr.astro";
 import "@/styles/lectures.css";
 import { getYearBasePath, getYearConfig, isArchivedYear } from "@/config";
 import { disableSubmissionLinks } from "@/lib/course-content";
@@ -23,6 +25,7 @@ const {
   description,
   week,
   longDescription,
+  tldr,
   heroImage,
   heroImageAlt,
   year,
@@ -33,12 +36,18 @@ const basePath = getYearBasePath(year);
 const longDescriptionHTML = longDescription
   ? await marked(longDescription)
   : null;
+const tldrHTML = tldr ? await marked(tldr) : null;
 const rawSlotContent = await Astro.slots.render("default");
 
 type OutlineItem = {
   id: string;
   level: 2 | 3;
   title: string;
+};
+
+type OutlineSection = {
+  heading: OutlineItem;
+  children: OutlineItem[];
 };
 
 function cleanHeadingText(value: string): string {
@@ -83,6 +92,21 @@ function addHeadingAnchors(html: string): {
   );
 
   return { content, outline };
+}
+
+function groupOutlineItems(items: OutlineItem[]): OutlineSection[] {
+  const sections: OutlineSection[] = [];
+
+  for (const item of items) {
+    if (item.level === 2 || sections.length === 0) {
+      sections.push({ heading: item, children: [] });
+      continue;
+    }
+
+    sections.at(-1)?.children.push(item);
+  }
+
+  return sections;
 }
 
 function resolveCourseLinks(html: string): string {
@@ -149,6 +173,7 @@ function wrapContentSections(html: string): string {
 
 const { content: anchoredContent, outline: pageOutline } =
   addHeadingAnchors(rawSlotContent);
+const groupedPageOutline = groupOutlineItems(pageOutline);
 const linkedContent = resolveCourseLinks(anchoredContent);
 const processedContent = wrapContentSections(
   archived ? disableSubmissionLinks(linkedContent) : linkedContent,
@@ -166,12 +191,13 @@ const shouldTrackAnalytics = import.meta.env.PROD;
     />
   </head>
   <body>
+    <ImageDitherFilter />
     <header id="week-header">
       <div>
         <a href={`${basePath}/`}>
           <CourseTitle year={year} />
         </a>
-        <h2 class="heading-1">Week {week}: {title}</h2>
+        <h2 class="heading-1">Week {week}</h2>
         {archived && <ArchiveNotice year={year} />}
         {
           longDescriptionHTML && (
@@ -182,14 +208,32 @@ const shouldTrackAnalytics = import.meta.env.PROD;
         {
           pageOutline.length > 0 && (
             <nav class="week-toc" aria-label={`Week ${week} page sections`}>
-              <h2 class="sidebar-section-title">On This Page</h2>
+              <h1 class="sidebar-section-title">On This Page</h1>
               <ol>
                 <li class="toc-level-2">
                   <a href="#week-content">Week {week} overview</a>
                 </li>
-                {pageOutline.map((item) => (
-                  <li class={`toc-level-${item.level}`}>
-                    <a href={`#${item.id}`}>{item.title}</a>
+                {groupedPageOutline.map(({ heading, children }) => (
+                  <li class={`toc-level-${heading.level}`}>
+                    {children.length > 0 ? (
+                      <details>
+                        <summary>
+                          <a class="toc-heading-link" href={`#${heading.id}`}>
+                            {heading.title}
+                          </a>
+                          <span class="toc-disclosure" aria-hidden="true" />
+                        </summary>
+                        <ol class="toc-subsections">
+                          {children.map((item) => (
+                            <li class="toc-level-3">
+                              <a href={`#${item.id}`}>{item.title}</a>
+                            </li>
+                          ))}
+                        </ol>
+                      </details>
+                    ) : (
+                      <a href={`#${heading.id}`}>{heading.title}</a>
+                    )}
                   </li>
                 ))}
               </ol>
@@ -206,9 +250,10 @@ const shouldTrackAnalytics = import.meta.env.PROD;
     </header>
 
     <main id="week-content" class="week-main-content">
+      <h1 class="heading-1">{title}</h1>
       {
         heroImage && (
-          <figure class="week-hero">
+          <figure class:list={["week-hero", tldrHTML && "week-hero--has-tldr"]}>
             <Image
               src={heroImage}
               alt={heroImageAlt || `Week ${week}: ${title}`}
@@ -216,6 +261,13 @@ const shouldTrackAnalytics = import.meta.env.PROD;
               decoding="async"
             />
           </figure>
+        )
+      }
+      {
+        tldrHTML && (
+          <WeekTldr>
+            <Fragment set:html={tldrHTML} />
+          </WeekTldr>
         )
       }
       <Fragment set:html={processedContent} />

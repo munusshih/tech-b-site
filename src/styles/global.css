@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Boldonse&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Boldonse&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap");
 @import "tailwindcss";
 @import "./course-info.css";
 @import "./nav.css";
@@ -91,15 +91,15 @@ body {
 
 /* Optional loading indicator */
 .is-loading::before {
-    content: '';
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 9999;
+    animation: loading 1s ease-in-out infinite;
+    background: linear-gradient(90deg, transparent, #efefef, transparent);
     width: 100%;
     height: 2px;
-    background: linear-gradient(90deg, transparent, #efefef, transparent);
-    animation: loading 1s ease-in-out infinite;
-    z-index: 9999;
+    content: "";
 }
 
 @keyframes loading {
@@ -140,9 +140,9 @@ table {
 
 h1,
 h2 {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
     font-size: 1.15rem;
-    margin-top: .5em;
-    margin-bottom: .5em;
 }
 
 * {
@@ -200,7 +200,7 @@ h1 {
 }
 
 h2::before {
-    content: '↳';
+    content: "↳";
     color: pink;
     @apply pr-2;
 }
@@ -240,6 +240,17 @@ body {
     @apply grid lg:grid-cols-3 min-h-screen;
 }
 
+@media (min-width: 64rem) {
+    body {
+        grid-template-rows: minmax(100vh, auto);
+    }
+
+    @supports (height: 100dvh) {
+        body {
+            grid-template-rows: minmax(100dvh, auto);
+        }
+    }
+}
 
 header,
 main {
@@ -250,8 +261,8 @@ main {
     background: #000;
     /* Inline SVG noise (transparent so it tints the black) */
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='2' seed='4' stitchTiles='stitch'/><feComponentTransfer><feFuncR type='linear' slope='0.6'/><feFuncG type='linear' slope='0.6'/><feFuncB type='linear' slope='0.6'/></feComponentTransfer></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.2'/></svg>");
-    background-repeat: repeat;
     background-size: 100px 100px;
+    background-repeat: repeat;
     background-blend-mode: normal;
 }
 
@@ -276,15 +287,13 @@ footer,
 body {
     position: relative;
     opacity: 1;
-    background-color: black;
 
     /* Inline SVG noise (transparent so it tints the black) */
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='2' seed='4' stitchTiles='stitch'/><feComponentTransfer><feFuncR type='linear' slope='0.6'/><feFuncG type='linear' slope='0.6'/><feFuncB type='linear' slope='0.6'/></feComponentTransfer></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.2'/></svg>");
-    background-repeat: repeat;
     background-size: 100px 100px;
+    background-repeat: repeat;
+    background-color: black;
     background-blend-mode: normal;
-
-
 }
 
 /* Make sure content is above background */
@@ -294,7 +303,9 @@ body>* {
 }
 
 html {
-    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><g transform='scale(-1,-1) translate(-32,-32)'><text x='0' y='24' font-size='24' font-family=\"Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji\">✏️</text></g></svg>") 10 5, auto;
+    cursor:
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><g transform='scale(-1,-1) translate(-32,-32)'><text x='0' y='24' font-size='24' font-family=\"Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji\">✏️</text></g></svg>") 10 5,
+        auto;
 }
 
 ::selection {
@@ -306,6 +317,33 @@ html {
     @apply my-2 inline-block !no-underline bg-white text-black font-bold py-2 px-4 rounded-full cursor-pointer;
 }
 
+.code-block {
+    position: relative;
+}
+
+.code-copy-btn {
+    display: inline-block;
+    appearance: none;
+    cursor: pointer;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    padding: 0;
+    color: inherit;
+    font-size: 0.78rem;
+    line-height: 1;
+}
+
+.code-copy-btn:hover {
+    background: transparent;
+}
+
+html[data-course-year="2026"] .code-copy-btn {
+    background: transparent;
+    color: inherit;
+}
+
 #student-page footer {
     padding: 0;
 }
@@ -313,16 +351,16 @@ html {
 .year-switcher {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
     align-items: baseline;
+    gap: 0.75rem;
     margin: 1.25rem 0;
-    font-family: var(--body-font);
     font-size: 0.9rem;
+    font-family: var(--body-font);
 }
 
 .year-switcher>a {
-    padding: 0;
     opacity: 0.4;
+    padding: 0;
     text-decoration: none;
 }
 
@@ -334,11 +372,11 @@ html {
 }
 
 .year-switcher>[aria-current="page"] {
-    padding: 0;
+    opacity: 1;
     background: transparent;
+    padding: 0;
     color: inherit;
     font-weight: 700;
-    opacity: 1;
     text-decoration: underline;
     text-underline-offset: 0.2em;
 }
@@ -347,13 +385,13 @@ html {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem 0.9rem;
-    width: fit-content;
     margin: 1rem 0;
-    padding: 0.45rem 0.75rem;
     border: 1px solid currentColor;
     border-radius: 0;
-    font-family: var(--body-font);
+    padding: 0.45rem 0.75rem;
+    width: fit-content;
     font-size: 0.85rem;
+    font-family: var(--body-font);
 }
 
 .archive-notice span {
@@ -361,65 +399,89 @@ html {
 }
 
 .archived-submission {
-    cursor: not-allowed !important;
     opacity: 0.45;
+    cursor: not-allowed !important;
     pointer-events: none;
 }
 
 .sr-only {
     position: absolute;
+    margin: -1px;
+    padding: 0;
     width: 1px;
     height: 1px;
-    padding: 0;
-    margin: -1px;
     overflow: hidden;
     clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
     border: 0;
+    white-space: nowrap;
 }
 
-/* Tech B keeps one typographic system while its three computational studies
-   exchange paper, ink, and accent colors through the sketch switcher. */
+/* Tech B uses one readable typographic and color system around its live sketch. */
 html[data-course-year="2026"] {
-    --title-font: "Instrument Serif", Georgia, serif;
     --body-font: "Source Serif 4", Georgia, serif;
-    --sketch-paper: #f0efea;
-    --sketch-ink: #16336b;
-    --sketch-accent: #315ca8;
-    --sketch-echo: #9aa9c1;
+    --title-font: var(--body-font);
+    --sketch-paper: #f2effc;
+    --sketch-ink: #182f36;
+    --sketch-accent: #6f56bb;
+    --sketch-echo: #596e72;
     --border-dotted: 1px solid var(--sketch-ink);
+    filter: none;
     background: var(--sketch-paper);
     color-scheme: light;
-    filter: none;
-}
-
-html[data-course-year="2026"][data-sketch-mode="2"] {
-    --sketch-paper: #fff2c7;
-    --sketch-ink: #2f2a58;
-    --sketch-accent: #de5b2d;
-    --sketch-echo: #9c91a5;
-}
-
-html[data-course-year="2026"][data-sketch-mode="3"] {
-    --sketch-paper: #e7e1ed;
-    --sketch-ink: #123c2e;
-    --sketch-accent: #477a66;
-    --sketch-echo: #8da99c;
 }
 
 html[data-course-year="2026"] body {
-    background-color: var(--sketch-paper);
-    background-image: radial-gradient(
-        circle,
-        color-mix(in srgb, var(--sketch-ink) 16%, transparent) 0 0.6px,
-        transparent 0.82px
-    );
-    background-repeat: repeat;
-    background-size: 7px 7px;
-    color: var(--sketch-ink);
     filter: none;
+    background-image: none;
+    background-color: var(--sketch-paper);
+    color: var(--sketch-ink);
     font-family: var(--body-font) !important;
-    transition: background-color 180ms ease, color 180ms ease;
+}
+
+/* Keep the 2026 purple wash and dot field behind every route. */
+html[data-course-year="2026"] body::before,
+html[data-course-year="2026"] body::after {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    content: "";
+}
+
+html[data-course-year="2026"] body::before {
+    opacity: 0.2;
+    z-index: 1;
+    mix-blend-mode: multiply;
+    background-image: radial-gradient(circle,
+            rgba(26, 96, 196, 0.82) 1px,
+            transparent 1.05px);
+    background-position: 0 0;
+    background-size: 12px 12px;
+}
+
+html[data-course-year="2026"] body::after {
+    z-index: 1;
+    background: rgba(167, 147, 219, 0.14);
+}
+
+html[data-course-year="2026"] body>* {
+    z-index: 2;
+    min-width: 0;
+}
+
+html[data-course-year="2026"] body>#p5-background {
+    z-index: 0;
+}
+
+/* The shared backdrop replaces the homepage-only copies around the MET canvas. */
+html[data-course-year="2026"] #p5-background::before,
+html[data-course-year="2026"] #p5-background::after {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    html[data-course-year="2026"] body::after {
+        background: rgba(167, 147, 219, 0.22);
+    }
 }
 
 html[data-course-year="2026"] body * {
@@ -436,22 +498,42 @@ html[data-course-year="2026"] .heading-1,
 html[data-course-year="2026"] .heading-2,
 html[data-course-year="2026"] .heading-3,
 html[data-course-year="2026"] .heading-4 {
-    font-family: var(--title-font) !important;
     font-style: normal;
-    font-weight: 400;
-    letter-spacing: -0.025em;
+    font-weight: 600;
+    font-family: var(--title-font) !important;
+    letter-spacing: 0;
 }
 
 html[data-course-year="2026"] header h1 {
-    margin-bottom: 1rem;
-    font-size: clamp(2rem, 3.5vw, 3.75rem);
-    line-height: 0.92;
-    text-decoration: none;
+    margin-top: 0.5em;
+    margin-bottom: 2rem;
+    font-weight: 600;
+    font-size: 1.15rem;
+    line-height: 1.25;
+    font-family: var(--body-font) !important;
+    letter-spacing: 0;
+}
+
+html[data-course-year="2026"] header h1 .course-section-id {
+    font: inherit;
+    font-weight: 500;
+    font-size: 0.9em;
+    letter-spacing: 0;
 }
 
 html[data-course-year="2026"] h2 {
-    font-size: clamp(1.35rem, 2vw, 2rem);
-    line-height: 1.05;
+    font-size: 1.15rem;
+    line-height: 1.25;
+}
+
+html[data-course-year="2026"] h1 {
+    text-decoration-color: var(--sketch-accent);
+}
+
+html[data-course-year="2026"] h2::before,
+html[data-course-year="2026"] #week-content h2::before,
+html[data-course-year="2026"] h2.assignment-title::before {
+    color: var(--sketch-accent);
 }
 
 html[data-course-year="2026"] p,
@@ -460,11 +542,22 @@ html[data-course-year="2026"] a {
     font-family: var(--body-font) !important;
 }
 
+html[data-course-year="2026"] a,
+html[data-course-year="2026"] u {
+    text-decoration-color: var(--sketch-accent);
+}
+
 html[data-course-year="2026"] main {
-    background-color: transparent;
-    background-image: none;
-    color: var(--sketch-ink);
     filter: none;
+    background-image: none;
+    background-color: transparent;
+    color: var(--sketch-ink);
+}
+
+html[data-course-year="2026"] #week-header {
+    background-image: none;
+    background-color: transparent;
+    color: var(--sketch-ink);
 }
 
 html[data-course-year="2026"] #p5-background,
@@ -478,13 +571,27 @@ html[data-course-year="2026"] embed {
     filter: none;
 }
 
-html[data-course-year="2026"] h1 {
-    text-decoration-color: var(--sketch-ink);
+html[data-course-year="2026"] img:not([data-no-dither]) {
+    filter: url("#techb-image-dither");
 }
 
-html[data-course-year="2026"] h2::before {
-    color: var(--sketch-ink);
-    opacity: 0.65;
+html[data-course-year="2026"] .munus-note__portrait:not([data-no-dither]) {
+    filter: url("#techb-image-dither") drop-shadow(0.15rem 0.2rem 0 rgba(0, 0, 0, 0.2));
+}
+
+.image-filter-definitions {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+@media print,
+(forced-colors: active) {
+    html[data-course-year="2026"] img {
+        filter: none !important;
+    }
 }
 
 html[data-course-year="2026"] .btn-primary {

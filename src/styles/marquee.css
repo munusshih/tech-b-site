@@ -2,9 +2,10 @@
     bottom: 0;
     left: 0;
     z-index: 999999;
-    backdrop-filter: blur(30px);
-    border-top: 1px solid rgba(255, 255, 255, 1);
-    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    background: rgba(255, 255, 255, 0.82);
     padding: 0.5rem 0;
     width: 100%;
     overflow: hidden;
@@ -22,7 +23,7 @@
 .marquee-text {
     display: inline-block;
     padding-right: 3rem;
-    color: white;
+    color: #000;
     font-weight: 500;
     font-size: 1.1rem;
     /* Prevent text wrapping */

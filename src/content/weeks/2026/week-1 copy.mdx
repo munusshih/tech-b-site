@@ -1,0 +1,356 @@
+---
+title: "Hello Class!"
+description: "This week, we'll discuss what is intelligence, and how by expanding the definition, we can bring nuances to how we approach AI and other computational systems"
+week: 1
+draft: true
+heroImage: "../../../assets/week-placeholder-1.jpg"
+heroImageAlt: "Build the web you want against a colorful dark gradient"
+tldr: |
+  What is Intelligence? What does it mean to be intelligent, and more importantly why do people create "simulated" or "artificial" intelligence?
+
+  This week, we will discuss these questions, and approach the questions from different perspectives: thought experiments, technical prototypes and the history of artificial intelligence, and how these set the stage for us to understand the larger techno-political landscape of design and technology.
+---
+
+import MunusNote from "@/components/MunusNote.astro";
+import LectureFigure from "@/components/LectureFigure.astro";
+
+## Agenda
+
+- [Introductions](#introductions)
+- [What is the difference between Tech A and Tech B?](#what-is-the-difference-between-tech-a-and-tech-b)
+- [What is intelligence?](#what-is-intelligence)
+- [Syllabus Overview](#syllabus-overview)
+- [Short Break](#short-break)
+- [The Chinese Room](#the-chinese-room)
+- [What is AI?](#what-is-ai)
+- [Assignment Announcement](#assignment-announcement)
+
+## Introductions
+
+You probably already know me, but for those who don't, my name is [Munus Shih](https://www.munusshih.com). I go by he/they pronouns. I'm a Taiwanese Minnan-Hakka designer, educator, and researcher. I currently teach full-time at Pratt Institute, this is my first time teaching Tech B, and I'm excited to get to know all of you!
+
+I teach a wide range of classes at Pratt, including Tech A on code literacy, Tech B, Thesis, Visual Language B on collective making. I call Brooklyn home, and I love to cook, travel, read, make art, grow plants and play video games too.
+
+Now it's your turn! Please introduce yourself to the class, and share a little bit about your background, pronouns (if you have them), where you call home, your interests, and what you "hope" to get out of this class.
+
+## What is the difference between Tech A and Tech B?
+
+> **Start with your experience:** What did you learn in Tech A? What helped you understand code or computation differently? What frustrated you, and what do you expect Tech B to change?
+
+### Design Has Always Been Technical
+
+Technology A and Technology B are two parts of the same design curriculum. Being a designer has actually historically been a very technical job: You had people designing type, cutting type, setting type, operating presses, preparing pages for printing, and all of these jobs required very specific technical knowledge. So the idea was not just that you were making something look good; you actually had to understand how the thing was being produced. And a lot of early modern design education, especially schools like the Bauhaus, was very much connected to workshops, materials, craft, industrial production, and vocational training. So in some ways, having technology classes in design school is not really a new idea at all. It’s just that what we mean by “technology” keeps changing.
+
+Printers understood type, paper, ink, registration, and binding; [desktop publishing](https://www.computerhistory.org/revolution/personal-computers/17/306) moved production onto personal computers; and [creative coding](https://processing.org/tutorials/overview/) turned the computer into a medium that can move, respond, work with data, and generate variation. The tools change, but designers still need to understand how things are made.
+
+<div
+  class="lecture-gallery"
+  aria-label="A short history of changing design technologies"
+>
+  <LectureFigure
+    src="https://upload.wikimedia.org/wikipedia/commons/7/76/The_Printing_Press._Step_2._Placing_the_type.jpg"
+    alt="Metal type arranged by hand on the bed of a letterpress"
+    label="Letterpress"
+    caption="Designing meant understanding material production."
+    credit="Photo by Brett Osteen."
+    sourceHref="https://commons.wikimedia.org/wiki/File:The_Printing_Press._Step_2._Placing_the_type.jpg"
+    sourceLabel="Wikimedia Commons"
+  />
+  <LectureFigure
+    class="lecture-gallery__item--contain"
+    src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Macintosh_128k_transparency.png"
+    alt="An original Apple Macintosh 128K personal computer"
+    label="Desktop publishing"
+    caption="Personal computers changed who could control production."
+    credit="Photo by All About Apple Museum."
+    sourceHref="https://commons.wikimedia.org/wiki/File:Macintosh_128k_transparency.png"
+    sourceLabel="Wikimedia Commons"
+  />
+  <LectureFigure
+    class="lecture-gallery__item--contain"
+    src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Processing_4.0b1_Screenshot.png/1280px-Processing_4.0b1_Screenshot.png"
+    alt="The Processing 4 programming environment showing code beside its visual output"
+    label="Creative coding"
+    caption="Software becomes something designers can make."
+    credit="Screenshot by Processing Foundation / Design Systems International."
+    sourceHref="https://commons.wikimedia.org/wiki/File:Processing_4.0b1_Screenshot.png"
+    sourceLabel="Wikimedia Commons"
+  />
+</div>
+
+### A Change of Scale
+
+- In the [Tech A](https://tech-a.designfuture.space/), you write code yourself, prototype interactions, and see how inputs, outputs, variables, and rules produce behavior. The goal is not to become a software engineer; it is to learn the language of computation so that you can design with it. You learn to read and write code, and to understand how a system works from the inside.
+- In **Technology B**, we still make and prototype, but we also investigate systems too large for one designer to rebuild: platforms, networks, automation, data, AI, infrastructure, and the labor behind them. W
+
+Technology B is not “theory after skills.” It moves between using a system and asking who built it, what it values, what it hides, who benefits, and who carries its costs. A generative-AI text box may look simple while concealing models, datasets, servers, energy, labor, companies, laws, and design decisions. The [official Tech B course site](https://tech-b.designfuture.space/) gives the semester structure, while the [Processing Foundation](https://processingfoundation.org/) supports the creative-coding community that helped establish code as a design medium.
+
+In short: **Tech A asks how to construct a computational system; Tech B asks how to understand, work within, and redesign a technological system bigger than any one of us.**
+
+## What is intelligence?
+
+“AI” is currently used as a promise, a threat, and a label for very different technologies. Before asking what makes intelligence _artificial_, we need to ask what we are calling _intelligence_. Is it learning, adaptation, language, problem-solving, perception, social relation, or meaning-making? There is no single settled definition—the collection assembled by [Shane Legg and Marcus Hutter](https://arxiv.org/abs/0706.3639) shows how differently researchers frame it.
+
+For designers, this is not only a philosophical question. Once a definition becomes categories, measurements, datasets, or interface behavior, it becomes a design decision. A system that recognizes intelligence through speed, accuracy, or fluent language will notice some capacities and ignore others. Our definition determines what a system values, who or what it can recognize, and what it excludes.
+
+<div
+  class="lecture-gallery"
+  aria-label="Different ways to think about intelligence, adaptation, and feedback"
+>
+  <LectureFigure
+    src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/The_Mimosa_pudica_plant.jpg/960px-The_Mimosa_pudica_plant.jpg"
+    alt="A Mimosa pudica plant with delicate compound leaves"
+    label="Response"
+    caption="A sensitive plant reacts to touch, but response alone does not settle whether something is intelligent."
+    credit="Photo by Goodymeraj."
+    sourceHref="https://commons.wikimedia.org/wiki/File:The_Mimosa_pudica_plant.jpg"
+    sourceLabel="Wikimedia Commons"
+  />
+  <LectureFigure
+    src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Common_Octopus.jpg/1280px-Common_Octopus.jpg"
+    alt="A common octopus resting among rocks in an aquarium"
+    label="Embodiment"
+    caption="An octopus asks us to imagine intelligence beyond human language and bodies."
+    credit="Photo by Lee Vilenski."
+    sourceHref="https://commons.wikimedia.org/wiki/File:Common_Octopus.jpg"
+    sourceLabel="Wikimedia Commons"
+  />
+  <LectureFigure
+    class="lecture-gallery__item--contain"
+    src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Feedback_control_system.jpg/1280px-Feedback_control_system.jpg"
+    alt="Diagram of a thermostat using a closed feedback loop to control room temperature"
+    label="Feedback"
+    caption="A thermostat senses and responds automatically; automation does not automatically equal intelligence."
+    credit="Diagram by Controlsystemintro."
+    sourceHref="https://commons.wikimedia.org/wiki/File:Feedback_control_system.jpg"
+    sourceLabel="Wikimedia Commons"
+  />
+</div>
+
+### Build a Definition
+
+Define intelligence without using the words _smart_ or _intelligent_. Which qualities does your definition require?
+
+- Learning from experience
+- Adapting to an environment
+- Solving problems or pursuing goals
+- Using language and symbols
+- Perceiving through a body
+- Relating to other people or living things
+- Remembering, imagining, or making meaning
+
+Test your definition against a person, an animal, a plant, a group of people, a thermostat, and a large language model. What does it include? What does it exclude? What evidence would convince you that each example is intelligent?
+
+### The Imitation Game
+
+In [_Computing Machinery and Intelligence_](https://academic.oup.com/mind/article/LIX/236/433/986238) (1950), Alan Turing steps away from the difficult question “Can machines think?” and proposes an observable test he calls the imitation game. Instead of proving what happens inside a machine, an evaluator judges it through written interaction. This move is useful, but it also narrows intelligence to a particular performance: producing language another person finds convincing. The [Stanford Encyclopedia of Philosophy’s Turing Test entry](https://plato.stanford.edu/entries/turing-test/) provides additional context.
+
+<LectureFigure
+  class="lecture-figure lecture-figure--diagram"
+  src="https://upload.wikimedia.org/wikipedia/commons/6/62/Turing_test_diagram.svg"
+  alt="Diagram of the Turing test, with an interrogator exchanging written messages with a human and a machine"
+  caption="A diagram of the Turing test."
+  credit="Diagram by Schoeneh."
+  sourceHref="https://commons.wikimedia.org/wiki/File:Turing_test_diagram.svg"
+  sourceLabel="Wikimedia Commons"
+/>
+
+> **Discuss:** How do we tell intelligence from a sufficiently good imitation of it? What forms of intelligence would a text-only test fail to recognize?
+
+The imitation game gives us a way to evaluate behavior; it does not settle whether convincing behavior is the same as understanding. Hold onto that distinction—the Chinese Room will challenge it directly after the break.
+
+## Syllabus Overview
+
+The [Technology B course site](https://tech-b.designfuture.space/) contains the official description and semester structure. This class notebook contains our week-by-week lecture notes, readings, tutorials, code examples, and assignment links. Use the notebook as the working record of what we discuss in class.
+
+In Technology B, we will examine how intelligence has been modeled, simulated, and represented across different historical and cultural contexts. We will treat contemporary AI not as a magical or autonomous intelligence, but as a designed structure that emerges from datasets, rules, interfaces, infrastructure, labor, and human decisions.
+
+The [UNESCO AI Competency Framework for Students](https://unesdoc.unesco.org/ark:/48223/pf0000391105) organizes AI literacy as a progression from **Understand → Apply → Create**. That is also a useful rhythm for this course: investigate a system and its assumptions, work with it directly, then make or redesign something that demonstrates what you learned.
+
+### What Counts as Technology?
+
+The word technology can get a little bit messy. A pencil sharpener, a pencil, paper, a chair, and a stapler are all technologies; technology does not have to be digital, electronic, or computational. But the fact that almost everything can be called technology does not mean everything is equally relevant to what we are studying. If you want to research a pencil sharpener, my question will be: **What does the pencil sharpener help you understand?** Can you use it to think about automation, standardization, labor, mechanical systems, industrial production, or interfaces? Can you connect that small thing to a larger technological system?
+
+### How We Will Work
+
+- Read a system closely: its rules, inputs, outputs, interfaces, histories, and omissions.
+- Prototype with it so that our critique is grounded in direct experience.
+- Document the choices, failures, and discoveries that happen while making.
+- Ask who built the system, whose knowledge it privileges, who benefits, and who carries its costs.
+- Use critique to redirect, redesign, misuse, or refuse a system—not only to make it more efficient.
+
+## Short Break
+
+> Take a ten-minute break. When we return, bring back one working definition of intelligence and one question that your definition could not resolve.
+
+## The Chinese Room
+
+In [_Minds, Brains, and Programs_](https://www.cambridge.org/core/journals/behavioral-and-brain-sciences/article/minds-brains-and-programs/DC644B47A4299C637C89772FACC2706A) (1980), philosopher John Searle asks us to imagine a person in a room following a rulebook to transform unfamiliar Chinese symbols into convincing replies. From outside the room, the responses appear fluent. Inside, the person does not understand Chinese; they only manipulate symbols according to formal rules.
+
+The thought experiment separates **syntax**—following rules for arranging symbols—from **semantics**—understanding what those symbols mean. Searle uses the distinction to challenge the claim that executing the right program is, by itself, sufficient for understanding. The argument has many replies and counterarguments; the [Stanford Encyclopedia of Philosophy’s Chinese Room entry](https://plato.stanford.edu/entries/chinese-room/) is a useful guide to that debate.
+
+### In-class Thought Experiment
+
+1. One person is the **room** and cannot see the larger conversation.
+2. One person is the **rulebook**, supplying exact operations without explaining their meaning.
+3. One group creates the **inputs** and another group evaluates the **outputs**.
+4. Run the exchange, then ask where—if anywhere—understanding exists in the whole system.
+
+### Discussion Prompts
+
+- Can a system that manipulates symbols according to rules be said to understand anything?
+- Does the person need to understand, or could the room as a complete system understand?
+- Does embodiment, perception, or the ability to act in the world change your answer?
+- When a chatbot produces a convincing response, what evidence of understanding do we actually have?
+
+## What is AI?
+
+The term _artificial intelligence_ was used in the [1955 proposal for the Dartmouth Summer Research Project on Artificial Intelligence](https://ojs.aaai.org/aimagazine/index.php/aimagazine/article/view/1904/0). The proposal imagined that features of learning and intelligence could be described precisely enough for machines to simulate them. That premise turns intelligence into a design problem: decide which qualities matter, formalize them as rules or representations, and build a system that performs them.
+
+<LectureFigure
+  class="lecture-figure lecture-figure--document"
+  src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/A_Proposal_for_the_Dartmouth_Summer_Research_Project_on_Artificial_Intelligence%2C_by_John_McCarthy_et_al%2C_1955.pdf/page1-960px-A_Proposal_for_the_Dartmouth_Summer_Research_Project_on_Artificial_Intelligence%2C_by_John_McCarthy_et_al%2C_1955.pdf.jpg"
+  alt="First page of the 1955 proposal for the Dartmouth Summer Research Project on Artificial Intelligence"
+  caption="The first page of the 1955 Dartmouth proposal."
+  sourceHref="https://commons.wikimedia.org/wiki/File:A_Proposal_for_the_Dartmouth_Summer_Research_Project_on_Artificial_Intelligence,_by_John_McCarthy_et_al,_1955.pdf"
+  sourceLabel="Wikimedia Commons"
+  relatedHref="https://ojs.aaai.org/aimagazine/index.php/aimagazine/article/view/1904/1802"
+  relatedLabel="open-access reprint"
+  relatedPrefix="Read the"
+/>
+
+### A Working Definition
+
+For this course, _AI_ can refer to several related but different things:
+
+- A **field of research** concerned with building systems that perform capacities associated with intelligence.
+- A **set of techniques**, including classification, search, optimization, machine learning, and generative modeling.
+- A **product or interface** through which people encounter those techniques.
+- An **infrastructure** of data, models, servers, energy, human labor, institutions, laws, and business decisions.
+
+The [NIST glossary definition of artificial intelligence](https://csrc.nist.gov/glossary/term/artificial_intelligence) is useful as a current operational reference, while the [Stanford Encyclopedia of Philosophy’s AI entry](https://plato.stanford.edu/entries/artificial-intelligence/) compares definitions based on thinking versus acting and human performance versus ideal rationality. Whenever someone says “AI,” ask which meaning they are using and what gets hidden when those layers are collapsed into one word.
+
+### ELIZA and the Appearance of Understanding
+
+[ELIZA](https://www.masswerk.at/elizabot/) was created by Joseph Weizenbaum in the 1960s. Its best-known script, DOCTOR, transforms parts of a user’s input into questions that resemble a nondirective therapist’s responses. The program is structurally simple, yet people can quickly project empathy and understanding onto its output. Read [Weizenbaum’s original paper](https://dl.acm.org/doi/10.1145/365153.365168), try a [working ELIZA reconstruction](https://www.masswerk.at/elizabot/), and explore the archival project [Finding ELIZA](https://findingeliza.org/).
+
+<LectureFigure
+  class="lecture-figure lecture-figure--terminal"
+  src="https://upload.wikimedia.org/wikipedia/commons/7/79/ELIZA_conversation.png"
+  alt="A terminal conversation with ELIZA's DOCTOR script"
+  caption="A conversation with ELIZA’s DOCTOR script."
+  sourceHref="https://commons.wikimedia.org/wiki/File:ELIZA_conversation.png"
+  sourceLabel="Wikimedia Commons"
+/>
+
+> **Discuss:** If an interface feels intelligent, what are we responding to—the system’s internal process, the structure of the conversation, or our own willingness to fill in what is missing?
+
+## Assignment Announcement
+
+**Due:** Sep 2, 2026
+
+Choose a short piece of text in your preferred language. It can be a poem, a
+quote, a diary excerpt, or another personal statement that reflects your values.
+
+Collect visual and material inspirations (typography, print experiments,
+manifestos), then recreate at least one direction in [**p5.js
+Editor**](https://editor.p5js.org/).
+
+Document what is working and what is not yet working, then submit both your
+sketch link and a short reflection.
+
+<a class="btn-primary" href="{{assignmentFormUrl}}">
+  Submit Assignment
+</a>
+
+### p5.js Refresh
+
+Use these sketches as a starting point, then change the rules until the visual system reflects the text you selected.
+
+#### Starter Sketch
+
+```js title="Starter Sketch"
+function setup() {
+  createCanvas(640, 420);
+  background(245);
+  noLoop();
+}
+
+function draw() {
+  fill(25, 40, 90);
+  circle(width * 0.5, height * 0.5, 160);
+}
+```
+
+#### Variation Pattern
+
+```js title="Variation Pattern"
+function draw() {
+  background(250, 245, 236);
+  noStroke();
+
+  for (let i = 0; i < 40; i += 1) {
+    const x = random(width);
+    const y = random(height);
+    const d = random(8, 40);
+    fill(20, 30, 60, 120);
+    circle(x, y, d);
+  }
+}
+```
+
+### Examples
+
+- [p5 SVG example](https://editor.p5js.org/munusshih/sketches/Vd_gqg5fz)
+- [Open the p5.js Web Editor](https://editor.p5js.org/)
+
+### Crit Prompts
+
+- Which variables are doing the most visual work?
+- What rule can you remove to make your system clearer?
+- Where does randomness help, and where does it dilute intent?
+- What relationship can a viewer see between your chosen text and the behavior of the system?
+
+### Optional Fabrication Workshop
+
+- Laser Cutting (guest workshop)
+- Intro to 3D printers
+- Safety and file preparation basics
+
+## Readings
+
+### Core Texts
+
+- [Alan Turing, “Computing Machinery and Intelligence”](https://academic.oup.com/mind/article/LIX/236/433/986238) (1950)
+- [John Searle, “Minds, Brains, and Programs”](https://www.cambridge.org/core/journals/behavioral-and-brain-sciences/article/minds-brains-and-programs/DC644B47A4299C637C89772FACC2706A) (1980)
+- [McCarthy, Minsky, Rochester, and Shannon, “A Proposal for the Dartmouth Summer Research Project on Artificial Intelligence”](https://ojs.aaai.org/aimagazine/index.php/aimagazine/article/view/1904/0) (1955)
+- [Joseph Weizenbaum, “ELIZA—A Computer Program for the Study of Natural Language Communication Between Man and Machine”](https://dl.acm.org/doi/10.1145/365153.365168) (1966)
+
+### Further Context
+
+- [Shane Legg and Marcus Hutter, “A Collection of Definitions of Intelligence”](https://arxiv.org/abs/0706.3639)
+- [Stanford Encyclopedia of Philosophy: “The Turing Test”](https://plato.stanford.edu/entries/turing-test/)
+- [Stanford Encyclopedia of Philosophy: “The Chinese Room Argument”](https://plato.stanford.edu/entries/chinese-room/)
+- [V&A: “A History of Artificial Intelligence in 10 Objects”](https://www.vam.ac.uk/articles/a-history-of-artificial-intelligence-in-10-objects)
+
+## Tutorials
+
+- [Creative Coding for Beginners with p5.js - The Coding Train](https://youtu.be/yPWkPOfnGsw?feature=shared)
+- [2D Primitives - Xin Xin](https://www.youtube.com/watch?v=hISICBkFa4Q)
+- [p5.js Web Editor with Cassie Tarakajian - Processing Foundation](https://www.youtube.com/watch?v=x1rJJRVTpAI)
+- [p5.js 2.0 with Kit Kuksenok - The Coding Train](https://www.youtube.com/watch?v=1KqQeqZ3R9Y)
+
+## Prep For Next Week
+
+- Bring 3 references from design history or contemporary digital practice.
+- Bring one refined sketch and one messy experiment.
+
+## Note from Munus
+
+<MunusNote>
+
+- Keep writing lectures directly in this week file.
+- Add titled code blocks with language tags for highlighting and line numbers.
+- Keep class links and resources in this file so students can copy from one source.
+
+</MunusNote>

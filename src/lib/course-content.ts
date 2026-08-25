@@ -32,7 +32,9 @@ export function disableSubmissionLinks(html: string): string {
   return html.replace(
     /<a\b([^>]*?)href=(['"])(.*?)\2([^>]*)>([\s\S]*?)<\/a>/gi,
     (full, before, _quote, href, after, label) => {
-      const plainLabel = String(label).replace(/<[^>]*>/g, "").trim();
+      const plainLabel = String(label)
+        .replace(/<[^>]*>/g, "")
+        .trim();
       const isForm = /(?:forms\.gle|docs\.google\.com\/forms)/i.test(href);
       const isSubmissionAction = /\bsubmit\b/i.test(plainLabel);
       if (!isForm && !isSubmissionAction) return full;
@@ -40,8 +42,10 @@ export function disableSubmissionLinks(html: string): string {
       const cleanedAttributes = `${before}${after}`
         .replace(/\s*target=(['"])[\s\S]*?\1/gi, "")
         .replace(/\s*rel=(['"])[\s\S]*?\1/gi, "")
-        .replace(/\s*class=(['"])(.*?)\1/i, (_match, quote, classes) =>
-          ` class=${quote}${classes} archived-submission${quote}`,
+        .replace(
+          /\s*class=(['"])(.*?)\1/i,
+          (_match, quote, classes) =>
+            ` class=${quote}${classes} archived-submission${quote}`,
         );
       const hasClass = /\bclass=/.test(cleanedAttributes);
       return `<span${cleanedAttributes}${hasClass ? "" : ' class="archived-submission"'} aria-disabled="true">${label}<span class="sr-only"> (closed; archived)</span></span>`;

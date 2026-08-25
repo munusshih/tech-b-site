@@ -1,0 +1,93 @@
+---
+interface Props {
+  label?: string;
+  class?: string;
+}
+
+const { label = "tl;dr", class: className } = Astro.props as Props;
+---
+
+<aside class:list={["week-tldr", className]} aria-label={label}>
+  <div class="week-tldr__heading">
+    <span class="week-tldr__mark" aria-hidden="true">↳</span>
+    <p>{label}</p>
+  </div>
+  <div class="week-tldr__body">
+    <slot />
+  </div>
+</aside>
+
+<style>
+  .week-tldr {
+    box-sizing: border-box;
+    margin: 0 0 1.75rem;
+    border: 2px dashed currentColor;
+    border-radius: 0.75rem;
+    background: #e1daf2;
+    padding: 1rem 1.125rem 1.125rem;
+    width: 100%;
+    max-width: var(--week-content-max, 53.75rem);
+  }
+
+  .week-tldr__heading {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .week-tldr__heading p {
+    margin: 0;
+    max-width: none;
+    font-weight: 700;
+    font-size: 1.15rem;
+    line-height: 1.25;
+    text-transform: lowercase;
+  }
+
+  .week-tldr__mark {
+    display: inline-grid;
+    place-items: center;
+    transform: rotate(-7deg);
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    background: #cbbbe5;
+    width: 2.5rem;
+    height: 2.5rem;
+    font-weight: 800;
+    font-size: 1.35rem;
+    line-height: 1;
+  }
+
+  .week-tldr__body > :global(:first-child) {
+    margin-top: 0;
+  }
+
+  .week-tldr__body > :global(:last-child) {
+    margin-bottom: 0;
+  }
+
+  .week-tldr__body :global(p),
+  .week-tldr__body :global(ul),
+  .week-tldr__body :global(ol),
+  .week-tldr__body :global(blockquote) {
+    max-width: none;
+  }
+
+  .week-tldr__body :global(p) {
+    margin: 0 0 0.875rem;
+    text-indent: 0;
+  }
+
+  @media (max-width: 37.5rem) {
+    .week-tldr {
+      padding: 0.875rem;
+    }
+
+    .week-tldr__mark {
+      width: 2.2rem;
+      height: 2.2rem;
+      font-size: 1.2rem;
+    }
+  }
+</style>

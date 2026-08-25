@@ -19,6 +19,6 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<WeekPost {...post.data} year={ACTIVE_YEAR} contentId={post.id}>
+<WeekPost {...post.data} year={ACTIVE_YEAR}>
   <Content />
 </WeekPost>

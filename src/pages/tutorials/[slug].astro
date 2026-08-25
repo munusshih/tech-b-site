@@ -3,14 +3,15 @@ import { getCollection, render } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import Footer from "@/components/Footer.astro";
-import YearBackground from "@/components/YearBackground.astro";
+import CourseTitle from "@/components/CourseTitle.astro";
 import YearSwitcher from "@/components/YearSwitcher.astro";
-import SketchSwitcher from "@/components/SketchSwitcher.astro";
-import { ACTIVE_YEAR, SITE_TITLE, getYearConfig } from "@/config";
+import { ACTIVE_YEAR } from "@/config";
 import { isPublishedTutorial } from "@/lib/course-content";
 
 export async function getStaticPaths() {
-  const tutorials = (await getCollection("tutorials")).filter(isPublishedTutorial);
+  const tutorials = (await getCollection("tutorials")).filter(
+    isPublishedTutorial,
+  );
   return tutorials.map((tutorial) => ({
     params: { slug: tutorial.id },
     props: tutorial,
@@ -21,11 +22,6 @@ type Props = CollectionEntry<"tutorials">;
 
 const tutorial = Astro.props;
 const { Content } = await render(tutorial);
-const activeConfig = getYearConfig(ACTIVE_YEAR);
-const courseHeading = activeConfig.sectionId
-  ? `${SITE_TITLE} (${activeConfig.sectionId})`
-  : SITE_TITLE;
-
 const difficultyColors = {
   beginner: "bg-green-100 text-green-800",
   intermediate: "bg-yellow-100 text-yellow-800",
@@ -38,19 +34,14 @@ const difficultyColors = {
   description={tutorial.data.description || "Tutorial"}
   year={ACTIVE_YEAR}
 >
-  <YearBackground year={ACTIVE_YEAR} />
-
   <header>
     <div>
       <a href="/">
-        <h1 class="heading-3 !leading-normal">
-          {courseHeading}
-        </h1>
+        <CourseTitle year={ACTIVE_YEAR} />
       </a>
       <a href="/tutorials">← Back to Tutorials</a>
       <h2 class="heading-1">{tutorial.data.title}</h2>
       <YearSwitcher year={ACTIVE_YEAR} />
-      <SketchSwitcher />
 
       <div class="tutorial-meta">
         {

@@ -7,8 +7,21 @@
 }
 
 .weekly-section {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.02);
+    border: 0;
+    background: rgba(255, 255, 255, 1);
     @apply mb-4 px-4 py-2;
+}
+
+.weekly-section:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+html[data-course-year="2026"] .weekly-section {
+    border: 2px solid var(--sketch-accent);
+    border-radius: 0;
+    /* background: #fff; */
+}
+
+html[data-course-year="2026"] .weekly-section:hover {
+    background: rgba(111, 86, 187, 0.08);
 }

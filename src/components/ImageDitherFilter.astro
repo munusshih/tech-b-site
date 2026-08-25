@@ -1,0 +1,82 @@
+<svg
+  class="image-filter-definitions"
+  width="0"
+  height="0"
+  aria-hidden="true"
+  focusable="false"
+>
+  <defs>
+    <filter
+      id="techb-image-dither"
+      x="0"
+      y="0"
+      width="100%"
+      height="100%"
+      color-interpolation-filters="sRGB"
+    >
+      <feColorMatrix
+        in="SourceGraphic"
+        type="matrix"
+        values="
+          0.2126 0.7152 0.0722 0 0
+          0.2126 0.7152 0.0722 0 0
+          0.2126 0.7152 0.0722 0 0
+          0      0      0      1 0"
+        result="luminance"
+      >
+      </feColorMatrix>
+
+      <feTurbulence
+        type="fractalNoise"
+        baseFrequency="0.48"
+        numOctaves="1"
+        seed="23"
+        stitchTiles="stitch"
+        result="noise"
+      >
+      </feTurbulence>
+
+      <feColorMatrix
+        in="noise"
+        type="matrix"
+        values="
+          0.333 0.333 0.333 0 -0.5
+          0.333 0.333 0.333 0 -0.5
+          0.333 0.333 0.333 0 -0.5
+          0     0     0     1  0"
+        result="signed-noise"
+      >
+      </feColorMatrix>
+
+      <feComposite
+        in="luminance"
+        in2="signed-noise"
+        operator="arithmetic"
+        k2="1"
+        k3="1"
+        result="noisy-luminance"
+      >
+      </feComposite>
+
+      <feComponentTransfer in="noisy-luminance" result="dithered">
+        <feFuncR type="discrete" tableValues="0 1"></feFuncR>
+        <feFuncG type="discrete" tableValues="0 1"></feFuncG>
+        <feFuncB type="discrete" tableValues="0 1"></feFuncB>
+      </feComponentTransfer>
+
+      <feColorMatrix
+        in="dithered"
+        type="matrix"
+        values="
+          0.745 0     0     0 0.165
+          0     0.757 0     0 0.086
+          0     0     0.761 0 0.239
+          0     0     0     1 0"
+        result="duotone"
+      >
+      </feColorMatrix>
+
+      <feComposite in="duotone" in2="SourceAlpha" operator="in"> </feComposite>
+    </filter>
+  </defs>
+</svg>

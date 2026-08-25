@@ -1,70 +1,120 @@
-/* The combined Week 1 lecture is a long-form reading surface, not a card. */
-#week-content [data-section^="lecture-"] {
-  margin-bottom: 2.5rem;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  padding: 0;
-}
-
-#week-content [data-section^="lecture-"]:hover {
-  background: transparent;
-}
-
-#week-content [data-section^="lecture-"] > h2 {
-  margin: 0 0 1rem;
-  border: 0;
-  padding: 0;
-  font-size: clamp(1.35rem, 2vw, 1.7rem);
-  line-height: 1.18;
-}
-
-#week-content [data-section^="lecture-"] h3 {
-  margin: 2rem 0 0.65rem;
-  font-weight: 650;
-  font-size: 1.15rem;
-  line-height: 1.25;
-  text-decoration: var(--sketch-accent, currentColor) wavy underline;
-  text-underline-offset: 0.3em;
-}
-
-#week-content [data-section^="lecture-"] h4 {
-  margin: 1.4rem 0 0.5rem;
-  font-weight: 650;
-  font-size: var(--body-copy-size, 1.0625rem);
-  line-height: 1.35;
-}
-
-#week-content [data-section^="lecture-"] p {
-  margin: 0 0 1rem;
-  max-width: 72ch;
-  line-height: var(--body-copy-line-height, 1.55);
-}
-
-#week-content [data-section^="lecture-"] ol {
-  margin: 0.75rem 0 1.4rem 1.4rem;
-  padding: 0;
-  max-width: 68ch;
-  list-style: decimal;
-}
-
-#week-content [data-section^="lecture-"] ol li {
-  margin: 0.45rem 0;
-  padding-left: 0.25rem;
-  line-height: 1.5;
-}
-
-#week-content [data-section^="lecture-"] ul {
-  margin: 0.75rem 0 1.4rem;
-  max-width: 68ch;
-}
-
-#week-content [data-section^="lecture-"] .expressive-code,
-#week-content [data-section^="lecture-"] .iframe-wrap {
-  margin: 0.75rem 0 1.75rem;
-  box-shadow: none;
+/* Content-specific lecture media; prose rhythm lives in week-content.css. */
+#week-content .lecture-figure {
+  box-sizing: border-box;
+  margin: 1.5rem 0 2.25rem;
   width: 100%;
+  max-width: var(--week-content-max, 53.75rem);
+}
+
+#week-content .lecture-figure--diagram,
+#week-content .lecture-figure--document {
+  max-width: min(100%, 38rem);
+}
+
+#week-content .lecture-figure--terminal {
+  max-width: min(100%, 46rem);
+}
+
+a.button {
+  display: inline-block;
+  padding: .5rem 1.5rem;
+  border: 1px solid var(--sketch-accent);
+  background: var(--sketch-accent);
+  color: white;
+  text-decoration: none;
+  border-radius: 5rem;
+  margin-bottom: 1rem;
+}
+
+a.button::after {
+  content: none;
+}
+
+.week-main-content h1 {
+  font-size: 2rem;
+}
+
+#week-content .lecture-figure img {
+  display: block;
+  box-sizing: border-box;
+  border: 0;
+  background: #fff;
+  width: 100%;
+  height: auto;
+}
+
+#week-content .lecture-figure figcaption,
+#week-content .lecture-gallery figcaption {
+  display: block;
+  margin-top: 0.65rem;
   max-width: none;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  text-indent: 0;
+}
+
+#week-content .lecture-figure figcaption>*,
+#week-content .lecture-gallery figcaption>*,
+#week-content .lecture-figure figcaption p,
+#week-content .lecture-gallery figcaption p {
+  display: inline;
+  margin: 0;
+  max-width: none;
+  font-size: inherit;
+  line-height: inherit;
+  text-indent: 0;
+}
+
+#week-content .lecture-figure figcaption a,
+#week-content .lecture-gallery figcaption a {
+  display: inline;
+  white-space: nowrap;
+}
+
+#week-content .lecture-figure figcaption a[href^="http"]::after,
+#week-content .lecture-gallery figcaption a[href^="http"]::after {
+  content: none;
+}
+
+#week-content .lecture-figure__credit {
+  opacity: 0.72;
+}
+
+#week-content .lecture-gallery {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2.25rem;
+  box-sizing: border-box;
+  margin: 1.5rem 0 2.25rem;
+  width: 100%;
+  max-width: var(--week-content-max, 53.75rem);
+}
+
+#week-content .lecture-gallery figure {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  min-width: 0;
+}
+
+#week-content .lecture-gallery img {
+  display: block;
+  box-sizing: border-box;
+  border: 0;
+  background: #fff;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  object-fit: cover;
+}
+
+#week-content .lecture-gallery__item--contain img {
+  background: #f5f2fb;
+  padding: 0.75rem;
+  object-fit: contain;
+}
+
+#week-content .lecture-gallery figcaption strong {
+  font-weight: 700;
 }
 
 /* The note has its own reference-derived frame, so remove the generic card. */
@@ -80,7 +130,7 @@
   background: transparent;
 }
 
-#week-content [data-section="note-from-munus"] > h2 {
+#week-content [data-section="note-from-munus"]>h2 {
   position: absolute;
   margin: -1px;
   border: 0;
@@ -90,14 +140,4 @@
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
-}
-
-@media (max-width: 48rem) {
-  #week-content [data-section^="lecture-"] > h2 {
-    font-size: 1.3rem;
-  }
-
-  #week-content [data-section^="lecture-"] h3 {
-    margin-top: 1.6rem;
-  }
 }

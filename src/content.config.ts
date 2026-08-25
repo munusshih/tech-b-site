@@ -10,6 +10,7 @@ const weeks = defineCollection({
       title: z.string(),
       description: z.string().optional(), // Optional description that can include markdown
       longDescription: z.string().optional(), // Optional long description with markdown support
+      tldr: z.string().optional(), // Optional summary rendered below the week hero
       // Optional flag to indicate this markdown file should NOT be generated as a standalone page.
       // If set to `false` the content can still be rendered in listings or embedded views.
       page: z.boolean().optional(),

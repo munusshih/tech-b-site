@@ -4,11 +4,11 @@ import Footer from "@/components/Footer.astro";
 import Nav from "@/components/Nav.astro";
 import CourseInfo from "@/components/CourseInfo.astro";
 import YearBackground from "@/components/YearBackground.astro";
+import CourseTitle from "@/components/CourseTitle.astro";
 import HallofFame from "@/components/HallofFame.astro";
 import Marquee from "@/components/Marquee.astro";
 import YearSwitcher from "@/components/YearSwitcher.astro";
 import ArchiveNotice from "@/components/ArchiveNotice.astro";
-import SketchSwitcher from "@/components/SketchSwitcher.astro";
 import {
   SITE_DESCRIPTION,
   SITE_TITLE,
@@ -26,23 +26,24 @@ const archived = isArchivedYear(year);
 const courseHeading = yearConfig.sectionId
   ? `${SITE_TITLE} (${yearConfig.sectionId})`
   : SITE_TITLE;
+const marqueeText =
+  yearConfig.marqueeText?.trim() ||
+  `Hello!`;
 ---
 
 <Layout title={courseHeading} description={SITE_DESCRIPTION} year={year}>
   <YearBackground year={year} />
-
   <header>
     <div>
-      <h1>{SITE_TITLE}{yearConfig.sectionId && <><br />({yearConfig.sectionId})</>}</h1>
+      <CourseTitle year={year} />
       <p>{SITE_DESCRIPTION}</p>
       <YearSwitcher year={year} />
-      {year === 2026 && <SketchSwitcher />}
       {archived && <ArchiveNotice year={year} />}
     </div>
     <CourseInfo year={year} />
   </header>
 
-  <main class="cutoff">
+  <main class="cutoff homepage-weekly-schedule">
     <Nav year={year} />
   </main>
 
@@ -50,7 +51,5 @@ const courseHeading = yearConfig.sectionId
     <HallofFame year={year} />
     <Footer year={year} />
   </div>
-  {yearConfig.marqueeText && (
-    <Marquee text={yearConfig.marqueeText} speed="slow" direction="right" />
-  )}
+  <Marquee text={marqueeText} speed="slow" direction="right" />
 </Layout>
