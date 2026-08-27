@@ -10,6 +10,7 @@ import Analytics from "@vercel/analytics/astro";
 import StudentResponses from "@/components/StudentResponses.astro";
 import ArchiveNotice from "@/components/ArchiveNotice.astro";
 import WeekTldr from "@/components/WeekTldr.astro";
+import WeekCursorFlock from "@/components/WeekCursorFlock.astro";
 import "@/styles/lectures.css";
 import { getYearBasePath, getYearConfig, isArchivedYear } from "@/config";
 import { disableSubmissionLinks } from "@/lib/course-content";
@@ -196,6 +197,7 @@ const shouldTrackAnalytics = import.meta.env.PROD;
   </head>
   <body>
     <ImageDitherFilter />
+    {Number(year) === 2026 && <WeekCursorFlock />}
     <header id="week-header">
       <div>
         <a href={`${basePath}/`}>
