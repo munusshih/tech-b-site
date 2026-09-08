@@ -26,13 +26,15 @@ if (unknownFlags.length > 0) {
 }
 
 if (positional.length !== 1 || !/^\d{4}$/.test(positional[0])) {
-  fail("use `npm run year:advance -- 2027` (add `--confirm` to apply)." );
+  fail("use `npm run year:advance -- 2027` (add `--confirm` to apply).");
 }
 
 const targetYear = Number(positional[0]);
 const { config, activeYear } = loadCourseConfig();
 if (targetYear !== activeYear + 1) {
-  fail(`target must be exactly ${activeYear + 1}; activeYear is ${activeYear}.`);
+  fail(
+    `target must be exactly ${activeYear + 1}; activeYear is ${activeYear}.`,
+  );
 }
 if (config.years[String(targetYear)]) {
   fail(`${targetYear} already exists in src/course-config.json.`);
@@ -92,7 +94,9 @@ if (!confirm) {
 }
 
 if (dirtyStatus) {
-  fail("commit or stash every tracked and untracked change before using --confirm.");
+  fail(
+    "commit or stash every tracked and untracked change before using --confirm.",
+  );
 }
 
 const nextYearConfig = {
@@ -115,6 +119,7 @@ const nextYearConfig = {
   },
   scheduleSections: [],
   specialProjectWeeks: {},
+  responseNames: {},
   students: [],
 };
 
@@ -135,6 +140,12 @@ config.years[String(targetYear)] = nextYearConfig;
 config.activeYear = targetYear;
 writeFileSync(courseConfigPath, `${JSON.stringify(config, null, 2)}\n`);
 
-console.log(`\nAdvanced the active course from ${activeYear} to ${targetYear}.`);
-console.log(`/${activeYear}/ is now a read-only archive; /${targetYear}/ redirects to /.`);
-console.log("Edit the new year's configuration, then copy templates/week.md into its weeks directory before publishing.");
+console.log(
+  `\nAdvanced the active course from ${activeYear} to ${targetYear}.`,
+);
+console.log(
+  `/${activeYear}/ is now a read-only archive; /${targetYear}/ redirects to /.`,
+);
+console.log(
+  "Edit the new year's configuration, then copy templates/week.md into its weeks directory before publishing.",
+);

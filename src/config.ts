@@ -34,6 +34,7 @@ export interface YearConfig {
     string,
     { projectName: string; description: string; url: string }
   >;
+  responseNames?: Record<string, string>;
   students: Student[];
 }
 
@@ -78,10 +79,7 @@ export function getYearBasePath(year: number): string {
   return isArchivedYear(year) ? `/${year}` : "";
 }
 
-export function generateStudentId(
-  firstName: string,
-  lastName: string,
-): string {
+export function generateStudentId(firstName: string, lastName: string): string {
   return `${firstName.toLowerCase()}-${lastName.toLowerCase()}`
     .replace(/[^a-z0-9-]/g, "")
     .replace(/--+/g, "-")
@@ -111,6 +109,10 @@ export function getStudentsByEmail(
     },
     {} as Record<string, StudentWithId>,
   );
+}
+
+export function getResponseNamesByEmail(year: number): Record<string, string> {
+  return getYearConfig(year).responseNames ?? {};
 }
 
 // Compatibility exports always describe the active cohort.

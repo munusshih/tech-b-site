@@ -4,9 +4,10 @@ import FileViewer from "@/components/FileViewer.astro";
 interface Props {
   entry: any;
   variant?: 1 | 2 | 3;
+  compactMedia?: boolean;
 }
 
-const { entry, variant = 1 } = Astro.props as Props;
+const { entry, variant = 1, compactMedia = false } = Astro.props as Props;
 
 // Build a flat list of src strings for media files
 let files: string[] = [];
@@ -33,7 +34,13 @@ function getWeekLabel(title) {
 
   {
     files.length > 1 ? (
-      <div class="media-swiper w-full mb-3" data-autoplay="true">
+      <div
+        class:list={[
+          "media-swiper w-full mb-3",
+          { "media-frame-compact": compactMedia },
+        ]}
+        data-autoplay="true"
+      >
         <div
           class="swiper-pagination my-4"
           role="tablist"
@@ -65,14 +72,27 @@ function getWeekLabel(title) {
               aria-roledescription="slide"
               aria-label={`Slide ${i + 1} of ${files.length}`}
             >
-              <FileViewer src={src} alt={`Project file ${i + 1}`} />
+              <FileViewer
+                src={src}
+                alt={`Project file ${i + 1}`}
+                compact={compactMedia}
+              />
             </div>
           ))}
         </div>
       </div>
     ) : files.length === 1 ? (
-      <div class="media-single w-full mb-3">
-        <FileViewer src={files[0]} alt="Project file 1" />
+      <div
+        class:list={[
+          "media-single w-full mb-3",
+          { "media-frame-compact": compactMedia },
+        ]}
+      >
+        <FileViewer
+          src={files[0]}
+          alt="Project file 1"
+          compact={compactMedia}
+        />
       </div>
     ) : null
   }
@@ -134,134 +154,171 @@ function getWeekLabel(title) {
   } -->
 
   {
-    entry.credit?.trim() && (variant === 2 || variant === 3) && (() => {
-      const credit = entry.credit.trim();
-      
-      // Split by newlines and clean up
-      let lines = credit.split(/\n+/).map(l => l.trim()).filter(Boolean);
-      
-      // Remove leading bullets/numbers from each line
-      lines = lines.map(line => line.replace(/^[-•*]\s*/, '').replace(/^\d+\.\s*/, ''));
-      
-      // Group lines with their following URLs
-      const groupedLines = [];
-      let i = 0;
-      while (i < lines.length) {
-        let current = lines[i];
-        // If next line is just a URL and current line is not, merge them
-        while (i + 1 < lines.length && /^https?:\/\//.test(lines[i + 1]) && !/https?:\/\//.test(current)) {
-          current += ' ' + lines[i + 1];
+    entry.credit?.trim() &&
+      (variant === 2 || variant === 3) &&
+      (() => {
+        const credit = entry.credit.trim();
+
+        // Split by newlines and clean up
+        let lines = credit
+          .split(/\n+/)
+          .map((l) => l.trim())
+          .filter(Boolean);
+
+        // Remove leading bullets/numbers from each line
+        lines = lines.map((line) =>
+          line.replace(/^[-•*]\s*/, "").replace(/^\d+\.\s*/, ""),
+        );
+
+        // Group lines with their following URLs
+        const groupedLines = [];
+        let i = 0;
+        while (i < lines.length) {
+          let current = lines[i];
+          // If next line is just a URL and current line is not, merge them
+          while (
+            i + 1 < lines.length &&
+            /^https?:\/\//.test(lines[i + 1]) &&
+            !/https?:\/\//.test(current)
+          ) {
+            current += " " + lines[i + 1];
+            i++;
+          }
+          groupedLines.push(current);
           i++;
         }
-        groupedLines.push(current);
-        i++;
-      }
-      
-      const formatLineWithLinks = (line, prevLine) => {
-        const urlRegex = /(https?:\/\/[^\s]+)/g;
-        const codeRegex = /\b([a-zA-Z_][a-zA-Z0-9_]*\(\))/g;
-        const parts = [];
-        
-        // Check if this line is just a URL
-        const isJustUrl = /^https?:\/\/[^\s]+$/.test(line.trim());
-        
-        if (isJustUrl) {
-          // Line is just a URL - show as [link]
-          return <a href={line.trim()} target="_blank" rel="noopener noreferrer" class="!underline">[link]</a>;
-        }
-        
-        // Process line with URLs and code snippets
-        const segments = [];
-        let currentText = line;
-        let urlMatch;
-        
-        // Extract all URLs first
-        const urls = [];
-        while ((urlMatch = urlRegex.exec(line)) !== null) {
-          urls.push({ start: urlMatch.index, end: urlMatch.index + urlMatch[0].length, url: urlMatch[0] });
-        }
-        
-        let lastIndex = 0;
-        
-        urls.forEach((urlInfo, idx) => {
-          // Process text before URL
-          const textBefore = line.slice(lastIndex, urlInfo.start);
-          if (textBefore.trim()) {
-            // Format code snippets in text before URL
-            const formatted = formatCodeInText(textBefore);
-            segments.push(...formatted);
+
+        const formatLineWithLinks = (line, prevLine) => {
+          const urlRegex = /(https?:\/\/[^\s]+)/g;
+          const codeRegex = /\b([a-zA-Z_][a-zA-Z0-9_]*\(\))/g;
+          const parts = [];
+
+          // Check if this line is just a URL
+          const isJustUrl = /^https?:\/\/[^\s]+$/.test(line.trim());
+
+          if (isJustUrl) {
+            // Line is just a URL - show as [link]
+            return (
+              <a
+                href={line.trim()}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="!underline"
+              >
+                [link]
+              </a>
+            );
           }
-          
-          // Add URL as [link]
-          const prevText = line.slice(0, urlInfo.start).trim();
-          if (prevText && prevText.length > 0) {
-            segments.push(' ');
+
+          // Process line with URLs and code snippets
+          const segments = [];
+          let currentText = line;
+          let urlMatch;
+
+          // Extract all URLs first
+          const urls = [];
+          while ((urlMatch = urlRegex.exec(line)) !== null) {
+            urls.push({
+              start: urlMatch.index,
+              end: urlMatch.index + urlMatch[0].length,
+              url: urlMatch[0],
+            });
           }
-          segments.push(<a href={urlInfo.url} target="_blank" rel="noopener noreferrer" class="!underline">[link]</a>);
-          
-          lastIndex = urlInfo.end;
-        });
-        
-        // Process remaining text after last URL
-        if (lastIndex < line.length) {
-          const remaining = line.slice(lastIndex);
-          if (remaining.trim()) {
-            if (segments.length > 0) segments.push(' ');
-            const formatted = formatCodeInText(remaining);
-            segments.push(...formatted);
+
+          let lastIndex = 0;
+
+          urls.forEach((urlInfo, idx) => {
+            // Process text before URL
+            const textBefore = line.slice(lastIndex, urlInfo.start);
+            if (textBefore.trim()) {
+              // Format code snippets in text before URL
+              const formatted = formatCodeInText(textBefore);
+              segments.push(...formatted);
+            }
+
+            // Add URL as [link]
+            const prevText = line.slice(0, urlInfo.start).trim();
+            if (prevText && prevText.length > 0) {
+              segments.push(" ");
+            }
+            segments.push(
+              <a
+                href={urlInfo.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="!underline"
+              >
+                [link]
+              </a>,
+            );
+
+            lastIndex = urlInfo.end;
+          });
+
+          // Process remaining text after last URL
+          if (lastIndex < line.length) {
+            const remaining = line.slice(lastIndex);
+            if (remaining.trim()) {
+              if (segments.length > 0) segments.push(" ");
+              const formatted = formatCodeInText(remaining);
+              segments.push(...formatted);
+            }
           }
-        }
-        
-        // If no URLs, format the whole line for code
-        if (urls.length === 0) {
-          return formatCodeInText(line);
-        }
-        
-        return segments.length > 0 ? segments : [line];
-      };
-      
-      const formatCodeInText = (text) => {
-        const codeRegex = /\b([a-zA-Z_][a-zA-Z0-9_]*\(\))/g;
-        const parts = [];
-        let lastIndex = 0;
-        let match;
-        
-        while ((match = codeRegex.exec(text)) !== null) {
-          if (match.index > lastIndex) {
-            parts.push(text.slice(lastIndex, match.index));
+
+          // If no URLs, format the whole line for code
+          if (urls.length === 0) {
+            return formatCodeInText(line);
           }
-          parts.push(<code class="px-1 py-0.5 bg-white/10 rounded text-[0.9em]">{match[0]}</code>);
-          lastIndex = match.index + match[0].length;
-        }
-        
-        if (lastIndex < text.length) {
-          parts.push(text.slice(lastIndex));
-        }
-        
-        return parts.length > 0 ? parts : [text];
-      };
-      
-      return (
-        <div class="credits mt-2">
-          <h3 class="underline-wavy">Credits & References</h3>
-          <div class="prose prose-invert max-w-none text-xs opacity-80">
-            <p class="whitespace-pre-line leading-relaxed">
-              {groupedLines.map((line, idx) => {
-                const prevLine = idx > 0 ? groupedLines[idx - 1] : null;
-                const formattedLine = formatLineWithLinks(line, prevLine);
-                
-                return (
-                  <>
-                    {formattedLine}
-                    {idx < groupedLines.length - 1 && <br />}
-                  </>
-                );
-              })}
-            </p>
+
+          return segments.length > 0 ? segments : [line];
+        };
+
+        const formatCodeInText = (text) => {
+          const codeRegex = /\b([a-zA-Z_][a-zA-Z0-9_]*\(\))/g;
+          const parts = [];
+          let lastIndex = 0;
+          let match;
+
+          while ((match = codeRegex.exec(text)) !== null) {
+            if (match.index > lastIndex) {
+              parts.push(text.slice(lastIndex, match.index));
+            }
+            parts.push(
+              <code class="px-1 py-0.5 bg-white/10 rounded text-[0.9em]">
+                {match[0]}
+              </code>,
+            );
+            lastIndex = match.index + match[0].length;
+          }
+
+          if (lastIndex < text.length) {
+            parts.push(text.slice(lastIndex));
+          }
+
+          return parts.length > 0 ? parts : [text];
+        };
+
+        return (
+          <div class="credits mt-2">
+            <h3 class="underline-wavy">Credits & References</h3>
+            <div class="prose prose-invert max-w-none text-xs opacity-80">
+              <p class="whitespace-pre-line leading-relaxed">
+                {groupedLines.map((line, idx) => {
+                  const prevLine = idx > 0 ? groupedLines[idx - 1] : null;
+                  const formattedLine = formatLineWithLinks(line, prevLine);
+
+                  return (
+                    <>
+                      {formattedLine}
+                      {idx < groupedLines.length - 1 && <br />}
+                    </>
+                  );
+                })}
+              </p>
+            </div>
           </div>
-        </div>
-      );
-    })()
+        );
+      })()
   }
 </article>
 
@@ -310,6 +367,20 @@ function getWeekLabel(title) {
     width: 100%;
     height: 500px;
   }
+  .media-frame-compact .swiper-track {
+    height: auto;
+    max-height: 32rem;
+    aspect-ratio: 4 / 3;
+  }
+  .media-frame-compact .swiper-slide {
+    height: 100%;
+  }
+  .media-single.media-frame-compact {
+    height: auto;
+    max-height: 32rem;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
   .swiper-pagination {
     display: flex;
     justify-content: flex-start;
@@ -337,22 +408,22 @@ function getWeekLabel(title) {
   }
 
   .credit-list {
-    list-style: disc;
-    padding-left: 1.25rem;
     margin: 0.5rem 0;
+    padding-left: 1.25rem;
+    list-style: disc;
   }
   .credit-list li {
-    margin-bottom: 0.25rem;
     opacity: 0.8;
+    margin-bottom: 0.25rem;
     line-height: 1.4;
   }
   .credit-list a,
   .credits a {
+    opacity: 0.9;
+    transition: opacity 0.2s;
     text-decoration: underline;
     text-underline-offset: 2px;
     word-break: break-all;
-    opacity: 0.9;
-    transition: opacity 0.2s;
   }
   .credit-list a:hover,
   .credits a:hover {

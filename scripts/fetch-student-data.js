@@ -46,6 +46,28 @@ function extractHttpLinks(raw) {
   return { links, rawText: text };
 }
 
+function firstValue(row, headers) {
+  for (const header of headers) {
+    const value = row?.[header];
+    if (value !== undefined && value !== null && String(value).trim()) {
+      return String(value).trim();
+    }
+  }
+  return "";
+}
+
+function getSubmissionYear(timestamp) {
+  const match = String(timestamp || "").match(/\b(?:19|20)\d{2}\b/);
+  return match ? Number(match[0]) : null;
+}
+
+function emailIdentifier(email) {
+  return String(email || "student")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
 // Helper functions for Google Drive file processing
 function extractGoogleDriveFileId(url) {
   // Extract file ID from various Google Drive URL formats
@@ -110,6 +132,21 @@ async function downloadFile(fileId, filepath, fetchFn) {
 
       // Check if we got actual file data (not an error page)
       if (buffer.length > 1000) {
+        const contentType = response.headers?.get?.("content-type") || "";
+        const textStart = buffer
+          .slice(0, 200)
+          .toString("utf8")
+          .trimStart()
+          .toLowerCase();
+        const isHtmlResponse =
+          contentType.includes("text/html") ||
+          textStart.startsWith("<!doctype html") ||
+          textStart.startsWith("<html");
+
+        if (isHtmlResponse) {
+          continue;
+        }
+
         // Detect file type from content
         const detectedExt = detectFileTypeFromBuffer(buffer);
         if (detectedExt) {
@@ -118,10 +155,6 @@ async function downloadFile(fileId, filepath, fetchFn) {
           const correctFilepath = basePath + detectedExt;
           await fs.writeFile(correctFilepath, buffer);
           return { success: true, actualPath: correctFilepath };
-        } else {
-          // Fallback to original filepath if we can't detect type
-          await fs.writeFile(filepath, buffer);
-          return { success: true, actualPath: filepath };
         }
       }
     } catch {
@@ -184,7 +217,12 @@ function detectFileTypeFromBuffer(buffer) {
   return null;
 }
 
-async function processStudentFiles(studentData, fetchFn, downloadsDir, publicBase) {
+async function processStudentFiles(
+  studentData,
+  fetchFn,
+  downloadsDir,
+  publicBase,
+) {
   // Ensure downloads directory exists
   if (!existsSync(downloadsDir)) {
     mkdirSync(downloadsDir, { recursive: true });
@@ -376,6 +414,7 @@ async function fetchStudentData() {
     console.log(
       `Generated mapping for ${Object.keys(studentEmailToId).length} students`,
     );
+    const responseOnlyCohort = Object.keys(studentEmailToId).length === 0;
 
     // Use dynamic import for node-fetch in Node.js environment
     let fetchFn;
@@ -395,63 +434,95 @@ async function fetchStudentData() {
     const data = await response.json();
     console.log(`Fetched ${data.length} rows from the sheet`);
 
-    // Process the data to include both assignments and responses
-    const studentData = data
+    const validRows = data
       .filter((row) => {
-        // Filter out rows without essential data
         return (
           row.Timestamp &&
           row["Email Address"] &&
           row["Which assignment is this for?"]
         );
       })
-      .map((row) => {
-        const email = row["Email Address"];
-        const studentId = studentEmailToId[email];
+      .filter((row) => getSubmissionYear(row.Timestamp) === activeYear);
 
-        // Parse links from the freeform field
-        const rawLink = row["Link to Online Work (p5 sketch link)"] || "";
-        const { links: parsedLinks, rawText: linkRaw } =
-          extractHttpLinks(rawLink);
+    console.log(
+      `Using ${validRows.length} rows submitted in ${activeYear}; excluded ${data.length - validRows.length} other or invalid rows`,
+    );
 
-        return {
-          timestamp: row.Timestamp,
-          studentEmail: email,
-          studentId: studentId, // Add studentId for portfolio pages
-          assignmentTitle: row["Which assignment is this for?"],
-          // Assignment submission data
-          projectDescription: row["Project Description (max 500 words)"] || "",
-          credit:
-            row[
-              "Credit (List out collaborators, tutorials, libraries, references, AI agents used)"
-            ] || "",
-          uploadedFiles: row["Upload Your Work"] || "",
-          // Keep backward compatible single link while adding an array and raw field
-          linkToWork: parsedLinks[0] || linkRaw || "",
-          linkToWorks: parsedLinks.length ? parsedLinks : undefined,
-          linkToWorkRaw: linkRaw,
-          certification:
-            row[
-              "I certify that this submission is my own work and adheres to the course's academic integrity and open"
-            ] || "",
-          // Weekly response data
-          weeklyResponse:
-            row[
-              "What did you learn this week or what questions do you have? (this part will go on the site)"
-            ] || "",
-          teacherFeedback: row["Teacher Feedback"] || "",
-        };
-      });
+    // Tech B uses a generic online-work label rather than Tech A's sketch label.
+    const studentData = validRows.map((row) => {
+      const email = String(row["Email Address"]).trim().toLowerCase();
+      const studentId = studentEmailToId[email] || emailIdentifier(email);
+
+      // Parse links from the freeform field
+      const rawLink = firstValue(row, [
+        "Link to Online Work (URL)",
+        "Link to Online Work (Sketch URL)",
+        "Link to Online Work (p5 sketch link)",
+      ]);
+      const { links: parsedLinks, rawText: linkRaw } =
+        extractHttpLinks(rawLink);
+
+      return {
+        timestamp: row.Timestamp,
+        studentEmail: email,
+        studentId: studentId, // Add studentId for portfolio pages
+        assignmentTitle: row["Which assignment is this for?"],
+        // Assignment submission data
+        projectDescription: row["Project Description (max 500 words)"] || "",
+        credit:
+          row[
+            "Credit (List out collaborators, tutorials, libraries, references, AI agents used)"
+          ] || "",
+        uploadedFiles: row["Upload Your Work"] || "",
+        // Keep backward compatible single link while adding an array and raw field
+        linkToWork: parsedLinks[0] || linkRaw || "",
+        linkToWorks: parsedLinks.length ? parsedLinks : undefined,
+        linkToWorkRaw: linkRaw,
+        certification: firstValue(row, [
+          "I certify that this submission is my own work and adheres to the course's academic integrity and open source policy.",
+          "I certify that this submission is my own work and adheres to the course's academic integrity and open",
+        ]),
+        // Weekly response data
+        weeklyResponse:
+          row[
+            "What did you learn this week or what questions do you have? (this part will go on the site)"
+          ] || "",
+        teacherFeedback: row["Teacher Feedback"] || "",
+      };
+    });
 
     console.log(`Processed ${studentData.length} valid entries`);
 
-    // Process and download student files
-    const studentDataWithFiles = await processStudentFiles(
-      studentData,
-      fetchFn,
-      downloadsDir,
-      publicBase,
-    );
+    const publishableStudentData = responseOnlyCohort
+      ? studentData.map(
+          ({
+            timestamp,
+            studentEmail,
+            studentId,
+            assignmentTitle,
+            weeklyResponse,
+            teacherFeedback,
+          }) => ({
+            timestamp,
+            studentEmail,
+            studentId,
+            assignmentTitle,
+            weeklyResponse,
+            teacherFeedback,
+          }),
+        )
+      : studentData;
+
+    // Response-only cohorts publish weekly reflections without copying private
+    // assignment materials into the public site.
+    const studentDataWithFiles = responseOnlyCohort
+      ? publishableStudentData
+      : await processStudentFiles(
+          publishableStudentData,
+          fetchFn,
+          downloadsDir,
+          publicBase,
+        );
 
     // Ensure output directory exists
     if (!existsSync(outputDir)) {
@@ -459,7 +530,10 @@ async function fetchStudentData() {
     }
 
     // Save the data with updated file paths
-    writeFileSync(outputFile, JSON.stringify(studentDataWithFiles, null, 2));
+    writeFileSync(
+      outputFile,
+      `${JSON.stringify(studentDataWithFiles, null, 2)}\n`,
+    );
     console.log(`Saved student data to ${outputFile}`);
 
     // Group by student for summary

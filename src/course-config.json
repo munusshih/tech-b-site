@@ -42,8 +42,8 @@
       },
       "sheets": {
         "assignments": {
-          "id": "",
-          "name": ""
+          "id": "1zrviYZYuqWb_5L9lbeXnOBdjptDts8mCZQmAUwC00Xg",
+          "name": "Form Responses 1"
         },
         "bios": {
           "id": "",
@@ -52,7 +52,94 @@
       },
       "scheduleSections": [],
       "specialProjectWeeks": {},
-      "students": []
+      "responseNames": {
+        "lzhang76@pratt.edu": "Li Zhang",
+        "myang37@pratt.edu": "Mingfu Yang",
+        "zwang75@pratt.edu": "Zhenyi Wang",
+        "blix21@pratt.edu": "Binjia Li",
+        "schoei@pratt.edu": "Seulgi Choei",
+        "xwang112@pratt.edu": "Xiran Wang",
+        "jlix92@pratt.edu": "Jiayi Li",
+        "mbalde@pratt.edu": "Lulah Balde",
+        "rdavi176@pratt.edu": "Rebecca Davidson",
+        "ychen816@pratt.edu": "Andrea Cheng",
+        "sjain75@pratt.edu": "Samridhi Jain",
+        "yliu124@pratt.edu": "Yingwei Liu"
+      },
+      "students": [
+        {
+          "firstName": "Li",
+          "lastName": "Zhang",
+          "email": "lzhang76@pratt.edu",
+          "website": null
+        },
+        {
+          "firstName": "Mingfu",
+          "lastName": "Yang",
+          "email": "myang37@pratt.edu",
+          "website": null
+        },
+        {
+          "firstName": "Zhenyi",
+          "lastName": "Wang",
+          "email": "zwang75@pratt.edu",
+          "website": null
+        },
+        {
+          "firstName": "Binjia",
+          "lastName": "Li",
+          "email": "blix21@pratt.edu",
+          "website": null
+        },
+        {
+          "firstName": "Seulgi",
+          "lastName": "Choei",
+          "email": "schoei@pratt.edu",
+          "website": null
+        },
+        {
+          "firstName": "Xiran",
+          "lastName": "Wang",
+          "email": "xwang112@pratt.edu",
+          "website": null
+        },
+        {
+          "firstName": "Jiayi",
+          "lastName": "Li",
+          "email": "jlix92@pratt.edu",
+          "website": null
+        },
+        {
+          "firstName": "Lulah",
+          "lastName": "Balde",
+          "email": "mbalde@pratt.edu",
+          "website": null
+        },
+        {
+          "firstName": "Rebecca",
+          "lastName": "Davidson",
+          "email": "rdavi176@pratt.edu",
+          "website": null
+        },
+        {
+          "firstName": "Andrea",
+          "lastName": "Cheng",
+          "email": "ychen816@pratt.edu",
+          "website": null
+        },
+        {
+          "firstName": "Samridhi",
+          "lastName": "Jain",
+          "email": "sjain75@pratt.edu",
+          "website": null
+        },
+        {
+          "firstName": "Yingwei",
+          "lastName": "Liu",
+          "email": "yliu124@pratt.edu",
+          "website": null
+        }
+      ]
     }
   }
 }

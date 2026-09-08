@@ -1,1 +1,546 @@
-[]
+[
+  {
+    "timestamp": "8/30/2026 20:18:28",
+    "studentEmail": "myang37@pratt.edu",
+    "studentId": "mingfu-yang",
+    "assignmentTitle": "Week 1: What is Intelligence?",
+    "projectDescription": "For this week, I chose Eliza as the subject of my research. I investigated its usage, response logic, and history, and tried using the chatbot myself. This deepened my understanding of what constitutes \"intelligence\" and gave me insight into the operating principles of chatbots prior to the era of LLMs. ",
+    "credit": "Used ChatGPT for information research and code reading.\nJoseph Weizenbaum. 1966. ELIZA—a computer program for the study of natural language communication between man and machine. Commun. ACM 9, 1 (Jan. 1966), 36–45. https://doi.org/10.1145/365153.365168\nComputer Power and Human Reason: From Judgment to Calculation DOI:10.2307/3103715",
+    "uploadedFiles": "/student-files/2026/mingfu-yang-week-1--what-is-intelligence--1.png",
+    "linkToWork": "https://app.milanote.com/1X0sQY1eJ76aau?p=JgWeRE76zWB",
+    "linkToWorks": [
+      "https://app.milanote.com/1X0sQY1eJ76aau?p=JgWeRE76zWB"
+    ],
+    "linkToWorkRaw": "https://app.milanote.com/1X0sQY1eJ76aau?p=JgWeRE76zWB",
+    "certification": "Yes",
+    "weeklyResponse": "I have to admit that, while I personally do not consider Eliza truly intelligent, its responses can be quite convincing during initial encounters. Human ingenuity is truly amazing.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1aUVns4-ODOzf4jPjK7pFtPGr9ClGsq2D",
+        "fileId": "1aUVns4-ODOzf4jPjK7pFtPGr9ClGsq2D",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1aUVns4-ODOzf4jPjK7pFtPGr9ClGsq2D&sz=w800",
+        "embed": "https://drive.google.com/file/d/1aUVns4-ODOzf4jPjK7pFtPGr9ClGsq2D/preview",
+        "local": "/student-files/2026/mingfu-yang-week-1--what-is-intelligence--1.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "8/30/2026 23:13:28",
+    "studentEmail": "yliu124@pratt.edu",
+    "studentId": "yingwei-liu",
+    "assignmentTitle": "Week 1: What is Intelligence?",
+    "projectDescription": "Regarding why the rainmaking ritual could be seen as intelligent",
+    "credit": "claude for translation",
+    "uploadedFiles": "/student-files/2026/yingwei-liu-week-1--what-is-intelligence--1.png",
+    "linkToWork": "https://www.researchgate.net/publication/353451705_Magic_and_empiricism_in_early_Chinese_rainmaking_--_A_cultural_evolutionary_analysis",
+    "linkToWorks": [
+      "https://www.researchgate.net/publication/353451705_Magic_and_empiricism_in_early_Chinese_rainmaking_--_A_cultural_evolutionary_analysis",
+      "https://academic.oup.com/qje/article/141/3/2363/8676046"
+    ],
+    "linkToWorkRaw": "https://www.researchgate.net/publication/353451705_Magic_and_empiricism_in_early_Chinese_rainmaking_--_A_cultural_evolutionary_analysis                https://academic.oup.com/qje/article/141/3/2363/8676046",
+    "certification": "Yes",
+    "weeklyResponse": "Our understanding is quite different from that of ancient people. Ancient people believed that rain could only be summoned by offering enough sacrifices, but nowadays all you need to do is wash your car. Even so, the rainmaking ritual used to be a very important part of life back then, without rain there was no food.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1rfv4wprjRgrnxCn1YraaJGy-IEY6FH1Y",
+        "fileId": "1rfv4wprjRgrnxCn1YraaJGy-IEY6FH1Y",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1rfv4wprjRgrnxCn1YraaJGy-IEY6FH1Y&sz=w800",
+        "embed": "https://drive.google.com/file/d/1rfv4wprjRgrnxCn1YraaJGy-IEY6FH1Y/preview",
+        "local": "/student-files/2026/yingwei-liu-week-1--what-is-intelligence--1.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "8/31/2026 22:23:15",
+    "studentEmail": "jlix92@pratt.edu",
+    "studentId": "jiayi-li",
+    "assignmentTitle": "Week 1: What is Intelligence?",
+    "projectDescription": "I chose Days Matter as the subject of this assignment. It is a date-tracking app that allows users to count down to future events and count up from past events. I chose it because I sometimes forget important dates, such as my friends’ birthdays. When the app reminds me, I often think it feels “intelligence” because it remembers something I might forget and may prompt me to take action, such as sending a birthday message. The system receives event names, dates, categories, and reminder settings from the user. It stores this information, compares each date with the current date, and calculates either how many days are left or how many days have passed. When certain conditions are met, it sends a notification. What interests me is that the app does not know why a date is important. A birthday, an anniversary, and the date of a family member’s death are all processed as date data, even though they have very different meanings for the user. This made me wonder: If importance comes from the user and the reminder comes from the app, at what point does the “intelligence” emerge?",
+    "credit": "Xiaohongshu user posts were used as research references and examples of how people use Days Matter. ChatGPT was used to translate Chinese text into English.",
+    "uploadedFiles": "/student-files/2026/jiayi-li-week-1--what-is-intelligence--1.jpg, /student-files/2026/jiayi-li-week-1--what-is-intelligence--2.jpg, /student-files/2026/jiayi-li-week-1--what-is-intelligence--3.jpg, /student-files/2026/jiayi-li-week-1--what-is-intelligence--4.jpg, /student-files/2026/jiayi-li-week-1--what-is-intelligence--5.jpg",
+    "linkToWork": "https://www.figma.com/design/hAPsf2bX7ZpDSSE8u6Sk76/Technology-B---Week-1?node-id=0-1&t=65pGs1xRdG4UQthl-1",
+    "linkToWorks": [
+      "https://www.figma.com/design/hAPsf2bX7ZpDSSE8u6Sk76/Technology-B---Week-1?node-id=0-1&t=65pGs1xRdG4UQthl-1"
+    ],
+    "linkToWorkRaw": "https://www.figma.com/design/hAPsf2bX7ZpDSSE8u6Sk76/Technology-B---Week-1?node-id=0-1&t=65pGs1xRdG4UQthl-1",
+    "certification": "Yes",
+    "weeklyResponse": "Tegmark defines intelligence as “the ability to accomplish complex goals,” and he argues that a system does not necessarily have to create its own goals. It can receive a goal from someone else and break it down into different steps in order to accomplish it. I found this interesting because it made me notice how easily we describe effective task completion as a form of “intelligence.” For example, when Days Matter reminds me that today is an important date, I intuitively feel that the app is being “intelligent,” even though it is simply calculating and responding to information I entered earlier. This makes me more curious about the word itself: why do we choose “intelligence” to describe this kind of ability?",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1Ko02mAkAECDXZ78hPDVCQSBihXOFq3du",
+        "fileId": "1Ko02mAkAECDXZ78hPDVCQSBihXOFq3du",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1Ko02mAkAECDXZ78hPDVCQSBihXOFq3du&sz=w800",
+        "embed": "https://drive.google.com/file/d/1Ko02mAkAECDXZ78hPDVCQSBihXOFq3du/preview",
+        "local": "/student-files/2026/jiayi-li-week-1--what-is-intelligence--1.jpg"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1QK1HPTthqDVk6_Dv7FZILcneJwob7y8r",
+        "fileId": "1QK1HPTthqDVk6_Dv7FZILcneJwob7y8r",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1QK1HPTthqDVk6_Dv7FZILcneJwob7y8r&sz=w800",
+        "embed": "https://drive.google.com/file/d/1QK1HPTthqDVk6_Dv7FZILcneJwob7y8r/preview",
+        "local": "/student-files/2026/jiayi-li-week-1--what-is-intelligence--2.jpg"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1OhtmP5OOYqbHV5rdaaTjzXYtBIEqnQvX",
+        "fileId": "1OhtmP5OOYqbHV5rdaaTjzXYtBIEqnQvX",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1OhtmP5OOYqbHV5rdaaTjzXYtBIEqnQvX&sz=w800",
+        "embed": "https://drive.google.com/file/d/1OhtmP5OOYqbHV5rdaaTjzXYtBIEqnQvX/preview",
+        "local": "/student-files/2026/jiayi-li-week-1--what-is-intelligence--3.jpg"
+      },
+      {
+        "original": "https://drive.google.com/open?id=17S-wabPcImTGb_vuWHIZGkKQgJnaciVV",
+        "fileId": "17S-wabPcImTGb_vuWHIZGkKQgJnaciVV",
+        "thumbnail": "https://drive.google.com/thumbnail?id=17S-wabPcImTGb_vuWHIZGkKQgJnaciVV&sz=w800",
+        "embed": "https://drive.google.com/file/d/17S-wabPcImTGb_vuWHIZGkKQgJnaciVV/preview",
+        "local": "/student-files/2026/jiayi-li-week-1--what-is-intelligence--4.jpg"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1MoUmLJqzFh0HNRNDDif-qmRImUNM_z7c",
+        "fileId": "1MoUmLJqzFh0HNRNDDif-qmRImUNM_z7c",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1MoUmLJqzFh0HNRNDDif-qmRImUNM_z7c&sz=w800",
+        "embed": "https://drive.google.com/file/d/1MoUmLJqzFh0HNRNDDif-qmRImUNM_z7c/preview",
+        "local": "/student-files/2026/jiayi-li-week-1--what-is-intelligence--5.jpg"
+      }
+    ]
+  },
+  {
+    "timestamp": "8/31/2026 22:27:01",
+    "studentEmail": "ychen816@pratt.edu",
+    "studentId": "andrea-cheng",
+    "assignmentTitle": "Week 1: What is Intelligence?",
+    "projectDescription": "This project examines CAPTCHA as an intelligent classification system. It collects behavioral and technical signals, analyzes patterns, and calculates risk to decide whether a user is likely human or a bot. ",
+    "credit": "ChatGPT",
+    "uploadedFiles": "/student-files/2026/andrea-cheng-week-1--what-is-intelligence--1.png",
+    "linkToWork": "https://www.figma.com/design/mOI3FjwvYmHbpk8c9KXXW1/%F0%9F%A4%96Proving-I-Am-Human--CAPTCHA-as-an-Intelligent-Classification-System?node-id=0-1&t=VkdHKWOOWIEjQ66o-1",
+    "linkToWorks": [
+      "https://www.figma.com/design/mOI3FjwvYmHbpk8c9KXXW1/%F0%9F%A4%96Proving-I-Am-Human--CAPTCHA-as-an-Intelligent-Classification-System?node-id=0-1&t=VkdHKWOOWIEjQ66o-1"
+    ],
+    "linkToWorkRaw": "https://www.figma.com/design/mOI3FjwvYmHbpk8c9KXXW1/%F0%9F%A4%96Proving-I-Am-Human--CAPTCHA-as-an-Intelligent-Classification-System?node-id=0-1&t=VkdHKWOOWIEjQ66o-1",
+    "certification": "Yes",
+    "weeklyResponse": "This week, I learned that intelligence does not always require consciousness or understanding. A system can appear intelligent by sensing information, following rules, recognizing patterns, and responding to change.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1KI_inUof-wktekNHK5G1kAj60HLBMrlA",
+        "fileId": "1KI_inUof-wktekNHK5G1kAj60HLBMrlA",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1KI_inUof-wktekNHK5G1kAj60HLBMrlA&sz=w800",
+        "embed": "https://drive.google.com/file/d/1KI_inUof-wktekNHK5G1kAj60HLBMrlA/preview",
+        "local": "/student-files/2026/andrea-cheng-week-1--what-is-intelligence--1.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "9/1/2026 11:04:32",
+    "studentEmail": "rdavi176@pratt.edu",
+    "studentId": "rebecca-davidson",
+    "assignmentTitle": "Week 1: What is Intelligence?",
+    "projectDescription": "In this assignment I chose the system of falling in love. I was curious to see how something emotional and personal could be broken down into a systematic process. The system conflates an intimate, human process with a pattern of neurochemical fluctuation. The system progresses in stages and while inputs can vary, the path of progress remains. The system requires complex and ever-changing inputs which requires the system to remain intelligent and adaptable.",
+    "credit": "Harvard Medical School, Boston University, Youtube",
+    "uploadedFiles": "/student-files/2026/rebecca-davidson-week-1--what-is-intelligence--1.png, /student-files/2026/rebecca-davidson-week-1--what-is-intelligence--2.png",
+    "linkToWork": "",
+    "linkToWorkRaw": "",
+    "certification": "Yes",
+    "weeklyResponse": "Intelligence takes many forms and is integral to adaptable and dynamic systems. ",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1EVZO_dW9Ipy1drUNa1IRaEMvpBBBKrXe",
+        "fileId": "1EVZO_dW9Ipy1drUNa1IRaEMvpBBBKrXe",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1EVZO_dW9Ipy1drUNa1IRaEMvpBBBKrXe&sz=w800",
+        "embed": "https://drive.google.com/file/d/1EVZO_dW9Ipy1drUNa1IRaEMvpBBBKrXe/preview",
+        "local": "/student-files/2026/rebecca-davidson-week-1--what-is-intelligence--1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1gSfVwptqlTKpt7dZS2MZO_NGK04B6A6P",
+        "fileId": "1gSfVwptqlTKpt7dZS2MZO_NGK04B6A6P",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1gSfVwptqlTKpt7dZS2MZO_NGK04B6A6P&sz=w800",
+        "embed": "https://drive.google.com/file/d/1gSfVwptqlTKpt7dZS2MZO_NGK04B6A6P/preview",
+        "local": "/student-files/2026/rebecca-davidson-week-1--what-is-intelligence--2.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "9/1/2026 13:34:23",
+    "studentEmail": "zwang75@pratt.edu",
+    "studentId": "zhenyi-wang",
+    "assignmentTitle": "Week 1: What is Intelligence?",
+    "projectDescription": "Bees show interesting forms of intelligence through their behavior and communication. Bees can find and remember food sources, respond to their environment, and communicate with other bees through the waggle dance. Even though individual bees exhibit simple behaviors, the whole colony can work together to make decisions and solve problems. This makes me wonder: Is the intelligence in the individual bee, or does it come from the colony working together?\n",
+    "credit": "chatGPT",
+    "uploadedFiles": "/student-files/2026/zhenyi-wang-week-1--what-is-intelligence--1.mov, /student-files/2026/zhenyi-wang-week-1--what-is-intelligence--2.png, /student-files/2026/zhenyi-wang-week-1--what-is-intelligence--3.png, /student-files/2026/zhenyi-wang-week-1--what-is-intelligence--4.png, /student-files/2026/zhenyi-wang-week-1--what-is-intelligence--5.png",
+    "linkToWork": "https://docs.google.com/presentation/d/16am9_Bg0xTkxo6GwtKOmvrWwBOpk3ADnZ4anGvbJExk/edit?usp=sharing",
+    "linkToWorks": [
+      "https://docs.google.com/presentation/d/16am9_Bg0xTkxo6GwtKOmvrWwBOpk3ADnZ4anGvbJExk/edit?usp=sharing"
+    ],
+    "linkToWorkRaw": "https://docs.google.com/presentation/d/16am9_Bg0xTkxo6GwtKOmvrWwBOpk3ADnZ4anGvbJExk/edit?usp=sharing",
+    "certification": "Yes",
+    "weeklyResponse": "Think about the definition and forms of intelligence.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1UYZygtu0jJg081Xsbs5m4agxoNcZeyYI",
+        "fileId": "1UYZygtu0jJg081Xsbs5m4agxoNcZeyYI",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1UYZygtu0jJg081Xsbs5m4agxoNcZeyYI&sz=w800",
+        "embed": "https://drive.google.com/file/d/1UYZygtu0jJg081Xsbs5m4agxoNcZeyYI/preview",
+        "local": "/student-files/2026/zhenyi-wang-week-1--what-is-intelligence--1.mov"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1frjwO2rRim2jIQtmSBn6LTMpfczo2JEL",
+        "fileId": "1frjwO2rRim2jIQtmSBn6LTMpfczo2JEL",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1frjwO2rRim2jIQtmSBn6LTMpfczo2JEL&sz=w800",
+        "embed": "https://drive.google.com/file/d/1frjwO2rRim2jIQtmSBn6LTMpfczo2JEL/preview",
+        "local": "/student-files/2026/zhenyi-wang-week-1--what-is-intelligence--2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1UGLTHgYmXYGW0Q8Z4fUhj5rsqvjk07VH",
+        "fileId": "1UGLTHgYmXYGW0Q8Z4fUhj5rsqvjk07VH",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1UGLTHgYmXYGW0Q8Z4fUhj5rsqvjk07VH&sz=w800",
+        "embed": "https://drive.google.com/file/d/1UGLTHgYmXYGW0Q8Z4fUhj5rsqvjk07VH/preview",
+        "local": "/student-files/2026/zhenyi-wang-week-1--what-is-intelligence--3.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1LnbBjhQa5k7nkoRwkQ9PEeGlaVqNgnjM",
+        "fileId": "1LnbBjhQa5k7nkoRwkQ9PEeGlaVqNgnjM",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1LnbBjhQa5k7nkoRwkQ9PEeGlaVqNgnjM&sz=w800",
+        "embed": "https://drive.google.com/file/d/1LnbBjhQa5k7nkoRwkQ9PEeGlaVqNgnjM/preview",
+        "local": "/student-files/2026/zhenyi-wang-week-1--what-is-intelligence--4.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1D8lnINyt2VpMLNNPhinSMiqkmgm7DDPK",
+        "fileId": "1D8lnINyt2VpMLNNPhinSMiqkmgm7DDPK",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1D8lnINyt2VpMLNNPhinSMiqkmgm7DDPK&sz=w800",
+        "embed": "https://drive.google.com/file/d/1D8lnINyt2VpMLNNPhinSMiqkmgm7DDPK/preview",
+        "local": "/student-files/2026/zhenyi-wang-week-1--what-is-intelligence--5.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "9/1/2026 15:24:17",
+    "studentEmail": "mbalde@pratt.edu",
+    "studentId": "lulah-balde",
+    "assignmentTitle": "Week 1: What is Intelligence?",
+    "projectDescription": "I chose to analyze the Fujifilm Camera xs20 as my system of intelligence to research and probe about.",
+    "credit": "About the Camera:\nhttps://www.fujifilm-x.com/global/products/cameras/x-s20/\nAUTOFOCUS \nhttps://photographylife.com/how-phase-detection-autofocus-works\nFUJI’s FILM SIMULATION\nhttps://www.imaging-resource.com/news/fujifilm-film-simulations-definitive-guide/\nKEY FEATURES: https://www.dpreview.com/reviews/5886870236/fujifilm-x-s20-review/#subpage-656109 \nYoutube Video: https://www.youtube.com/watch?v=W3nVt7RDp1w\nClaude AI for condensed understanding of my overall research on various fujifilm systems",
+    "uploadedFiles": "/student-files/2026/lulah-balde-week-1--what-is-intelligence--1.png, /student-files/2026/lulah-balde-week-1--what-is-intelligence--2.png, /student-files/2026/lulah-balde-week-1--what-is-intelligence--3.png, /student-files/2026/lulah-balde-week-1--what-is-intelligence--4.png",
+    "linkToWork": "",
+    "linkToWorkRaw": "",
+    "certification": "Yes",
+    "weeklyResponse": "I learned how many complex perspectives exist on the understanding of intelligence, what it may mean to different people. I also considered how systems of intelligence can be both tactile and digital which was interesting to explore, because I think under the general subject of technology, intelligence may be understood under digital platforms alone. This takes away the opportunity for us to consider how tactile forms of intelligence existed before digital forms of technology were created and advanced. So I appreciated this exploration beyond the expected forms of 'intelligence'.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1qX5CCTCJ2BSsQM7eR0iCpV2L4d5Ax71Y",
+        "fileId": "1qX5CCTCJ2BSsQM7eR0iCpV2L4d5Ax71Y",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1qX5CCTCJ2BSsQM7eR0iCpV2L4d5Ax71Y&sz=w800",
+        "embed": "https://drive.google.com/file/d/1qX5CCTCJ2BSsQM7eR0iCpV2L4d5Ax71Y/preview",
+        "local": "/student-files/2026/lulah-balde-week-1--what-is-intelligence--1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1pSzg1L9MFVQDmXb1sqPjoswB-Awjtlvn",
+        "fileId": "1pSzg1L9MFVQDmXb1sqPjoswB-Awjtlvn",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1pSzg1L9MFVQDmXb1sqPjoswB-Awjtlvn&sz=w800",
+        "embed": "https://drive.google.com/file/d/1pSzg1L9MFVQDmXb1sqPjoswB-Awjtlvn/preview",
+        "local": "/student-files/2026/lulah-balde-week-1--what-is-intelligence--2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1P9VOCYPCE6kveo27nRKdb7BTMY_2o7_6",
+        "fileId": "1P9VOCYPCE6kveo27nRKdb7BTMY_2o7_6",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1P9VOCYPCE6kveo27nRKdb7BTMY_2o7_6&sz=w800",
+        "embed": "https://drive.google.com/file/d/1P9VOCYPCE6kveo27nRKdb7BTMY_2o7_6/preview",
+        "local": "/student-files/2026/lulah-balde-week-1--what-is-intelligence--3.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1ULd6xYUMZ6WdgEnNsKcvT-WR41lI3Oej",
+        "fileId": "1ULd6xYUMZ6WdgEnNsKcvT-WR41lI3Oej",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1ULd6xYUMZ6WdgEnNsKcvT-WR41lI3Oej&sz=w800",
+        "embed": "https://drive.google.com/file/d/1ULd6xYUMZ6WdgEnNsKcvT-WR41lI3Oej/preview",
+        "local": "/student-files/2026/lulah-balde-week-1--what-is-intelligence--4.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "9/1/2026 15:45:08",
+    "studentEmail": "lzhang76@pratt.edu",
+    "studentId": "li-zhang",
+    "assignmentTitle": "Week 1: What is Intelligence?",
+    "projectDescription": "For this project, I was studying Google Maps’ route-planning and real-time navigation system. People may describe it as intelligent because it compares routes, predicts travel times, responds to traffic, and gives new directions. \nThe system receives inputs such as location, destination, transportation method, and user preferences. It combines these with map data, historical traffic, live conditions, and road reports. It then recommends a route and continues updating it during the trip. I will collect five research materials and create an input-process-output flowchart. ",
+    "credit": "Chatgpt, Rednot",
+    "uploadedFiles": "/student-files/2026/li-zhang-week-1--what-is-intelligence--1.png, /student-files/2026/li-zhang-week-1--what-is-intelligence--2.png, /student-files/2026/li-zhang-week-1--what-is-intelligence--3.png, /student-files/2026/li-zhang-week-1--what-is-intelligence--4.png, /student-files/2026/li-zhang-week-1--what-is-intelligence--5.png",
+    "linkToWork": "",
+    "linkToWorkRaw": "",
+    "certification": "Yes",
+    "weeklyResponse": "Intelligent is a lot bigger word to think of.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1Rahw0yrg6oTdwUCBFdXSntXz__lguStN",
+        "fileId": "1Rahw0yrg6oTdwUCBFdXSntXz__lguStN",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1Rahw0yrg6oTdwUCBFdXSntXz__lguStN&sz=w800",
+        "embed": "https://drive.google.com/file/d/1Rahw0yrg6oTdwUCBFdXSntXz__lguStN/preview",
+        "local": "/student-files/2026/li-zhang-week-1--what-is-intelligence--1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1OSjTaaEVzX36OaCCBAqxe2ATE87KPUhO",
+        "fileId": "1OSjTaaEVzX36OaCCBAqxe2ATE87KPUhO",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1OSjTaaEVzX36OaCCBAqxe2ATE87KPUhO&sz=w800",
+        "embed": "https://drive.google.com/file/d/1OSjTaaEVzX36OaCCBAqxe2ATE87KPUhO/preview",
+        "local": "/student-files/2026/li-zhang-week-1--what-is-intelligence--2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1wr8Iu9yqH2mdZ3CeP_tWXDPwSheRJ3Tx",
+        "fileId": "1wr8Iu9yqH2mdZ3CeP_tWXDPwSheRJ3Tx",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1wr8Iu9yqH2mdZ3CeP_tWXDPwSheRJ3Tx&sz=w800",
+        "embed": "https://drive.google.com/file/d/1wr8Iu9yqH2mdZ3CeP_tWXDPwSheRJ3Tx/preview",
+        "local": "/student-files/2026/li-zhang-week-1--what-is-intelligence--3.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=102tNzWN9MTgsOREs73gYofEHH4Y6oyt8",
+        "fileId": "102tNzWN9MTgsOREs73gYofEHH4Y6oyt8",
+        "thumbnail": "https://drive.google.com/thumbnail?id=102tNzWN9MTgsOREs73gYofEHH4Y6oyt8&sz=w800",
+        "embed": "https://drive.google.com/file/d/102tNzWN9MTgsOREs73gYofEHH4Y6oyt8/preview",
+        "local": "/student-files/2026/li-zhang-week-1--what-is-intelligence--4.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1UbcnErTwz4dyGCPLFTXVPRGNDSONWeGN",
+        "fileId": "1UbcnErTwz4dyGCPLFTXVPRGNDSONWeGN",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1UbcnErTwz4dyGCPLFTXVPRGNDSONWeGN&sz=w800",
+        "embed": "https://drive.google.com/file/d/1UbcnErTwz4dyGCPLFTXVPRGNDSONWeGN/preview",
+        "local": "/student-files/2026/li-zhang-week-1--what-is-intelligence--5.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "9/1/2026 15:49:11",
+    "studentEmail": "schoei@pratt.edu",
+    "studentId": "seulgi-choei",
+    "assignmentTitle": "Week 1: What is Intelligence?",
+    "projectDescription": "Understanding of OCR systems ",
+    "credit": "Source Type, Adversarial Alphabets Part 1: How Machines Read\nDavid H. Shepard, Gismo and early OCR research\nMeta AI, Rosetta: Large Scale System for Text Detection and Recognition in Images\nTesseract OCR Documentation",
+    "uploadedFiles": "/student-files/2026/seulgi-choei-week-1--what-is-intelligence--1.jpg, /student-files/2026/seulgi-choei-week-1--what-is-intelligence--2.jpg, /student-files/2026/seulgi-choei-week-1--what-is-intelligence--3.jpg",
+    "linkToWork": "https://www.figma.com/proto/2iEvCmRbqRkC6xbCwE0X4t/OCR?node-id=3-2&p=f&t=giaLwsal6WskQoQh-1&scaling=contain&content-scaling=fixed&page-id=0%3A1",
+    "linkToWorks": [
+      "https://www.figma.com/proto/2iEvCmRbqRkC6xbCwE0X4t/OCR?node-id=3-2&p=f&t=giaLwsal6WskQoQh-1&scaling=contain&content-scaling=fixed&page-id=0%3A1"
+    ],
+    "linkToWorkRaw": "https://www.figma.com/proto/2iEvCmRbqRkC6xbCwE0X4t/OCR?node-id=3-2&p=f&t=giaLwsal6WskQoQh-1&scaling=contain&content-scaling=fixed&page-id=0%3A1",
+    "certification": "Yes",
+    "weeklyResponse": "This week, I had a chance to think about how we define intelligence.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1ypp6Oz_9GR1s4aHVqxo535gEY5ix75Ez",
+        "fileId": "1ypp6Oz_9GR1s4aHVqxo535gEY5ix75Ez",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1ypp6Oz_9GR1s4aHVqxo535gEY5ix75Ez&sz=w800",
+        "embed": "https://drive.google.com/file/d/1ypp6Oz_9GR1s4aHVqxo535gEY5ix75Ez/preview",
+        "local": "/student-files/2026/seulgi-choei-week-1--what-is-intelligence--1.jpg"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1sSKPw71uaqC8iSVNkmLXq56g3dK0b3nN",
+        "fileId": "1sSKPw71uaqC8iSVNkmLXq56g3dK0b3nN",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1sSKPw71uaqC8iSVNkmLXq56g3dK0b3nN&sz=w800",
+        "embed": "https://drive.google.com/file/d/1sSKPw71uaqC8iSVNkmLXq56g3dK0b3nN/preview",
+        "local": "/student-files/2026/seulgi-choei-week-1--what-is-intelligence--2.jpg"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1J3fuYBOjfyXsuUXJyAV64FMR9Me8dq1V",
+        "fileId": "1J3fuYBOjfyXsuUXJyAV64FMR9Me8dq1V",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1J3fuYBOjfyXsuUXJyAV64FMR9Me8dq1V&sz=w800",
+        "embed": "https://drive.google.com/file/d/1J3fuYBOjfyXsuUXJyAV64FMR9Me8dq1V/preview",
+        "local": "/student-files/2026/seulgi-choei-week-1--what-is-intelligence--3.jpg"
+      }
+    ]
+  },
+  {
+    "timestamp": "9/3/2026 10:57:50",
+    "studentEmail": "xwang112@pratt.edu",
+    "studentId": "xiran-wang",
+    "assignmentTitle": "Week 1: What is Intelligence?",
+    "projectDescription": "I'd like to focus on Tarot cards which can be part of divination. In the past, when people had problems, such as family problems and emotional problems, some of them would find someone who knew a lot about divination, such as astrology and tarot cards reading. This can be an example of intelligence, so my first project will focus on divination, answering questions and concerns with tarot cards reading. ",
+    "credit": "Divination (definition, Wikipedia), Divination Definition & Meaning - Merriam-Webster, Conway's Game of Life",
+    "uploadedFiles": "/student-files/2026/xiran-wang-week-1--what-is-intelligence--1.png, /student-files/2026/xiran-wang-week-1--what-is-intelligence--2.png, /student-files/2026/xiran-wang-week-1--what-is-intelligence--3.png",
+    "linkToWork": "",
+    "linkToWorkRaw": "",
+    "certification": "Yes",
+    "weeklyResponse": "I learned that genuinely intelligence is someone who understand something complex and is able to solve problems, learn knowledge, maintain lasting social networks, and adapt to new situations. ",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1LMZrJcTh91PZidkR2R4FCNmsa2En586e",
+        "fileId": "1LMZrJcTh91PZidkR2R4FCNmsa2En586e",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1LMZrJcTh91PZidkR2R4FCNmsa2En586e&sz=w800",
+        "embed": "https://drive.google.com/file/d/1LMZrJcTh91PZidkR2R4FCNmsa2En586e/preview",
+        "local": "/student-files/2026/xiran-wang-week-1--what-is-intelligence--1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1B8DpuOMwnA-2ckgdTyT84HzaiD5--4BR",
+        "fileId": "1B8DpuOMwnA-2ckgdTyT84HzaiD5--4BR",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1B8DpuOMwnA-2ckgdTyT84HzaiD5--4BR&sz=w800",
+        "embed": "https://drive.google.com/file/d/1B8DpuOMwnA-2ckgdTyT84HzaiD5--4BR/preview",
+        "local": "/student-files/2026/xiran-wang-week-1--what-is-intelligence--2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1kEoy47QRfSAywRq16Xgo6odAez4Ek0SB",
+        "fileId": "1kEoy47QRfSAywRq16Xgo6odAez4Ek0SB",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1kEoy47QRfSAywRq16Xgo6odAez4Ek0SB&sz=w800",
+        "embed": "https://drive.google.com/file/d/1kEoy47QRfSAywRq16Xgo6odAez4Ek0SB/preview",
+        "local": "/student-files/2026/xiran-wang-week-1--what-is-intelligence--3.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "9/7/2026 14:01:25",
+    "studentEmail": "mbalde@pratt.edu",
+    "studentId": "lulah-balde",
+    "assignmentTitle": "Week 2: Systems of Representation",
+    "projectDescription": "FOTO RECIPE: Throughout researching my intelligence of choice, the Fujifilm camera, I was most intrigued by its film simulation feature and the opportunity to add my own film recipe. So the system I've decided to further explore through prototype is based on this concept of reproducing an uploaded image into a film recipe that essentially extracts the image through patterns that re-identify it based on color codes, brightness, shadows, etc. Linked below are screenshots of the html foto recipe prototype in use as well as three outputs from the prototype itself. I also included my figma board that includes my diagram of brainstorming, system layout, and details of how I want to further develop this prototype.",
+    "credit": "Claude AI to help produce my diagram + project system into functioning html platform",
+    "uploadedFiles": "/student-files/2026/lulah-balde-week-2--systems-of-representation-1.png, /student-files/2026/lulah-balde-week-2--systems-of-representation-2.png, /student-files/2026/lulah-balde-week-2--systems-of-representation-3.png, /student-files/2026/lulah-balde-week-2--systems-of-representation-4.png",
+    "linkToWork": "https://www.figma.com/board/tWkq4l8UsCHLSovm5yhOYj/building-foto-recipe?node-id=0-1&t=CysulKr5FERCm63c-1",
+    "linkToWorks": [
+      "https://www.figma.com/board/tWkq4l8UsCHLSovm5yhOYj/building-foto-recipe?node-id=0-1&t=CysulKr5FERCm63c-1"
+    ],
+    "linkToWorkRaw": "https://www.figma.com/board/tWkq4l8UsCHLSovm5yhOYj/building-foto-recipe?node-id=0-1&t=CysulKr5FERCm63c-1",
+    "certification": "Yes",
+    "weeklyResponse": "This week I learned more about technical system development as I was understanding the important of considering details you wouldn't otherwise think about when building an entirely new prototype built on a new system of choice. Questions that I'm still exploring are how to make my prototype more distinct to my design style and unique to my initial project concept.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1Kp2yWoZ7nklqxEfL8MiTvBWvtYbMcB59",
+        "fileId": "1Kp2yWoZ7nklqxEfL8MiTvBWvtYbMcB59",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1Kp2yWoZ7nklqxEfL8MiTvBWvtYbMcB59&sz=w800",
+        "embed": "https://drive.google.com/file/d/1Kp2yWoZ7nklqxEfL8MiTvBWvtYbMcB59/preview",
+        "local": "/student-files/2026/lulah-balde-week-2--systems-of-representation-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=18FVPQELxb5OhewwxlY4y1NdvFFStQcot",
+        "fileId": "18FVPQELxb5OhewwxlY4y1NdvFFStQcot",
+        "thumbnail": "https://drive.google.com/thumbnail?id=18FVPQELxb5OhewwxlY4y1NdvFFStQcot&sz=w800",
+        "embed": "https://drive.google.com/file/d/18FVPQELxb5OhewwxlY4y1NdvFFStQcot/preview",
+        "local": "/student-files/2026/lulah-balde-week-2--systems-of-representation-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1jlBxsa9cdFqKBrJelNL1xmBpe6ci3Pdx",
+        "fileId": "1jlBxsa9cdFqKBrJelNL1xmBpe6ci3Pdx",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1jlBxsa9cdFqKBrJelNL1xmBpe6ci3Pdx&sz=w800",
+        "embed": "https://drive.google.com/file/d/1jlBxsa9cdFqKBrJelNL1xmBpe6ci3Pdx/preview",
+        "local": "/student-files/2026/lulah-balde-week-2--systems-of-representation-3.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=19XrJBQraQCuUqO89a1Ku11jKIon2iwom",
+        "fileId": "19XrJBQraQCuUqO89a1Ku11jKIon2iwom",
+        "thumbnail": "https://drive.google.com/thumbnail?id=19XrJBQraQCuUqO89a1Ku11jKIon2iwom&sz=w800",
+        "embed": "https://drive.google.com/file/d/19XrJBQraQCuUqO89a1Ku11jKIon2iwom/preview",
+        "local": "/student-files/2026/lulah-balde-week-2--systems-of-representation-4.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "9/7/2026 15:36:04",
+    "studentEmail": "schoei@pratt.edu",
+    "studentId": "seulgi-choei",
+    "assignmentTitle": "Week 2: Systems of Representation",
+    "projectDescription": "Reading A is a small reconstruction of one part of OCR: visual comparison and classification.\n\nThe prototype begins with a single reference image, an Arial “A.” Every test image is converted into black and white, cropped, scaled to the same size, and compared with this reference. The system calculates how much the two shapes overlap and produces a similarity score. Based on a decision boundary that I set, the result is labeled A, A?, or UNKNOWN.\n\nI tested the system with different typefaces, handwritten and photographed letters, rotated forms, similar characters, geometric shapes, and different color conditions. Through these tests, I found that the system does not have a general concept of what the letter A is. It only knows the specific A that I selected as its reference. \n\nThe experiment also showed how much information disappears when an image is simplified for machine comparison. Colors, materials, and other visual qualities can be lost during binarization before the comparison even begins.\n\nMost importantly, I found that the final answer depends not only on the input or the similarity score, but also on the threshold I choose. Changing the threshold can change the output without changing the image or the measurement.",
+    "credit": "Claude ",
+    "uploadedFiles": "/student-files/2026/seulgi-choei-week-2--systems-of-representation-1.png, /student-files/2026/seulgi-choei-week-2--systems-of-representation-2.png, /student-files/2026/seulgi-choei-week-2--systems-of-representation-3.png, /student-files/2026/seulgi-choei-week-2--systems-of-representation-4.png, /student-files/2026/seulgi-choei-week-2--systems-of-representation-5.png",
+    "linkToWork": "https://www.figma.com/proto/2iEvCmRbqRkC6xbCwE0X4t/Tech_OCR_Seulgi?node-id=97-5&viewport=94%2C278%2C0.12&t=JolhUE2IM2wQYNTt-1&scaling=contain&content-scaling=fixed&page-id=1%3A2",
+    "linkToWorks": [
+      "https://www.figma.com/proto/2iEvCmRbqRkC6xbCwE0X4t/Tech_OCR_Seulgi?node-id=97-5&viewport=94%2C278%2C0.12&t=JolhUE2IM2wQYNTt-1&scaling=contain&content-scaling=fixed&page-id=1%3A2"
+    ],
+    "linkToWorkRaw": "https://www.figma.com/proto/2iEvCmRbqRkC6xbCwE0X4t/Tech_OCR_Seulgi?node-id=97-5&viewport=94%2C278%2C0.12&t=JolhUE2IM2wQYNTt-1&scaling=contain&content-scaling=fixed&page-id=1%3A2",
+    "certification": "Yes",
+    "weeklyResponse": "This week, I learned that recognition is not the same as understanding. I also started questioning how much a machine’s answer depends on the rules and thresholds we define for it.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=19biYkBQzjfRFuzu1yTv9Mx9dk9porcem",
+        "fileId": "19biYkBQzjfRFuzu1yTv9Mx9dk9porcem",
+        "thumbnail": "https://drive.google.com/thumbnail?id=19biYkBQzjfRFuzu1yTv9Mx9dk9porcem&sz=w800",
+        "embed": "https://drive.google.com/file/d/19biYkBQzjfRFuzu1yTv9Mx9dk9porcem/preview",
+        "local": "/student-files/2026/seulgi-choei-week-2--systems-of-representation-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1XwI0pwoxxGk3Mjm8B4KGdBlHSpmBbiGn",
+        "fileId": "1XwI0pwoxxGk3Mjm8B4KGdBlHSpmBbiGn",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1XwI0pwoxxGk3Mjm8B4KGdBlHSpmBbiGn&sz=w800",
+        "embed": "https://drive.google.com/file/d/1XwI0pwoxxGk3Mjm8B4KGdBlHSpmBbiGn/preview",
+        "local": "/student-files/2026/seulgi-choei-week-2--systems-of-representation-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1mDQQNeYEFjMyVpybL4rKsBwhx1F2Ca88",
+        "fileId": "1mDQQNeYEFjMyVpybL4rKsBwhx1F2Ca88",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1mDQQNeYEFjMyVpybL4rKsBwhx1F2Ca88&sz=w800",
+        "embed": "https://drive.google.com/file/d/1mDQQNeYEFjMyVpybL4rKsBwhx1F2Ca88/preview",
+        "local": "/student-files/2026/seulgi-choei-week-2--systems-of-representation-3.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1hWynpxAh2WWRn-3syWobq79iIiSz036w",
+        "fileId": "1hWynpxAh2WWRn-3syWobq79iIiSz036w",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1hWynpxAh2WWRn-3syWobq79iIiSz036w&sz=w800",
+        "embed": "https://drive.google.com/file/d/1hWynpxAh2WWRn-3syWobq79iIiSz036w/preview",
+        "local": "/student-files/2026/seulgi-choei-week-2--systems-of-representation-4.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1v2QhsAkTezKDnXbJjITtgy9Ng1IUY41W",
+        "fileId": "1v2QhsAkTezKDnXbJjITtgy9Ng1IUY41W",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1v2QhsAkTezKDnXbJjITtgy9Ng1IUY41W&sz=w800",
+        "embed": "https://drive.google.com/file/d/1v2QhsAkTezKDnXbJjITtgy9Ng1IUY41W/preview",
+        "local": "/student-files/2026/seulgi-choei-week-2--systems-of-representation-5.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "9/7/2026 19:11:28",
+    "studentEmail": "jlix92@pratt.edu",
+    "studentId": "jiayi-li",
+    "assignmentTitle": "Week 2: Systems of Representation",
+    "projectDescription": "Last week, I researched Days Matter, a countdown app that records important dates and calculates how much time has passed since an event or how much time remains until it happens. For this assignment, I did not reconstruct the way the app calculates time. Instead, I focused on an implicit step that happens before the calculation begins: how a personal experience is turned into a date that the system can process. I created a decision tree called “From Experience to Date”. The system takes a personal experience as input and evaluates its temporal structure through a series of decisions. Depending on the path it follows, the system produces one of three outcomes: Exact Date, Selected Date, or Cannot Be Represented. I tested the system with several different types of experiences. The tests showed that the system more easily handles experiences that can be tied to a single point in time. When an experience is more ambiguous, the user has to make additional decisions in order to translate it into a form the system can process. A manually selected date may then appear just as precise as a date that was clearly known from the beginning. This reconstruction led me to ask: What kinds of information must be made explicit before a system can act intelligently?",
+    "credit": "ChatGPT used for translation.",
+    "uploadedFiles": "/student-files/2026/jiayi-li-week-2--systems-of-representation-1.png, /student-files/2026/jiayi-li-week-2--systems-of-representation-2.png, /student-files/2026/jiayi-li-week-2--systems-of-representation-3.png, /student-files/2026/jiayi-li-week-2--systems-of-representation-4.png, /student-files/2026/jiayi-li-week-2--systems-of-representation-5.png",
+    "linkToWork": "https://www.figma.com/design/MaHmUbpu9cyUQagkbGMDV9/Technology-B---Week-2?node-id=0-1&t=w7UWDdBqDDgBHY3k-1",
+    "linkToWorks": [
+      "https://www.figma.com/design/MaHmUbpu9cyUQagkbGMDV9/Technology-B---Week-2?node-id=0-1&t=w7UWDdBqDDgBHY3k-1"
+    ],
+    "linkToWorkRaw": "https://www.figma.com/design/MaHmUbpu9cyUQagkbGMDV9/Technology-B---Week-2?node-id=0-1&t=w7UWDdBqDDgBHY3k-1",
+    "certification": "Yes",
+    "weeklyResponse": "What kinds of information must be made explicit before a system can act intelligently?",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1PousPuEUEYTtax93I7mbNfW8R7R_D3-9",
+        "fileId": "1PousPuEUEYTtax93I7mbNfW8R7R_D3-9",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1PousPuEUEYTtax93I7mbNfW8R7R_D3-9&sz=w800",
+        "embed": "https://drive.google.com/file/d/1PousPuEUEYTtax93I7mbNfW8R7R_D3-9/preview",
+        "local": "/student-files/2026/jiayi-li-week-2--systems-of-representation-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=12hPOhUbQDD2J-_IwB86c8GZyYNE74W2D",
+        "fileId": "12hPOhUbQDD2J-_IwB86c8GZyYNE74W2D",
+        "thumbnail": "https://drive.google.com/thumbnail?id=12hPOhUbQDD2J-_IwB86c8GZyYNE74W2D&sz=w800",
+        "embed": "https://drive.google.com/file/d/12hPOhUbQDD2J-_IwB86c8GZyYNE74W2D/preview",
+        "local": "/student-files/2026/jiayi-li-week-2--systems-of-representation-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=155xHhjuzfmJ6_I25Fcm4I4LSu0sfzrga",
+        "fileId": "155xHhjuzfmJ6_I25Fcm4I4LSu0sfzrga",
+        "thumbnail": "https://drive.google.com/thumbnail?id=155xHhjuzfmJ6_I25Fcm4I4LSu0sfzrga&sz=w800",
+        "embed": "https://drive.google.com/file/d/155xHhjuzfmJ6_I25Fcm4I4LSu0sfzrga/preview",
+        "local": "/student-files/2026/jiayi-li-week-2--systems-of-representation-3.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1dkBtCbuEP8PY_o_7bQNj7y6Fag_743bQ",
+        "fileId": "1dkBtCbuEP8PY_o_7bQNj7y6Fag_743bQ",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1dkBtCbuEP8PY_o_7bQNj7y6Fag_743bQ&sz=w800",
+        "embed": "https://drive.google.com/file/d/1dkBtCbuEP8PY_o_7bQNj7y6Fag_743bQ/preview",
+        "local": "/student-files/2026/jiayi-li-week-2--systems-of-representation-4.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1msdCIO-IKUBIGUmB6JCrTEeZu4psVgF4",
+        "fileId": "1msdCIO-IKUBIGUmB6JCrTEeZu4psVgF4",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1msdCIO-IKUBIGUmB6JCrTEeZu4psVgF4&sz=w800",
+        "embed": "https://drive.google.com/file/d/1msdCIO-IKUBIGUmB6JCrTEeZu4psVgF4/preview",
+        "local": "/student-files/2026/jiayi-li-week-2--systems-of-representation-5.png"
+      }
+    ]
+  }
+]

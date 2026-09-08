@@ -22,6 +22,9 @@ interface Props {
 const { year, student } = Astro.props;
 const basePath = getYearBasePath(year);
 const archived = isArchivedYear(year);
+const displayName = archived
+  ? `${student.firstName}${student.lastName}`
+  : `${student.firstName} ${student.lastName}`;
 const studentEntries = getStudentData(year)
   .filter((entry) => entry.studentId === student.studentId)
   .sort((a, b) => {
@@ -44,39 +47,59 @@ const studentEntries = getStudentData(year)
           <h2>Back to homepage</h2>
         </a>
         <div class="p-[var(--margin)]">
-          <h1>{student.firstName} {student.lastName}</h1>
+          <h1>{displayName}</h1>
           <YearSwitcher year={year} />
           {archived && <ArchiveNotice year={year} />}
-          <StudentBio year={year} studentId={student.studentId} className="mb-6" />
+          <StudentBio
+            year={year}
+            studentId={student.studentId}
+            className="mb-6"
+          />
           <HallofFame year={year} excludeStudent={student.studentId} />
         </div>
       </div>
-      {studentEntries.length > 0 ? (
-        <>
-          <div class="flex flex-col gap-2 border-r p-[var(--margin)]">
-            {studentEntries.filter((_, index) => index % 2 === 0).map((entry) => (
-              <AssignmentCard entry={entry} variant={3} />
-            ))}
+      {
+        studentEntries.length > 0 ? (
+          <>
+            <div class="flex flex-col gap-2 border-r p-[var(--margin)]">
+              {studentEntries
+                .filter((_, index) => index % 2 === 0)
+                .map((entry) => (
+                  <AssignmentCard
+                    entry={entry}
+                    variant={3}
+                    compactMedia={!archived}
+                  />
+                ))}
+            </div>
+            <div class="flex flex-col gap-2 border-r p-[var(--margin)]">
+              {studentEntries
+                .filter((_, index) => index % 2 === 1)
+                .map((entry) => (
+                  <AssignmentCard
+                    entry={entry}
+                    variant={3}
+                    compactMedia={!archived}
+                  />
+                ))}
+              <Footer year={year} />
+            </div>
+          </>
+        ) : (
+          <div class="no-assignments text-center py-12 lg:col-span-2">
+            <p class="text-xl opacity-70">No submissions yet.</p>
           </div>
-          <div class="flex flex-col gap-2 border-r p-[var(--margin)]">
-            {studentEntries.filter((_, index) => index % 2 === 1).map((entry) => (
-              <AssignmentCard entry={entry} variant={3} />
-            ))}
-            <Footer year={year} />
-          </div>
-        </>
-      ) : (
-        <div class="no-assignments text-center py-12 lg:col-span-2">
-          <p class="text-xl opacity-70">No submissions yet.</p>
-        </div>
-      )}
+        )
+      }
     </div>
   </main>
 </Layout>
 
 <style>
   .assignment-card {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
   }
   .assignment-card:hover {
     transform: translateY(-2px);
@@ -100,8 +123,14 @@ const studentEntries = getStudentData(year)
     background: white/5;
   }
   @media (max-width: 768px) {
-    .assignment-card { padding: 1rem; }
-    .processed-files { grid-template-columns: 1fr; }
-    .file-actions { justify-content: center; }
+    .assignment-card {
+      padding: 1rem;
+    }
+    .processed-files {
+      grid-template-columns: 1fr;
+    }
+    .file-actions {
+      justify-content: center;
+    }
   }
 </style>

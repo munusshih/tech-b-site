@@ -1,5 +1,5 @@
 ---
-import { getStudentsSorted, getYearBasePath } from "@/config";
+import { getStudentsSorted, getYearBasePath, isArchivedYear } from "@/config";
 
 interface Props {
   year: number;
@@ -9,30 +9,36 @@ interface Props {
 const { year, excludeStudent } = Astro.props;
 const students = getStudentsSorted(year);
 const basePath = getYearBasePath(year);
+const archived = isArchivedYear(year);
 ---
 
-{students.length > 0 && (
-  <section class="hall-of-fame">
-    <h1 class="heading-1">{excludeStudent ? "Other Students" : "Hall of Fame"}</h1>
-    <div class="students-grid">
-      {students.map((student) => {
-        const isCurrentStudent = excludeStudent === student.studentId;
-        return (
-          <div class="student-card">
-            <h3 class="student-name">
-              {isCurrentStudent ? (
-                <span class="opacity-30 cursor-default">
-                  {student.firstName} {student.lastName}
-                </span>
-              ) : (
-                <a href={`${basePath}/students/${student.studentId}/`}>
-                  {student.firstName} {student.lastName}
-                </a>
-              )}
-            </h3>
-          </div>
-        );
-      })}
-    </div>
-  </section>
-)}
+{
+  students.length > 0 && (
+    <section class="hall-of-fame">
+      <h1 class="heading-1">
+        {excludeStudent ? "Other Students" : "Hall of Fame"}
+      </h1>
+      <div class="students-grid">
+        {students.map((student) => {
+          const isCurrentStudent = excludeStudent === student.studentId;
+          const displayName = archived
+            ? `${student.firstName}${student.lastName}`
+            : `${student.firstName} ${student.lastName}`;
+          return (
+            <div class="student-card">
+              <h3 class="student-name">
+                {isCurrentStudent ? (
+                  <span class="opacity-30 cursor-default">{displayName}</span>
+                ) : (
+                  <a href={`${basePath}/students/${student.studentId}/`}>
+                    {displayName}
+                  </a>
+                )}
+              </h3>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  )
+}
