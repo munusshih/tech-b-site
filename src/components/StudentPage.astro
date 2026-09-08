@@ -4,7 +4,6 @@ import Footer from "@/components/Footer.astro";
 import AssignmentCard from "@/components/AssignmentCard.astro";
 import HallofFame from "@/components/HallofFame.astro";
 import StudentBio from "@/components/StudentBio.astro";
-import YearSwitcher from "@/components/YearSwitcher.astro";
 import ArchiveNotice from "@/components/ArchiveNotice.astro";
 import {
   SITE_TITLE,
@@ -48,7 +47,6 @@ const studentEntries = getStudentData(year)
         </a>
         <div class="p-[var(--margin)]">
           <h1>{displayName}</h1>
-          <YearSwitcher year={year} />
           {archived && <ArchiveNotice year={year} />}
           <StudentBio
             year={year}
