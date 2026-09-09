@@ -1,13 +1,20 @@
 ---
 import FileViewer from "@/components/FileViewer.astro";
+import CreditList from "@/components/CreditList.astro";
 
 interface Props {
   entry: any;
   variant?: 1 | 2 | 3;
   compactMedia?: boolean;
+  structuredCredits?: boolean;
 }
 
-const { entry, variant = 1, compactMedia = false } = Astro.props as Props;
+const {
+  entry,
+  variant = 1,
+  compactMedia = false,
+  structuredCredits = false,
+} = Astro.props as Props;
 
 // Build a flat list of src strings for media files
 let files: string[] = [];
@@ -156,6 +163,13 @@ function getWeekLabel(title) {
   {
     entry.credit?.trim() &&
       (variant === 2 || variant === 3) &&
+      structuredCredits && <CreditList value={entry.credit} />
+  }
+
+  {
+    entry.credit?.trim() &&
+      (variant === 2 || variant === 3) &&
+      !structuredCredits &&
       (() => {
         const credit = entry.credit.trim();
 
@@ -368,17 +382,17 @@ function getWeekLabel(title) {
     height: 500px;
   }
   .media-frame-compact .swiper-track {
+    aspect-ratio: 4 / 3;
     height: auto;
     max-height: 32rem;
-    aspect-ratio: 4 / 3;
   }
   .media-frame-compact .swiper-slide {
     height: 100%;
   }
   .media-single.media-frame-compact {
+    aspect-ratio: 4 / 3;
     height: auto;
     max-height: 32rem;
-    aspect-ratio: 4 / 3;
     overflow: hidden;
   }
   .swiper-pagination {

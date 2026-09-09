@@ -14,7 +14,7 @@ const studentBio = studentId
   : allBios[0];
 ---
 
-{studentBio ? (
+{studentBio && (
   <div class={`student-bio ${className}`}>
     {studentBio.bio && <div class="bio-text mb-4"><p>{studentBio.bio}</p></div>}
     {studentBio.links?.length > 0 && (
@@ -24,9 +24,5 @@ const studentBio = studentId
         ))}
       </ul>
     )}
-  </div>
-) : (
-  <div class={`student-bio-placeholder ${className}`}>
-    <p class="text-sm opacity-70">No bio available yet.</p>
   </div>
 )}

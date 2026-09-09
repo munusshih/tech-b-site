@@ -4,6 +4,7 @@ export interface Student {
   firstName: string;
   lastName: string;
   email: string;
+  slug?: string;
   website?: string | null;
 }
 
@@ -89,7 +90,8 @@ export function generateStudentId(firstName: string, lastName: string): string {
 export function getStudentsWithId(year: number): StudentWithId[] {
   return getYearConfig(year).students.map((student) => ({
     ...student,
-    studentId: generateStudentId(student.firstName, student.lastName),
+    studentId:
+      student.slug ?? generateStudentId(student.firstName, student.lastName),
   }));
 }
 
