@@ -11,6 +11,7 @@ import {
 import path from "path";
 import { generateStudentMapping } from "./student-mapping.js";
 import { loadCourseConfig, projectRoot } from "./course-config.js";
+import { fetchOpenSheetRows } from "./opensheet.js";
 import { Buffer } from "buffer";
 
 // -----------------------------------------------------------------------------
@@ -387,6 +388,8 @@ async function processStudentFiles(
 }
 
 async function fetchStudentData() {
+  let outputFile;
+
   try {
     const { activeYear, yearConfig } = loadCourseConfig();
     const sheet = yearConfig.sheets.assignments;
@@ -398,7 +401,7 @@ async function fetchStudentData() {
     }
     const apiUrl = `https://opensheet.elk.sh/${sheet.id}/${encodeURIComponent(sheet.name)}`;
     const outputDir = path.join(projectRoot, "src/data", String(activeYear));
-    const outputFile = path.join(outputDir, "student-data.json");
+    outputFile = path.join(outputDir, "student-data.json");
     const downloadsDir = path.join(
       projectRoot,
       "public/student-files",
@@ -425,13 +428,7 @@ async function fetchStudentData() {
       fetchFn = fetch;
     }
 
-    // Fetch data from OpenSheet
-    const response = await fetchFn(apiUrl);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
+    const data = await fetchOpenSheetRows(fetchFn, apiUrl);
     console.log(`Fetched ${data.length} rows from the sheet`);
 
     const validRows = data
@@ -553,15 +550,28 @@ async function fetchStudentData() {
     });
 
     console.log("✅ Student data fetched successfully!");
+    return {
+      skipped: false,
+      year: activeYear,
+      count: studentDataWithFiles.length,
+    };
   } catch (error) {
+    if (process.env.VERCEL && outputFile && existsSync(outputFile)) {
+      console.warn(
+        `⚠️ Assignment sync unavailable after retries (${error.message}). Building with the committed student-data snapshot.`,
+      );
+      return { skipped: true, stale: true, error };
+    }
+
     console.error("❌ Error fetching student data:", error);
-    process.exit(1);
+    process.exitCode = 1;
+    return { error };
   }
 }
 
 // Main execution (ES module style)
 if (import.meta.url === `file://${process.argv[1]}`) {
-  fetchStudentData();
+  await fetchStudentData();
 }
 
 // Export the function for potential use as a module

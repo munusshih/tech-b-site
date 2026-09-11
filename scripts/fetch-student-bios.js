@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
-import { promises as fs } from "node:fs";
+import { existsSync, promises as fs } from "node:fs";
 import path from "node:path";
 import { loadCourseConfig, projectRoot } from "./course-config.js";
 import { generateStudentMapping } from "./student-mapping.js";
+import { fetchOpenSheetRows } from "./opensheet.js";
 
 async function getFetch() {
   if (typeof globalThis.fetch !== "undefined") return globalThis.fetch;
@@ -12,6 +13,8 @@ async function getFetch() {
 }
 
 export async function fetchStudentBios() {
+  let outputPath;
+
   try {
     const { activeYear, yearConfig } = loadCourseConfig();
     const sheet = yearConfig.sheets.bios;
@@ -23,6 +26,12 @@ export async function fetchStudentBios() {
     }
 
     const apiUrl = `https://opensheet.elk.sh/${sheet.id}/${encodeURIComponent(sheet.name)}`;
+    outputPath = path.join(
+      projectRoot,
+      "src/data",
+      String(activeYear),
+      "student-bios.json",
+    );
     const studentEmailToId = generateStudentMapping();
     const fetchFn = await getFetch();
 
@@ -32,12 +41,7 @@ export async function fetchStudentBios() {
       `Found ${Object.keys(studentEmailToId).length} students in the active roster`,
     );
 
-    const response = await fetchFn(apiUrl);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const rawData = await response.json();
+    const rawData = await fetchOpenSheetRows(fetchFn, apiUrl);
     const processedBios = rawData
       .map((row) => {
         const studentEmail = row["Email Address"];
@@ -67,18 +71,19 @@ export async function fetchStudentBios() {
       })
       .filter((entry) => entry.studentEmail && entry.bio);
 
-    const outputPath = path.join(
-      projectRoot,
-      "src/data",
-      String(activeYear),
-      "student-bios.json",
-    );
     await fs.mkdir(path.dirname(outputPath), { recursive: true });
     await fs.writeFile(outputPath, JSON.stringify(processedBios, null, 2));
 
     console.log(`Saved ${processedBios.length} student bios to ${outputPath}`);
     return { skipped: false, year: activeYear, count: processedBios.length };
   } catch (error) {
+    if (process.env.VERCEL && outputPath && existsSync(outputPath)) {
+      console.warn(
+        `Bio sync unavailable after retries (${error.message}). Building with the committed student-bios snapshot.`,
+      );
+      return { skipped: true, stale: true, error };
+    }
+
     console.error("Student bio sync failed:", error);
     process.exitCode = 1;
     return { error };
