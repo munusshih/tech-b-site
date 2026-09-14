@@ -4,15 +4,6 @@
 
 <div id="p5-background" data-sketch-year="2026" aria-hidden="true"></div>
 
-<script
-  is:inline
-  src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"
-></script>
-<script
-  is:inline
-  src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js"
-></script>
-
 <script is:inline>
   const mount = document.querySelector(
     '#p5-background[data-sketch-year="2026"]',
@@ -26,6 +17,10 @@
     const MET_OBJECT_URL =
       "https://collectionapi.metmuseum.org/public/collection/v1/objects";
     const IMAGE_PROXY_BASE = "https://images.weserv.nl/?url=";
+    const TENSORFLOW_URL =
+      "https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js";
+    const COCO_SSD_URL =
+      "https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js";
     const DETECTION_THRESHOLD = 0.5;
     const SEARCH_TERMS = [
       "portrait",
@@ -74,19 +69,61 @@
       "CRDImages/es/web-large/DP-16194-131.jpg",
     ];
 
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const connection =
+      navigator.connection ||
+      navigator.mozConnection ||
+      navigator.webkitConnection ||
+      null;
+    const saveData = Boolean(connection?.saveData);
+    const deviceMemory = Number(navigator.deviceMemory || 0);
+    const logicalCores = Number(navigator.hardwareConcurrency || 0);
+    const compactViewport = window.innerWidth < 800;
+    const constrainedDevice =
+      compactViewport ||
+      (deviceMemory > 0 && deviceMemory <= 4) ||
+      (logicalCores > 0 && logicalCores <= 4);
+    const runtimeProfile = constrainedDevice
+      ? {
+          name: "light",
+          maxLayers: 6,
+          cursorCount: 4,
+          frameRate: 20,
+          cycleIntervalMs: 10000,
+          maxCanvasPixels: 1500000,
+          maxDpr: 1.25,
+          imageMaxEdge: 640,
+        }
+      : {
+          name: "full",
+          maxLayers: 14,
+          cursorCount: 7,
+          frameRate: 30,
+          cycleIntervalMs: 8000,
+          maxCanvasPixels: 3000000,
+          maxDpr: 1.75,
+          imageMaxEdge: 900,
+        };
+    const lifecycleController = new AbortController();
+    const lifecycleSignal = lifecycleController.signal;
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d", { alpha: true });
-    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const state = {
       detector: null,
       detectorReady: false,
+      detectionEnabled: !constrainedDevice && !saveData && !motionQuery.matches,
+      detectionWorkerRunning: false,
       objectPool: [],
       running: false,
       busy: false,
+      destroyed: false,
       cycleTimer: null,
       rafId: 0,
+      runGeneration: 0,
+      detectorLoadTimer: 0,
+      lastRenderAt: 0,
       layers: [],
-      maxLayers: 36,
+      maxLayers: runtimeProfile.maxLayers,
       recentQueryTerms: [],
       recentQueryDepartments: [],
       recentRenderedDepartments: [],
@@ -105,8 +142,12 @@
 
     const ENTER_ANIMATION_MS = 2400;
     const EXIT_ANIMATION_MS = 1800;
-    const CURSOR_COUNT = 9;
+    const CURSOR_COUNT = runtimeProfile.cursorCount;
 
+    mount.dataset.runtimeProfile = runtimeProfile.name;
+    mount.dataset.objectDetection = state.detectionEnabled
+      ? "pending"
+      : "disabled";
     mount.appendChild(canvas);
 
     function randomItem(items) {
@@ -132,14 +173,25 @@
     }
 
     function resizeCanvas() {
-      const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
       const width = Math.max(1, window.innerWidth);
       const height = Math.max(1, window.innerHeight);
-      canvas.width = Math.floor(width * dpr);
-      canvas.height = Math.floor(height * dpr);
+      const requestedDpr = Math.min(
+        runtimeProfile.maxDpr,
+        window.devicePixelRatio || 1,
+      );
+      const pixelBudgetScale = Math.sqrt(
+        runtimeProfile.maxCanvasPixels / (width * height),
+      );
+      const renderScale = Math.max(
+        0.5,
+        Math.min(requestedDpr, pixelBudgetScale),
+      );
+      canvas.width = Math.max(1, Math.floor(width * renderScale));
+      canvas.height = Math.max(1, Math.floor(height * renderScale));
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.setTransform(renderScale, 0, 0, renderScale, 0, 0);
+      canvas.dataset.renderScale = renderScale.toFixed(2);
     }
 
     function seedCursors() {
@@ -558,16 +610,36 @@
       }
     }
 
+    function getProxiedImageUrl(source) {
+      const normalizedSource = String(source).replace(/^https?:\/\//, "");
+      const maxEdge = runtimeProfile.imageMaxEdge;
+      return `${IMAGE_PROXY_BASE}${encodeURIComponent(normalizedSource)}&w=${maxEdge}&h=${maxEdge}&fit=inside&output=webp&q=72`;
+    }
+
     function getFallbackImageEntry() {
       const path = randomItem(FALLBACK_IMAGE_PATHS);
       return {
-        imageUrl: `${IMAGE_PROXY_BASE}${encodeURIComponent(`images.metmuseum.org/${path}`)}`,
+        imageUrl: getProxiedImageUrl(`images.metmuseum.org/${path}`),
         metadata: {
           title: "Open Access Work",
           department: "The Met Collection",
           medium: "Archival image",
         },
       };
+    }
+
+    async function fetchWithTimeout(url, timeoutMs = 7000) {
+      const requestController = new AbortController();
+      const abortRequest = () => requestController.abort();
+      const timeout = window.setTimeout(abortRequest, timeoutMs);
+      lifecycleSignal.addEventListener("abort", abortRequest, { once: true });
+
+      try {
+        return await fetch(url, { signal: requestController.signal });
+      } finally {
+        window.clearTimeout(timeout);
+        lifecycleSignal.removeEventListener("abort", abortRequest);
+      }
     }
 
     async function fetchMetJson(url) {
@@ -577,8 +649,9 @@
       ];
 
       for (const candidate of urls) {
+        if (state.destroyed) return null;
         try {
-          const response = await fetch(candidate);
+          const response = await fetchWithTimeout(candidate);
           if (!response.ok) continue;
 
           const contentType = response.headers.get("content-type") || "";
@@ -682,7 +755,7 @@
           pushRecent(state.recentRenderedDepartments, departmentLabel, 12);
 
           return {
-            imageUrl: `${IMAGE_PROXY_BASE}${encodeURIComponent(data.primaryImageSmall.replace(/^https?:\/\//, ""))}`,
+            imageUrl: getProxiedImageUrl(data.primaryImageSmall),
             metadata,
           };
         } catch {
@@ -696,10 +769,27 @@
     function loadImage(url) {
       return new Promise((resolve, reject) => {
         const image = new Image();
+        let settled = false;
+        const finish = (callback, value) => {
+          if (settled) return;
+          settled = true;
+          window.clearTimeout(timeout);
+          lifecycleSignal.removeEventListener("abort", abortImage);
+          image.onload = null;
+          image.onerror = null;
+          callback(value);
+        };
+        const abortImage = () => {
+          image.removeAttribute("src");
+          finish(reject, new Error("Image load cancelled"));
+        };
+        const timeout = window.setTimeout(abortImage, 8000);
         image.crossOrigin = "anonymous";
         image.decoding = "async";
-        image.onload = () => resolve(image);
-        image.onerror = () => reject(new Error("Image failed to load"));
+        image.fetchPriority = "low";
+        image.onload = () => finish(resolve, image);
+        image.onerror = () => finish(reject, new Error("Image failed to load"));
+        lifecycleSignal.addEventListener("abort", abortImage, { once: true });
         image.src = url;
       });
     }
@@ -907,7 +997,9 @@
 
     async function detectLayer(layer) {
       if (
+        !state.detectionEnabled ||
         !state.detector ||
+        !layer.image ||
         layer.detectionState === "running" ||
         layer.detectionState === "done"
       ) {
@@ -918,7 +1010,7 @@
       try {
         const predictions = await state.detector.detect(
           layer.image,
-          40,
+          20,
           DETECTION_THRESHOLD,
         );
         layer.predictions = predictions.filter(
@@ -931,12 +1023,32 @@
       }
     }
 
-    async function backfillPendingDetections() {
-      for (const layer of state.layers) {
-        if (!state.running) return;
-        if (layer.detectionState === "pending") {
-          await detectLayer(layer);
+    async function runDetectionQueue() {
+      if (
+        state.detectionWorkerRunning ||
+        !state.detectionEnabled ||
+        !state.detectorReady ||
+        !state.running
+      ) {
+        return;
+      }
+
+      state.detectionWorkerRunning = true;
+      try {
+        while (
+          state.running &&
+          !state.destroyed &&
+          state.detectionEnabled &&
+          state.detector
+        ) {
+          const nextLayer = state.layers.find(
+            (layer) => layer.detectionState === "pending",
+          );
+          if (!nextLayer) break;
+          await detectLayer(nextLayer);
         }
+      } finally {
+        state.detectionWorkerRunning = false;
       }
     }
 
@@ -1036,7 +1148,25 @@
       ctx.translate(-cx, -cy);
     }
 
+    function releaseLayer(layer) {
+      if (layer.image) {
+        layer.image.onload = null;
+        layer.image.onerror = null;
+        layer.image.removeAttribute("src");
+        layer.image = null;
+      }
+      layer.predictions = [];
+    }
+
     function renderLayers(now = performance.now()) {
+      if (!state.running) return;
+
+      const frameInterval = 1000 / runtimeProfile.frameRate;
+      if (state.lastRenderAt && now - state.lastRenderAt < frameInterval) {
+        state.rafId = window.requestAnimationFrame(renderLayers);
+        return;
+      }
+      state.lastRenderAt = now;
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
       const retainedLayers = [];
@@ -1058,6 +1188,7 @@
         layer.currentPlacement = placement;
 
         if (exiting && progress >= 1) {
+          releaseLayer(layer);
           continue;
         }
 
@@ -1091,6 +1222,7 @@
       }
 
       state.layers = retainedLayers;
+      mount.dataset.layerCount = String(state.layers.length);
       drawCursors(now);
 
       if (state.running) {
@@ -1129,6 +1261,11 @@
           image = await loadImage(fallback.imageUrl);
         }
 
+        if (!state.running || state.destroyed) {
+          image.removeAttribute("src");
+          return;
+        }
+
         state.consecutiveSourceFailures = 0;
         const shouldSeedCenterRing = state.seededCenterCount < 5;
         const placement = shouldSeedCenterRing
@@ -1163,7 +1300,7 @@
           metadata: meta.metadata,
           metaLabel: pickRandomMetadataLabel(meta.metadata),
           predictions: [],
-          detectionState: state.detectorReady ? "pending" : "pending",
+          detectionState: state.detectionEnabled ? "pending" : "disabled",
           createdAt: performance.now(),
           animationMs: ENTER_ANIMATION_MS,
           currentPlacement: placement,
@@ -1174,7 +1311,7 @@
         if (shouldSeedCenterRing) state.seededCenterCount += 1;
 
         if (state.detectorReady) {
-          void detectLayer(layer);
+          void runDetectionQueue();
         }
 
         if (state.layers.length > state.maxLayers) {
@@ -1197,37 +1334,60 @@
       }
     }
 
-    async function preloadInitialLayers(minCount = 5) {
-      const target = Math.max(minCount, 5);
-      while (state.running && state.layers.length < target) {
+    async function preloadInitialLayers(minCount, generation) {
+      const target = Math.max(1, minCount);
+      while (
+        state.running &&
+        !state.destroyed &&
+        generation === state.runGeneration &&
+        state.layers.length < target
+      ) {
         await processNextImage();
       }
     }
 
-    function queueNextCycle() {
+    function queueNextCycle(generation = state.runGeneration) {
       window.clearTimeout(state.cycleTimer);
-      if (!state.running) return;
+      if (
+        !state.running ||
+        state.destroyed ||
+        generation !== state.runGeneration
+      ) {
+        return;
+      }
 
       state.cycleTimer = window.setTimeout(async () => {
         await processNextImage();
-        queueNextCycle();
-      }, 6500);
+        queueNextCycle(generation);
+      }, runtimeProfile.cycleIntervalMs);
+    }
+
+    function shouldAnimate() {
+      return !motionQuery.matches && !saveData && !state.destroyed;
     }
 
     function start() {
-      if (state.running) return;
+      if (state.running || !shouldAnimate()) return;
+      const generation = state.runGeneration + 1;
+      state.runGeneration = generation;
       state.running = true;
+      state.lastRenderAt = 0;
+      canvas.hidden = false;
+      mount.dataset.metSketchMode = runtimeProfile.name;
       state.rafId = window.requestAnimationFrame(renderLayers);
 
       void (async () => {
-        await preloadInitialLayers(5);
-        queueNextCycle();
+        const initialLayerCount = runtimeProfile.name === "light" ? 3 : 5;
+        await preloadInitialLayers(initialLayerCount, generation);
+        queueNextCycle(generation);
       })();
     }
 
     function stop() {
       state.running = false;
+      state.runGeneration += 1;
       window.clearTimeout(state.cycleTimer);
+      state.cycleTimer = null;
       if (state.rafId) {
         window.cancelAnimationFrame(state.rafId);
         state.rafId = 0;
@@ -1239,40 +1399,182 @@
       else start();
     }
 
+    function loadScriptOnce(src, globalName) {
+      if (window[globalName]) return Promise.resolve(window[globalName]);
+
+      const selector = `script[data-techb-runtime="${globalName}"]`;
+      let script = document.querySelector(selector);
+      if (!script) {
+        script = document.createElement("script");
+        script.src = src;
+        script.async = true;
+        script.crossOrigin = "anonymous";
+        script.dataset.techbRuntime = globalName;
+        document.head.appendChild(script);
+      }
+
+      return new Promise((resolve, reject) => {
+        const handleLoad = () => {
+          cleanup();
+          if (window[globalName]) resolve(window[globalName]);
+          else reject(new Error(`${globalName} did not initialize`));
+        };
+        const handleError = () => {
+          cleanup();
+          reject(new Error(`${globalName} failed to load`));
+        };
+        const cleanup = () => {
+          script.removeEventListener("load", handleLoad);
+          script.removeEventListener("error", handleError);
+        };
+        script.addEventListener("load", handleLoad, { once: true });
+        script.addEventListener("error", handleError, { once: true });
+      });
+    }
+
+    function disableObjectDetection(status = "disabled") {
+      state.detectionEnabled = false;
+      state.detectorReady = false;
+      state.layers.forEach((layer) => {
+        if (
+          layer.detectionState === "pending" ||
+          layer.detectionState === "running"
+        ) {
+          layer.detectionState = "disabled";
+          layer.predictions = [];
+        }
+      });
+      if (state.detector?.dispose) state.detector.dispose();
+      state.detector = null;
+      mount.dataset.objectDetection = status;
+    }
+
+    async function loadObjectDetector() {
+      if (!state.detectionEnabled || state.destroyed || !state.running) return;
+
+      try {
+        await loadScriptOnce(TENSORFLOW_URL, "tf");
+        await loadScriptOnce(COCO_SSD_URL, "cocoSsd");
+        if (!state.detectionEnabled || state.destroyed || !state.running)
+          return;
+
+        const detector = await window.cocoSsd.load({ base: "mobilenet_v2" });
+        if (!state.detectionEnabled || state.destroyed || !state.running) {
+          detector?.dispose?.();
+          return;
+        }
+
+        state.detector = detector;
+        state.detectorReady = true;
+        mount.dataset.objectDetection = "active";
+        void runDetectionQueue();
+      } catch {
+        disableObjectDetection("unavailable");
+      }
+    }
+
+    function scheduleObjectDetector() {
+      if (
+        !state.detectionEnabled ||
+        state.detectorReady ||
+        state.detectorLoadTimer ||
+        state.destroyed
+      ) {
+        return;
+      }
+      state.detectorLoadTimer = window.setTimeout(() => {
+        state.detectorLoadTimer = 0;
+        void loadObjectDetector();
+      }, 1200);
+    }
+
+    function handleMotionPreference() {
+      if (motionQuery.matches || saveData) {
+        stop();
+        canvas.hidden = true;
+        mount.dataset.metSketchMode = "static";
+        disableObjectDetection("disabled");
+        return;
+      }
+
+      canvas.hidden = false;
+      if (!constrainedDevice && !state.detectorReady) {
+        state.detectionEnabled = true;
+        mount.dataset.objectDetection = "pending";
+        scheduleObjectDetector();
+      }
+      start();
+    }
+
+    function handlePageHide(event) {
+      if (event.persisted) stop();
+      else destroy();
+    }
+
+    function handlePageShow(event) {
+      if (event.persisted) {
+        start();
+        scheduleObjectDetector();
+      }
+    }
+
+    function destroy() {
+      if (state.destroyed) return;
+      state.destroyed = true;
+      stop();
+      window.clearTimeout(state.detectorLoadTimer);
+      state.detectorLoadTimer = 0;
+      lifecycleController.abort();
+      disableObjectDetection("destroyed");
+      state.layers.forEach(releaseLayer);
+      state.layers = [];
+      mount.dataset.layerCount = "0";
+      canvas.width = 1;
+      canvas.height = 1;
+    }
+
     async function initialize() {
       resizeCanvas();
       seedCursors();
-      window.addEventListener("resize", resizeCanvas);
-      window.addEventListener("mousemove", (event) => {
-        state.pointer.x = event.clientX;
-        state.pointer.y = event.clientY;
-        state.pointer.active = true;
+      window.addEventListener("resize", resizeCanvas, {
+        passive: true,
+        signal: lifecycleSignal,
       });
-      window.addEventListener("mouseleave", () => {
-        state.pointer.active = false;
+      window.addEventListener(
+        "mousemove",
+        (event) => {
+          state.pointer.x = event.clientX;
+          state.pointer.y = event.clientY;
+          state.pointer.active = true;
+        },
+        { passive: true, signal: lifecycleSignal },
+      );
+      window.addEventListener(
+        "mouseleave",
+        () => {
+          state.pointer.active = false;
+        },
+        { signal: lifecycleSignal },
+      );
+      window.addEventListener("pagehide", handlePageHide, {
+        signal: lifecycleSignal,
       });
-      document.addEventListener("visibilitychange", handleVisibility);
-      motionQuery.addEventListener("change", () => {
-        if (state.running) queueNextCycle();
+      window.addEventListener("pageshow", handlePageShow, {
+        signal: lifecycleSignal,
+      });
+      document.addEventListener("visibilitychange", handleVisibility, {
+        signal: lifecycleSignal,
+      });
+      motionQuery.addEventListener("change", handleMotionPreference, {
+        signal: lifecycleSignal,
       });
 
-      start();
-
-      // Load detector in the background so image rendering never waits on model fetch.
-      (async () => {
-        try {
-          if (window.cocoSsd) {
-            state.detector = await window.cocoSsd.load({
-              base: "mobilenet_v2",
-            });
-            state.detectorReady = true;
-            void backfillPendingDetections();
-          }
-        } catch {
-          state.detector = null;
-          state.detectorReady = false;
-        }
-      })();
+      if (shouldAnimate()) {
+        start();
+        scheduleObjectDetector();
+      } else {
+        handleMotionPreference();
+      }
     }
 
     initialize();

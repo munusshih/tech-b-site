@@ -3,6 +3,9 @@
 ---
 
 <div id="p5-background"></div>
+
+<script is:inline src="https://cdn.jsdelivr.net/npm/p5@1.11.8/lib/p5.js"
+></script>
 <script is:client>
   /* eslint-disable no-undef, @typescript-eslint/no-unused-vars */
 
@@ -214,7 +217,7 @@
             constrain(red(base) + random(-20, 20), 0, 255),
             constrain(green(base) + random(-20, 20), 0, 255),
             constrain(blue(base) + random(-20, 20), 0, 255),
-            r.opacity
+            r.opacity,
           );
           this.rings.push(r);
         }
@@ -273,14 +276,14 @@
           ring.skewAmpX *
             Math.sin(
               frameCount * 0.01 * CONFIG.SPEED_MULTIPLIER.ringRotation +
-                ring.skewPhaseX
+                ring.skewPhaseX,
             );
         ring.skewY =
           ring.skewBaseY +
           ring.skewAmpY *
             Math.cos(
               frameCount * 0.013 * CONFIG.SPEED_MULTIPLIER.ringRotation +
-                ring.skewPhaseY
+                ring.skewPhaseY,
             );
       }
 
@@ -324,14 +327,14 @@
             red(this.baseColor),
             green(this.baseColor),
             blue(this.baseColor),
-            a * 0.5
+            a * 0.5,
           );
           const s = map(
             i,
             0,
             this.trail.length,
             this.size * 0.1,
-            this.size * 0.8
+            this.size * 0.8,
           );
           ellipse(p.x - this.x, p.y - this.y, s);
         }
@@ -346,7 +349,7 @@
           red(ring.color),
           green(ring.color),
           blue(ring.color),
-          ring.opacity
+          ring.opacity,
         );
         strokeWeight(ring.ringWidth);
         noFill();
@@ -364,7 +367,7 @@
           scale(1 / ring.skewX, 1 / ring.skewY);
           const shimmer =
             Math.sin(
-              frameCount * ring.shimmerSpeed + ring.shimmerOffset + i * 0.5
+              frameCount * ring.shimmerSpeed + ring.shimmerOffset + i * 0.5,
             ) *
               0.5 +
             0.5;
@@ -394,7 +397,7 @@
             red(this.baseColor),
             green(this.baseColor),
             blue(this.baseColor),
-            a
+            a,
           );
           noFill();
           strokeWeight(3);
@@ -411,14 +414,14 @@
           const n = noise(
             this.noiseSeed,
             r * 0.01,
-            frameCount * 0.005 * CONFIG.SPEED_MULTIPLIER.nebula
+            frameCount * 0.005 * CONFIG.SPEED_MULTIPLIER.nebula,
           );
           const a = map(r, 10, this.size * 1.6, 8, 120) * n;
           fill(
             red(this.baseColor),
             green(this.baseColor),
             blue(this.baseColor),
-            0.2
+            0.2,
           );
           ellipse(0, 0, r * (0.8 + a * 0.6), r);
         }
@@ -432,7 +435,7 @@
           red(this.baseColor),
           green(this.baseColor),
           blue(this.baseColor),
-          alpha * 0.1
+          alpha * 0.1,
         );
         noStroke();
         ellipse(0, 0, r);
@@ -539,7 +542,7 @@
 
     for (let i = 0; i < CONFIG.counts.initialBodies; i++) {
       bodies.push(
-        new Body(random(120, width - 120), random(120, height - 120))
+        new Body(random(120, width - 120), random(120, height - 120)),
       );
     }
   }
@@ -552,12 +555,12 @@
       let y =
         noise(
           i * 0.11 + 100,
-          frameCount * 0.01 * CONFIG.SPEED_MULTIPLIER.backgroundStars
+          frameCount * 0.01 * CONFIG.SPEED_MULTIPLIER.backgroundStars,
         ) * height;
       let b =
         noise(
           i * 0.11,
-          frameCount * 0.02 * CONFIG.SPEED_MULTIPLIER.backgroundStars
+          frameCount * 0.02 * CONFIG.SPEED_MULTIPLIER.backgroundStars,
         ) * 255;
       noStroke();
       fill(b, b, 255, b * 0.5);
@@ -587,7 +590,7 @@
         if (d < CONFIG.physics.NEAR_LINK_DIST) {
           stroke(
             ...COLORS.connectionLine,
-            map(d, 0, CONFIG.physics.NEAR_LINK_DIST, 60, 0)
+            map(d, 0, CONFIG.physics.NEAR_LINK_DIST, 60, 0),
           );
           line(a.x, a.y, b.x, b.y);
         }
