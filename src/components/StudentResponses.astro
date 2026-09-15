@@ -6,7 +6,7 @@ import {
   getYearBasePath,
   getYearConfig,
 } from "@/config";
-import { getStudentData } from "@/lib/year-data";
+import { getAssignmentWeek, getStudentData } from "@/lib/year-data";
 
 interface Props {
   year: number;
@@ -19,14 +19,10 @@ const responseNameMapping = getResponseNamesByEmail(year);
 const basePath = getYearBasePath(year);
 const studentData = getStudentData(year);
 
-const weekResponses = studentData.filter((entry) => {
-  const assignment = entry.assignmentTitle;
-  if (!assignment) return false;
-  const weekMatch = assignment
-    .toLowerCase()
-    .match(/(?:week|assignment)\s*(\d+)/);
-  return weekMatch && Number.parseInt(weekMatch[1]) === week;
-});
+// Form labels can change without changing which numbered week they belong to.
+const weekResponses = studentData.filter(
+  (entry) => getAssignmentWeek(entry.assignmentTitle) === week,
+);
 
 const responsesWithLabels = weekResponses
   .filter((entry) => entry.weeklyResponse?.trim())

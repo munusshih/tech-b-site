@@ -16,6 +16,18 @@ export interface StudentBioEntry {
   links?: Array<{ name: string; url: string }>;
 }
 
+const assignmentWeekPattern = /\b(?:week|assignment)\s*[-#:]?\s*(\d+)\b/i;
+
+export function getAssignmentWeek(
+  assignmentTitle?: string | null,
+): number | null {
+  const match = assignmentTitle?.match(assignmentWeekPattern);
+  if (!match) return null;
+
+  const week = Number.parseInt(match[1], 10);
+  return Number.isSafeInteger(week) && week > 0 ? week : null;
+}
+
 const studentDataFiles = import.meta.glob<{ default: StudentDataEntry[] }>(
   "../data/*/student-data.json",
   { eager: true },

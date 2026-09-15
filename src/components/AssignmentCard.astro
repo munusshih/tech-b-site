@@ -1,6 +1,7 @@
 ---
 import FileViewer from "@/components/FileViewer.astro";
 import CreditList from "@/components/CreditList.astro";
+import { getAssignmentWeek } from "@/lib/year-data";
 
 interface Props {
   entry: any;
@@ -31,8 +32,8 @@ if (entry?.processedFiles?.length) {
 
 // Extract week number from assignmentTitle (e.g., 'week-3 ...' or 'Week 3 ...')
 function getWeekLabel(title) {
-  const match = title.match(/week[-\s]?(\d+)/i);
-  return match ? `Week ${match[1]}` : "Assignment";
+  const week = getAssignmentWeek(title);
+  return week ? `Week ${week}` : "Assignment";
 }
 ---
 
