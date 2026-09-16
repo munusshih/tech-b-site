@@ -1,28 +1,41 @@
 ---
-import { getStudentBios } from "@/lib/year-data";
+import { getStudentBioByEmail, getStudentBios } from "@/lib/year-data";
 
 interface Props {
   year: number;
+  studentEmail?: string;
   studentId?: string;
   className?: string;
 }
 
-const { year, studentId, className = "" } = Astro.props;
+const { year, studentEmail, studentId, className = "" } = Astro.props;
 const allBios = getStudentBios(year);
-const studentBio = studentId
-  ? allBios.find((bio) => bio.studentId === studentId)
-  : allBios[0];
+const studentBio = studentEmail
+  ? getStudentBioByEmail(year, studentEmail, studentId)
+  : studentId
+    ? allBios.find((bio) => bio.studentId === studentId)
+    : allBios[0];
 ---
 
-{studentBio && (
-  <div class={`student-bio ${className}`}>
-    {studentBio.bio && <div class="bio-text mb-4"><p>{studentBio.bio}</p></div>}
-    {studentBio.links?.length > 0 && (
-      <ul class="student-links">
-        {studentBio.links.map((link) => (
-          <li><a href={link.url} target="_blank" rel="noopener noreferrer">{link.name}</a></li>
-        ))}
-      </ul>
-    )}
-  </div>
-)}
+{
+  studentBio && (
+    <div class={`student-bio ${className}`}>
+      {studentBio.bio && (
+        <div class="bio-text mb-4">
+          <p>{studentBio.bio}</p>
+        </div>
+      )}
+      {studentBio.links?.length > 0 && (
+        <ul class="student-links">
+          {studentBio.links.map((link) => (
+            <li>
+              <a href={link.url} target="_blank" rel="noopener noreferrer">
+                {link.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}

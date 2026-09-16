@@ -11,7 +11,7 @@ import {
   isArchivedYear,
   type StudentWithId,
 } from "@/config";
-import { getStudentData } from "@/lib/year-data";
+import { getStudentDataByEmail } from "@/lib/year-data";
 
 interface Props {
   year: number;
@@ -24,14 +24,16 @@ const archived = isArchivedYear(year);
 const displayName = archived
   ? `${student.firstName}${student.lastName}`
   : `${student.firstName} ${student.lastName}`;
-const studentEntries = getStudentData(year)
-  .filter((entry) => entry.studentId === student.studentId)
-  .sort((a, b) => {
-    if (a.timestamp && b.timestamp) {
-      return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
-    }
-    return String(a.assignmentTitle).localeCompare(String(b.assignmentTitle));
-  });
+const studentEntries = getStudentDataByEmail(
+  year,
+  student.email,
+  student.studentId,
+).sort((a, b) => {
+  if (a.timestamp && b.timestamp) {
+    return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+  }
+  return String(a.assignmentTitle).localeCompare(String(b.assignmentTitle));
+});
 ---
 
 <Layout
@@ -50,6 +52,7 @@ const studentEntries = getStudentData(year)
           {archived && <ArchiveNotice year={year} />}
           <StudentBio
             year={year}
+            studentEmail={student.email}
             studentId={student.studentId}
             className="mb-6"
           />

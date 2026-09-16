@@ -39,11 +39,43 @@ const studentBioFiles = import.meta.glob<{ default: StudentBioEntry[] }>(
 );
 
 export function getStudentData(year: number): StudentDataEntry[] {
-  return (
-    studentDataFiles[`../data/${year}/student-data.json`]?.default ?? []
-  );
+  return studentDataFiles[`../data/${year}/student-data.json`]?.default ?? [];
+}
+
+function normalizeStudentEmail(email?: string | null): string {
+  return email?.trim().toLowerCase() ?? "";
+}
+
+export function getStudentDataByEmail(
+  year: number,
+  studentEmail: string,
+  fallbackStudentId?: string,
+): StudentDataEntry[] {
+  const targetEmail = normalizeStudentEmail(studentEmail);
+
+  return getStudentData(year).filter((entry) => {
+    const entryEmail = normalizeStudentEmail(entry.studentEmail);
+    if (targetEmail && entryEmail) return entryEmail === targetEmail;
+
+    return Boolean(fallbackStudentId && entry.studentId === fallbackStudentId);
+  });
 }
 
 export function getStudentBios(year: number): StudentBioEntry[] {
   return studentBioFiles[`../data/${year}/student-bios.json`]?.default ?? [];
+}
+
+export function getStudentBioByEmail(
+  year: number,
+  studentEmail: string,
+  fallbackStudentId?: string,
+): StudentBioEntry | undefined {
+  const targetEmail = normalizeStudentEmail(studentEmail);
+
+  return getStudentBios(year).find((bio) => {
+    const bioEmail = normalizeStudentEmail(bio.studentEmail);
+    if (targetEmail && bioEmail) return bioEmail === targetEmail;
+
+    return Boolean(fallbackStudentId && bio.studentId === fallbackStudentId);
+  });
 }
