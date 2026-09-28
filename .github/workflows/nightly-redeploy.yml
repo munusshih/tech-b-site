@@ -1,4 +1,4 @@
-name: Daily Vercel Content Refresh
+name: Daily notebook refresh
 
 on:
   schedule:
@@ -7,29 +7,48 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
-  group: daily-vercel-content-refresh
+  group: daily-notebook-refresh
   cancel-in-progress: true
 
 jobs:
-  redeploy:
+  refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 30
     steps:
-      - name: Trigger Vercel deploy hook
-        env:
-          VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+      - name: Check out the site
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install media tools
+        run: sudo apt-get update && sudo apt-get install --yes ffmpeg
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Pull notebook responses
+        run: npm run sync
+
+      - name: Verify the refreshed site
+        run: npm run build:static
+
+      - name: Publish refreshed notebook data
+        shell: bash
         run: |
-          if [ -z "$VERCEL_DEPLOY_HOOK" ]; then
-            echo "::error::The VERCEL_DEPLOY_HOOK repository secret is not configured."
-            exit 1
+          current_year="$(node -p "require('./src/course-config.json').activeYear")"
+          git add "src/data/${current_year}" "public/student-files/${current_year}"
+          if git diff --cached --quiet; then
+            echo "No new or changed notebook responses."
+            exit 0
           fi
-
-          response="$(curl --fail --show-error --silent \
-            --retry 3 --retry-all-errors \
-            --request POST "$VERCEL_DEPLOY_HOOK")"
-
-          echo "$response" | jq --exit-status '.job.id and .job.state' >/dev/null
-          echo "Vercel accepted the daily content-refresh deployment."
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Refresh notebook responses"
+          git push

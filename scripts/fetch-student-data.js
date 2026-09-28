@@ -13,6 +13,35 @@ import { generateStudentMapping } from "./student-mapping.js";
 import { loadCourseConfig, projectRoot } from "./course-config.js";
 import { fetchOpenSheetRows } from "./opensheet.js";
 import { Buffer } from "buffer";
+import sharp from "sharp";
+import { execFile } from "child_process";
+import { promisify } from "util";
+
+const execFileAsync = promisify(execFile);
+
+async function convertMovToMp4(inputPath) {
+  const outputPath = inputPath.replace(/\.mov$/i, ".mp4");
+  try {
+    await execFileAsync("ffmpeg", [
+      "-y",
+      "-i",
+      inputPath,
+      "-c:v",
+      "libx264",
+      "-pix_fmt",
+      "yuv420p",
+      "-movflags",
+      "+faststart",
+      "-c:a",
+      "aac",
+      outputPath,
+    ]);
+    await fs.unlink(inputPath);
+    return outputPath;
+  } catch {
+    return inputPath;
+  }
+}
 
 // -----------------------------------------------------------------------------
 // Utilities: Extract and normalize http/https links from messy text
@@ -153,9 +182,21 @@ async function downloadFile(fileId, filepath, fetchFn) {
         if (detectedExt) {
           // Update filepath with correct extension
           const basePath = filepath.replace(/\.[^.]+$/, "");
-          const correctFilepath = basePath + detectedExt;
-          await fs.writeFile(correctFilepath, buffer);
-          return { success: true, actualPath: correctFilepath };
+          const browserExt = detectedExt === ".heic" ? ".jpg" : detectedExt;
+          const correctFilepath = basePath + browserExt;
+          if (detectedExt === ".heic") {
+            await sharp(buffer)
+              .rotate()
+              .jpeg({ quality: 90 })
+              .toFile(correctFilepath);
+          } else {
+            await fs.writeFile(correctFilepath, buffer);
+          }
+          const actualPath =
+            detectedExt === ".mov"
+              ? await convertMovToMp4(correctFilepath)
+              : correctFilepath;
+          return { success: true, actualPath };
         }
       }
     } catch {
@@ -192,6 +233,14 @@ function detectFileTypeFromBuffer(buffer) {
     firstBytes.slice(8, 12).toString() === "WEBP"
   )
     return ".webp"; // WebP
+
+  if (firstBytes.slice(4, 8).toString() === "ftyp") {
+    const brand = firstBytes.slice(8, 12).toString().toLowerCase();
+    if (
+      ["heic", "heix", "hevc", "heim", "heis", "mif1", "msf1"].includes(brand)
+    )
+      return ".heic";
+  }
 
   // SVG (text-based, check for SVG tag)
   const textStart = buffer.slice(0, 100).toString("utf8").toLowerCase();
@@ -284,11 +333,16 @@ async function processStudentFiles(
       let downloaded = false;
 
       if (existingFile) {
+        const existingPath = path.join(downloadsDir, existingFile);
+        const browserSafePath = existingFile.toLowerCase().endsWith(".mov")
+          ? await convertMovToMp4(existingPath)
+          : existingPath;
+        const browserSafeFile = path.basename(browserSafePath);
         // File already exists, use it
         process.stdout.write(
-          `   ✓ File ${i + 1}/${urls.length}: ${existingFile} (cached)\n`,
+          `   ✓ File ${i + 1}/${urls.length}: ${browserSafeFile} (cached)\n`,
         );
-        const localUrl = `${publicBase}/${existingFile}`;
+        const localUrl = `${publicBase}/${browserSafeFile}`;
         localFilePaths.push(localUrl);
         downloaded = true;
         skippedFiles++;

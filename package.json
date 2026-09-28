@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "npm run sync && astro build",
+    "build": "astro build",
     "build:static": "astro build",
     "build:sync": "npm run sync && astro build",
     "preview": "astro preview",
