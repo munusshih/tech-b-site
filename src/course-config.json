@@ -50,7 +50,11 @@
           "name": ""
         }
       },
-      "scheduleSections": [],
+      "scheduleSections": [
+        { "startWeek": 1, "title": "Module 1: Crack Inside the Black Box" },
+        { "startWeek": 6, "title": "Module 2: Gazing Into the Code" },
+        { "startWeek": 11, "title": "Module 3: Disrupting the Chain-of-Thought" }
+      ],
       "specialProjectWeeks": {},
       "responseNames": {
         "lzhang76@pratt.edu": "Li Zhang",
