@@ -1,0 +1,83 @@
+---
+title: "Tecachable Machine"
+description: "This week, we’ll explore supervised learning through classification and regression, using Teachable Machine and ml5.js to investigate how examples and labels shape a model’s predictions."
+week: 7
+heroImage: "../../../assets/week-7-teachable-machine.jpg"
+heroImageAlt: "A person trains a model with their webcam in Teachable Machine, an experiment by Google Creative Lab, Google PAIR, Use All Five, and Støj (2017). Image from [teachablemachine.withgoogle.com](https://teachablemachine.withgoogle.com/)."
+draft: false
+tldr: |
+  What does a model learn when we give it examples and how do our labels shape what it can predict?
+
+  <br><br>
+
+  This week, we’ll use supervised learning to connect our archives to machine predictions. We’ll train models to classify examples into categories and to estimate continuous values, then test what they get right, where they fail, and what those outcomes reveal about the dataset and the question we asked.
+---
+
+## Lectures
+
+- [All the AIs We Have (Not) Seen](https://www.figma.com/proto/ujxXTWyvkIjOUORrk2rEO9/-Tech-B--Week-7?node-id=8015-287&viewport=56%2C5321%2C0.37&t=0OhRQdAYNSBEVXhf-1&scaling=contain&content-scaling=fixed&page-id=0%3A1)
+- [Teachable Machine (Lecture)](https://www.figma.com/proto/ujxXTWyvkIjOUORrk2rEO9/-Tech-B--Week-7?node-id=8026-969&viewport=56%2C5321%2C0.37&t=0OhRQdAYNSBEVXhf-1&scaling=contain&content-scaling=fixed&page-id=0%3A1)
+- [Teachable Machine - Google](https://teachablemachine.withgoogle.com/)
+- [ml5.js](https://ml5js.org/)
+- [Tech Examples](https://editor.p5js.org/munusshih/collections/Y_cFTUbud)
+
+## Readings
+
+- [Machine Learning Explained: A Guide to ML, AI, & Deep Learning](https://www.youtube.com/watch?v=znF2U_3Z210), IBM Technology
+- [Excavating AI: The Politics of Images in Machine Learning Training Sets](https://excavating.ai/), Kate Crawford and Trevor Paglen
+- [A Critical Field Guide for Working with Machine Learning Datasets](https://knowingmachines.org/critical-field-guide), Knowing Machines
+- [ImageNet Roulette](https://paglen.studio/2020/04/29/imagenet-roulette/), Trevor Paglen and Kate Crawford
+
+## Tutorials
+
+- [A Beginner’s Guide to Machine Learning in JavaScript](https://thecodingtrain.com/tracks/ml5js-beginners-guide), Daniel Shiffman / The Coding Train
+- [Train Your Own Neural Network: Classification](https://thecodingtrain.com/tracks/ml5js-beginners-guide/ml5/6-train-your-own-neural-network/1-train-the-model), Daniel Shiffman / The Coding Train
+- [Pose Regression with PoseNet and ml5.js](https://thecodingtrain.com/tracks/ml5js-beginners-guide/ml5/7-bodypose/3-pose-regression), Daniel Shiffman / The Coding Train
+- [ml5.js Neural Network](https://docs.ml5js.org/#/reference/neural-network)
+- [TensorFlow Playground](https://playground.tensorflow.org/)
+- [Learning to See](https://memo.tv/projects/2017/learning-to-see/), Memo Akten
+
+## Assignment 7
+
+This assignment is part 2 of the project [Uncertain Archive](https://tech-b.designfuture.space/).
+
+<a
+  href="https://docs.google.com/forms/d/e/1FAIpQLSfSCSweo6LnMUcIWQiqlnzxiyUylDq4f8ZlqdEASHlpQy3Pkw/viewform?usp=publish-editor"
+  target="_blank"
+  class="button"
+  rel="noopener noreferrer"
+>
+  Submit Assignment
+</a>
+
+### Step 1: Teach
+
+Return to your Uncertain Archive and put it in front of a machine that learns from examples, the way a child is raised by a very strange family: shown many things, told what each one is, and never asked whether the names were right. You can use the pre-defined classification and regression models in ml5.js, train your own with Teachable Machine, or build something stranger outside these tools, which would be impressive in its own right.
+
+If you use a pre-defined model, feed it the examples from your Uncertain Archive directly or through the webcam. If they're not images, try different models that can classify your archive.
+
+If you train your own model, decide what it should learn and which examples it will grow up on, and notice that every label you give it is a small verdict made by you. Pay attention to the labels you hesitated over, the examples you almost left out, and the parts of your archive you could not describe in a word or a number, because the model will be asked to describe them anyway.
+
+You can continue to grow your archive and add new examples this week, try to create one with 500-1000 examples, and reorganize it using different categories or groupings.
+
+### Step 2: Look for Failures
+
+Do not only look for what the model gets right. Look for where it is confidently, absurdly, or tenderly wrong.
+
+The items it mistakes for something else, the ones it refuses to settle on, the ones it calls certain when you never were, a prediction that lands somewhere you did not expect, or a pattern it finds that you cannot see. Feed it things that do not belong, things that belong too well, and things that sit between the groups of your map, and keep a record of every failure, because a failure is where the logic of the model becomes visible.
+
+You do not need to fix the model. Try changing what it was taught by removing examples, adding strange ones, relabeling, or shifting the numbers, and watch how its idea of your archive changes with its upbringing.
+
+### Step 3: Argue With It
+
+For each failure, ask who is mistaken. The model may be blind to something you can see, or it may be showing you a pattern you were trained not to notice, or it may simply be repeating what you taught it without ever knowing why. Return to your Week 6 map and look at where your uncertainty appears in the machine’s mistakes, and where the machine becomes sure of something that you intentionally left open.
+
+What is the model's reasoning for its mistakes? What assumptions is it making about your data? How does its perspective differ from yours?
+
+Research into the model you picked a little bit more, read its documentation, do some experiments with it, and try to understand its limitations and biases.
+
+### Bring Next Week
+
+- **your model or demo**, however strange
+- **a collection of its failures**, with your notes on what they reveal
+- **how the machine’s way of seeing differs from yours**, and who or what taught it to see this way
