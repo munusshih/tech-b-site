@@ -2068,5 +2068,191 @@
         "local": "/student-files/2026/jiayi-li-week-6--mapping-our-values-in-the-age-of-ai-4.png"
       }
     ]
+  },
+  {
+    "timestamp": "10/6/2026 11:55:29",
+    "studentEmail": "blix21@pratt.edu",
+    "studentId": "binjia-li",
+    "assignmentTitle": "Week 6: Mapping Our Values in the Age of AI",
+    "projectDescription": "The Feeling of Color is an interactive website exploring 100 colors and their possible emotional associations. Each color includes an English feeling label, a name, and a HEX code.\nThe collection can be explored through three maps: taxonomy groups colors into families; morphology organizes them by lightness and saturation; typology connects recurring feeling patterns across different colors.\nInspired by Graf1x’s color psychology references, the project expands broad associations into proposed shade–feeling pairings. These are design interpretations rather than universal psychological facts. The collection provides a starting point for personal observations and asks how context, memory, and classification shape the meanings we give to colors.",
+    "credit": "Concept and creative direction: me.\nReferences: Graf1x’s Color Meaning and Psychology and related color psychology poster.\nAI assistance: OpenAI Codex for color curation, English labels, mapping, coding, and testing.\nWebsite: HTML, CSS, and JavaScript; hosted with Sites.\nFonts: DM Sans and Manrope through Google Fonts.",
+    "uploadedFiles": "/student-files/2026/binjia-li-week-6--mapping-our-values-in-the-age-of-ai-1.png, /student-files/2026/binjia-li-week-6--mapping-our-values-in-the-age-of-ai-2.png, /student-files/2026/binjia-li-week-6--mapping-our-values-in-the-age-of-ai-3.png, /student-files/2026/binjia-li-week-6--mapping-our-values-in-the-age-of-ai-4.png, /student-files/2026/binjia-li-week-6--mapping-our-values-in-the-age-of-ai-5.png",
+    "linkToWork": "https://techb-feeling-of-color.hyhyman33.chatgpt.site",
+    "linkToWorks": [
+      "https://techb-feeling-of-color.hyhyman33.chatgpt.site"
+    ],
+    "linkToWorkRaw": "https://techb-feeling-of-color.hyhyman33.chatgpt.site",
+    "certification": "Yes",
+    "weeklyResponse": "I learned that changing how I group colors reveals different relationships between them. A color can suggest several feelings, so the categories are choices rather than fixed truths. How do personal memories and everyday situations change what a color means to us?",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1KLuCaFP4VA4m30hfCRmboXZTd-6vL9Ot",
+        "fileId": "1KLuCaFP4VA4m30hfCRmboXZTd-6vL9Ot",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1KLuCaFP4VA4m30hfCRmboXZTd-6vL9Ot&sz=w800",
+        "embed": "https://drive.google.com/file/d/1KLuCaFP4VA4m30hfCRmboXZTd-6vL9Ot/preview",
+        "local": "/student-files/2026/binjia-li-week-6--mapping-our-values-in-the-age-of-ai-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=15suuJVxdgVrzFwDheBeUYSIZqKqn7mwN",
+        "fileId": "15suuJVxdgVrzFwDheBeUYSIZqKqn7mwN",
+        "thumbnail": "https://drive.google.com/thumbnail?id=15suuJVxdgVrzFwDheBeUYSIZqKqn7mwN&sz=w800",
+        "embed": "https://drive.google.com/file/d/15suuJVxdgVrzFwDheBeUYSIZqKqn7mwN/preview",
+        "local": "/student-files/2026/binjia-li-week-6--mapping-our-values-in-the-age-of-ai-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1BC3i6MOO1I65HClfmPFq4chd4wNNMN7i",
+        "fileId": "1BC3i6MOO1I65HClfmPFq4chd4wNNMN7i",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1BC3i6MOO1I65HClfmPFq4chd4wNNMN7i&sz=w800",
+        "embed": "https://drive.google.com/file/d/1BC3i6MOO1I65HClfmPFq4chd4wNNMN7i/preview",
+        "local": "/student-files/2026/binjia-li-week-6--mapping-our-values-in-the-age-of-ai-3.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=12E4Gcurj1Pe0FioUKBSkDSN2lSmxH66b",
+        "fileId": "12E4Gcurj1Pe0FioUKBSkDSN2lSmxH66b",
+        "thumbnail": "https://drive.google.com/thumbnail?id=12E4Gcurj1Pe0FioUKBSkDSN2lSmxH66b&sz=w800",
+        "embed": "https://drive.google.com/file/d/12E4Gcurj1Pe0FioUKBSkDSN2lSmxH66b/preview",
+        "local": "/student-files/2026/binjia-li-week-6--mapping-our-values-in-the-age-of-ai-4.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1bIdAYJM8GxLZL67RdWoGM7DyRqC8dMM6",
+        "fileId": "1bIdAYJM8GxLZL67RdWoGM7DyRqC8dMM6",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1bIdAYJM8GxLZL67RdWoGM7DyRqC8dMM6&sz=w800",
+        "embed": "https://drive.google.com/file/d/1bIdAYJM8GxLZL67RdWoGM7DyRqC8dMM6/preview",
+        "local": "/student-files/2026/binjia-li-week-6--mapping-our-values-in-the-age-of-ai-5.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "10/6/2026 11:58:03",
+    "studentEmail": "mbalde@pratt.edu",
+    "studentId": "lulah-balde",
+    "assignmentTitle": "Week 6: Mapping Our Values in the Age of AI",
+    "projectDescription": "Since moving to New York, I've noticed how drawn I am to people's accessories, especially their bags. The city is full of stylish people and outfits, and I kept coming across bags that caught my attention, whether I photographed them or not. So I chose bags as my object of observation and organized them through the morphology of material.\n\nThe archive collects about 86 bags from two sources: bags I encountered in person on the street and subway, and bags I saved from social media because they caught my eye or made me want to make one. As I only have 86 bags photographed, this felt intentional as I was only capturing what actually caught my eye versus capturing any and all bags. I chose to categorize by material as it felt closest to what first caught my eye. I notice how a bag looks and feels before I notice how it's carried.",
+    "credit": "N/A",
+    "uploadedFiles": "/student-files/2026/lulah-balde-week-6--mapping-our-values-in-the-age-of-ai-1.png",
+    "linkToWork": "https://www.figma.com/board/ckNvryPjrZzY0yjHdDmaTe/Untitled?node-id=0-1&t=2Pv7B6YuQctd2VFd-1",
+    "linkToWorks": [
+      "https://www.figma.com/board/ckNvryPjrZzY0yjHdDmaTe/Untitled?node-id=0-1&t=2Pv7B6YuQctd2VFd-1"
+    ],
+    "linkToWorkRaw": "https://www.figma.com/board/ckNvryPjrZzY0yjHdDmaTe/Untitled?node-id=0-1&t=2Pv7B6YuQctd2VFd-1",
+    "certification": "Yes",
+    "weeklyResponse": "I learned more about taxonomy, morphology, and also how mundane things we observe and are drawn to can turn into systems that we can further dissect.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1U6rydNvXUDHp3CXpvUjY1BuIuJlg_bTS",
+        "fileId": "1U6rydNvXUDHp3CXpvUjY1BuIuJlg_bTS",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1U6rydNvXUDHp3CXpvUjY1BuIuJlg_bTS&sz=w800",
+        "embed": "https://drive.google.com/file/d/1U6rydNvXUDHp3CXpvUjY1BuIuJlg_bTS/preview",
+        "local": "/student-files/2026/lulah-balde-week-6--mapping-our-values-in-the-age-of-ai-1.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "10/6/2026 13:38:45",
+    "studentEmail": "rdavi176@pratt.edu",
+    "studentId": "rebecca-davidson",
+    "assignmentTitle": "Week 6: Mapping Our Values in the Age of AI",
+    "projectDescription": "My archive is a collection of images of trash/litter I find around the city. I have archived trash before so this time instead of by type, I want to categorize by location found.",
+    "credit": "None",
+    "uploadedFiles": "/student-files/2026/rebecca-davidson-week-6--mapping-our-values-in-the-age-of-ai-1.png, /student-files/2026/rebecca-davidson-week-6--mapping-our-values-in-the-age-of-ai-2.png, /student-files/2026/rebecca-davidson-week-6--mapping-our-values-in-the-age-of-ai-3.png",
+    "linkToWork": "https://app.milanote.com/1Xd8gJ10pIhP1s?p=BaSz9zMfDx9",
+    "linkToWorks": [
+      "https://app.milanote.com/1Xd8gJ10pIhP1s?p=BaSz9zMfDx9"
+    ],
+    "linkToWorkRaw": "https://app.milanote.com/1Xd8gJ10pIhP1s?p=BaSz9zMfDx9",
+    "certification": "Yes",
+    "weeklyResponse": "Is the data set fair if it is completely based around my perception?",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1Z9rpuePdtc67AvQqpGuykSMzCAQ8tN-Y",
+        "fileId": "1Z9rpuePdtc67AvQqpGuykSMzCAQ8tN-Y",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1Z9rpuePdtc67AvQqpGuykSMzCAQ8tN-Y&sz=w800",
+        "embed": "https://drive.google.com/file/d/1Z9rpuePdtc67AvQqpGuykSMzCAQ8tN-Y/preview",
+        "local": "/student-files/2026/rebecca-davidson-week-6--mapping-our-values-in-the-age-of-ai-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1imUIPgJSbMTIR-j9kMKElO3jcq71gBVE",
+        "fileId": "1imUIPgJSbMTIR-j9kMKElO3jcq71gBVE",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1imUIPgJSbMTIR-j9kMKElO3jcq71gBVE&sz=w800",
+        "embed": "https://drive.google.com/file/d/1imUIPgJSbMTIR-j9kMKElO3jcq71gBVE/preview",
+        "local": "/student-files/2026/rebecca-davidson-week-6--mapping-our-values-in-the-age-of-ai-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1PIc0re_8wDULefzr2RrLAKyB9kOUp6p6",
+        "fileId": "1PIc0re_8wDULefzr2RrLAKyB9kOUp6p6",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1PIc0re_8wDULefzr2RrLAKyB9kOUp6p6&sz=w800",
+        "embed": "https://drive.google.com/file/d/1PIc0re_8wDULefzr2RrLAKyB9kOUp6p6/preview",
+        "local": "/student-files/2026/rebecca-davidson-week-6--mapping-our-values-in-the-age-of-ai-3.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "10/6/2026 14:07:08",
+    "studentEmail": "ychen816@pratt.edu",
+    "studentId": "andrea-cheng",
+    "assignmentTitle": "Week 6: Mapping Our Values in the Age of AI",
+    "projectDescription": "For Uncertain Archive, I collected 80 images that caught my attention and organized them in three different ways: by subject, by visual structure, and by how open they are to interpretation. The same image can end up next to very different images depending on the rule I use. I’m using these maps to see what each way of classifying reveals or leaves out.",
+    "credit": "ChatGPT",
+    "uploadedFiles": "/student-files/2026/andrea-cheng-week-6--mapping-our-values-in-the-age-of-ai-1.png",
+    "linkToWork": "https://www.figma.com/board/Empa7bKZ1LV6jHDBp9FbZX/Untitled?node-id=0-1&t=jysuhnrtuyW3cDfC-1",
+    "linkToWorks": [
+      "https://www.figma.com/board/Empa7bKZ1LV6jHDBp9FbZX/Untitled?node-id=0-1&t=jysuhnrtuyW3cDfC-1"
+    ],
+    "linkToWorkRaw": "https://www.figma.com/board/Empa7bKZ1LV6jHDBp9FbZX/Untitled?node-id=0-1&t=jysuhnrtuyW3cDfC-1",
+    "certification": "Yes",
+    "weeklyResponse": "I learned that categories can make patterns visible, but they also make me choose which part of an image matters most. A dog meme, for example, could be grouped with animals, collages, or text-based images. I’m wondering how I can show those overlapping relationships without making the map too difficult to read.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1kEbqrq9BUwu_ffAVu71PhBPXcbBP4B54",
+        "fileId": "1kEbqrq9BUwu_ffAVu71PhBPXcbBP4B54",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1kEbqrq9BUwu_ffAVu71PhBPXcbBP4B54&sz=w800",
+        "embed": "https://drive.google.com/file/d/1kEbqrq9BUwu_ffAVu71PhBPXcbBP4B54/preview",
+        "local": "/student-files/2026/andrea-cheng-week-6--mapping-our-values-in-the-age-of-ai-1.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "10/6/2026 14:07:19",
+    "studentEmail": "zwang75@pratt.edu",
+    "studentId": "wendy-wang",
+    "assignmentTitle": "Week 6: Mapping Our Values in the Age of AI",
+    "projectDescription": "This map explores the different ways “not full” appears in everyday life. I collected objects, spaces, food, and digital examples from my surroundings and organized them by how full they are, why they are not full, and what type of emptiness they represent. The map shows that “not full” is not simply the opposite of full, it can mean used, consumed, missing, unfinished, intentional, or abandoned. Through these categories, I found patterns, overlaps, and unclear boundaries between different kinds of emptiness.",
+    "credit": "Chat GPT",
+    "uploadedFiles": "/student-files/2026/wendy-wang-week-6--mapping-our-values-in-the-age-of-ai-1.png, /student-files/2026/wendy-wang-week-6--mapping-our-values-in-the-age-of-ai-2.png, /student-files/2026/wendy-wang-week-6--mapping-our-values-in-the-age-of-ai-3.png",
+    "linkToWork": "https://app.milanote.com/1XdNaW1y7qVvcn?p=2YlFiyXjEej",
+    "linkToWorks": [
+      "https://app.milanote.com/1XdNaW1y7qVvcn?p=2YlFiyXjEej"
+    ],
+    "linkToWorkRaw": "https://app.milanote.com/1XdNaW1y7qVvcn?p=2YlFiyXjEej",
+    "certification": "Yes",
+    "weeklyResponse": "I learned that “not full” is more complex than simply being empty. By collecting everyday objects, I noticed that empty space can come from different situations, such as being used, consumed, unfinished, missing, or intentionally left empty. I also learned that the same object can fit into multiple categories depending on its context. This mapping helped me see patterns and relationships that I would not notice by looking at individual objects separately.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1u4fBOzhGEu3Lo8IxN7vx4g17CUMInERC",
+        "fileId": "1u4fBOzhGEu3Lo8IxN7vx4g17CUMInERC",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1u4fBOzhGEu3Lo8IxN7vx4g17CUMInERC&sz=w800",
+        "embed": "https://drive.google.com/file/d/1u4fBOzhGEu3Lo8IxN7vx4g17CUMInERC/preview",
+        "local": "/student-files/2026/wendy-wang-week-6--mapping-our-values-in-the-age-of-ai-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1L-1yyLqSgVQd8-7khlG9gLtOFU_ymplY",
+        "fileId": "1L-1yyLqSgVQd8-7khlG9gLtOFU_ymplY",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1L-1yyLqSgVQd8-7khlG9gLtOFU_ymplY&sz=w800",
+        "embed": "https://drive.google.com/file/d/1L-1yyLqSgVQd8-7khlG9gLtOFU_ymplY/preview",
+        "local": "/student-files/2026/wendy-wang-week-6--mapping-our-values-in-the-age-of-ai-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1COrTKgYCgaK6gjRqen668ODrob_1-KOh",
+        "fileId": "1COrTKgYCgaK6gjRqen668ODrob_1-KOh",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1COrTKgYCgaK6gjRqen668ODrob_1-KOh&sz=w800",
+        "embed": "https://drive.google.com/file/d/1COrTKgYCgaK6gjRqen668ODrob_1-KOh/preview",
+        "local": "/student-files/2026/wendy-wang-week-6--mapping-our-values-in-the-age-of-ai-3.png"
+      }
+    ]
   }
 ]
