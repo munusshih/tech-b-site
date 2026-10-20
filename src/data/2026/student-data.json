@@ -2334,5 +2334,165 @@
         "local": "/student-files/2026/xiran-wang-week-6--mapping-our-values-in-the-age-of-ai-5.png"
       }
     ]
+  },
+  {
+    "timestamp": "10/19/2026 17:10:36",
+    "studentEmail": "jlix92@pratt.edu",
+    "studentId": "jiayi-li",
+    "assignmentTitle": "Week 7: Teachable Machine",
+    "projectDescription": "My project explores why things I save to do during my future free time sometimes lose their original sense of urgency when that free time finally arrives. In my original archive, I organized the activities and experiences I hoped to pursue into three categories based on their purposes: Reward Future, Rest Future, and Ideal-Self Future. These categories reflect my different motivations and expectations, including rewarding myself, relaxing, and pursuing personal growth. This week, I used Teachable Machine to train an image classification model with images collected from saved posts, screenshots, and conversations across my accounts on different platforms. I used my original three categories as training labels to explore whether the model could identify visual patterns in how I organize my expectations for the future. I then tested the model with new images and compared its predictions with my own classifications.\nSome predictions matched my categories, while others revealed unexpected differences. I noticed that the model not only assigned images to categories different from my own, but also showed varying degrees of confidence in its predictions. For example, I categorized Criminal Minds as Rest Future. However, the model's scores were distributed across Ideal-Self Future (54%), Rest Future (35%), and Reward Future (11%). This made me curious about what the model was using to distinguish between these categories.\nIn contrast, I categorized a body pillow I wanted to buy as Reward Future, but the model classified it as Ideal-Self Future with a score of 98%. To further explore how visual similarities might influence its predictions, I added two images of a blanket and a rug that seemed to share a similar visual atmosphere with the pillow to the Reward Future training category. After retraining, the model classified the same pillow as Reward Future (67%). Although this new prediction matched my classification, it did not necessarily mean that the model understood my personal motivation for saving it.\nThis experiment also made me reconsider my own approach to categorization. I originally created the three categories based on my personal motivations and expectations. However, when Teachable Machine presented its predictions as precise percentages, these classifications, rooted in subjective interpretations, seemed to take on an appearance of objectivity and authority. At the same time, I realized that although the categories helped me organize my archive, they also separated expectations that might naturally overlap. For example, a single activity could be a way to reward myself, relax, and move toward my ideal self.\nThis led me to wonder about the relationship between the associations the model learns from visual features and the meanings I assign to saved items based on my personal experiences and expectations. When the two differ, does that difference reveal personal motivations the model cannot recognize, or overlaps and ambiguities in my own categories that I had not previously noticed?",
+    "credit": "ChatGPT, https://medium.com/@warronbebster/teachable-machine-tutorial-bananameter-4bfffa765866",
+    "uploadedFiles": "/student-files/2026/jiayi-li-week-7--teachable-machine-1.png, /student-files/2026/jiayi-li-week-7--teachable-machine-2.png, /student-files/2026/jiayi-li-week-7--teachable-machine-3.png, /student-files/2026/jiayi-li-week-7--teachable-machine-4.png, /student-files/2026/jiayi-li-week-7--teachable-machine-5.png",
+    "linkToWork": "https://drive.google.com/file/d/1GCfwYjeJae8msUnSI8dOHFxTuS_21eFc/view?usp=drive_link",
+    "linkToWorks": [
+      "https://drive.google.com/file/d/1GCfwYjeJae8msUnSI8dOHFxTuS_21eFc/view?usp=drive_link"
+    ],
+    "linkToWorkRaw": "https://drive.google.com/file/d/1GCfwYjeJae8msUnSI8dOHFxTuS_21eFc/view?usp=drive_link",
+    "certification": "Yes",
+    "weeklyResponse": "This week, I realized that even when the model's predictions matched my own classifications, I could not tell whether it had learned the personal motivations behind my choices or simply recognized visual patterns. I also began to question whether my own categories had simplified or excluded certain aspects of my original intentions. When the model's predictions differ from mine, do these differences reveal personal motivations the machine cannot recognize, or overlaps and ambiguities in my own categories that I had not previously noticed?",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1Slg7YuJMmsHzr9qy42mF9twdwAAUc3sj",
+        "fileId": "1Slg7YuJMmsHzr9qy42mF9twdwAAUc3sj",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1Slg7YuJMmsHzr9qy42mF9twdwAAUc3sj&sz=w800",
+        "embed": "https://drive.google.com/file/d/1Slg7YuJMmsHzr9qy42mF9twdwAAUc3sj/preview",
+        "local": "/student-files/2026/jiayi-li-week-7--teachable-machine-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=14QCZ_VKZHbq7PqrP-TXm2h5Pcga4U7sE",
+        "fileId": "14QCZ_VKZHbq7PqrP-TXm2h5Pcga4U7sE",
+        "thumbnail": "https://drive.google.com/thumbnail?id=14QCZ_VKZHbq7PqrP-TXm2h5Pcga4U7sE&sz=w800",
+        "embed": "https://drive.google.com/file/d/14QCZ_VKZHbq7PqrP-TXm2h5Pcga4U7sE/preview",
+        "local": "/student-files/2026/jiayi-li-week-7--teachable-machine-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=17qUmCXNqPxpgReePnPBuEp4E9GPrpNAU",
+        "fileId": "17qUmCXNqPxpgReePnPBuEp4E9GPrpNAU",
+        "thumbnail": "https://drive.google.com/thumbnail?id=17qUmCXNqPxpgReePnPBuEp4E9GPrpNAU&sz=w800",
+        "embed": "https://drive.google.com/file/d/17qUmCXNqPxpgReePnPBuEp4E9GPrpNAU/preview",
+        "local": "/student-files/2026/jiayi-li-week-7--teachable-machine-3.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=15LN8NDGP9wqxqHowzc5l1uF71Fd9hxyh",
+        "fileId": "15LN8NDGP9wqxqHowzc5l1uF71Fd9hxyh",
+        "thumbnail": "https://drive.google.com/thumbnail?id=15LN8NDGP9wqxqHowzc5l1uF71Fd9hxyh&sz=w800",
+        "embed": "https://drive.google.com/file/d/15LN8NDGP9wqxqHowzc5l1uF71Fd9hxyh/preview",
+        "local": "/student-files/2026/jiayi-li-week-7--teachable-machine-4.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1mbR4a4t2_HUYKfR3J_Kc8OUPy1CVde1i",
+        "fileId": "1mbR4a4t2_HUYKfR3J_Kc8OUPy1CVde1i",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1mbR4a4t2_HUYKfR3J_Kc8OUPy1CVde1i&sz=w800",
+        "embed": "https://drive.google.com/file/d/1mbR4a4t2_HUYKfR3J_Kc8OUPy1CVde1i/preview",
+        "local": "/student-files/2026/jiayi-li-week-7--teachable-machine-5.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "10/19/2026 21:43:00",
+    "studentEmail": "ychen816@pratt.edu",
+    "studentId": "andrea-cheng",
+    "assignmentTitle": "Week 7: Teachable Machine",
+    "projectDescription": "I trained an image classifier with eight categories and tested it with unusual and mixed-content images to explore the limits of classification.",
+    "credit": "ChatGPT",
+    "uploadedFiles": "/student-files/2026/andrea-cheng-week-7--teachable-machine-1.jpg, /student-files/2026/andrea-cheng-week-7--teachable-machine-2.png",
+    "linkToWork": "https://editor.p5js.org/ychen816-ops/sketches/R6LEWjf4u",
+    "linkToWorks": [
+      "https://editor.p5js.org/ychen816-ops/sketches/R6LEWjf4u"
+    ],
+    "linkToWorkRaw": "https://editor.p5js.org/ychen816-ops/sketches/R6LEWjf4u",
+    "certification": "Yes",
+    "weeklyResponse": "I learned that the categories and examples I choose shape the model’s predictions, and a confident result can still overlook an image’s ambiguity.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=10yORPCzgovCMdm8yXfZV7ljDSACjgwon",
+        "fileId": "10yORPCzgovCMdm8yXfZV7ljDSACjgwon",
+        "thumbnail": "https://drive.google.com/thumbnail?id=10yORPCzgovCMdm8yXfZV7ljDSACjgwon&sz=w800",
+        "embed": "https://drive.google.com/file/d/10yORPCzgovCMdm8yXfZV7ljDSACjgwon/preview",
+        "local": "/student-files/2026/andrea-cheng-week-7--teachable-machine-1.jpg"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1aAqjTedAoWo0wM7L026whXYQ_cn-adxn",
+        "fileId": "1aAqjTedAoWo0wM7L026whXYQ_cn-adxn",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1aAqjTedAoWo0wM7L026whXYQ_cn-adxn&sz=w800",
+        "embed": "https://drive.google.com/file/d/1aAqjTedAoWo0wM7L026whXYQ_cn-adxn/preview",
+        "local": "/student-files/2026/andrea-cheng-week-7--teachable-machine-2.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "10/19/2026 22:36:49",
+    "studentEmail": "zwang75@pratt.edu",
+    "studentId": "wendy-wang",
+    "assignmentTitle": "Week 7: Teachable Machine",
+    "projectDescription": "For this project, I used my “Not Full” archive to train a machine learning model to classify different forms of incompleteness. I organized my images into categories such as almost empty, partially used, unfinished, and intentional empty space. By testing the model with different examples, I explored how the machine interpreted my labels and where it made mistakes. ",
+    "credit": "-",
+    "uploadedFiles": "/student-files/2026/wendy-wang-week-7--teachable-machine-1.png, /student-files/2026/wendy-wang-week-7--teachable-machine-2.png",
+    "linkToWork": "https://teachablemachine.withgoogle.com/models/SbH9OuVwE/",
+    "linkToWorks": [
+      "https://teachablemachine.withgoogle.com/models/SbH9OuVwE/"
+    ],
+    "linkToWorkRaw": "https://teachablemachine.withgoogle.com/models/SbH9OuVwE/",
+    "certification": "Yes",
+    "weeklyResponse": "This experiment helped me realize that “not full” can have different meanings depending on context, and some objects cannot fit into just one category.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1eOlK9KmWlipfWdbKNJncuwhcreMijwtM",
+        "fileId": "1eOlK9KmWlipfWdbKNJncuwhcreMijwtM",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1eOlK9KmWlipfWdbKNJncuwhcreMijwtM&sz=w800",
+        "embed": "https://drive.google.com/file/d/1eOlK9KmWlipfWdbKNJncuwhcreMijwtM/preview",
+        "local": "/student-files/2026/wendy-wang-week-7--teachable-machine-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1f7bWxm7Z902menT9sgxQdAXCGHWcTW_4",
+        "fileId": "1f7bWxm7Z902menT9sgxQdAXCGHWcTW_4",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1f7bWxm7Z902menT9sgxQdAXCGHWcTW_4&sz=w800",
+        "embed": "https://drive.google.com/file/d/1f7bWxm7Z902menT9sgxQdAXCGHWcTW_4/preview",
+        "local": "/student-files/2026/wendy-wang-week-7--teachable-machine-2.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "10/19/2026 22:46:15",
+    "studentEmail": "myang37@pratt.edu",
+    "studentId": "mingfu-yang",
+    "assignmentTitle": "Week 7: Teachable Machine",
+    "projectDescription": "Is It a Star? is an image classification model trained using Google Teachable Machine. Instead of categorizing what different stars represent, I focused on how objects are associated with the concept of \"Star.\"",
+    "credit": "Materials sourced from the internet",
+    "uploadedFiles": "/student-files/2026/mingfu-yang-week-7--teachable-machine-1.png, /student-files/2026/mingfu-yang-week-7--teachable-machine-2.png, /student-files/2026/mingfu-yang-week-7--teachable-machine-3.png",
+    "linkToWork": "https://teachablemachine.withgoogle.com/models/8-twB42kE/",
+    "linkToWorks": [
+      "https://teachablemachine.withgoogle.com/models/8-twB42kE/"
+    ],
+    "linkToWorkRaw": "https://teachablemachine.withgoogle.com/models/8-twB42kE/",
+    "certification": "Yes",
+    "weeklyResponse": "As hesitant as I am, I created a machine that categorizes with greater decisiveness than I do.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1BZd-KGyOP_7OENPk2V-Xo1Hy43RsV5ly",
+        "fileId": "1BZd-KGyOP_7OENPk2V-Xo1Hy43RsV5ly",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1BZd-KGyOP_7OENPk2V-Xo1Hy43RsV5ly&sz=w800",
+        "embed": "https://drive.google.com/file/d/1BZd-KGyOP_7OENPk2V-Xo1Hy43RsV5ly/preview",
+        "local": "/student-files/2026/mingfu-yang-week-7--teachable-machine-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1naBmEAJGV0TM3ytkSq__-uBXiFJJaoG_",
+        "fileId": "1naBmEAJGV0TM3ytkSq__-uBXiFJJaoG_",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1naBmEAJGV0TM3ytkSq__-uBXiFJJaoG_&sz=w800",
+        "embed": "https://drive.google.com/file/d/1naBmEAJGV0TM3ytkSq__-uBXiFJJaoG_/preview",
+        "local": "/student-files/2026/mingfu-yang-week-7--teachable-machine-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1W5WouL_wDEW_709IOFQ37GJ2fS92MPIz",
+        "fileId": "1W5WouL_wDEW_709IOFQ37GJ2fS92MPIz",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1W5WouL_wDEW_709IOFQ37GJ2fS92MPIz&sz=w800",
+        "embed": "https://drive.google.com/file/d/1W5WouL_wDEW_709IOFQ37GJ2fS92MPIz/preview",
+        "local": "/student-files/2026/mingfu-yang-week-7--teachable-machine-3.png"
+      }
+    ]
   }
 ]
