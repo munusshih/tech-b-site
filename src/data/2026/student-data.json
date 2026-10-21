@@ -2494,5 +2494,187 @@
         "local": "/student-files/2026/mingfu-yang-week-7--teachable-machine-3.png"
       }
     ]
+  },
+  {
+    "timestamp": "10/20/2026 9:54:08",
+    "studentEmail": "lzhang76@pratt.edu",
+    "studentId": "li-zhang",
+    "assignmentTitle": "Week 6: Mapping Our Values in the Age of AI",
+    "projectDescription": "I found 100 examples of parafiction. These images are difficult to classify visually, but what they have in common is that they mimic real-world discourse.|",
+    "credit": "ChatGPT6",
+    "uploadedFiles": "/student-files/2026/li-zhang-week-6--mapping-our-values-in-the-age-of-ai-1.png, /student-files/2026/li-zhang-week-6--mapping-our-values-in-the-age-of-ai-2.png, /student-files/2026/li-zhang-week-6--mapping-our-values-in-the-age-of-ai-3.png, /student-files/2026/li-zhang-week-6--mapping-our-values-in-the-age-of-ai-4.png, /student-files/2026/li-zhang-week-6--mapping-our-values-in-the-age-of-ai-5.png",
+    "linkToWork": "",
+    "linkToWorkRaw": "",
+    "certification": "Yes",
+    "weeklyResponse": "Understood the basic logic and mechanisms of machine learning.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1ozlm5HyHPwPyr0wrY-unBQVerqeai1M2",
+        "fileId": "1ozlm5HyHPwPyr0wrY-unBQVerqeai1M2",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1ozlm5HyHPwPyr0wrY-unBQVerqeai1M2&sz=w800",
+        "embed": "https://drive.google.com/file/d/1ozlm5HyHPwPyr0wrY-unBQVerqeai1M2/preview",
+        "local": "/student-files/2026/li-zhang-week-6--mapping-our-values-in-the-age-of-ai-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1FqP5a8GiGvjtrfUtFDBZagsqADGzckI7",
+        "fileId": "1FqP5a8GiGvjtrfUtFDBZagsqADGzckI7",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1FqP5a8GiGvjtrfUtFDBZagsqADGzckI7&sz=w800",
+        "embed": "https://drive.google.com/file/d/1FqP5a8GiGvjtrfUtFDBZagsqADGzckI7/preview",
+        "local": "/student-files/2026/li-zhang-week-6--mapping-our-values-in-the-age-of-ai-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=14pia9MW3zhJAOJA5QKJRxtNctNl1_lxs",
+        "fileId": "14pia9MW3zhJAOJA5QKJRxtNctNl1_lxs",
+        "thumbnail": "https://drive.google.com/thumbnail?id=14pia9MW3zhJAOJA5QKJRxtNctNl1_lxs&sz=w800",
+        "embed": "https://drive.google.com/file/d/14pia9MW3zhJAOJA5QKJRxtNctNl1_lxs/preview",
+        "local": "/student-files/2026/li-zhang-week-6--mapping-our-values-in-the-age-of-ai-3.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=168BvlSIDZkAL1oICcgSiX9C58fAG5wNQ",
+        "fileId": "168BvlSIDZkAL1oICcgSiX9C58fAG5wNQ",
+        "thumbnail": "https://drive.google.com/thumbnail?id=168BvlSIDZkAL1oICcgSiX9C58fAG5wNQ&sz=w800",
+        "embed": "https://drive.google.com/file/d/168BvlSIDZkAL1oICcgSiX9C58fAG5wNQ/preview",
+        "local": "/student-files/2026/li-zhang-week-6--mapping-our-values-in-the-age-of-ai-4.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1A8sVW8vHcvEuHUzO0Uf59D5NeS8GblT7",
+        "fileId": "1A8sVW8vHcvEuHUzO0Uf59D5NeS8GblT7",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1A8sVW8vHcvEuHUzO0Uf59D5NeS8GblT7&sz=w800",
+        "embed": "https://drive.google.com/file/d/1A8sVW8vHcvEuHUzO0Uf59D5NeS8GblT7/preview",
+        "local": "/student-files/2026/li-zhang-week-6--mapping-our-values-in-the-age-of-ai-5.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "10/20/2026 10:48:16",
+    "studentEmail": "blix21@pratt.edu",
+    "studentId": "binjia-li",
+    "assignmentTitle": "Week 7: Teachable Machine",
+    "projectDescription": "What the Machine Was Told continues my color-and-feeling archive. The website uses a simple nearest-neighbor model to predict eight feeling categories from color values.\nThe model uses 80 training colors and 20 test colors. It matched 7 of the 20 archived labels. Expanding the training set to 800 rows using synthetic color variations reduced this to 6.\nSeven experiments explore disagreements, missing context, changed labels and removed categories. Visitors can edit the teaching examples and observe how predictions change. The project asks whether a machine understands feelings or simply repeats the labels we give it.",
+    "credit": "- Graf1x: reference for the original color archive.\n- Scikit-learn documentation: nearest-neighbor algorithm reference. The website uses custom JavaScript, without an external machine-learning library.\n- DM Sans and Manrope fonts via Google Fonts.",
+    "uploadedFiles": "/student-files/2026/binjia-li-week-7--teachable-machine-1.png, /student-files/2026/binjia-li-week-7--teachable-machine-2.png, /student-files/2026/binjia-li-week-7--teachable-machine-3.png, /student-files/2026/binjia-li-week-7--teachable-machine-4.png, /student-files/2026/binjia-li-week-7--teachable-machine-5.png",
+    "linkToWork": "https://techb-feeling-of-color.hyhyman33.chatgpt.site",
+    "linkToWorks": [
+      "https://techb-feeling-of-color.hyhyman33.chatgpt.site"
+    ],
+    "linkToWorkRaw": "https://techb-feeling-of-color.hyhyman33.chatgpt.site",
+    "certification": "Yes",
+    "weeklyResponse": "I learned that changing the teaching labels can change a model’s answer without changing the color. More data does not always improve results. How can a model express uncertainty when our original labels are uncertain?",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1UGbbUhMg3aDjMxdko1FFNnYB7l4kHg-O",
+        "fileId": "1UGbbUhMg3aDjMxdko1FFNnYB7l4kHg-O",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1UGbbUhMg3aDjMxdko1FFNnYB7l4kHg-O&sz=w800",
+        "embed": "https://drive.google.com/file/d/1UGbbUhMg3aDjMxdko1FFNnYB7l4kHg-O/preview",
+        "local": "/student-files/2026/binjia-li-week-7--teachable-machine-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1AlB88a2R7XgANbzuMrHpL9plyvOAQ48k",
+        "fileId": "1AlB88a2R7XgANbzuMrHpL9plyvOAQ48k",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1AlB88a2R7XgANbzuMrHpL9plyvOAQ48k&sz=w800",
+        "embed": "https://drive.google.com/file/d/1AlB88a2R7XgANbzuMrHpL9plyvOAQ48k/preview",
+        "local": "/student-files/2026/binjia-li-week-7--teachable-machine-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1k_tPPb2ydGdbJ2aT2XhOWPJlLk3p197x",
+        "fileId": "1k_tPPb2ydGdbJ2aT2XhOWPJlLk3p197x",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1k_tPPb2ydGdbJ2aT2XhOWPJlLk3p197x&sz=w800",
+        "embed": "https://drive.google.com/file/d/1k_tPPb2ydGdbJ2aT2XhOWPJlLk3p197x/preview",
+        "local": "/student-files/2026/binjia-li-week-7--teachable-machine-3.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=12mOW69vVNpYgy0aKt7vhEpLZ_6dspifG",
+        "fileId": "12mOW69vVNpYgy0aKt7vhEpLZ_6dspifG",
+        "thumbnail": "https://drive.google.com/thumbnail?id=12mOW69vVNpYgy0aKt7vhEpLZ_6dspifG&sz=w800",
+        "embed": "https://drive.google.com/file/d/12mOW69vVNpYgy0aKt7vhEpLZ_6dspifG/preview",
+        "local": "/student-files/2026/binjia-li-week-7--teachable-machine-4.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1R2bCCNUAfrAaBvbQleTSSGvjoENkgfDn",
+        "fileId": "1R2bCCNUAfrAaBvbQleTSSGvjoENkgfDn",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1R2bCCNUAfrAaBvbQleTSSGvjoENkgfDn&sz=w800",
+        "embed": "https://drive.google.com/file/d/1R2bCCNUAfrAaBvbQleTSSGvjoENkgfDn/preview",
+        "local": "/student-files/2026/binjia-li-week-7--teachable-machine-5.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "10/20/2026 14:42:36",
+    "studentEmail": "mbalde@pratt.edu",
+    "studentId": "lulah-balde",
+    "assignmentTitle": "Week 7: Teachable Machine",
+    "projectDescription": "For this week, I put my Uncertain Archive of bags in front of Teachable Machine and trained it on the same categories from my map: woven, leather, cotton, suede, unsure, and seen/saved/inspired by. I then tested it with photos it hadn’t seen, including bags in crowded scenes, images with more than one bag, and photos I was unsure about myself. What stood out most is that the model never says “I don’t know.” Its answers always add up to 100%, so it was almost always fully certain, even when I wasn’t. It hesitated only once, on a photo with three bags, and even then it split between woven and leather instead of choosing unsure. It also reads the whole photo rather than the bag, so color, pattern, and background become evidence: brown seems to read as leather, and a grid pattern as woven. Testing it also showed me a flaw in my own categories. Some describe material, while others, like seen/saved, describe my relationship to the bag or its shape and construction. The machine treats them all the same, which made me ask how it decides what counts as a material at all, and what happens to the things I left open on purpose.",
+    "credit": "n/a",
+    "uploadedFiles": "/student-files/2026/lulah-balde-week-7--teachable-machine-1.png, /student-files/2026/lulah-balde-week-7--teachable-machine-2.png, /student-files/2026/lulah-balde-week-7--teachable-machine-3.png",
+    "linkToWork": "",
+    "linkToWorkRaw": "",
+    "certification": "Yes",
+    "weeklyResponse": "\nTEST ANALYSIS\n\nThe model never says “I don’t know.” Its bars always add up to 100%, so even when I wasn’t sure, it was. It only hesitated once with the three bags, and even then it split between Woven and Leather instead of choosing Unsure. It also sees the whole photo, not the bag: color, pattern, and background all count as evidence, so brown reads as leather and a grid pattern reads as woven. It didn’t learn this from scratch.\n\nQuestion to answer about categorization? \nHow does the machine identify bag materials specifically and how does it quantify what appears as a material that it can’t label or categorize?\n\nLimitations: \n- It sees the whole photo, not the bag\n- It can’t explain itself\nMy categories mix two kinds of question -- meaning I have to better identify my classes of bags I found online/adore the shape/construction versus the actual material which is what I want the machine to identify.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1FTLNGp6NOQe4whM5PlMd7n7mmnnvWYeQ",
+        "fileId": "1FTLNGp6NOQe4whM5PlMd7n7mmnnvWYeQ",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1FTLNGp6NOQe4whM5PlMd7n7mmnnvWYeQ&sz=w800",
+        "embed": "https://drive.google.com/file/d/1FTLNGp6NOQe4whM5PlMd7n7mmnnvWYeQ/preview",
+        "local": "/student-files/2026/lulah-balde-week-7--teachable-machine-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=10rG76YcD9sj-T_jIGVNQtMzzbnOHlSy7",
+        "fileId": "10rG76YcD9sj-T_jIGVNQtMzzbnOHlSy7",
+        "thumbnail": "https://drive.google.com/thumbnail?id=10rG76YcD9sj-T_jIGVNQtMzzbnOHlSy7&sz=w800",
+        "embed": "https://drive.google.com/file/d/10rG76YcD9sj-T_jIGVNQtMzzbnOHlSy7/preview",
+        "local": "/student-files/2026/lulah-balde-week-7--teachable-machine-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1-ElndtSdFYX0cM1fcGGyFBa--ZGQB0Ar",
+        "fileId": "1-ElndtSdFYX0cM1fcGGyFBa--ZGQB0Ar",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1-ElndtSdFYX0cM1fcGGyFBa--ZGQB0Ar&sz=w800",
+        "embed": "https://drive.google.com/file/d/1-ElndtSdFYX0cM1fcGGyFBa--ZGQB0Ar/preview",
+        "local": "/student-files/2026/lulah-balde-week-7--teachable-machine-3.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "10/20/2026 16:22:06",
+    "studentEmail": "xwang112@pratt.edu",
+    "studentId": "xiran-wang",
+    "assignmentTitle": "Week 7: Teachable Machine",
+    "projectDescription": "My current project is about a container of memories, emotions, and visual tendency. I collected a wide range of images related to memories and visual tendency. ",
+    "credit": "Teachable Machine for finishing this weekly task, Pinterest for searching for images",
+    "uploadedFiles": "/student-files/2026/xiran-wang-week-7--teachable-machine-1.png, /student-files/2026/xiran-wang-week-7--teachable-machine-2.png, /student-files/2026/xiran-wang-week-7--teachable-machine-3.png",
+    "linkToWork": "https://www.figma.com/design/zpIesX8QBRJYaDD7Fren95/Technology-B?node-id=0-1&t=UqW0YPMUC99YzwId-1",
+    "linkToWorks": [
+      "https://www.figma.com/design/zpIesX8QBRJYaDD7Fren95/Technology-B?node-id=0-1&t=UqW0YPMUC99YzwId-1"
+    ],
+    "linkToWorkRaw": "https://www.figma.com/design/zpIesX8QBRJYaDD7Fren95/Technology-B?node-id=0-1&t=UqW0YPMUC99YzwId-1",
+    "certification": "Yes",
+    "weeklyResponse": "I learnt that I'd better have a focus in this project since my archive board is too board and the audience may be lost without my verbal explanation. ",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1MbSYXLP-F5KnqcO9cu4oWbYoNt97sifa",
+        "fileId": "1MbSYXLP-F5KnqcO9cu4oWbYoNt97sifa",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1MbSYXLP-F5KnqcO9cu4oWbYoNt97sifa&sz=w800",
+        "embed": "https://drive.google.com/file/d/1MbSYXLP-F5KnqcO9cu4oWbYoNt97sifa/preview",
+        "local": "/student-files/2026/xiran-wang-week-7--teachable-machine-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1l9gdCInnSsSvZIbe6O_pSIi5DhothtOL",
+        "fileId": "1l9gdCInnSsSvZIbe6O_pSIi5DhothtOL",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1l9gdCInnSsSvZIbe6O_pSIi5DhothtOL&sz=w800",
+        "embed": "https://drive.google.com/file/d/1l9gdCInnSsSvZIbe6O_pSIi5DhothtOL/preview",
+        "local": "/student-files/2026/xiran-wang-week-7--teachable-machine-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1CfU8NyZqHvAf3-SJ-p58zA7PDI2FBADd",
+        "fileId": "1CfU8NyZqHvAf3-SJ-p58zA7PDI2FBADd",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1CfU8NyZqHvAf3-SJ-p58zA7PDI2FBADd&sz=w800",
+        "embed": "https://drive.google.com/file/d/1CfU8NyZqHvAf3-SJ-p58zA7PDI2FBADd/preview",
+        "local": "/student-files/2026/xiran-wang-week-7--teachable-machine-3.png"
+      }
+    ]
   }
 ]
