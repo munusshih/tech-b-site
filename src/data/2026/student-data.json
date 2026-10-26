@@ -2676,5 +2676,96 @@
         "local": "/student-files/2026/xiran-wang-week-7--teachable-machine-3.png"
       }
     ]
+  },
+  {
+    "timestamp": "10/25/2026 23:01:20",
+    "studentEmail": "lzhang76@pratt.edu",
+    "studentId": "li-zhang",
+    "assignmentTitle": "Week 7: Teachable Machine",
+    "projectDescription": "Google’s machine learning platform was used to train an image model on two categories: artworks featuring eagles and artworks featuring other birds. This distinction was not visually clear because the other birds still belonged to various different categories. As a result, the final outcome was not ideal.",
+    "credit": "none",
+    "uploadedFiles": "/student-files/2026/li-zhang-week-7--teachable-machine-1.png, /student-files/2026/li-zhang-week-7--teachable-machine-2.png, /student-files/2026/li-zhang-week-7--teachable-machine-3.png",
+    "linkToWork": "",
+    "linkToWorkRaw": "",
+    "certification": "Yes",
+    "weeklyResponse": "Besides classification-based machine learning, what other approaches are there?",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1Xn6bMPoDfhAM4b_beUN8mr6qMCoWffhf",
+        "fileId": "1Xn6bMPoDfhAM4b_beUN8mr6qMCoWffhf",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1Xn6bMPoDfhAM4b_beUN8mr6qMCoWffhf&sz=w800",
+        "embed": "https://drive.google.com/file/d/1Xn6bMPoDfhAM4b_beUN8mr6qMCoWffhf/preview",
+        "local": "/student-files/2026/li-zhang-week-7--teachable-machine-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1WdfXU0_iV3SpWFV8YkKJamuoCHPMvS4y",
+        "fileId": "1WdfXU0_iV3SpWFV8YkKJamuoCHPMvS4y",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1WdfXU0_iV3SpWFV8YkKJamuoCHPMvS4y&sz=w800",
+        "embed": "https://drive.google.com/file/d/1WdfXU0_iV3SpWFV8YkKJamuoCHPMvS4y/preview",
+        "local": "/student-files/2026/li-zhang-week-7--teachable-machine-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1x80iWZ6-saJ_TosermoxjUU1dCG4jKQl",
+        "fileId": "1x80iWZ6-saJ_TosermoxjUU1dCG4jKQl",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1x80iWZ6-saJ_TosermoxjUU1dCG4jKQl&sz=w800",
+        "embed": "https://drive.google.com/file/d/1x80iWZ6-saJ_TosermoxjUU1dCG4jKQl/preview",
+        "local": "/student-files/2026/li-zhang-week-7--teachable-machine-3.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "10/25/2026 23:20:48",
+    "studentEmail": "jlix92@pratt.edu",
+    "studentId": "jiayi-li",
+    "assignmentTitle": "Week 7: Teachable Machine",
+    "projectDescription": "My project, Saved for Later, explores a question: Are we teaching machines to understand our desires, or learning how to give them the answers they expect? In my earlier research, I collected things I had saved across different platforms that I wanted to do when I had more free time. Based on my personal expectations, I organized them into three categories: Reward Future, Rest Future, and Ideal-Self Future. I then trained an image classification model using these images. Through this experiment, I found that even when the model predicted the same categories as I did, it did not necessarily understand the reasons behind my decisions. I also realized that these categories were not objective, but based on my own experiences and judgments. Based on these findings, I designed an interactive web archive that translates my understanding of the three types of futures into classification standards based on five numerical dimensions. The system uses these standards to classify other participants' desires. Participants first select an image from my archive that represents something they want to do, own, or experience in the future. They intuitively assign it to one of the three future categories, then rate it across five dimensions: anticipation, urgency, cost and effort, willingness to do it when tired, and personal growth. Based on my predefined rules, the system places the image into one of three archive drawers. When the system's classification differs from their initial judgment, participants cannot move the card directly. Instead, they can only change the result by adjusting their previous ratings. The website records each adjustment, creating a visual path that participants can review. During initial testing, one participant said she felt like she was \"cheating the system\" because she had to change her honest answers to get the classification she believed was correct. Another participant said she did not know which slider to adjust to get her original classification, so she started moving the sliders randomly. These responses revealed a tension worth exploring further: when participants try to correct the system, data that originally expressed their personal judgments may become tools for manipulating the system's output.  Participants may have learned how to adjust their answers to fit the system's classification standards.",
+    "credit": "ChatGPT, Claude",
+    "uploadedFiles": "/student-files/2026/jiayi-li-week-7--teachable-machine-1.png, /student-files/2026/jiayi-li-week-7--teachable-machine-2.png, /student-files/2026/jiayi-li-week-7--teachable-machine-3.png, /student-files/2026/jiayi-li-week-7--teachable-machine-4.png, /student-files/2026/jiayi-li-week-7--teachable-machine-5.png",
+    "linkToWork": "https://app.milanote.com/1XiOh21cK92Gbf?p=xIsYKoo1siN",
+    "linkToWorks": [
+      "https://app.milanote.com/1XiOh21cK92Gbf?p=xIsYKoo1siN"
+    ],
+    "linkToWorkRaw": "https://app.milanote.com/1XiOh21cK92Gbf?p=xIsYKoo1siN",
+    "certification": "Yes",
+    "weeklyResponse": "When people's judgments differ from a system's classifications, do we prioritize adjusting people's responses or changing the system's classification standards?",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1QjijjnbfU-tyOduA7JkDLlNs7a-LUibx",
+        "fileId": "1QjijjnbfU-tyOduA7JkDLlNs7a-LUibx",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1QjijjnbfU-tyOduA7JkDLlNs7a-LUibx&sz=w800",
+        "embed": "https://drive.google.com/file/d/1QjijjnbfU-tyOduA7JkDLlNs7a-LUibx/preview",
+        "local": "/student-files/2026/jiayi-li-week-7--teachable-machine-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1gRV9eQECtvAE1mezOjO5mxuY1Ie5V0as",
+        "fileId": "1gRV9eQECtvAE1mezOjO5mxuY1Ie5V0as",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1gRV9eQECtvAE1mezOjO5mxuY1Ie5V0as&sz=w800",
+        "embed": "https://drive.google.com/file/d/1gRV9eQECtvAE1mezOjO5mxuY1Ie5V0as/preview",
+        "local": "/student-files/2026/jiayi-li-week-7--teachable-machine-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=15sZRxSUeSmmq5gyH4eFqzfsUOh3qc0wG",
+        "fileId": "15sZRxSUeSmmq5gyH4eFqzfsUOh3qc0wG",
+        "thumbnail": "https://drive.google.com/thumbnail?id=15sZRxSUeSmmq5gyH4eFqzfsUOh3qc0wG&sz=w800",
+        "embed": "https://drive.google.com/file/d/15sZRxSUeSmmq5gyH4eFqzfsUOh3qc0wG/preview",
+        "local": "/student-files/2026/jiayi-li-week-7--teachable-machine-3.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=15ctBuYre-Q6Fpx174jZ13Ju6i1S4qM3v",
+        "fileId": "15ctBuYre-Q6Fpx174jZ13Ju6i1S4qM3v",
+        "thumbnail": "https://drive.google.com/thumbnail?id=15ctBuYre-Q6Fpx174jZ13Ju6i1S4qM3v&sz=w800",
+        "embed": "https://drive.google.com/file/d/15ctBuYre-Q6Fpx174jZ13Ju6i1S4qM3v/preview",
+        "local": "/student-files/2026/jiayi-li-week-7--teachable-machine-4.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1TNVoUJzUjsKwtSvVERkN8HDEOJ8yUv8B",
+        "fileId": "1TNVoUJzUjsKwtSvVERkN8HDEOJ8yUv8B",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1TNVoUJzUjsKwtSvVERkN8HDEOJ8yUv8B&sz=w800",
+        "embed": "https://drive.google.com/file/d/1TNVoUJzUjsKwtSvVERkN8HDEOJ8yUv8B/preview",
+        "local": "/student-files/2026/jiayi-li-week-7--teachable-machine-5.png"
+      }
+    ]
   }
 ]
