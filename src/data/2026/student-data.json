@@ -2767,5 +2767,38 @@
         "local": "/student-files/2026/jiayi-li-week-7--teachable-machine-5.png"
       }
     ]
+  },
+  {
+    "timestamp": "10/26/2026 23:03:39",
+    "studentEmail": "yliu124@pratt.edu",
+    "studentId": "zoe-liu",
+    "assignmentTitle": "Week 7: Teachable Machine",
+    "projectDescription": "I uploaded the memes to Teachable Machine and trained a model. Although it was able to recognize different emotions, it had trouble identifying them accurately when the memes didn’t have obvious emotional features.",
+    "credit": "eachablemachine.withgoogle.com",
+    "uploadedFiles": "/student-files/2026/zoe-liu-week-7--teachable-machine-1.png, /student-files/2026/zoe-liu-week-7--teachable-machine-2.png",
+    "linkToWork": "https://teachablemachine.withgoogle.com/models/qFsAKtH2j/",
+    "linkToWorks": [
+      "https://teachablemachine.withgoogle.com/models/qFsAKtH2j/"
+    ],
+    "linkToWorkRaw": "https://teachablemachine.withgoogle.com/models/qFsAKtH2j/",
+    "certification": "Yes",
+    "weeklyResponse": "Most memes have their own established context, but some can change their meaning depending on how they are used. This is quite complicated, and AI can't fully understand it. Maybe next time I could try putting the same meme into several different categories at once?",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1zYkSjZI1zEkQyobCVZAe_xQ05SwXITFj",
+        "fileId": "1zYkSjZI1zEkQyobCVZAe_xQ05SwXITFj",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1zYkSjZI1zEkQyobCVZAe_xQ05SwXITFj&sz=w800",
+        "embed": "https://drive.google.com/file/d/1zYkSjZI1zEkQyobCVZAe_xQ05SwXITFj/preview",
+        "local": "/student-files/2026/zoe-liu-week-7--teachable-machine-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1iUZ1cywDTktW-JheLC8j6aSCWtPIhiX_",
+        "fileId": "1iUZ1cywDTktW-JheLC8j6aSCWtPIhiX_",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1iUZ1cywDTktW-JheLC8j6aSCWtPIhiX_&sz=w800",
+        "embed": "https://drive.google.com/file/d/1iUZ1cywDTktW-JheLC8j6aSCWtPIhiX_/preview",
+        "local": "/student-files/2026/zoe-liu-week-7--teachable-machine-2.png"
+      }
+    ]
   }
 ]
