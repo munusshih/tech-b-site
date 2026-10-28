@@ -2800,5 +2800,260 @@
         "local": "/student-files/2026/zoe-liu-week-7--teachable-machine-2.png"
       }
     ]
+  },
+  {
+    "timestamp": "10/27/2026 9:34:03",
+    "studentEmail": "schoei@pratt.edu",
+    "studentId": "seulgi-choei",
+    "assignmentTitle": "Week 7: Teachable Machine",
+    "projectDescription": "This week, I uploaded my deviation data to Teachable Machine and trained the model using the same categories as my own map. Then, I tested images that I had found difficult to classify or had not yet classified. One interesting result was that the model classified a temporary wall painted with a brush as Erased. I also tested an image that looked completely clean, without any visible deviation. Surprisingly, the model classified it as Erased as well. But the model may not be wrong. In New York, graffiti on utility boxes is often painted over with the same green color. So, a “clean” box may actually be an erased one. These results made me realize that my own classification criteria might be abstract and subjective. But this also raised another question: Can there really be objective criteria for classification?",
+    "credit": "None",
+    "uploadedFiles": "/student-files/2026/seulgi-choei-week-7--teachable-machine-1.png, /student-files/2026/seulgi-choei-week-7--teachable-machine-2.jpg, /student-files/2026/seulgi-choei-week-7--teachable-machine-3.jpg",
+    "linkToWork": "",
+    "linkToWorkRaw": "",
+    "certification": "Yes",
+    "weeklyResponse": "Can there really be objective criteria for classification?",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1bwsyxQ_BPFr5u-g_mm3l6-2czwOAmitb",
+        "fileId": "1bwsyxQ_BPFr5u-g_mm3l6-2czwOAmitb",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1bwsyxQ_BPFr5u-g_mm3l6-2czwOAmitb&sz=w800",
+        "embed": "https://drive.google.com/file/d/1bwsyxQ_BPFr5u-g_mm3l6-2czwOAmitb/preview",
+        "local": "/student-files/2026/seulgi-choei-week-7--teachable-machine-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1M2KL1LjzN4GCHzzHp9hkwmqJkGvsa1rV",
+        "fileId": "1M2KL1LjzN4GCHzzHp9hkwmqJkGvsa1rV",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1M2KL1LjzN4GCHzzHp9hkwmqJkGvsa1rV&sz=w800",
+        "embed": "https://drive.google.com/file/d/1M2KL1LjzN4GCHzzHp9hkwmqJkGvsa1rV/preview",
+        "local": "/student-files/2026/seulgi-choei-week-7--teachable-machine-2.jpg"
+      },
+      {
+        "original": "https://drive.google.com/open?id=10NmU03YFW8lkwW0ivgONxR6GLZikkzbm",
+        "fileId": "10NmU03YFW8lkwW0ivgONxR6GLZikkzbm",
+        "thumbnail": "https://drive.google.com/thumbnail?id=10NmU03YFW8lkwW0ivgONxR6GLZikkzbm&sz=w800",
+        "embed": "https://drive.google.com/file/d/10NmU03YFW8lkwW0ivgONxR6GLZikkzbm/preview",
+        "local": "/student-files/2026/seulgi-choei-week-7--teachable-machine-3.jpg"
+      }
+    ]
+  },
+  {
+    "timestamp": "10/27/2026 13:15:39",
+    "studentEmail": "ychen816@pratt.edu",
+    "studentId": "andrea-cheng",
+    "assignmentTitle": "Week 8: Unsupervised",
+    "projectDescription": "The prototype is an interactive image-classification experience built from an archive of visually ambiguous and humorous images. The collection includes objects that resemble faces, imitate other shapes or materials, and create illusions through forced perspective. Instead of asking only what an image contains, the project examines how visual misrecognition happens.\nIn the prototype, users gradually reveal an image by opening one area at a time. During each round, the user classifies the visible fragment before the machine’s prediction is shown. As more of the image becomes visible, both the human and machine classifications may change. This sequence makes it possible to compare human association, context, and humor with the machine’s reliance on visual patterns learned from training data.\nThe project explores the tension between the apparent certainty of machine-generated percentages and the ambiguity of visual interpretation. Through repeated decisions, users experience classification as a changing and unstable process rather than a single objective answer.",
+    "credit": "ChatGPT",
+    "uploadedFiles": "/student-files/2026/andrea-cheng-week-8--unsupervised-1.jpg, /student-files/2026/andrea-cheng-week-8--unsupervised-2.jpg, /student-files/2026/andrea-cheng-week-8--unsupervised-3.png",
+    "linkToWork": "https://ychen816-ops.github.io/uncertain-archive-prototype-v1/",
+    "linkToWorks": [
+      "https://ychen816-ops.github.io/uncertain-archive-prototype-v1/"
+    ],
+    "linkToWorkRaw": "https://ychen816-ops.github.io/uncertain-archive-prototype-v1/",
+    "certification": "Yes",
+    "weeklyResponse": "This week, I learned that human and machine classifications can produce the same answer for very different reasons. Humans use context, association, and humor, while the model relies on visual patterns such as shape, texture, and facial features. The machine’s confidence can make its predictions appear objective, even when it misunderstands the meaning of a category. This makes me wonder: When humans and machines agree, are they actually seeing the same thing?",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1aJgCmWqobvrAofLt_ivBHQjAs_aA0pai",
+        "fileId": "1aJgCmWqobvrAofLt_ivBHQjAs_aA0pai",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1aJgCmWqobvrAofLt_ivBHQjAs_aA0pai&sz=w800",
+        "embed": "https://drive.google.com/file/d/1aJgCmWqobvrAofLt_ivBHQjAs_aA0pai/preview",
+        "local": "/student-files/2026/andrea-cheng-week-8--unsupervised-1.jpg"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1MknqlbiyzQAkOSsNr5VclV_B5iIaS0xB",
+        "fileId": "1MknqlbiyzQAkOSsNr5VclV_B5iIaS0xB",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1MknqlbiyzQAkOSsNr5VclV_B5iIaS0xB&sz=w800",
+        "embed": "https://drive.google.com/file/d/1MknqlbiyzQAkOSsNr5VclV_B5iIaS0xB/preview",
+        "local": "/student-files/2026/andrea-cheng-week-8--unsupervised-2.jpg"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1EjN6znwW75jF8JI2D42s6s87iseeutuh",
+        "fileId": "1EjN6znwW75jF8JI2D42s6s87iseeutuh",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1EjN6znwW75jF8JI2D42s6s87iseeutuh&sz=w800",
+        "embed": "https://drive.google.com/file/d/1EjN6znwW75jF8JI2D42s6s87iseeutuh/preview",
+        "local": "/student-files/2026/andrea-cheng-week-8--unsupervised-3.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "10/27/2026 15:01:05",
+    "studentEmail": "mbalde@pratt.edu",
+    "studentId": "lulah-balde",
+    "assignmentTitle": "Week 8: Unsupervised",
+    "projectDescription": "45 bag photos are scattered on the screen. You drag them into piles however you see them, and you can open any photo to look closer and give it one of my labels: woven, leather, cotton, suede, unsure, or seen/saved. While you hold a photo, the machine shows which photos it thinks are most similar. When you hit reveal, the photos move into the machine’s own clusters, but each one keeps the name of the pile you put it in.\n\nThe machine has no labels. It only reads color, brightness, edges and layout, so it ends up grouping photos by lighting and setting, not by what the bag is made of. Dark subway photos end up together, and white-wall photos end up together. When I tested it, almost none of my piles stayed together. So the way the machine clusters based on image similarity versus the user clustering based on material is very interesting.",
+    "credit": "CLAUDE",
+    "uploadedFiles": "/student-files/2026/lulah-balde-week-8--unsupervised-1.png, /student-files/2026/lulah-balde-week-8--unsupervised-2.png, /student-files/2026/lulah-balde-week-8--unsupervised-3.png, /student-files/2026/lulah-balde-week-8--unsupervised-4.png, /student-files/2026/lulah-balde-week-8--unsupervised-5.png",
+    "linkToWork": "https://peoplesgarments.github.io/your-piles-its-piles/",
+    "linkToWorks": [
+      "https://peoplesgarments.github.io/your-piles-its-piles/"
+    ],
+    "linkToWorkRaw": "https://peoplesgarments.github.io/your-piles-its-piles/",
+    "certification": "Yes",
+    "weeklyResponse": "I learned how difficult it can be to consider factors that the machine is considering that conflicts with how I'm choosing to categorize versus how it decides to categorize on its own. ",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1DzyuILRYGlon6VGh1x1YDxnXpDzD-OXB",
+        "fileId": "1DzyuILRYGlon6VGh1x1YDxnXpDzD-OXB",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1DzyuILRYGlon6VGh1x1YDxnXpDzD-OXB&sz=w800",
+        "embed": "https://drive.google.com/file/d/1DzyuILRYGlon6VGh1x1YDxnXpDzD-OXB/preview",
+        "local": "/student-files/2026/lulah-balde-week-8--unsupervised-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=13ZinQPFYZD6vy7Y4xp-oRqmyO1121UW1",
+        "fileId": "13ZinQPFYZD6vy7Y4xp-oRqmyO1121UW1",
+        "thumbnail": "https://drive.google.com/thumbnail?id=13ZinQPFYZD6vy7Y4xp-oRqmyO1121UW1&sz=w800",
+        "embed": "https://drive.google.com/file/d/13ZinQPFYZD6vy7Y4xp-oRqmyO1121UW1/preview",
+        "local": "/student-files/2026/lulah-balde-week-8--unsupervised-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1fNR1D3vIRAjWriDYstbRNRnYgM3G1Wfn",
+        "fileId": "1fNR1D3vIRAjWriDYstbRNRnYgM3G1Wfn",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1fNR1D3vIRAjWriDYstbRNRnYgM3G1Wfn&sz=w800",
+        "embed": "https://drive.google.com/file/d/1fNR1D3vIRAjWriDYstbRNRnYgM3G1Wfn/preview",
+        "local": "/student-files/2026/lulah-balde-week-8--unsupervised-3.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=13jJIIdVy8iUqOe0xpvG_McFXc5BnAS8j",
+        "fileId": "13jJIIdVy8iUqOe0xpvG_McFXc5BnAS8j",
+        "thumbnail": "https://drive.google.com/thumbnail?id=13jJIIdVy8iUqOe0xpvG_McFXc5BnAS8j&sz=w800",
+        "embed": "https://drive.google.com/file/d/13jJIIdVy8iUqOe0xpvG_McFXc5BnAS8j/preview",
+        "local": "/student-files/2026/lulah-balde-week-8--unsupervised-4.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1uIH336ZCWr7Qd29KB_ul40iIxU5IOzBI",
+        "fileId": "1uIH336ZCWr7Qd29KB_ul40iIxU5IOzBI",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1uIH336ZCWr7Qd29KB_ul40iIxU5IOzBI&sz=w800",
+        "embed": "https://drive.google.com/file/d/1uIH336ZCWr7Qd29KB_ul40iIxU5IOzBI/preview",
+        "local": "/student-files/2026/lulah-balde-week-8--unsupervised-5.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "10/27/2026 15:46:37",
+    "studentEmail": "schoei@pratt.edu",
+    "studentId": "seulgi-choei",
+    "assignmentTitle": "Week 8: Unsupervised",
+    "projectDescription": "This is an interactive archive map where the arrangement of photographs becomes a musical score. The photographs are organized in four different ways: My Categories, Teachable Machine Model, Unsupervised Model, and Visual Properties.The four different classification systems create four different pieces of music.\nA playhead reads the map from left to right. Each photograph produces its own short melody based on its color, edges, and brightness. The classification determines when each photograph makes a sound (based on its position), which instrument plays it (based on its group), and how the sound is modified.",
+    "credit": "Claude",
+    "uploadedFiles": "/student-files/2026/seulgi-choei-week-8--unsupervised-1.png, /student-files/2026/seulgi-choei-week-8--unsupervised-2.png, /student-files/2026/seulgi-choei-week-8--unsupervised-3.png, /student-files/2026/seulgi-choei-week-8--unsupervised-4.png",
+    "linkToWork": "",
+    "linkToWorkRaw": "",
+    "certification": "Yes",
+    "weeklyResponse": "The machine sees surfaces, I see actions.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1CZXvr0uTSlb4ImELaoYKBUL9brmxSgaC",
+        "fileId": "1CZXvr0uTSlb4ImELaoYKBUL9brmxSgaC",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1CZXvr0uTSlb4ImELaoYKBUL9brmxSgaC&sz=w800",
+        "embed": "https://drive.google.com/file/d/1CZXvr0uTSlb4ImELaoYKBUL9brmxSgaC/preview",
+        "local": "/student-files/2026/seulgi-choei-week-8--unsupervised-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1NBd9xtKx5mTmD5M5EEo5KOY_C0d29V4M",
+        "fileId": "1NBd9xtKx5mTmD5M5EEo5KOY_C0d29V4M",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1NBd9xtKx5mTmD5M5EEo5KOY_C0d29V4M&sz=w800",
+        "embed": "https://drive.google.com/file/d/1NBd9xtKx5mTmD5M5EEo5KOY_C0d29V4M/preview",
+        "local": "/student-files/2026/seulgi-choei-week-8--unsupervised-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1Jr4TM3L60JjvS4wGNAC6rfU46YEPuifu",
+        "fileId": "1Jr4TM3L60JjvS4wGNAC6rfU46YEPuifu",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1Jr4TM3L60JjvS4wGNAC6rfU46YEPuifu&sz=w800",
+        "embed": "https://drive.google.com/file/d/1Jr4TM3L60JjvS4wGNAC6rfU46YEPuifu/preview",
+        "local": "/student-files/2026/seulgi-choei-week-8--unsupervised-3.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1PklT6l9my4xCuFSkr9378R7UvHjxaEnN",
+        "fileId": "1PklT6l9my4xCuFSkr9378R7UvHjxaEnN",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1PklT6l9my4xCuFSkr9378R7UvHjxaEnN&sz=w800",
+        "embed": "https://drive.google.com/file/d/1PklT6l9my4xCuFSkr9378R7UvHjxaEnN/preview",
+        "local": "/student-files/2026/seulgi-choei-week-8--unsupervised-4.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "10/27/2026 15:57:56",
+    "studentEmail": "myang37@pratt.edu",
+    "studentId": "mingfu-yang",
+    "assignmentTitle": "Week 8: Unsupervised",
+    "projectDescription": "Is It a Star? began as an Uncertain Archive exploring how different objects, images, and cultural references are connected through the word “Star.” Initially, I attempted to organize these relationships into fixed categories and train a machine to recognize them. However, overlapping meanings and unexpected misclassifications revealed the limitations of both human and machine judgment. I expanded the project into an interactive website combining three recognition systems: Teachable Machine, CLIP, and MobileNet. By allowing users to adjust each model’s influence on the final result, the project explores how meanings are constructed, negotiated, and reshaped through different systems of interpretation.",
+    "credit": "Chat GPT",
+    "uploadedFiles": "/student-files/2026/mingfu-yang-week-8--unsupervised-1.png, /student-files/2026/mingfu-yang-week-8--unsupervised-2.png, /student-files/2026/mingfu-yang-week-8--unsupervised-3.png, /student-files/2026/mingfu-yang-week-8--unsupervised-4.png",
+    "linkToWork": "https://editor.p5js.org/yangyyworld/full/E68LU4zBI",
+    "linkToWorks": [
+      "https://editor.p5js.org/yangyyworld/full/E68LU4zBI"
+    ],
+    "linkToWorkRaw": "https://editor.p5js.org/yangyyworld/full/E68LU4zBI",
+    "certification": "Yes",
+    "weeklyResponse": "If there were such a thing as a miracle in this world, I would hope for free APIs.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1jzjeo9Qc2L5Y0v5Bd5o0UQVsxp1324UT",
+        "fileId": "1jzjeo9Qc2L5Y0v5Bd5o0UQVsxp1324UT",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1jzjeo9Qc2L5Y0v5Bd5o0UQVsxp1324UT&sz=w800",
+        "embed": "https://drive.google.com/file/d/1jzjeo9Qc2L5Y0v5Bd5o0UQVsxp1324UT/preview",
+        "local": "/student-files/2026/mingfu-yang-week-8--unsupervised-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=153vY6TwUKD7jLBmwg-BlH_xm4ZysF8rF",
+        "fileId": "153vY6TwUKD7jLBmwg-BlH_xm4ZysF8rF",
+        "thumbnail": "https://drive.google.com/thumbnail?id=153vY6TwUKD7jLBmwg-BlH_xm4ZysF8rF&sz=w800",
+        "embed": "https://drive.google.com/file/d/153vY6TwUKD7jLBmwg-BlH_xm4ZysF8rF/preview",
+        "local": "/student-files/2026/mingfu-yang-week-8--unsupervised-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1rgjk365-eW1rahDIU6i2YelC7p5xtzoy",
+        "fileId": "1rgjk365-eW1rahDIU6i2YelC7p5xtzoy",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1rgjk365-eW1rahDIU6i2YelC7p5xtzoy&sz=w800",
+        "embed": "https://drive.google.com/file/d/1rgjk365-eW1rahDIU6i2YelC7p5xtzoy/preview",
+        "local": "/student-files/2026/mingfu-yang-week-8--unsupervised-3.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1lw--fL1cIjkBAeibT3AmthIkk0C7tLbt",
+        "fileId": "1lw--fL1cIjkBAeibT3AmthIkk0C7tLbt",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1lw--fL1cIjkBAeibT3AmthIkk0C7tLbt&sz=w800",
+        "embed": "https://drive.google.com/file/d/1lw--fL1cIjkBAeibT3AmthIkk0C7tLbt/preview",
+        "local": "/student-files/2026/mingfu-yang-week-8--unsupervised-4.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "10/27/2026 16:06:25",
+    "studentEmail": "yliu124@pratt.edu",
+    "studentId": "zoe-liu",
+    "assignmentTitle": "Week 8: Unsupervised",
+    "projectDescription": "I got inspired by the Quick, Draw! website we used in a previous class. This time, I wanted to involve humans in the recognition process. I think this could help the system identify the different emotions expressed by memes more accurately, while also allowing me to explore how people interpret the same meme differently depending on the context.",
+    "credit": "claude",
+    "uploadedFiles": "/student-files/2026/zoe-liu-week-8--unsupervised-1.png, /student-files/2026/zoe-liu-week-8--unsupervised-2.png",
+    "linkToWork": "https://psynone.github.io/meme/",
+    "linkToWorks": [
+      "https://psynone.github.io/meme/"
+    ],
+    "linkToWorkRaw": "https://psynone.github.io/meme/",
+    "certification": "Yes",
+    "weeklyResponse": "I was thinking that memes can express completely different emotions depending on the context, and even the same meme can mean different things to different people. So, are memes really suitable for unsupervised machine learning? If a machine can only identify patterns based on visual features without understanding the context in which a meme is used, would its classifications end up being different from how humans actually interpret them?",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1xX6DRUZFBnlgG88QaK44PBxvxOL6MoO_",
+        "fileId": "1xX6DRUZFBnlgG88QaK44PBxvxOL6MoO_",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1xX6DRUZFBnlgG88QaK44PBxvxOL6MoO_&sz=w800",
+        "embed": "https://drive.google.com/file/d/1xX6DRUZFBnlgG88QaK44PBxvxOL6MoO_/preview",
+        "local": "/student-files/2026/zoe-liu-week-8--unsupervised-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1bVJngV6ylMQwJirL7ZW-3R8647vaFbjB",
+        "fileId": "1bVJngV6ylMQwJirL7ZW-3R8647vaFbjB",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1bVJngV6ylMQwJirL7ZW-3R8647vaFbjB&sz=w800",
+        "embed": "https://drive.google.com/file/d/1bVJngV6ylMQwJirL7ZW-3R8647vaFbjB/preview",
+        "local": "/student-files/2026/zoe-liu-week-8--unsupervised-2.png"
+      }
+    ]
   }
 ]
