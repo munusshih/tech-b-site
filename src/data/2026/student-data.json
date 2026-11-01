@@ -3055,5 +3055,107 @@
         "local": "/student-files/2026/zoe-liu-week-8--unsupervised-2.png"
       }
     ]
+  },
+  {
+    "timestamp": "10/31/2026 12:26:38",
+    "studentEmail": "lzhang76@pratt.edu",
+    "studentId": "li-zhang",
+    "assignmentTitle": "Week 8: Unsupervised",
+    "projectDescription": "I created a series of images and statements with ambiguous intent; these images have no (or do they?) specific content. I asked two different groups of models to describe this set of images.",
+    "credit": "ChatGpt 6",
+    "uploadedFiles": "/student-files/2026/li-zhang-week-8--unsupervised-1.png, /student-files/2026/li-zhang-week-8--unsupervised-2.png, /student-files/2026/li-zhang-week-8--unsupervised-3.png, /student-files/2026/li-zhang-week-8--unsupervised-4.png, /student-files/2026/li-zhang-week-8--unsupervised-5.png",
+    "linkToWork": "",
+    "linkToWorkRaw": "",
+    "certification": "Yes",
+    "weeklyResponse": "//////////////////////////////////",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1zkBYTbNY7QmIEXCBC8ah1DbFMtPLtdmu",
+        "fileId": "1zkBYTbNY7QmIEXCBC8ah1DbFMtPLtdmu",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1zkBYTbNY7QmIEXCBC8ah1DbFMtPLtdmu&sz=w800",
+        "embed": "https://drive.google.com/file/d/1zkBYTbNY7QmIEXCBC8ah1DbFMtPLtdmu/preview",
+        "local": "/student-files/2026/li-zhang-week-8--unsupervised-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1-RQqJ6XqcfpaXLjqN4A5Nt5cTOkOC_Vz",
+        "fileId": "1-RQqJ6XqcfpaXLjqN4A5Nt5cTOkOC_Vz",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1-RQqJ6XqcfpaXLjqN4A5Nt5cTOkOC_Vz&sz=w800",
+        "embed": "https://drive.google.com/file/d/1-RQqJ6XqcfpaXLjqN4A5Nt5cTOkOC_Vz/preview",
+        "local": "/student-files/2026/li-zhang-week-8--unsupervised-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1ARhOHfwZ5dN0ycfubNai8RmpvflYWGSL",
+        "fileId": "1ARhOHfwZ5dN0ycfubNai8RmpvflYWGSL",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1ARhOHfwZ5dN0ycfubNai8RmpvflYWGSL&sz=w800",
+        "embed": "https://drive.google.com/file/d/1ARhOHfwZ5dN0ycfubNai8RmpvflYWGSL/preview",
+        "local": "/student-files/2026/li-zhang-week-8--unsupervised-3.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1tjrriV39tJg8f5FuPyOXfsiMfXFbSkq4",
+        "fileId": "1tjrriV39tJg8f5FuPyOXfsiMfXFbSkq4",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1tjrriV39tJg8f5FuPyOXfsiMfXFbSkq4&sz=w800",
+        "embed": "https://drive.google.com/file/d/1tjrriV39tJg8f5FuPyOXfsiMfXFbSkq4/preview",
+        "local": "/student-files/2026/li-zhang-week-8--unsupervised-4.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=17zIoj57CLYbwANsf10QAnVyKnHCCBoPz",
+        "fileId": "17zIoj57CLYbwANsf10QAnVyKnHCCBoPz",
+        "thumbnail": "https://drive.google.com/thumbnail?id=17zIoj57CLYbwANsf10QAnVyKnHCCBoPz&sz=w800",
+        "embed": "https://drive.google.com/file/d/17zIoj57CLYbwANsf10QAnVyKnHCCBoPz/preview",
+        "local": "/student-files/2026/li-zhang-week-8--unsupervised-5.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "10/31/2026 16:36:35",
+    "studentEmail": "lzhang76@pratt.edu",
+    "studentId": "li-zhang",
+    "assignmentTitle": "Week 9: Latent Space",
+    "projectDescription": "A parameter adjustment system was designed based on Eagle’s artwork library, allowing the image size, hue, tone, and resolution to be adjusted to separately test the machine’s final recognition results.",
+    "credit": "ChatGpt6",
+    "uploadedFiles": "/student-files/2026/li-zhang-week-9--latent-space-1.png, /student-files/2026/li-zhang-week-9--latent-space-2.png, /student-files/2026/li-zhang-week-9--latent-space-3.png, /student-files/2026/li-zhang-week-9--latent-space-4.png, /student-files/2026/li-zhang-week-9--latent-space-5.png",
+    "linkToWork": "",
+    "linkToWorkRaw": "",
+    "certification": "Yes",
+    "weeklyResponse": "How do machines distinguish between similar categories? For example, how would a piece of art that looks like both an owl and an eagle be classified?",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1WLH-3jSuIDjJakwiBV_IvR_Zux2vX4_t",
+        "fileId": "1WLH-3jSuIDjJakwiBV_IvR_Zux2vX4_t",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1WLH-3jSuIDjJakwiBV_IvR_Zux2vX4_t&sz=w800",
+        "embed": "https://drive.google.com/file/d/1WLH-3jSuIDjJakwiBV_IvR_Zux2vX4_t/preview",
+        "local": "/student-files/2026/li-zhang-week-9--latent-space-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1R2sqzsV8aws4-NWSyp7XLjk6wUr7uVcT",
+        "fileId": "1R2sqzsV8aws4-NWSyp7XLjk6wUr7uVcT",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1R2sqzsV8aws4-NWSyp7XLjk6wUr7uVcT&sz=w800",
+        "embed": "https://drive.google.com/file/d/1R2sqzsV8aws4-NWSyp7XLjk6wUr7uVcT/preview",
+        "local": "/student-files/2026/li-zhang-week-9--latent-space-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=11OOiQS7gljUr3Tad-1t4Xm5e2hBLUfrN",
+        "fileId": "11OOiQS7gljUr3Tad-1t4Xm5e2hBLUfrN",
+        "thumbnail": "https://drive.google.com/thumbnail?id=11OOiQS7gljUr3Tad-1t4Xm5e2hBLUfrN&sz=w800",
+        "embed": "https://drive.google.com/file/d/11OOiQS7gljUr3Tad-1t4Xm5e2hBLUfrN/preview",
+        "local": "/student-files/2026/li-zhang-week-9--latent-space-3.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1eKZd42aKozODKfOwouCWSRgxQsfiY7R8",
+        "fileId": "1eKZd42aKozODKfOwouCWSRgxQsfiY7R8",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1eKZd42aKozODKfOwouCWSRgxQsfiY7R8&sz=w800",
+        "embed": "https://drive.google.com/file/d/1eKZd42aKozODKfOwouCWSRgxQsfiY7R8/preview",
+        "local": "/student-files/2026/li-zhang-week-9--latent-space-4.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1rHBgAvznKlHEGrJx9S-KUY-f8mjrX1Az",
+        "fileId": "1rHBgAvznKlHEGrJx9S-KUY-f8mjrX1Az",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1rHBgAvznKlHEGrJx9S-KUY-f8mjrX1Az&sz=w800",
+        "embed": "https://drive.google.com/file/d/1rHBgAvznKlHEGrJx9S-KUY-f8mjrX1Az/preview",
+        "local": "/student-files/2026/li-zhang-week-9--latent-space-5.png"
+      }
+    ]
   }
 ]
