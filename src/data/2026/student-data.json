@@ -3332,5 +3332,52 @@
         "local": "/student-files/2026/wendy-wang-week-8--unsupervised-3.png"
       }
     ]
+  },
+  {
+    "timestamp": "11/3/2026 9:56:32",
+    "studentEmail": "blix21@pratt.edu",
+    "studentId": "binjia-li",
+    "assignmentTitle": "Week 8: Unsupervised",
+    "projectDescription": "Same Color, Different Feelings turns my 100-color archive into an interactive game. Players choose how a color feels before seeing the archive’s label and the machine’s prediction. They can play alone or take turns with a friend, select two feelings, or write their own word.\nOne round repeats the same color with a different context. A second activity groups colors without emotional labels, using RGB values or lightness. Players can change the number of groups and explore new relationships.\nThe project asks how human experience differs from machine classification. Disagreement becomes a conversation rather than a wrong answer.",
+    "credit": "HTML, CSS, and custom JavaScript; no external machine-learning library. Fonts: DM Sans and Manrope via Google Fonts.OpenAI Codex assisted with archive curation, coding, interface design, software testing,Graf1x’s color psychology poster",
+    "uploadedFiles": "/student-files/2026/binjia-li-week-8--unsupervised-1.png, /student-files/2026/binjia-li-week-8--unsupervised-2.png, /student-files/2026/binjia-li-week-8--unsupervised-3.png, /student-files/2026/binjia-li-week-8--unsupervised-4.png",
+    "linkToWork": "https://techb-feeling-of-color.hyhyman33.chatgpt.site/assignment-8",
+    "linkToWorks": [
+      "https://techb-feeling-of-color.hyhyman33.chatgpt.site/assignment-8"
+    ],
+    "linkToWorkRaw": "https://techb-feeling-of-color.hyhyman33.chatgpt.site/assignment-8",
+    "certification": "Yes",
+    "weeklyResponse": "I learned that changing the labels or features changes how a machine organizes colors. People can also bring memories and context that the model cannot see. Can a game encourage people to question the machine’s answer instead of accepting it?",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1i02ntGu6IBDtLeTKY5ZtEpQPfYoVVSTo",
+        "fileId": "1i02ntGu6IBDtLeTKY5ZtEpQPfYoVVSTo",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1i02ntGu6IBDtLeTKY5ZtEpQPfYoVVSTo&sz=w800",
+        "embed": "https://drive.google.com/file/d/1i02ntGu6IBDtLeTKY5ZtEpQPfYoVVSTo/preview",
+        "local": "/student-files/2026/binjia-li-week-8--unsupervised-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1QqmRJAS-jhhki9hfPgOf0WyQ56T73gRl",
+        "fileId": "1QqmRJAS-jhhki9hfPgOf0WyQ56T73gRl",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1QqmRJAS-jhhki9hfPgOf0WyQ56T73gRl&sz=w800",
+        "embed": "https://drive.google.com/file/d/1QqmRJAS-jhhki9hfPgOf0WyQ56T73gRl/preview",
+        "local": "/student-files/2026/binjia-li-week-8--unsupervised-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=16K4xmGmJ27kJyRXkdBDH0EdLlrsYXpQ3",
+        "fileId": "16K4xmGmJ27kJyRXkdBDH0EdLlrsYXpQ3",
+        "thumbnail": "https://drive.google.com/thumbnail?id=16K4xmGmJ27kJyRXkdBDH0EdLlrsYXpQ3&sz=w800",
+        "embed": "https://drive.google.com/file/d/16K4xmGmJ27kJyRXkdBDH0EdLlrsYXpQ3/preview",
+        "local": "/student-files/2026/binjia-li-week-8--unsupervised-3.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1f2UGGebS7XeagzanFqxYwDEJmqFCSc3b",
+        "fileId": "1f2UGGebS7XeagzanFqxYwDEJmqFCSc3b",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1f2UGGebS7XeagzanFqxYwDEJmqFCSc3b&sz=w800",
+        "embed": "https://drive.google.com/file/d/1f2UGGebS7XeagzanFqxYwDEJmqFCSc3b/preview",
+        "local": "/student-files/2026/binjia-li-week-8--unsupervised-4.png"
+      }
+    ]
   }
 ]
