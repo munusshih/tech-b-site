@@ -3379,5 +3379,186 @@
         "local": "/student-files/2026/binjia-li-week-8--unsupervised-4.png"
       }
     ]
+  },
+  {
+    "timestamp": "11/3/2026 11:37:34",
+    "studentEmail": "blix21@pratt.edu",
+    "studentId": "binjia-li",
+    "assignmentTitle": "Week 9: Latent Space",
+    "projectDescription": "Feel in Color is an interactive game exploring how people and machines connect colors with feelings. Players read a feeling word, choose a color, and compare their choice with the machine’s answer. They can then teach the machine their own association.\nThe project builds on my archive of 100 color–feeling pairings. A nearest-neighbor model uses labeled color examples to make its selections. Adding an example can change its answer, but this does not mean it understands the feeling behind that choice.\nThis week, I simplified the game into three rounds, with solo and two-player modes. I redesigned the interface with a black background, playful colors, and shorter instructions. An exhibition poster presents the interaction and a documented model experiment.\nThe project asks: Does a machine learn feelings, or the labels we give them?",
+    "credit": "Graf1x, Color Psychology Emotion and Meaning Poster — reference for color associations.\nHues and Cues, The Op Games — inspiration for connecting words and colors.\nHTML, CSS, and JavaScript —OpenAI Codex  website and custom nearest-neighbor model.\nReportLab — PDF poster production.",
+    "uploadedFiles": "/student-files/2026/binjia-li-week-9--latent-space-1.png, /student-files/2026/binjia-li-week-9--latent-space-2.png, /student-files/2026/binjia-li-week-9--latent-space-3.png, /student-files/2026/binjia-li-week-9--latent-space-4.png, /student-files/2026/binjia-li-week-9--latent-space-5.png",
+    "linkToWork": "https://techb-feeling-of-color.hyhyman33.chatgpt.site/assignment-9",
+    "linkToWorks": [
+      "https://techb-feeling-of-color.hyhyman33.chatgpt.site/assignment-9"
+    ],
+    "linkToWorkRaw": "https://techb-feeling-of-color.hyhyman33.chatgpt.site/assignment-9",
+    "certification": "Yes",
+    "weeklyResponse": "I learned that simpler interactions can make the model’s behavior easier to understand. One new example can change its answer. But is it learning a feeling, or just repeating our labels?",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1eLNPC9f-eC9JjlVo2YYdGq26riL8sV2s",
+        "fileId": "1eLNPC9f-eC9JjlVo2YYdGq26riL8sV2s",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1eLNPC9f-eC9JjlVo2YYdGq26riL8sV2s&sz=w800",
+        "embed": "https://drive.google.com/file/d/1eLNPC9f-eC9JjlVo2YYdGq26riL8sV2s/preview",
+        "local": "/student-files/2026/binjia-li-week-9--latent-space-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1JlsG1OYUSDoNeYp0o7v6-VoNhvEtC3ER",
+        "fileId": "1JlsG1OYUSDoNeYp0o7v6-VoNhvEtC3ER",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1JlsG1OYUSDoNeYp0o7v6-VoNhvEtC3ER&sz=w800",
+        "embed": "https://drive.google.com/file/d/1JlsG1OYUSDoNeYp0o7v6-VoNhvEtC3ER/preview",
+        "local": "/student-files/2026/binjia-li-week-9--latent-space-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1mBgh2vh1Cepp6I6Oo0C_KwBUcDOvxa-E",
+        "fileId": "1mBgh2vh1Cepp6I6Oo0C_KwBUcDOvxa-E",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1mBgh2vh1Cepp6I6Oo0C_KwBUcDOvxa-E&sz=w800",
+        "embed": "https://drive.google.com/file/d/1mBgh2vh1Cepp6I6Oo0C_KwBUcDOvxa-E/preview",
+        "local": "/student-files/2026/binjia-li-week-9--latent-space-3.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1DIGmHZuhfljwaNCoJP5ldVGHy-sdkhn4",
+        "fileId": "1DIGmHZuhfljwaNCoJP5ldVGHy-sdkhn4",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1DIGmHZuhfljwaNCoJP5ldVGHy-sdkhn4&sz=w800",
+        "embed": "https://drive.google.com/file/d/1DIGmHZuhfljwaNCoJP5ldVGHy-sdkhn4/preview",
+        "local": "/student-files/2026/binjia-li-week-9--latent-space-4.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1dnj2l832sWAFl_hbAgNScSJUleRh7M0E",
+        "fileId": "1dnj2l832sWAFl_hbAgNScSJUleRh7M0E",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1dnj2l832sWAFl_hbAgNScSJUleRh7M0E&sz=w800",
+        "embed": "https://drive.google.com/file/d/1dnj2l832sWAFl_hbAgNScSJUleRh7M0E/preview",
+        "local": "/student-files/2026/binjia-li-week-9--latent-space-5.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "11/3/2026 13:05:58",
+    "studentEmail": "zwang75@pratt.edu",
+    "studentId": "wendy-wang",
+    "assignmentTitle": "Week 9: Latent Space",
+    "projectDescription": "This project explores how humans and machines understand the idea of “not full.” I collected everyday objects and organized them into five categories: Naturally Not Full, Incomplete, Used, Missing, and Intentional Not Full. I then explored how a machine could learn to classify these objects through visual patterns.\n\nWhat caught my attention was the disagreement between human judgments and machine predictions. Some objects could belong to multiple categories, even when the machine made a confident prediction. Through this interactive experiment, I question whether learning to recognize patterns is the same as understanding meaning.",
+    "credit": "Chat GPT, Codex",
+    "uploadedFiles": "/student-files/2026/wendy-wang-week-9--latent-space-1.png, /student-files/2026/wendy-wang-week-9--latent-space-2.png",
+    "linkToWork": "https://zwangwendy.github.io/TechB_NotFull/",
+    "linkToWorks": [
+      "https://zwangwendy.github.io/TechB_NotFull/"
+    ],
+    "linkToWorkRaw": "https://zwangwendy.github.io/TechB_NotFull/",
+    "certification": "Yes",
+    "weeklyResponse": "This week, I learned that machine learning depends heavily on the examples and labels we provide. A machine can recognize visual patterns and make predictions, but that does not mean it understands the context or meaning of an object. Through my “Not Full” project, I realized that even a confident prediction can be wrong, and sometimes human classifications are also subjective.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1Z-EwIEiO_NCYxeriL2RabBQii9AaEUy4",
+        "fileId": "1Z-EwIEiO_NCYxeriL2RabBQii9AaEUy4",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1Z-EwIEiO_NCYxeriL2RabBQii9AaEUy4&sz=w800",
+        "embed": "https://drive.google.com/file/d/1Z-EwIEiO_NCYxeriL2RabBQii9AaEUy4/preview",
+        "local": "/student-files/2026/wendy-wang-week-9--latent-space-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1A0CEuIJIDkcgzi41Ekr7H59IxfmjLuID",
+        "fileId": "1A0CEuIJIDkcgzi41Ekr7H59IxfmjLuID",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1A0CEuIJIDkcgzi41Ekr7H59IxfmjLuID&sz=w800",
+        "embed": "https://drive.google.com/file/d/1A0CEuIJIDkcgzi41Ekr7H59IxfmjLuID/preview",
+        "local": "/student-files/2026/wendy-wang-week-9--latent-space-2.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "11/3/2026 13:46:42",
+    "studentEmail": "ychen816@pratt.edu",
+    "studentId": "andrea-cheng",
+    "assignmentTitle": "Week 9: Latent Space",
+    "projectDescription": "Things That Look Like Other Things explores how unstable and subjective image classification can be. The project begins with an archive of humorous visual illusions that often fit several categories at once. Through an interactive website, users gradually reveal an image while a Teachable Machine model continuously reclassifies the visible information. By collecting each revealed fragment and prediction in a shared Evidence Archive, the project asks: When a label changes, does the image change—or does the available evidence change?",
+    "credit": "ChatGPT",
+    "uploadedFiles": "/student-files/2026/andrea-cheng-week-9--latent-space-1.png, /student-files/2026/andrea-cheng-week-9--latent-space-2.png, /student-files/2026/andrea-cheng-week-9--latent-space-3.png",
+    "linkToWork": "https://ychen816-ops.github.io/uncertain-archive-prototype-v1/?v=371696e7",
+    "linkToWorks": [
+      "https://ychen816-ops.github.io/uncertain-archive-prototype-v1/?v=371696e7"
+    ],
+    "linkToWorkRaw": "https://ychen816-ops.github.io/uncertain-archive-prototype-v1/?v=371696e7",
+    "certification": "Yes",
+    "weeklyResponse": "This week, I learned that machine classification is shaped by both the training archive and the visual evidence available at a particular moment. As an image is gradually revealed, the model may confidently move between different categories, showing that its reading is never completely fixed.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1sv-4fZTjLQb8mOYISptJa5El5UdE-U93",
+        "fileId": "1sv-4fZTjLQb8mOYISptJa5El5UdE-U93",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1sv-4fZTjLQb8mOYISptJa5El5UdE-U93&sz=w800",
+        "embed": "https://drive.google.com/file/d/1sv-4fZTjLQb8mOYISptJa5El5UdE-U93/preview",
+        "local": "/student-files/2026/andrea-cheng-week-9--latent-space-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1HUI-Ifl3gk3Vji7Ej1E-Y3RVoxJKf90N",
+        "fileId": "1HUI-Ifl3gk3Vji7Ej1E-Y3RVoxJKf90N",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1HUI-Ifl3gk3Vji7Ej1E-Y3RVoxJKf90N&sz=w800",
+        "embed": "https://drive.google.com/file/d/1HUI-Ifl3gk3Vji7Ej1E-Y3RVoxJKf90N/preview",
+        "local": "/student-files/2026/andrea-cheng-week-9--latent-space-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=18paHSO_dMgEjxGZa450Pzqd-tlXwiR1P",
+        "fileId": "18paHSO_dMgEjxGZa450Pzqd-tlXwiR1P",
+        "thumbnail": "https://drive.google.com/thumbnail?id=18paHSO_dMgEjxGZa450Pzqd-tlXwiR1P&sz=w800",
+        "embed": "https://drive.google.com/file/d/18paHSO_dMgEjxGZa450Pzqd-tlXwiR1P/preview",
+        "local": "/student-files/2026/andrea-cheng-week-9--latent-space-3.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "11/3/2026 20:57:15",
+    "studentEmail": "myang37@pratt.edu",
+    "studentId": "mingfu-yang",
+    "assignmentTitle": "Week 9: Latent Space",
+    "projectDescription": "An interactive ocean of floating stars exploring how humans and machines interpret the same images differently. Each star’s brightness reflects machine judgments, but even the dimmest ones remain worth discovering.",
+    "credit": "Chat GPT, Claude, Walt Whitman, “When I Heard the Learn’d Astronomer” (1865)",
+    "uploadedFiles": "/student-files/2026/mingfu-yang-week-9--latent-space-1.jpg, /student-files/2026/mingfu-yang-week-9--latent-space-2.png, /student-files/2026/mingfu-yang-week-9--latent-space-3.png, /student-files/2026/mingfu-yang-week-9--latent-space-4.png, /student-files/2026/mingfu-yang-week-9--latent-space-5.jpg",
+    "linkToWork": "https://ymf514.github.io/in-a-sea-of-stars/",
+    "linkToWorks": [
+      "https://ymf514.github.io/in-a-sea-of-stars/"
+    ],
+    "linkToWorkRaw": "https://ymf514.github.io/in-a-sea-of-stars/",
+    "certification": "Yes",
+    "weeklyResponse": "Is it really necessary to take categorization to the extreme?",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1HqdJzYWn28NDM5fGfYKI2OlA3RuFCuQw",
+        "fileId": "1HqdJzYWn28NDM5fGfYKI2OlA3RuFCuQw",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1HqdJzYWn28NDM5fGfYKI2OlA3RuFCuQw&sz=w800",
+        "embed": "https://drive.google.com/file/d/1HqdJzYWn28NDM5fGfYKI2OlA3RuFCuQw/preview",
+        "local": "/student-files/2026/mingfu-yang-week-9--latent-space-1.jpg"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1n8oygtvc9HG7aZrptNfHiTdfaTnsYsNG",
+        "fileId": "1n8oygtvc9HG7aZrptNfHiTdfaTnsYsNG",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1n8oygtvc9HG7aZrptNfHiTdfaTnsYsNG&sz=w800",
+        "embed": "https://drive.google.com/file/d/1n8oygtvc9HG7aZrptNfHiTdfaTnsYsNG/preview",
+        "local": "/student-files/2026/mingfu-yang-week-9--latent-space-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1IJvshjOrdKY9jhHiVaBMmqOgD3fptC7H",
+        "fileId": "1IJvshjOrdKY9jhHiVaBMmqOgD3fptC7H",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1IJvshjOrdKY9jhHiVaBMmqOgD3fptC7H&sz=w800",
+        "embed": "https://drive.google.com/file/d/1IJvshjOrdKY9jhHiVaBMmqOgD3fptC7H/preview",
+        "local": "/student-files/2026/mingfu-yang-week-9--latent-space-3.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1e1imRZQajFIFWEgt3Z68Af294z4V4oVl",
+        "fileId": "1e1imRZQajFIFWEgt3Z68Af294z4V4oVl",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1e1imRZQajFIFWEgt3Z68Af294z4V4oVl&sz=w800",
+        "embed": "https://drive.google.com/file/d/1e1imRZQajFIFWEgt3Z68Af294z4V4oVl/preview",
+        "local": "/student-files/2026/mingfu-yang-week-9--latent-space-4.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1oJGyvVHxZcWZdJGeq2i7USHte2bWIlsC",
+        "fileId": "1oJGyvVHxZcWZdJGeq2i7USHte2bWIlsC",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1oJGyvVHxZcWZdJGeq2i7USHte2bWIlsC&sz=w800",
+        "embed": "https://drive.google.com/file/d/1oJGyvVHxZcWZdJGeq2i7USHte2bWIlsC/preview",
+        "local": "/student-files/2026/mingfu-yang-week-9--latent-space-5.jpg"
+      }
+    ]
   }
 ]
