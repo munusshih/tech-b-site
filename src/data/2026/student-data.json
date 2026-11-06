@@ -3560,5 +3560,54 @@
         "local": "/student-files/2026/mingfu-yang-week-9--latent-space-5.jpg"
       }
     ]
+  },
+  {
+    "timestamp": "11/5/2026 16:56:35",
+    "studentEmail": "rdavi176@pratt.edu",
+    "studentId": "rebecca-davidson",
+    "assignmentTitle": "Week 9: Latent Space",
+    "projectDescription": "I developed an archive of found trash around New York City. I photographed 280 pieces of trash over the course of a few months while walking around the city. My archive takes the form of an interactive digital map of the city, tracking each photo to the exact location it was found. \n\nMy interface includes a quiz which allows users to compete with the ‘machine’ to guess which neighborhood each piece of trash belongs to. The ‘machine’ averages the results of a machine learning model, trained on ten neighborhoods and an object placement model, that interprets the subject matter of each image. \n\nWe can learn a lot about a neighborhood by what and how much trash they produce. The project challenges the capabilities of algorithmic pattern recognition to comprehend the nuances of neighborhood infrastructure, culture, and demographics.",
+    "credit": "Claude, Teachable Machine, MobileNet (Image Recognition)",
+    "uploadedFiles": "/student-files/2026/rebecca-davidson-week-9--latent-space-1.png",
+    "linkToWork": "https://rdavi176.github.io/New-York-State-of-Trash/",
+    "linkToWorks": [
+      "https://rdavi176.github.io/New-York-State-of-Trash/"
+    ],
+    "linkToWorkRaw": "https://rdavi176.github.io/New-York-State-of-Trash/",
+    "certification": "Yes",
+    "weeklyResponse": "Machine learning can be used to detect patterns but meaningful insights must be curated",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1WeoxLd7jk8Qg6a6kIXFYj8oEBQ6gXdJz",
+        "fileId": "1WeoxLd7jk8Qg6a6kIXFYj8oEBQ6gXdJz",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1WeoxLd7jk8Qg6a6kIXFYj8oEBQ6gXdJz&sz=w800",
+        "embed": "https://drive.google.com/file/d/1WeoxLd7jk8Qg6a6kIXFYj8oEBQ6gXdJz/preview",
+        "local": "/student-files/2026/rebecca-davidson-week-9--latent-space-1.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "11/5/2026 17:58:47",
+    "studentEmail": "rdavi176@pratt.edu",
+    "studentId": "rebecca-davidson",
+    "assignmentTitle": "Week 8: Unsupervised",
+    "projectDescription": "I developed a map to visualize my archive and organize the images geographically. Instead of simply organizing and distinguishing what the item is in each photo, I decided location would be an interesting framework for training the model. Using Teachable Machine, I trained the model on each neighborhood and then tried to have it guess the location of images I hadn't trained it on, but it was very unsuccessful. When it was successful, it relied on lighting/time of day, rather than item or even environment like I would have hoped.",
+    "credit": "Claude, Teachable Machina",
+    "uploadedFiles": "/student-files/2026/rebecca-davidson-week-8--unsupervised-1.png",
+    "linkToWork": "",
+    "linkToWorkRaw": "",
+    "certification": "Yes",
+    "weeklyResponse": "I need to be even more intentional with the training model if I want it to recognize specific patterns. I also need much more data.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1cI3kyX8lw-Fvo2JFXHqLHI5-PDs2MAoP",
+        "fileId": "1cI3kyX8lw-Fvo2JFXHqLHI5-PDs2MAoP",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1cI3kyX8lw-Fvo2JFXHqLHI5-PDs2MAoP&sz=w800",
+        "embed": "https://drive.google.com/file/d/1cI3kyX8lw-Fvo2JFXHqLHI5-PDs2MAoP/preview",
+        "local": "/student-files/2026/rebecca-davidson-week-8--unsupervised-1.png"
+      }
+    ]
   }
 ]
