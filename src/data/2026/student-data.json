@@ -3609,5 +3609,31 @@
         "local": "/student-files/2026/rebecca-davidson-week-8--unsupervised-1.png"
       }
     ]
+  },
+  {
+    "timestamp": "11/6/2026 16:22:32",
+    "studentEmail": "mbalde@pratt.edu",
+    "studentId": "lulah-balde",
+    "assignmentTitle": "Week 9: Latent Space",
+    "projectDescription": "Your Piles, Its Piles is an interactive website built from my Uncertain Archive, 45 photos of bags I’ve seen around New York. Visitors drag the photos into piles and choose why each pile belongs together, like same material, same color or same feeling. Then a deep-learning model sorts the same photos on its own, and visitors watch them move into the machine’s piles. The machine reads my bags as mailbags, Crock Pots and holsters, because it learned to see from millions of internet photos, not from bags. Visitors can correct it, marking each guess right or wrong and saying what the bag actually is.",
+    "credit": "claude",
+    "uploadedFiles": "/student-files/2026/lulah-balde-week-9--latent-space-1.png",
+    "linkToWork": "https://peoplesgarments.github.io/your-piles-its-piles/",
+    "linkToWorks": [
+      "https://peoplesgarments.github.io/your-piles-its-piles/"
+    ],
+    "linkToWorkRaw": "https://peoplesgarments.github.io/your-piles-its-piles/",
+    "certification": "Yes",
+    "weeklyResponse": "I learned how difficult and tedious machine-learning is, in simple words it can behave very stupidly without the intelligence of our efforts behind its developments. I feel as though my system feels like a failure as my intelligence system kept focusing on everything but the particular focus of my prompt and main point of analysis. ",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=12Fv6-n9dhkQiRvYnoE-pZG4ZAjU2GPD-",
+        "fileId": "12Fv6-n9dhkQiRvYnoE-pZG4ZAjU2GPD-",
+        "thumbnail": "https://drive.google.com/thumbnail?id=12Fv6-n9dhkQiRvYnoE-pZG4ZAjU2GPD-&sz=w800",
+        "embed": "https://drive.google.com/file/d/12Fv6-n9dhkQiRvYnoE-pZG4ZAjU2GPD-/preview",
+        "local": "/student-files/2026/lulah-balde-week-9--latent-space-1.png"
+      }
+    ]
   }
 ]
