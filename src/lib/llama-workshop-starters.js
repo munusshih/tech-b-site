@@ -1,6 +1,8 @@
 export const llamaSetup = String.raw`// Put this at the top of sketch.js. Load it with <script type="module">.
-const base = "http://127.0.0.1:9931/v1"; // Llama App
-// For Ollama, change the port above to 11434.
+const runtime = "llama"; // Change to "ollama" for Ollama.
+// Copy the API base address from your app. Any local port is fine.
+const base = "http://127.0.0.1:9931/v1";
+// Ollama's default base is "http://127.0.0.1:11434/v1".
 const catalog = await fetch(base + "/models");
 if (!catalog.ok) throw new Error("Can’t read the local models.");
 const { data: models } = await catalog.json();
@@ -12,7 +14,7 @@ if (!model) throw new Error("Download a model in the selected app first.");
 const parameters = selected.meta?.n_params ?? Number(model.match(/(\d+(?:\.\d+)?)b/i)?.[1] ?? 0) * 1e9;
 const large = !parameters || parameters >= 8e9;
 // Skip optional reasoning for these interactive sketches.
-const localSettings = new URL(base).port === "9931" ? { thinking_budget_tokens: 0 } : {};
+const localSettings = runtime === "llama" ? { thinking_budget_tokens: 0 } : {};
 
 async function ask(messages, settings = {}, signal) {
   const { max_tokens = large ? 512 : 192, ...options } = settings;

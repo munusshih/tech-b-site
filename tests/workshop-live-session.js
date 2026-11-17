@@ -1,8 +1,18 @@
-/* global process, document, console */
+/* global process, document, console, Event */
 import assert from "node:assert/strict";
 
 // Fail if a requested model is absent: page.select alone can silently select none.
 export async function connectModel(page) {
+  if (process.env.WORKSHOP_ENDPOINT) {
+    await page.$eval(
+      "#llama-runtime-address",
+      (el, address) => {
+        el.value = address;
+        el.dispatchEvent(new Event("input", { bubbles: true }));
+      },
+      process.env.WORKSHOP_ENDPOINT,
+    );
+  }
   await page.click("#llama-find");
   await page.waitForFunction(
     () => !document.querySelector("#llama-model").disabled,

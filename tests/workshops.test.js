@@ -1,4 +1,4 @@
-/* global process, fetch, document, Event, DataTransfer, File, MouseEvent, window */
+/* global process, fetch, document, Event, DataTransfer, File, MouseEvent, window, URL */
 import assert from "node:assert/strict";
 import { mkdtemp, readdir, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -7,6 +7,7 @@ import { after, before, test } from "node:test";
 import { spawn } from "node:child_process";
 import { setTimeout as delay } from "node:timers/promises";
 import puppeteer from "puppeteer";
+import { normalizeLocalAddress } from "../src/scripts/llama-endpoint.js";
 import { grammarHtml, markovHtml } from "../src/scripts/generator-export.js";
 import {
   llamaSetup,
@@ -39,8 +40,8 @@ after(async () => {
   await browser?.close();
   if (server) process.kill(-server.pid, "SIGTERM");
 });
-async function pageAt(workshop) {
-  const page = await browser.newPage();
+async function pageAt(workshop, context = browser) {
+  const page = await context.newPage();
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto(`${base}/week-12/${workshop}/`, {
     waitUntil: "domcontentloaded",
@@ -86,10 +87,15 @@ async function mockModel(
     { id: "test-model", meta: { n_params: 1.7e9 } },
     { id: "other-model" },
   ],
+  options = {},
 ) {
   await page.setRequestInterception(true);
   page.on("request", async (request) => {
-    if (!/^http:\/\/127\.0\.0\.1:(9931|11434)/.test(request.url()))
+    const url = new URL(request.url());
+    if (
+      !["127.0.0.1", "localhost", "[::1]"].includes(url.hostname) ||
+      !["/v1/models", "/v1/chat/completions"].includes(url.pathname)
+    )
       return request.continue();
     const headers = {
       "Access-Control-Allow-Origin": "*",
@@ -98,6 +104,14 @@ async function mockModel(
     };
     if (request.method() === "OPTIONS")
       return request.respond({ status: 204, headers });
+    options.onRequest?.(request);
+    if (options.allowedPorts && !options.allowedPorts.includes(url.port))
+      return request.respond({
+        status: 503,
+        headers,
+        contentType: "application/json",
+        body: JSON.stringify({ error: { message: "No server here" } }),
+      });
     if (request.url().endsWith("/models"))
       return request.respond({
         headers,
@@ -108,7 +122,7 @@ async function mockModel(
       });
     const body = JSON.parse(request.postData());
     try {
-      const result = await handler(body);
+      const result = await handler(body, request);
       await request.respond({
         headers,
         contentType: "application/json",
@@ -698,7 +712,10 @@ test("Optional controls: chat sampling, multiline input, runtime switch and Olla
   assert.equal(requests.length, count);
   await page.select("#llama-runtime", "ollama");
   assert.equal(await disabled(page, "#llama-send"), true);
-  assert.match(await text(page, "#llama-runtime-address"), /11434/);
+  assert.match(
+    await page.$eval("#llama-runtime-address", (el) => el.value),
+    /11434/,
+  );
   await connect(page);
   await page.click('[data-bird-mode="llama"]');
   await page.click("#bird-ask");
@@ -834,54 +851,256 @@ test("Reasoning models: chat, speakers, coloring and tools receive final output 
 
 test("Copyable starters run with small, large and unrecognized model catalogs", async () => {
   const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
-  for (const parameters of [1.7e9, 20e9, undefined]) {
-    for (const starter of llamaStarters) {
-      const requests = [];
-      const localFetch = async (url, options) => {
-        if (url.endsWith("/models"))
-          return {
-            ok: true,
-            json: async () => ({
-              data: [
-                {
-                  id: "student-selected-model",
-                  meta: { n_params: parameters },
-                },
-              ],
-            }),
-          };
-        const body = JSON.parse(options.body);
-        requests.push(body);
-        const message = body.tools
-          ? {
-              tool_calls: [
-                {
-                  function: {
-                    name: "move_bird",
-                    arguments: '{"action":"flap"}',
+  for (const runtime of ["llama", "ollama"]) {
+    for (const parameters of [1.7e9, 20e9, undefined]) {
+      for (const starter of llamaStarters) {
+        const requests = [];
+        const localFetch = async (url, options) => {
+          assert.ok(url.startsWith("http://localhost:18765/v1/"));
+          if (url.endsWith("/models"))
+            return {
+              ok: true,
+              json: async () => ({
+                data: [
+                  {
+                    id: "student-selected-model",
+                    meta: { n_params: parameters },
                   },
-                },
-              ],
-            }
-          : {
-              content: body.response_format
-                ? '{"region":"area-1","color":"#123456"}'
-                : "A complete reply.",
+                ],
+              }),
             };
-        return { ok: true, json: async () => ({ choices: [{ message }] }) };
-      };
-      await new AsyncFunction(
-        "fetch",
-        "console",
-        llamaSetup + "\n" + starter.code,
-      )(localFetch, { log() {} });
-      assert.ok(requests.length > 0, starter.title);
-      for (const request of requests) {
-        assert.equal(request.model, "student-selected-model");
-        assert.ok(request.max_tokens > request.thinking_budget_tokens);
-        assert.equal(request.thinking_budget_tokens, 0);
+          const body = JSON.parse(options.body);
+          requests.push(body);
+          const message = body.tools
+            ? {
+                tool_calls: [
+                  {
+                    function: {
+                      name: "move_bird",
+                      arguments: '{"action":"flap"}',
+                    },
+                  },
+                ],
+              }
+            : {
+                content: body.response_format
+                  ? '{"region":"area-1","color":"#123456"}'
+                  : "A complete reply.",
+              };
+          return { ok: true, json: async () => ({ choices: [{ message }] }) };
+        };
+        await new AsyncFunction(
+          "fetch",
+          "console",
+          llamaSetup
+            .replace(
+              'const runtime = "llama";',
+              `const runtime = "${runtime}";`,
+            )
+            .replace("http://127.0.0.1:9931/v1", "http://localhost:18765/v1") +
+            "\n" +
+            starter.code,
+        )(localFetch, { log() {} });
+        assert.ok(requests.length > 0, starter.title);
+        for (const request of requests) {
+          assert.equal(request.model, "student-selected-model");
+          assert.ok(request.max_tokens > 0);
+          assert.equal(
+            request.thinking_budget_tokens,
+            runtime === "llama" ? 0 : undefined,
+          );
+        }
       }
     }
+  }
+});
+
+test("Local addresses accept alternate loopback ports and reject unrelated URLs", () => {
+  assert.equal(
+    normalizeLocalAddress(" localhost:18765/v1/ "),
+    "http://localhost:18765",
+  );
+  assert.equal(
+    normalizeLocalAddress("http://127.0.0.1:8081/"),
+    "http://127.0.0.1:8081",
+  );
+  assert.equal(
+    normalizeLocalAddress("http://[::1]:8080/v1"),
+    "http://[::1]:8080",
+  );
+  for (const address of [
+    "",
+    "https://example.com:8080",
+    "ftp://localhost:8080",
+    "http://user:pass@localhost:8080",
+    "http://localhost:99999",
+    "http://localhost:8080/v1/models",
+    "http://localhost:8080?token=x",
+  ])
+    assert.throws(() => normalizeLocalAddress(address));
+});
+
+test("Custom ports route every exercise, remember each app and invalidate stale replies", async () => {
+  const context = await browser.createBrowserContext();
+  try {
+    const page = await pageAt("llama", context);
+    const requests = [];
+    let pending;
+    await mockModel(
+      page,
+      async (body, request) => {
+        requests.push({ body, url: request.url() });
+        if (pending) return pending;
+        if (body.tools)
+          return {
+            choices: [
+              {
+                message: {
+                  tool_calls: [
+                    {
+                      function: {
+                        name: "move_bird",
+                        arguments: '{"action":"flap"}',
+                      },
+                    },
+                  ],
+                },
+                finish_reason: "tool_calls",
+              },
+            ],
+          };
+        if (body.response_format)
+          return reply(
+            JSON.stringify({
+              region:
+                body.response_format.json_schema.schema.properties.region
+                  .enum[0],
+              color: "#123456",
+            }),
+          );
+        return reply("A complete reply.");
+      },
+      undefined,
+      { allowedPorts: ["18765", "18766"] },
+    );
+    await set(page, "#llama-runtime-address", "localhost:18765/v1/");
+    await connect(page);
+    assert.equal(
+      await page.$eval("#llama-runtime-address", (el) => el.value),
+      "http://localhost:18765",
+    );
+    await set(page, "#llama-user", "Hello");
+    await submit(page, "#llama-chat-form");
+    await page.waitForFunction(
+      () => document.querySelectorAll("#llama-chat-log li").length === 2,
+    );
+    await page.click("#stage-toggle");
+    await page.waitForFunction(
+      () => document.querySelectorAll("#stage-dialogue li").length > 0,
+    );
+    await page.click("#stage-toggle");
+    await page.click("#canvas-toggle");
+    await page.waitForFunction(
+      () =>
+        !document.querySelector("#canvas-count").textContent.startsWith("0 /"),
+    );
+    await page.click("#canvas-toggle");
+    await page.click('[data-bird-mode="llama"]');
+    await page.click("#bird-ask");
+    await page.waitForFunction(
+      () => document.querySelectorAll("#bird-flight-log li").length > 0,
+    );
+    await page.click("#bird-ask");
+    assert.equal(requests.length, 4);
+    assert.ok(
+      requests.every(
+        (r) =>
+          r.url.startsWith("http://localhost:18765/v1/") &&
+          r.body.thinking_budget_tokens === 0,
+      ),
+    );
+    await page.select("#llama-runtime", "ollama");
+    await set(page, "#llama-runtime-address", "http://127.0.0.1:18766");
+    await connect(page);
+    await page.reload({ waitUntil: "domcontentloaded" });
+    await page.waitForSelector("#llama-runtime-address");
+    assert.equal(
+      await page.$eval("#llama-runtime-address", (el) => el.value),
+      "http://localhost:18765",
+    );
+    await page.select("#llama-runtime", "ollama");
+    assert.equal(
+      await page.$eval("#llama-runtime-address", (el) => el.value),
+      "http://127.0.0.1:18766",
+    );
+    await connect(page);
+    await set(page, "#llama-user", "Hello again");
+    await submit(page, "#llama-chat-form");
+    await page.waitForFunction(
+      () => document.querySelectorAll("#llama-chat-log li").length === 2,
+    );
+    assert.ok(requests.at(-1).url.startsWith("http://127.0.0.1:18766/"));
+    assert.equal(requests.at(-1).body.thinking_budget_tokens, undefined);
+    let resolve;
+    pending = new Promise((r) => (resolve = r));
+    await set(page, "#llama-user", "Wait");
+    await submit(page, "#llama-chat-form");
+    await set(page, "#llama-runtime-address", "http://localhost:18767");
+    resolve(reply("Stale response"));
+    await delay(100);
+    assert.equal(await disabled(page, "#llama-model"), true);
+    assert.equal(
+      await page.$$eval("#llama-chat-log li", (els) => els.length),
+      0,
+    );
+  } finally {
+    await context.close();
+  }
+});
+
+test("Common-port search finds a compatible server after invalid input and unavailable ports", async () => {
+  const context = await browser.createBrowserContext();
+  try {
+    const page = await pageAt("llama", context);
+    const attempted = [];
+    await mockModel(
+      page,
+      () => reply("Connected on an alternate port."),
+      undefined,
+      {
+        allowedPorts: ["8080"],
+        onRequest: (request) => attempted.push(request.url()),
+      },
+    );
+    await set(page, "#llama-runtime-address", "https://example.com");
+    await page.click("#llama-find");
+    assert.equal(
+      await page.$eval("#llama-runtime-address", (el) =>
+        el.getAttribute("aria-invalid"),
+      ),
+      "true",
+    );
+    assert.equal(attempted.length, 0);
+    await page.click("#llama-search");
+    await page.waitForFunction(
+      () => !document.querySelector("#llama-model").disabled,
+    );
+    assert.equal(
+      await page.$eval("#llama-runtime-address", (el) => el.value),
+      "http://127.0.0.1:8080",
+    );
+    assert.match(await text(page, "#llama-connection-status"), /8080/);
+    assert.ok(attempted.some((url) => url.includes(":9931/")));
+    await set(page, "#llama-user", "Hello");
+    await submit(page, "#llama-chat-form");
+    await page.waitForFunction(
+      () => document.querySelectorAll("#llama-chat-log li").length === 2,
+    );
+    assert.ok(
+      attempted.at(-1).startsWith("http://127.0.0.1:8080/v1/chat/completions"),
+    );
+  } finally {
+    await context.close();
   }
 });
 

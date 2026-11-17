@@ -1,4 +1,8 @@
-/* global AbortSignal, document, fetch */
+/* global AbortSignal, document, fetch, localStorage */
+import {
+  commonLocalAddresses,
+  normalizeLocalAddress,
+} from "./llama-endpoint.js";
 import { initBirdGame } from "./llama-bird-game.js";
 import { initRoleChat } from "./llama-role-chat.js";
 import { initColoringGame } from "./llama-coloring-game.js";
@@ -11,10 +15,23 @@ const runtimes = {
 const runtimePicker = document.querySelector("#llama-runtime");
 const runtimeAddress = document.querySelector("#llama-runtime-address");
 const findButton = document.querySelector("#llama-find");
+const searchButton = document.querySelector("#llama-search");
 const connectionStatus = document.querySelector("#llama-connection-status");
 const modelPicker = document.querySelector("#llama-model");
 const modelDetails = document.querySelector("#llama-model-details");
 let installedModels = new Map();
+const addresses = new Map();
+for (const [key, runtime] of Object.entries(runtimes)) {
+  let address = runtime.endpoint;
+  try {
+    const saved = localStorage.getItem(`workshop.local-address.${key}`);
+    if (saved) address = normalizeLocalAddress(saved);
+  } catch {
+    /* Storage can be unavailable or contain an old invalid address. */
+  }
+  addresses.set(key, address);
+}
+runtimeAddress.value = addresses.get(runtimePicker.value);
 
 async function readLocal(runtime, path, options) {
   const response = await fetch(runtime.endpoint + path, options);
@@ -87,43 +104,97 @@ function setModels(models, previous, fallbackLabel) {
   updateSelectedModel();
 }
 
-runtimePicker.addEventListener("change", () => {
-  const runtime = runtimes[runtimePicker.value];
-  runtimeAddress.textContent = runtime.endpoint;
-  connectionStatus.textContent = `Open ${runtime.name}, then find models.`;
+function resetConnection(message) {
+  connectionStatus.textContent = message;
+  runtimeAddress.removeAttribute("aria-invalid");
   setModels([], "", "Connect to load your models");
+}
+
+runtimePicker.addEventListener("change", () => {
+  runtimeAddress.value = addresses.get(runtimePicker.value);
+  resetConnection(
+    `Open ${runtimes[runtimePicker.value].name}, then find models.`,
+  );
 });
 
-findButton.addEventListener("click", async () => {
-  const runtime = runtimes[runtimePicker.value];
+runtimeAddress.addEventListener("input", () => {
+  addresses.set(runtimePicker.value, runtimeAddress.value);
+  resetConnection("Address changed. Find models to connect.");
+});
+
+async function findModels(searchCommonPorts) {
+  const key = runtimePicker.value;
+  const app = runtimes[key];
   const previous = modelPicker.value;
-  findButton.disabled = true;
-  runtimePicker.disabled = true;
-  connectionStatus.textContent = `Looking for ${runtime.name}…`;
+  let endpoints;
+  try {
+    endpoints = searchCommonPorts
+      ? commonLocalAddresses(key, runtimeAddress.value)
+      : [normalizeLocalAddress(runtimeAddress.value)];
+  } catch (error) {
+    resetConnection(error.message);
+    runtimeAddress.setAttribute("aria-invalid", "true");
+    return;
+  }
+  for (const control of [
+    findButton,
+    searchButton,
+    runtimePicker,
+    runtimeAddress,
+  ])
+    control.disabled = true;
   setModels([], "", "Checking for models…");
 
   try {
-    const data = await readLocal(runtime, "/v1/models", {
-      signal: AbortSignal.timeout(7000),
-    });
-    if (!Array.isArray(data.data))
-      throw new Error(`${runtime.name} didn’t return a model list.`);
-    const models = data.data
-      .filter((model) => typeof model?.id === "string" && model.id)
-      .map((model) => ({ ...model, name: model.id, runtime }));
-    setModels(models, previous, "No local models found");
-    const count = installedModels.size;
-    connectionStatus.textContent = count
-      ? `Found ${count} local ${count === 1 ? "model" : "models"}.`
-      : `${runtime.name} is running. Download a local model in the app, then try again.`;
+    let failure;
+    for (const endpoint of endpoints) {
+      const runtime = { ...app, endpoint };
+      connectionStatus.textContent = `Looking for ${app.name} at ${endpoint}…`;
+      try {
+        const data = await readLocal(runtime, "/v1/models", {
+          signal: AbortSignal.timeout(searchCommonPorts ? 2000 : 7000),
+        });
+        if (!Array.isArray(data.data))
+          throw new Error(`${app.name} didn’t return a model list.`);
+        const models = data.data
+          .filter((model) => typeof model?.id === "string" && model.id)
+          .map((model) => ({ ...model, name: model.id, runtime }));
+        runtimeAddress.value = endpoint;
+        runtimeAddress.removeAttribute("aria-invalid");
+        addresses.set(key, endpoint);
+        try {
+          localStorage.setItem(`workshop.local-address.${key}`, endpoint);
+        } catch {
+          /* Remembering an address is optional. */
+        }
+        setModels(models, previous, "No local models found");
+        const count = installedModels.size;
+        connectionStatus.textContent = count
+          ? `Found ${count} local ${count === 1 ? "model" : "models"} at ${endpoint}.`
+          : `${app.name} is running at ${endpoint}. Download a local model in the app, then try again.`;
+        return;
+      } catch (error) {
+        failure = error;
+      }
+    }
+    throw failure;
   } catch (error) {
     setModels([], "", "Connection unavailable");
-    connectionStatus.textContent =
-      error.name === "TypeError" || error.name === "TimeoutError"
-        ? `Couldn’t reach ${runtime.name}. Check that the app is open and see Connection help.`
+    connectionStatus.textContent = searchCommonPorts
+      ? `No model server found at ${endpoints.join(", ")}. Copy the server address from ${app.name} and try Find models. See Connection help.`
+      : error.name === "TypeError" || error.name === "TimeoutError"
+        ? `Couldn’t reach ${app.name} at ${endpoints[0]}. Check the address or try common ports. See Connection help.`
         : `${error.message} See Connection help.`;
   } finally {
-    findButton.disabled = false;
-    runtimePicker.disabled = false;
+    for (const control of [
+      findButton,
+      searchButton,
+      runtimePicker,
+      runtimeAddress,
+    ])
+      control.disabled = false;
   }
-});
+}
+
+findButton.addEventListener("click", () => findModels(false));
+searchButton.addEventListener("click", () => findModels(true));

@@ -372,14 +372,28 @@ const stagePresets = [
             <option value="ollama">Ollama</option>
           </select>
         </label>
-        <p>
-          Local address <code id="llama-runtime-address"
-            >http://127.0.0.1:9931</code
-          >
+        <label class="llama-field">
+          Local server address
+          <input
+            id="llama-runtime-address"
+            type="text"
+            inputmode="url"
+            value="http://127.0.0.1:9931"
+            spellcheck="false"
+            autocomplete="off"
+            aria-describedby="llama-address-help"
+          />
+        </label>
+        <p id="llama-address-help">
+          Use the address shown in your app’s server settings. A different port
+          is fine; an ending of <code>/v1</code> is also accepted.
         </p>
         <div class="llama-toolbar">
           <button id="llama-find" type="button" class="button"
             >Find models</button
+          >
+          <button id="llama-search" type="button" class="llama-example"
+            >Try common ports</button
           >
           <p id="llama-connection-status" role="status">Waiting to connect.</p>
         </div>
@@ -399,11 +413,17 @@ const stagePresets = [
           aria-hidden="true"></span></summary
       >
       <p>
-        Keep your app running. If your browser asks to allow local network
-        access, choose Allow, because this page needs it to reach the app. If
-        you use Ollama on the published class site, add the site’s exact address
-        to Ollama’s <code>OLLAMA_ORIGINS</code> setting and restart Ollama. You can
-        also avoid this by opening a local preview from <code>127.0.0.1</code>. <a
+        Try common ports checks the entered address, then ports 9931 and 8080
+        for Llama App, or 11434 for Ollama. It cannot discover every possible
+        port. For another port, copy the address from your app’s server settings
+        and choose Find models. A successful address is remembered for each app
+        in this browser. Keep your app running. If your browser asks to allow
+        local network access, choose Allow, because this page needs it to reach
+        the app. If you use Ollama on the published class site, add the site’s
+        exact address to Ollama’s <code>OLLAMA_ORIGINS</code> setting and restart
+        Ollama. You can also avoid this by opening a local preview from <code
+          >127.0.0.1</code
+        >. <a
           href="https://docs.ollama.com/faq#how-can-i-allow-additional-web-origins-to-access-ollama"
           >Ollama browser access</a
         >
