@@ -4,8 +4,9 @@ import GeneratorExport from "@/components/GeneratorExport.astro";
 import WeekPost from "@/layouts/WeekPost.astro";
 import { ACTIVE_YEAR } from "@/config";
 import { markovSources } from "@/lib/markov-sources";
+import markovNames from "@/assets/workshop-markov-names.jpg";
 
-const pageLinks = [{ href: "/week-12/", label: "← Back to Week 12" }];
+import { workshopPageLinks as pageLinks } from "@/lib/workshop-navigation";
 ---
 
 <WeekPost
@@ -13,6 +14,8 @@ const pageLinks = [{ href: "/week-12/", label: "← Back to Week 12" }];
   description="Train a Markov chain on your own text, explore its predictions, and generate a draft."
   week={12}
   year={ACTIVE_YEAR}
+  heroImage={markovNames}
+  heroImageAlt="Meet ‘Spactrumputer’: a name assembled from the neighbors of other letters. Image from Daniel Shiffman’s [Markov Chain Name Generator](https://thecodingtrain.com/challenges/42-markov-chain-name-generator), The Coding Train. The same idea lets us remix words instead of names."
   contentClass="markov-content"
   pageLinks={pageLinks}
 >

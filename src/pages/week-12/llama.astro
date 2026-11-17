@@ -8,8 +8,9 @@ import { ACTIVE_YEAR } from "@/config";
 import llamaDesktop from "@/assets/llama-app-onboarding.png";
 import llamaContext from "@/assets/llama-app-context.png";
 import qwenSizes from "@/assets/qwen25-model-sizes.jpeg";
+import localModels from "@/assets/workshop-local-models.webp";
 
-const pageLinks = [{ href: "/week-12/", label: "← Back to Week 12" }];
+import { workshopPageLinks as pageLinks } from "@/lib/workshop-navigation";
 const personas = [
   {
     name: "Noir detective",
@@ -168,6 +169,8 @@ const stagePresets = [
   description="Connect your browser to a model running on your own computer, then inspect what you send and what comes back."
   week={12}
   year={ACTIVE_YEAR}
+  heroImage={localModels}
+  heroImageAlt="A language model moves into the menu bar. Promotional screenshot from [Llama App](https://llama.app/), showing installed models and a localhost address. The models pictured are examples from the app’s website; we’ll use Qwen2.5 1.5B for this workshop."
   contentClass="llama-content"
   pageLinks={pageLinks}
 >

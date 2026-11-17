@@ -4,8 +4,9 @@ import GeneratorExport from "@/components/GeneratorExport.astro";
 import WeekPost from "@/layouts/WeekPost.astro";
 import { ACTIVE_YEAR } from "@/config";
 import { grammarPresets } from "@/lib/grammar-presets.js";
+import grammarHaiku from "@/assets/workshop-grammar-haiku.png";
 
-const pageLinks = [{ href: "/week-12/", label: "← Back to Week 12" }];
+import { workshopPageLinks as pageLinks } from "@/lib/workshop-navigation";
 const firstPreset = grammarPresets[0];
 ---
 
@@ -14,6 +15,8 @@ const firstPreset = grammarPresets[0];
   description="Build sentence templates, edit grammar rules, and generate variations in a visual editor."
   week={12}
   year={ACTIVE_YEAR}
+  heroImage={grammarHaiku}
+  heroImageAlt="A tiny poetry machine, with rules behind the moonlight. Screenshot of the [HaikuGrammar example](https://rednoise.org/rita/#examples) from the RiTa project’s documentation. A grammar gives the poem a structure; choices inside the rules keep it changing."
   contentClass="grammar-content"
   pageLinks={pageLinks}
 >

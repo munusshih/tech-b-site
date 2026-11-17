@@ -224,7 +224,14 @@ const pageTitle = pageLinks ? title : `Week ${week}: ${title}`;
             <nav class="week-toc" aria-label="Week resources">
               <ol>
                 {pageLinks.map(({ href, label }) => (
-                  <li><a href={href}>{label}</a></li>
+                  <li>
+                    <a
+                      href={href}
+                      aria-current={Astro.url.pathname.replace(/\/$/, "") === href.replace(/\/$/, "") ? "page" : undefined}
+                    >
+                      {Astro.url.pathname.replace(/\/$/, "") === href.replace(/\/$/, "") ? <strong>{label}</strong> : label}
+                    </a>
+                  </li>
                 ))}
               </ol>
             </nav>
