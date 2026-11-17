@@ -1,0 +1,49 @@
+---
+interface Props {
+  id: string;
+  number: number;
+  title: string;
+  time: string;
+}
+
+const { id, number, title, time } = Astro.props;
+---
+
+<section class="workshop-step" aria-labelledby={id}>
+  <h3 id={id}>
+    <span class="step-number">{number}</span>
+    {title}
+    <small class="workshop-time">{time}</small>
+  </h3>
+  <slot />
+</section>
+
+<style>
+  .workshop-step {
+    margin-top: clamp(1.85rem, 4vw, 3.25rem);
+    border-top: 1px solid var(--workshop-line);
+    padding-top: 1.25rem;
+  }
+
+  .workshop-step h3 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.35rem 0.65rem;
+    font-weight: 700;
+    font-size: clamp(1.35rem, 2.5vw, 1.8rem);
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+  }
+
+  .step-number {
+    display: inline-grid;
+    place-items: center;
+    border: 1px solid var(--workshop-line);
+    background: var(--workshop-tint);
+    min-width: 1.7rem;
+    min-height: 1.7rem;
+    color: var(--workshop-accent);
+    font-size: 0.85rem;
+  }
+</style>

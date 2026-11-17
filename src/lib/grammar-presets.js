@@ -1,0 +1,62 @@
+export const grammarPresets = [
+  {
+    label: "Tiny dispatch",
+    icon: "✦",
+    pattern: "NP + VP",
+    start: "$NP $VP.",
+    rules: {
+      NP: ["A fox", "The moon", "My neighbor"],
+      VP: ["sneezes", "vanishes", "waits"],
+    },
+  },
+  {
+    label: "Who follows whom?",
+    icon: "↔",
+    pattern: "NP + V + NP",
+    start: "$NP.capitalize $V $NP.",
+    rules: {
+      NP: ["$DET $ADJ $N"],
+      DET: ["the", "a"],
+      ADJ: ["quiet", "nosy", "sleepy"],
+      N: ["rabbit", "fox", "crow"],
+      V: ["follows", "watches", "startles"],
+    },
+  },
+  {
+    label: "Three-line poem",
+    icon: "≋",
+    pattern: "$IMAGE $MOVE $TURN",
+    start: "$IMAGE\n$MOVE\n$TURN",
+    rules: {
+      IMAGE: ["A $ADJ $N $PP", "Here is a $ADJ $N"],
+      ADJ: ["blue", "bright", "silent"],
+      N: ["boat", "bell", "door"],
+      PP: ["under the river", "beyond the moon", "beside the station"],
+      MOVE: ["it drifts", "it turns", "it never answers"],
+      TURN: [
+        "who will find it?",
+        "what sound would it make?",
+        "I leave the light on.",
+      ],
+    },
+  },
+  {
+    label: "Love letter",
+    icon: "✉",
+    pattern: "$GREETING … $SIGNOFF",
+    start: "$GREETING\n\n$MEMORY $WISH\n\n$SIGNOFF",
+    rules: {
+      GREETING: ["Dear $NAME,", "To my $NAME,"],
+      NAME: ["beloved", "favorite person", "old friend"],
+      MEMORY: ["I still remember $NP $PP.", "I keep thinking about $NP $PP."],
+      NP: ["the $ADJ $N"],
+      ADJ: ["quiet", "last", "unexpected"],
+      N: ["morning", "conversation", "walk"],
+      PP: ["$P the library", "$P the river", "$P the station"],
+      P: ["near", "beside", "behind"],
+      WISH: ["I hope we can $V again.", "I wish we could $V tomorrow."],
+      V: ["meet", "talk", "walk together"],
+      SIGNOFF: ["With love, A.", "Yours always, A."],
+    },
+  },
+];

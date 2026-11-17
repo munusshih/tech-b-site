@@ -91,7 +91,7 @@ html[data-course-year="2026"] :where(#week-content) :where(p, li, blockquote) {
     padding: 0;
 }
 
-.iframe-toolbar {
+:is(.iframe-toolbar, .week-panel-header) {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -114,7 +114,7 @@ html[data-course-year="2026"] :where(#week-content) :where(p, li, blockquote) {
     line-height: 1.25;
 }
 
-.iframe-wrap {
+:is(.iframe-wrap, .week-panel) {
     margin: 0.75rem 0;
     border: 1px solid currentColor;
     border-radius: 0;
@@ -590,11 +590,11 @@ html[data-course-year="2026"] #week-header .heading-1 {
     content: "+";
 }
 
-.week-toc details[open] .toc-disclosure::before {
+:is(.week-toc details, details.week-toc)[open] .toc-disclosure::before {
     content: "−";
 }
 
-.week-toc details[open]>summary {
+:is(.week-toc details, details.week-toc)[open]>summary {
     margin-bottom: 0.35rem;
 }
 

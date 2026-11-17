@@ -1,0 +1,282 @@
+---
+title: "From Markov Chains to Local Language Models"
+description: "A combined Technology B lecture and coding workshop with Tyler Paige on language, computation, and who gets to decide what a model does."
+---
+
+import WorkshopFigures from "../../components/WorkshopFigures.astro";
+import WorkshopStep from "../../components/WorkshopStep.astro";
+import { lectureFigures } from "../../lib/workshop-lecture-figures";
+import llamaSetup from "../../assets/llama-app-onboarding.png";
+import llamaContext from "../../assets/llama-app-context.png";
+import ritaOutput from "../../assets/workshop-rita-output.jpg";
+
+<h2 className="workshop-section-title" id="lecture">
+  Lecture <small className="workshop-time">30 minutes</small>
+</h2>
+
+<h3 className="workshop-topic" id="keeping-records">
+  Before the model, who kept the record?{" "}
+  <small className="workshop-time">5 minutes</small>
+</h3>
+
+A visitor leaves a note at a library: “I brought back the book. Can I come in?” A person who knows the library can answer for it. A model can produce a sentence that sounds like an answer. What gives either speaker the authority to say yes?
+
+Start with the things people have used to record knowledge and decide who may read it. An Andean quipu uses knots, cords, and their arrangement to hold information. The hexagram diagram sent to Leibniz in 1701 traveled between knowledge traditions. A Jacquard loom reads a sequence of holes to control a pattern. Each object belongs to people and practices that give it meaning. Ask what drops out when a museum, archive, or model collects the object and labels it on someone else’s terms.
+
+<WorkshopFigures figures={lectureFigures.knowledge} />
+
+In the photographs of NACA’s human computers and the ENIAC operators, look for the labor that turns instructions into results. Who prepared the inputs, checked the outputs, and kept the equipment working? We can ask the same questions of the people who annotate datasets and evaluate model behavior today.
+
+<p className="workshop-sources">
+  <a href="https://commons.wikimedia.org/wiki/File:Early_NACA_Human_Computers_at_Work_(7538103290).jpg">
+    NACA’s computing work
+  </a>{" "}
+  <a href="https://commons.wikimedia.org/wiki/File:Reprogramming_ENIAC.png">
+    ENIAC operators
+  </a>
+</p>
+
+<h3 className="workshop-topic" id="writing-the-reply">
+  Who wrote the reply? <small className="workshop-time">6 minutes</small>
+</h3>
+
+Markov counted transitions between vowels and consonants in Pushkin’s _Eugene Onegin_ in 1913. Read the weather diagram by following the arrows outward from one circle. That circle is the **state** and each arrow is a **transition**. If you switch from weather to words, the last word or group of words can be the state. An **n-gram** is a run of _n_ tokens. A bigram language model estimates the next token from the previous one. With trigrams it uses the previous two. This is the **Markov assumption** in the example. Earlier words influence a prediction only through the state the model retains.
+
+<p className="workshop-sources">
+  <a href="https://www.cambridge.org/core/journals/science-in-context/article/abs/an-example-of-statistical-investigation-of-the-text-eugene-onegin-concerning-the-connection-of-samples-in-chains/EA1E005FA0BC4522399A4E9DA0304862">
+    Markov’s paper in translation
+  </a>{" "}
+  <a href="https://web.mit.edu/6.441/spring05/reading/shannon1948.pdf#page=7">
+    Shannon’s approximations to English
+  </a>
+</p>
+
+<WorkshopFigures figures={lectureFigures.language.slice(0, 2)} />
+
+Read three lines aloud. “The library opens at noon. The library opens at dusk. The library closes at dusk.” After _library_, two of the three examples say _opens_. The **corpus** is the text we count. **Sampling** is picking a possible continuation using those counts as probabilities. Add a fourth line that says _closes_. Ask what changes when only the people with the key get to contribute a line.
+
+<WorkshopFigures figures={lectureFigures.language.slice(2)} />
+
+**Rules and templates.** ELIZA matched phrases and filled in replies written by a person. Strachey’s Love-Letters assembled phrases from lists. In [J. R. Carpenter’s _Writing Coastlines Letters_](https://luckysoap.com/generations/coastlinesletter.php), generate a letter, then scroll down to see the lists it draws from. What does a change in vocabulary let the letter address?
+
+**A computer that makes room for other voices.** At a Berkeley record shop in 1973, Community Memory gave people a shared terminal for writing and finding messages. Imagine adding a model that drafts those messages and ranks the replies. Who can still speak for themselves? [ELIZA (1966)](https://web.stanford.edu/class/cs124/p36-weizenabaum.pdf), [Community Memory records](https://computerhistory.org/blog/community-memory-precedents-in-social-media-and-movements/)
+
+<h3 className="workshop-topic" id="predicting-tokens">
+  How does a model predict a token?{" "}
+  <small className="workshop-time">8 minutes</small>
+</h3>
+
+In Arthur Samuel’s checkers experiments, game experience changed how the program evaluated board positions. The designers still chose the features it could use and how to judge improvement. In a **neural network**, training adjusts numerical **weights** as the system tries to improve on an objective. Later recurrent networks carried a learned representation forward through a sequence. Transformers use **attention** to combine information from different positions.
+
+<p className="workshop-sources">
+  <a href="https://www.cs.virginia.edu/~evans/greatworks/samuel1959.pdf">
+    Samuel’s checkers paper
+  </a>{" "}
+  <a href="https://arxiv.org/abs/1409.3215">Sequence to Sequence Learning</a>{" "}
+  <a href="https://proceedings.neurips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html">
+    Attention Is All You Need
+  </a>
+</p>
+
+<WorkshopFigures figures={lectureFigures.models.slice(0, 2)} />
+
+1. **Tokenization and embedding.** A tokenizer maps chunks of text to token IDs. A token can be a word, a fragment, or punctuation. An **embedding** is a learned vector associated with a token. The model also needs information about token positions.
+2. **Context and attention.** A decoder-only model uses information from each position and the earlier tokens available to it. In the diagram, queries and keys help compute how much a position draws on other positions. The values carry information that gets combined. The **context window** limits how much input and generated text the model can use at once.
+3. **Scores and sampling.** The final layers produce **logits**, scores for candidate next tokens. **Softmax** converts scores to probabilities. **Temperature** changes how concentrated the distribution is, and **top-k** limits which choices can be sampled. The chosen token is added to the context and the model predicts again.
+
+<WorkshopFigures figures={lectureFigures.models.slice(2)} />
+
+In [Transformer Explainer](https://poloclub.github.io/transformer-explainer/), compare “I returned the book to the” and “I mailed the letter to the.” They end in the same word. Look at what happens to possible next tokens, then vary temperature while leaving the prompt fixed. In the workshop you’ll make a similar comparison with Llama App or Ollama.
+
+**Training** changes weights. **Pretraining** learns from a large corpus. **Instruction tuning** shapes responses to tasks and requests. **Inference** uses those weights to respond to input. A chat can carry earlier messages as context during inference. An **open-weight** release lets you run the weights locally, and its **model card** can tell you about its training, license, and limitations. **Quantization** stores weights or other quantities at reduced precision, usually reducing memory use. Checkpoint size and weight precision can both affect what runs on a given computer.
+
+<p className="workshop-sources">
+  <a href="https://arxiv.org/abs/2005.14165">GPT-3</a>{" "}
+  <a href="https://proceedings.neurips.cc/paper_files/paper/2022/hash/b1efde53be364a73914f58805a001731-Abstract-Conference.html">
+    Instruction tuning with human feedback
+  </a>{" "}
+  <a href="https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct">
+    Qwen2.5 model card
+  </a>
+</p>
+
+<h3 className="workshop-topic" id="categories-and-resources">
+  Whose categories and whose resources?{" "}
+  <small className="workshop-time">5 minutes</small>
+</h3>
+
+Set the moth classification plate beside _ImageNet Roulette_. The first classifies specimens. The second makes visible what happens when a dataset classifies people from images taken out of context. The label looks like it belongs to the face when it appears above the box. Who named the category? Who agreed to be included? Where could the person in the image dispute the result? [Crawford and Paglen, _Excavating AI_](https://excavating.ai/)
+
+<WorkshopFigures figures={lectureFigures.extraction} />
+
+Crawford and Joler’s [_Anatomy of an AI System_](https://anatomyof.ai/) traces a voice request back through materials, labor, data, and infrastructure. Follow one line backward from the device. What would a map of your project include before someone speaks and after the system replies? Local inference changes where the request runs. The model, computer, power, and work that went into it still have histories.
+
+<h3 className="workshop-topic" id="other-relationships">
+  What other relationships could we build?{" "}
+  <small className="workshop-time">6 minutes</small>
+</h3>
+
+**Storytelling with consent.** Stephanie Dinkins’s [_Not the Only One_](https://www.stephaniedinkins.com/ntoo.html) draws on oral histories from three generations of women in her family. Its voice can hesitate or leave a question unanswered. Dinkins keeps the system on local computers to protect community data. Think about who can correct a story, who can decide whether it is shared, and how a work might benefit the people who contributed to it. Te Hiku Media’s [Kaitiakitanga License](https://github.com/TeHikuMedia/Kaitiakitanga-License/blob/tumu/README.md) offers a related design question from a specific Māori context. What would a technical system have to do for its data stewardship promises to be real?
+
+<WorkshopFigures figures={lectureFigures.futures.slice(0, 2)} />
+
+**Dreaming as a way of knowing.** In [_Wičháȟpi Wóihaŋbleya (Dreamlike Star)_](https://listart.mit.edu/exhibitions/list-projects-31-kite), Kite works with sound, moving images, stones, and scores that draw on Lakȟóta approaches to dreaming and relationships with nonhuman beings. The installation invites listening and interpretation. When an AI project promises to answer a question immediately, what other kinds of attention could the designer make room for? Read Kite’s contribution to [_Making Kin with the Machines_](https://jods.mitpress.mit.edu/pub/lewis-arista-pechawis-kite/release/1) alongside the work.
+
+<WorkshopFigures figures={lectureFigures.futures.slice(2, 4)} />
+
+**Put the decision where people can see it.** In [_LAUREN_](https://get-lauren.net/LAUREN), Lauren Lee McCarthy takes on the role of a smart home’s intelligence. Look at the control interface and imagine being the person whose room is pictured. Which actions would you want to approve? When should the system leave you alone? Return to the library note. A draft of “come in” and a request to unlock the door are different design decisions. For Alternative Now(s), choose something worth drafting, something worth checking against a source, or something worth leaving with the person.
+
+<WorkshopFigures figures={lectureFigures.futures.slice(4)} />
+
+<h2 className="workshop-section-title" id="hands-on-workshop">
+  Coding workshop <small className="workshop-time">60 minutes</small>
+</h2>
+
+Use the Rain Library to get one text interaction running. Then change the corpus, model, or response format to make it do something from your own final project.
+
+<a className="button" href="/workshop/rain-library.zip" download>
+  Download the JavaScript starters
+</a>
+
+<WorkshopStep id="start-rita" number={1} title="Start with RiTa" time="12 minutes">
+
+Open `markov.html` from the starter using VS Code Live Preview. Click **Generate a line**. All the settings you need are in `markov.js`. For a CodePen version, use the [file-based Pen editor](https://blog.codepen.io/docs/what-changed/). Paste `markov.html` into the Pen’s `index.html`, then add `markov.js` and `style.css` as sibling files.
+
+<WorkshopFigures
+  figures={[
+    {
+      image: ritaOutput,
+      title: "Check the first RiTa output",
+      alt: "Rain Library’s RiTa starter in the browser with the generated line The rain library closes at dusk.",
+      credit:
+        "RiTa paired “closes” with a time from a different sentence. Try n = 3 and compare.",
+    },
+  ]}
+/>
+
+```js title="markov.js, train and sample"
+const model = RiTa.markov(2, { disableInputChecks: true }); // Bigram model.
+model.addText(corpus); // The example sentences above this line.
+console.log(model.generate({ numSentences: 1 })); // Print one result.
+```
+
+**Change one thing.** Replace `2` with `3` to give each prediction one more previous token. Keep the corpus fixed and sample a few times. Then put the order back and add one sentence to `corpus`. The example permits sentences that appear in the source so this small corpus can produce output. Try removing that option after adding more original sentences. [RiTa Markov reference](https://rednoise.org/rita/reference/RiTa/markov/index.html)
+
+</WorkshopStep>
+
+<WorkshopStep id="llama-desktop" number={2} title="Open a local model" time="10 minutes">
+
+1. Choose [Llama App](https://llama.app/docs/installation) (macOS or Windows 11) or [Ollama](https://ollama.com/download). In Llama App, open the official [Qwen GGUF page](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF) and choose **Use this model → Llama**. In Ollama, select `qwen2.5:1.5b` or run `ollama pull qwen2.5:1.5b`.
+2. Open the model’s chat and ask for one line inviting someone to a library that opens only when it rains. If you already have a second model, send it the same prompt in a fresh chat.
+3. In [Workshop 3](/week-12/llama/), choose the runtime, click **Find models**, and select the same model. Compare the app’s context window with **Max output tokens** in the workshop.
+
+<WorkshopFigures
+  figures={[
+    {
+      image: llamaSetup,
+      title: "Download a model",
+      alt: "Llama App’s list of installed and recommended models.",
+      source: "https://llama.app/docs/quickstart",
+      credit: "Screenshot from the Llama App quickstart.",
+    },
+    {
+      image: llamaContext,
+      title: "Choose a context window",
+      alt: "Llama App’s context window options.",
+      source: "https://llama.app/docs/quickstart",
+      credit: "Screenshot from the Llama App quickstart.",
+    },
+  ]}
+/>
+
+</WorkshopStep>
+
+<WorkshopStep id="connect-local-model" number={3} title="Connect the local sketch" time="16 minutes">
+
+1. Unzip the starter and open its folder in VS Code. Install Microsoft’s [Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server) if you need it.
+2. Keep the runtime you chose open. In VS Code, open `index.html` and run **Live Preview: Show Preview (External Browser)**. The page should open at a loopback address.
+3. Choose the same runtime in the starter. When **Models loaded** appears, select a model and click **Draft an invitation**. Open `sketch.js` and find the two calls that make this work.
+
+```js title="sketch.js, find your installed models"
+const endpoint = runtime.value; // 9931 for Llama App, 11434 for Ollama.
+const response = await fetch(endpoint + "/models");
+const { data: models } = await response.json(); // Use each model's id.
+```
+
+```js title="sketch.js, send messages"
+const result = await callLocalModel("/chat/completions", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    model: modelPicker.value,
+    messages: [
+      {
+        role: "system",
+        content: "Write brief, welcoming signs for the Rain Library.",
+      },
+      { role: "user", content: prompt.value },
+    ],
+    stream: false,
+    temperature: 0.6,
+    max_tokens: 80,
+  }),
+});
+draft.value = result.choices[0].message.content.trim(); // Keep the draft editable.
+```
+
+**Compare one variable.** Keep the model and prompt fixed. Try `temperature: 0` and then `0.9`. Use [Workshop 3](/week-12/llama/) to see how these values change the API request.
+
+**Using CodePen.** The RiTa sketch and a prototype with saved model replies can run there. For live calls, use the local preview if the browser blocks a hosted Pen’s access to your local API.
+
+<p className="workshop-sources">
+  <a href="https://llama.app/docs/api">Llama App API</a>{" "}
+  <a href="https://developer.chrome.com/docs/modern-web-guidance/guides/security/local-network-access">
+    Chrome loopback access
+  </a>
+</p>
+
+</WorkshopStep>
+
+<WorkshopStep id="adapt-final-project" number={4} title="Adapt one moment from Alternative Now(s)" time="17 minutes">
+
+Choose one action a person would actually take in your final project. Start with the editing surface you already have. Use one of these directions.
+
+**Draft something a person can rewrite.** In `sketch.js`, change the `system` message and rename the two field labels in `index.html`. Draft a gift message, an object’s note to its next owner, or an entry somebody would want to keep. Leave the returned text editable. Try a visitor who misunderstands the invitation and see how they recover.
+
+**Suggest a category a person can change.** Add a schema inside the existing chat request body. Change the system message to name your task and categories. Change the line that assigns `draft.value` to read the label. Try an input that belongs in two places.
+
+```js title="sketch.js, optional structured reply"
+response_format: {
+  type: "json_schema",
+  schema: {
+    type: "object",
+    properties: {
+      label: { type: "string", enum: ["request", "story", "review"] }, // Your categories.
+    },
+    required: ["label"],
+  },
+},
+```
+
+```js title="sketch.js, read the returned label"
+// The model's reply is a JSON string inside the API response.
+const { label } = JSON.parse(result.choices[0].message.content);
+draft.value = label; // A person can revise the suggestion before using it.
+```
+
+**Use a source.** Start with three catalog entries or facts you chose. Paste them into the prompt and ask the model to point to the one it used. Try one question the catalog can answer and one it can’t. For a prototype that needs live lookup, follow the SDK’s tool-calling example. A tool call proposes a name and arguments. The app decides whether to run it and what result to send back.
+
+<p className="workshop-sources">
+  <a href="https://llama.app/docs/api">Structured output and tool calling</a>{" "}
+  <a href="https://modelcontextprotocol.io/docs/learn/architecture">
+    MCP architecture
+  </a>
+</p>
+
+</WorkshopStep>
+
+<WorkshopStep id="playtest" number={5} title="Playtest the exchange" time="5 minutes">
+
+Give a partner one ordinary input and one ambiguous input. Watch where they accept, revise, or disregard the model’s response. Change part of the encounter based on what they do. For [Assignment 12](/week-12/#assignment-12), keep your prototypes, the sources, rules, prompts, and outputs you tested, and a short note about what you learned.
+
+</WorkshopStep>

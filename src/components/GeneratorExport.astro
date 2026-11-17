@@ -1,0 +1,63 @@
+<div class="week-panel generator-export" data-generator-export>
+  <p class="week-panel-header">Standalone HTML</p>
+  <div class="generator-export-body">
+    <p>
+      Download the current generator as an HTML file, or copy its full source.
+      Open it in a browser and try <code>textGenerator.generateSentence()</code>
+      in the console. Your scripts can use the same <code
+        >window.textGenerator</code
+      >
+      object. RiTa loads from a CDN.
+    </p>
+    <div class="generator-export-actions">
+      <button type="button" class="button" data-download-html
+        >Download HTML</button
+      >
+      <button
+        type="button"
+        class="button"
+        aria-expanded="false"
+        aria-controls="generator-source-panel"
+        data-view-html>View source</button
+      >
+    </div>
+    <label id="generator-source-panel" hidden>
+      HTML source
+      <textarea rows="12" readonly spellcheck="false" data-html-source
+      ></textarea>
+    </label>
+    <p role="status" data-export-status></p>
+  </div>
+</div>
+
+<style>
+  .generator-export-body {
+    display: grid;
+    gap: 0.75rem;
+    padding: 0.85rem;
+  }
+
+  .generator-export-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+  }
+
+  .generator-export-actions button {
+    margin: 0;
+  }
+
+  [data-html-source] {
+    display: block;
+    margin-top: 0.35rem;
+    border: 1px solid var(--sketch-echo);
+    background: var(--sketch-paper);
+    padding: 0.65rem;
+    width: 100%;
+    font-family: monospace !important;
+  }
+
+  [data-export-status]:empty {
+    position: absolute;
+  }
+</style>

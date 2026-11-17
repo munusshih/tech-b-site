@@ -1,0 +1,537 @@
+---
+import MunusNote from "@/components/MunusNote.astro";
+import GeneratorExport from "@/components/GeneratorExport.astro";
+import WeekPost from "@/layouts/WeekPost.astro";
+import { ACTIVE_YEAR } from "@/config";
+import { grammarPresets } from "@/lib/grammar-presets.js";
+
+const pageLinks = [{ href: "/week-12/", label: "← Back to Week 12" }];
+const firstPreset = grammarPresets[0];
+---
+
+<WeekPost
+  title="Workshop 2: Generative Grammar with RiTa"
+  description="Build sentence templates, edit grammar rules, and generate variations in a visual editor."
+  week={12}
+  year={ACTIVE_YEAR}
+  contentClass="grammar-content"
+  pageLinks={pageLinks}
+>
+  <section
+    slot="sidebar"
+    class="grammar-reference"
+    aria-labelledby="grammar-reference-title"
+  >
+    <h2 class="sidebar-section-title" id="grammar-reference-title">
+      Quick reference
+    </h2>
+    <dl>
+      <dt>Start rule</dt>
+      <dd>The pattern RiTa expands first.</dd>
+      <dt>Symbol</dt>
+      <dd>
+        A reference such as <code>$NP</code> that RiTa replaces using a named rule.
+      </dd>
+      <dt><code>NP</code>, <code>VP</code>, <code>PP</code></dt>
+      <dd>Noun phrase, verb phrase, and prepositional phrase.</dd>
+      <dt>
+        <code>DET</code>, <code>ADJ</code>, <code>N</code>, <code>V</code>, <code
+          >P</code>
+      </dt>
+      <dd>Determiner, adjective, noun, verb, and preposition.</dd>
+    </dl>
+  </section>
+
+  <div class="grammar-intro">
+    <p>
+      In a generative grammar, you write the rules that shape a sentence. RiTa
+      starts with a pattern, picks an alternative for each symbol, and expands
+      any symbols it finds inside those alternatives.
+    </p>
+  </div>
+
+  <h2 id="choose-template" class="grammar-step">1. Choose a template</h2>
+  <div class="grammar-step-body">
+    <p>
+      Start with a two-rule dispatch, then try a sentence with an object, a
+      three-line poem, or a love letter with rules nested inside each section.
+    </p>
+    <div class="week-panel">
+      <p class="week-panel-header">Grammar templates</p>
+      <div class="grammar-templates">
+        {
+          grammarPresets.map(({ label, icon, pattern }, index) => (
+            <button
+              type="button"
+              class="grammar-preset"
+              data-grammar-preset={index}
+              aria-pressed={index === 0}
+            >
+              <strong>
+                <span class="grammar-preset-icon" aria-hidden="true">
+                  {icon}
+                </span>
+                {label}
+              </strong>
+              <code>{pattern}</code>
+            </button>
+          ))
+        }
+      </div>
+      <div id="grammar-switch" class="grammar-switch" hidden>
+        <p id="grammar-switch-message" role="status"></p>
+        <div class="grammar-toolbar">
+          <button type="button" id="grammar-switch-confirm" class="button"
+            >Replace grammar</button
+          >
+          <button type="button" id="grammar-switch-cancel" class="grammar-link"
+            >Keep editing</button
+          >
+        </div>
+      </div>
+    </div>
+    <MunusNote
+      ><p>
+        Generate a tiny dispatch and swap one alternative in <code>VP</code>.
+        Then try <strong>Who follows whom?</strong> In <code>NP + V + NP</code>,
+        the two noun phrases use the same rule, but one follows and one gets
+        followed.
+      </p></MunusNote
+    >
+  </div>
+
+  <h2 id="edit-grammar" class="grammar-step">2. Edit the rules</h2>
+  <div class="grammar-step-body">
+    <p>
+      Write the start rule using references like <code>$NP</code>. In each named
+      rule, put one alternative per line. An alternative can refer to another
+      rule. Add a weight at the end of an alternative, like <code
+        >quiet (2)</code
+      >, or set it in Step 3.
+    </p>
+    <form
+      class="week-panel"
+      id="grammar-form"
+      aria-describedby="grammar-status"
+    >
+      <label class="grammar-field grammar-start">
+        <span class="week-panel-header">Start rule</span>
+        <textarea
+          id="grammar-start"
+          name="start"
+          rows="2"
+          set:text={firstPreset.start}
+          maxlength="1000"
+        />
+      </label>
+      <fieldset class="grammar-rules">
+        <legend class="sr-only">Named rules</legend>
+        <div id="grammar-rule-list">
+          {
+            Object.entries(firstPreset.rules).map(([name, choices]) => (
+              <div class="grammar-rule" data-rule>
+                <label class="grammar-field">
+                  Rule name
+                  <input
+                    data-name
+                    type="text"
+                    value={name}
+                    maxlength="32"
+                    spellcheck="false"
+                  />
+                </label>
+                <label class="grammar-field">
+                  Alternatives
+                  <textarea
+                    data-choices
+                    rows="3"
+                    maxlength="1000"
+                    set:text={choices.join("\n")}
+                  />
+                </label>
+                <button
+                  data-remove
+                  type="button"
+                  class="grammar-text-button"
+                  aria-label="Remove rule"
+                  title="Remove rule"
+                >
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+            ))
+          }
+        </div>
+      </fieldset>
+      <div class="grammar-toolbar">
+        <button id="grammar-add" type="button" class="button"
+          ><span aria-hidden="true">+</span> Add rule</button
+        >
+        <p id="grammar-status" role="status"></p>
+      </div>
+    </form>
+    <MunusNote>
+      <p>
+        In the poem, edit one word in <code>ADJ</code>, then swap <code
+          >$MOVE</code
+        >
+        and <code>$TURN</code> in the start rule. Which change affects a word, and
+        which affects how the whole poem unfolds?
+      </p>
+    </MunusNote>
+  </div>
+
+  <h2 id="generate-grammar" class="grammar-step">
+    3. Set probabilities and generate
+  </h2>
+  <div class="grammar-step-body">
+    <p>
+      Pick a rule and change its weights. Each alternative’s chance is its
+      weight divided by the rule’s total weight. With two alternatives, <code
+        >(1)</code
+      > gives one-third and <code>(2)</code> gives two-thirds.
+    </p>
+    <div class="week-panel">
+      <p class="week-panel-header">Alternative probabilities</p>
+      <div class="grammar-output grammar-weights">
+        <label class="grammar-field">
+          Rule to adjust
+          <select id="grammar-weight-rule"></select>
+        </label>
+        <p id="grammar-weight-status" role="status"></p>
+        <div class="grammar-weight-columns" aria-hidden="true">
+          <strong>Alternative</strong><strong>Weight</strong><strong
+            >Chance</strong
+          >
+        </div>
+        <div id="grammar-weight-list"></div>
+      </div>
+    </div>
+    <section class="week-panel" aria-labelledby="grammar-output-label">
+      <p class="week-panel-header" id="grammar-output-label">Generated text</p>
+      <div class="grammar-output">
+        <p id="grammar-empty">Generate a sample to see the result here.</p>
+        <ol id="grammar-results" aria-live="polite" aria-label="Generated text">
+        </ol>
+      </div>
+      <div class="grammar-toolbar">
+        <button
+          form="grammar-form"
+          type="submit"
+          name="count"
+          value="1"
+          class="button">Generate</button
+        >
+        <button
+          form="grammar-form"
+          type="submit"
+          name="count"
+          value="5"
+          class="button">Generate five variations</button
+        >
+        <p id="grammar-output-status" role="status"></p>
+      </div>
+    </section>
+    <MunusNote>
+      <p>
+        In <strong>Tiny dispatch</strong>, set <code>sneezes</code> to <code
+          >(2)</code
+        >
+        in <code>VP</code> and leave the other weights at <code>(1)</code>. That
+        gives sneezing a 50% chance. Generate five dispatches and compare what
+        you got with what you expected.
+      </p>
+    </MunusNote>
+  </div>
+
+  <h2 id="grammar-export" class="grammar-step">
+    Use your generator in another project
+  </h2>
+  <GeneratorExport />
+
+  <h2 id="grammar-resources" class="grammar-step">Tutorials and resources</h2>
+  <ul>
+    <li>
+      <a href="https://rednoise.org/rita/tutorials/grammars.html"
+        >Generating with RiTa grammars</a
+      > introduces sentence patterns and named rules.
+    </li>
+    <li>
+      <a href="https://observablehq.com/@dhowe/tut-rita-grammars"
+        >RiTa grammars notebook</a
+      > gives you runnable JavaScript examples.
+    </li>
+    <li>
+      <a href="https://rednoise.org/rita/reference/RiGrammar/expand/"
+        >RiGrammar.expand()</a
+      > shows how to generate from a start rule in JavaScript.
+    </li>
+    <li>
+      <a href="https://rednoise.org/rita/reference/riscript.html"
+        >RiScript weighted choices</a
+      > documents the <code>(2)</code> notation used here.
+    </li>
+    <li>
+      <a href="/week-12/markov/">Workshop 1: Markov Chain</a> generates from patterns
+      counted in a corpus.
+    </li>
+  </ul>
+</WeekPost>
+
+<script>
+  import "@/scripts/grammar-playground.js";
+</script>
+
+<style>
+  :global(html[data-course-year="2026"]) code,
+  :global(.grammar-content) #grammar-form :is(input, textarea) {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace !important;
+  }
+
+  :global(.grammar-content > h1) {
+    margin-bottom: 1rem;
+    text-align: left;
+  }
+
+  .grammar-intro,
+  .grammar-step-body {
+    display: grid;
+    gap: 0.85rem;
+    min-width: 0;
+  }
+
+  .grammar-intro {
+    max-width: 68ch;
+  }
+
+  .grammar-reference {
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--sketch-echo);
+    padding-top: 1rem;
+    max-width: 32ch;
+  }
+
+  :global(#week-header) .grammar-reference .sidebar-section-title {
+    margin: 0 0 0.75rem !important;
+  }
+
+  .grammar-reference dt {
+    font-weight: 650;
+  }
+
+  .grammar-reference dd + dt {
+    margin-top: 0.55rem;
+  }
+
+  :global(#week-content .content-section) > .grammar-step {
+    margin-block: 2rem 0.75rem;
+    border-top: 1px solid currentColor;
+    padding: 1rem 0 0;
+    font-size: 1.45rem;
+  }
+
+  :global(#week-content) .grammar-step::before {
+    content: none;
+  }
+
+  .grammar-step-body > :global(.munus-note),
+  .grammar-step-body > .week-panel,
+  .grammar-toolbar .button {
+    margin: 0;
+  }
+
+  .grammar-field {
+    display: grid;
+    align-content: start;
+    gap: 0.35rem;
+    min-width: 0;
+    font-weight: 650;
+  }
+
+  .grammar-start {
+    gap: 0;
+  }
+
+  :global(.grammar-content) .grammar-field :is(input, textarea, select),
+  #grammar-weight-list :global(input) {
+    border: 1px solid var(--sketch-echo);
+    background: var(--sketch-paper);
+    padding: 0.45rem 0.65rem;
+    width: 100%;
+    font-weight: 400;
+    font-size: var(--body-copy-size);
+    line-height: 1.5;
+  }
+
+  .grammar-start :is(input, textarea) {
+    border: 0 !important;
+    padding: 0.75rem 0.85rem !important;
+  }
+
+  .grammar-rules {
+    min-width: 0;
+  }
+
+  .grammar-rule {
+    display: grid;
+    grid-template-columns: minmax(7rem, 1fr) minmax(0, 3fr) auto;
+    align-items: start;
+    gap: 0.6rem 0.85rem;
+    border-top: 1px solid var(--sketch-echo);
+    padding: 0.85rem;
+  }
+
+  .grammar-text-button {
+    display: grid;
+    place-items: center;
+    align-self: start;
+    cursor: pointer;
+    margin-top: 1.75rem;
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .grammar-text-button span {
+    font-size: 1.45rem;
+    line-height: 1;
+  }
+
+  .grammar-text-button:hover {
+    background: #e1daf2;
+  }
+
+  .grammar-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.8rem;
+    border-top: 1px solid var(--sketch-echo);
+    padding: 0.85rem;
+  }
+
+  .grammar-output {
+    padding: 0.85rem;
+  }
+
+  .grammar-weights {
+    --weight-column: 5.25rem;
+    --chance-column: 4.25rem;
+  }
+
+  .grammar-weights > .grammar-field {
+    margin-bottom: 1rem;
+    max-width: 18rem;
+  }
+
+  .grammar-weight-columns {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--weight-column) var(
+        --chance-column
+      );
+    gap: 0.5rem;
+    padding-bottom: 0.4rem;
+  }
+
+  .grammar-weights:has(#grammar-weight-list:empty) .grammar-weight-columns {
+    display: none;
+  }
+
+  #grammar-weight-list :global(.grammar-weight-row) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--chance-column);
+    align-items: center;
+    gap: 0.5rem;
+    border-top: 1px solid var(--sketch-echo);
+    padding-block: 0.45rem;
+  }
+
+  #grammar-weight-list :global(label) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--weight-column);
+    align-items: center;
+    gap: 0.5rem;
+    overflow-wrap: anywhere;
+  }
+
+  #grammar-weight-list :global(output) {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .grammar-templates {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+    gap: 0.65rem;
+    padding: 0.85rem;
+  }
+
+  .grammar-preset {
+    display: grid;
+    align-content: start;
+    gap: 0.25rem;
+    cursor: pointer;
+    border: 1px solid var(--sketch-echo);
+    background: var(--sketch-paper);
+    padding: 0.65rem;
+    text-align: left;
+  }
+
+  .grammar-preset:hover,
+  .grammar-preset[aria-pressed="true"] {
+    background: #e1daf2;
+  }
+
+  .grammar-preset strong {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+
+  .grammar-preset-icon {
+    color: var(--sketch-accent);
+  }
+
+  .grammar-preset[aria-pressed="true"] {
+    outline: 1px solid var(--sketch-accent);
+  }
+
+  .grammar-switch {
+    border-top: 1px solid var(--sketch-echo);
+    padding: 0.85rem;
+  }
+
+  .grammar-switch .grammar-toolbar {
+    border: 0;
+    padding: 0.65rem 0 0;
+  }
+
+  .grammar-link {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  .grammar-link:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+
+  :global(#week-content) #grammar-results {
+    margin: 0;
+    white-space: pre-wrap;
+  }
+
+  #grammar-status:empty,
+  #grammar-output-status:empty {
+    position: absolute;
+  }
+
+  @media (max-width: 42rem) {
+    .grammar-rule {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .grammar-text-button {
+      justify-self: start;
+      margin-top: 0;
+    }
+  }
+</style>

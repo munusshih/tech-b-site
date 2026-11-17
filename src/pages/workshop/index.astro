@@ -1,0 +1,40 @@
+---
+import BaseHead from "@/components/BaseHead.astro";
+import Lesson, {
+  frontmatter,
+} from "@/content/workshop/local-language-models.mdx";
+import "@/styles/workshop.css";
+---
+
+<!doctype html>
+<html lang="en" data-workshop-page>
+  <head>
+    <BaseHead title={frontmatter.title} description={frontmatter.description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap"
+    />
+  </head>
+  <body>
+    <nav class="workshop-nav" aria-label="Workshop navigation">
+      <div>
+        <a href="/week-12/">← Week 12</a>
+        <a href="#lecture">Lecture</a>
+        <a href="#hands-on-workshop">Coding workshop</a>
+      </div>
+    </nav>
+
+    <main class="workshop-main">
+      <div class="workshop-intro">
+        <h1>{frontmatter.title}</h1>
+        <p>{frontmatter.description}</p>
+      </div>
+      <div class="workshop-copy">
+        <Lesson />
+      </div>
+    </main>
+    <script src="/scripts/external-links.js" is:inline></script>
+  </body>
+</html>

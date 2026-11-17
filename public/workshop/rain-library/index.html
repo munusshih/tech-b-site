@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rain Library</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main>
+    <h1>Rain Library</h1>
+    <form id="draft-form">
+      <label for="runtime">Local runtime</label>
+      <select id="runtime">
+        <option value="http://127.0.0.1:9931/v1">Llama App</option>
+        <option value="http://127.0.0.1:11434/v1">Ollama</option>
+      </select>
+      <label for="model">Local model</label>
+      <select id="model" required></select>
+      <label for="prompt">Prompt</label>
+      <textarea id="prompt" rows="3" required>Write a one-line invitation for someone waiting for the last bus. The library opens only when it rains.</textarea>
+      <button id="generate" disabled>Draft an invitation</button>
+    </form>
+    <label for="draft">Draft you can edit</label>
+    <textarea id="draft" rows="3"></textarea>
+    <p id="status" role="status">Checking local models…</p>
+  </main>
+  <script type="module" src="./sketch.js"></script>
+</body>
+</html>

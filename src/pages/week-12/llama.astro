@@ -1,0 +1,1428 @@
+---
+import { Image } from "astro:assets";
+import CodeSnippet from "@/components/CodeSnippet.astro";
+import { llamaSetup, llamaStarters } from "@/lib/llama-workshop-starters.js";
+import MunusNote from "@/components/MunusNote.astro";
+import WeekPost from "@/layouts/WeekPost.astro";
+import { ACTIVE_YEAR } from "@/config";
+import llamaDesktop from "@/assets/llama-app-onboarding.png";
+import llamaContext from "@/assets/llama-app-context.png";
+import qwenSizes from "@/assets/qwen25-model-sizes.jpeg";
+
+const pageLinks = [{ href: "/week-12/", label: "← Back to Week 12" }];
+const personas = [
+  {
+    name: "Noir detective",
+    label: "Noir detective",
+    opening:
+      "Describe a case, or just say hello. Then try the same message in another language.",
+    instructions:
+      "You are a hard-boiled 1940s detective. Answer in short, moody sentences, treat every detail as a clue, and end with one sharp question.",
+  },
+  {
+    name: "Shakespearean Londoner",
+    label: "Shakespearean-era Londoner",
+    opening:
+      "Say something modern, like “I’ll text you later,” and see how a Londoner from 1600 reacts.",
+    instructions:
+      "You are a townsperson in London around 1600. Speak in Early Modern English, be dramatic and curious about anything unfamiliar, and keep each reply under four sentences.",
+  },
+  {
+    name: "Pirate captain",
+    label: "Pirate captain",
+    opening:
+      "Ask for advice about something ordinary, like a group project or a messy room.",
+    instructions:
+      "You are a pirate captain. Speak in pirate slang, compare every problem to the sea or buried treasure, and keep each reply short.",
+  },
+  {
+    name: "Sports commentator",
+    label: "Over-the-top sports commentator",
+    opening:
+      "Describe something small you did today, like making toast, and hear it called like a championship match.",
+    instructions:
+      "You are an over-the-top sports commentator. Narrate whatever the user says as a dramatic live match, with excited play-by-play and a surprise ending.",
+  },
+  {
+    name: "Time traveler",
+    label: "Time traveler from the year 3000",
+    opening:
+      "Describe something ordinary, like a spoon or a staircase, and see how they react.",
+    instructions:
+      "You are a time traveler from the year 3000 visiting today. Be amazed by ordinary things and explain them with futuristic comparisons. Keep replies brief.",
+  },
+  {
+    name: "Polyglot parrot",
+    label: "Polyglot parrot",
+    opening:
+      "Write in any language, including ones you’re still learning. See what comes back.",
+    instructions:
+      "You are a talkative parrot who has learned many languages. Reply in the language the user writes in, begin with one squawk, and add a short English translation in parentheses.",
+  },
+  {
+    name: "Custom role",
+    label: "Custom role",
+    opening: "Write your own instructions in the system message.",
+    instructions: "",
+  },
+];
+const stagePresets = [
+  {
+    label: "Detective and suspect",
+    context:
+      "A late-night interview at a small art museum after a painting disappears.",
+    speakers: [
+      {
+        name: "Detective",
+        instructions:
+          "You are a noir detective. Ask short, pointed questions and notice contradictions in what you hear.",
+      },
+      {
+        name: "Suspect",
+        instructions:
+          "You have an alibi that keeps changing. Answer briefly, stay polite, and get nervous when pressed.",
+      },
+    ],
+  },
+  {
+    label: "Shakespearean playwright and teenager",
+    context:
+      "They meet in a coffee shop, and the playwright sees a smartphone for the first time.",
+    speakers: [
+      {
+        name: "Playwright",
+        instructions:
+          "You are a playwright from London around 1600. Speak in Early Modern English, be dramatic, and stay curious about modern things.",
+      },
+      {
+        name: "Teenager",
+        instructions:
+          "You are a teenager today. Use casual modern slang, keep your sentences short, and try to explain technology to the playwright in simple terms.",
+      },
+    ],
+  },
+  {
+    label: "Knight and astronaut",
+    context:
+      "A medieval knight and an astronaut meet by accident on the surface of the moon.",
+    speakers: [
+      {
+        name: "Knight",
+        instructions:
+          "You are a medieval knight. Speak in old-fashioned English (thou, thy, forsooth), swear dramatic oaths, and suspect the astronaut is a sorcerer in strange armor. Example: “Forsooth, stranger, state thy name!”",
+      },
+      {
+        name: "Astronaut",
+        instructions:
+          "You are a cheerful astronaut. Use casual modern speech and space jargon, explain your gear in simple terms, and stay calm when the knight accuses you of sorcery. Example: “Copy that, buddy. It’s just my spacesuit.”",
+      },
+    ],
+  },
+  {
+    label: "Two weather forecasters who disagree",
+    context:
+      "Two forecasters are live on air, arguing about what tomorrow’s weather will be.",
+    speakers: [
+      {
+        name: "Sunny forecaster",
+        instructions:
+          "You are a relentlessly cheerful weather forecaster. Insist tomorrow will be perfect, wave away every warning, and tell the other forecaster they worry too much.",
+      },
+      {
+        name: "Stormy forecaster",
+        instructions:
+          "You are a gloomy weather forecaster. Insist tomorrow will be a disaster, and explain why the other forecaster is dangerously wrong. Example: “Mark my words, a storm is coming.”",
+      },
+    ],
+  },
+  {
+    label: "Pirate and chef, in two languages",
+    context:
+      "A pirate and a fussy chef are planning a feast together on a ship.",
+    speakers: [
+      {
+        name: "Pirate",
+        instructions:
+          "You are a pirate. Reply only in Spanish, boast about your treasure, and suggest one dish each turn.",
+      },
+      {
+        name: "Chef",
+        instructions:
+          "You are a fussy chef. Reply only in French and politely object to the pirate’s menu ideas.",
+      },
+    ],
+  },
+  {
+    label: "Custom pair",
+    context: "",
+    speakers: [
+      { name: "Speaker 1", instructions: "" },
+      { name: "Speaker 2", instructions: "" },
+    ],
+  },
+];
+---
+
+<WeekPost
+  title="Workshop 3: Local Model APIs"
+  description="Connect your browser to a model running on your own computer, then inspect what you send and what comes back."
+  week={12}
+  year={ACTIVE_YEAR}
+  contentClass="llama-content"
+  pageLinks={pageLinks}
+>
+  <section
+    slot="sidebar"
+    class="llama-reference"
+    aria-labelledby="llama-reference-title"
+  >
+    <h2 id="llama-reference-title" class="sidebar-section-title">
+      Quick reference
+    </h2>
+    <dl>
+      <dt>Inference</dt>
+      <dd>
+        Running a trained model to get a reply. It doesn’t change the model.
+      </dd>
+      <dt><code>127.0.0.1</code></dt>
+      <dd>An address that always points back to your own computer.</dd>
+      <dt><code>GET /v1/models</code></dt>
+      <dd>Asks the app which models it has.</dd>
+      <dt><code>POST /v1/chat/completions</code></dt>
+      <dd>Sends messages to a model and returns its reply.</dd>
+      <dt><code>choices[0].message.content</code></dt>
+      <dd>Where the reply text appears in the response.</dd>
+    </dl>
+  </section>
+
+  <div class="llama-intro">
+    <p>
+      In this workshop, you’ll connect this page to a model running on your own
+      computer. You’ll send it messages, look at what your browser sends and
+      what comes back, and see how instructions, structured data, and tool calls
+      change what the model does.
+    </p>
+  </div>
+
+  <h2 id="why-local" class="llama-step">Remote models and local models</h2>
+  <div class="llama-stack">
+    <p>
+      You’re probably used to remote models, like ChatGPT or Claude. A company
+      runs the model on its own servers, and your messages travel over the
+      internet to reach it. A local model changes that setup.
+    </p>
+    <p><strong>With a remote model:</strong></p>
+    <ul>
+      <li>Your messages are sent to a company’s servers.</li>
+      <li>
+        You pay for access, with a subscription or an API cost for every
+        request, and you usually need an account and an API key.
+      </li>
+      <li>You need an internet connection and may hit rate limits.</li>
+      <li>The company decides which models exist and when they change.</li>
+    </ul>
+    <p><strong>With a local model:</strong></p>
+    <ul>
+      <li>Your messages stay on your computer.</li>
+      <li>
+        There’s no API cost or key. Once the model is downloaded, you can send
+        as many requests as you like.
+      </li>
+      <li>It works offline.</li>
+      <li>
+        You choose the model and its settings. The limit is your computer: a
+        small local model is less capable than a large remote one, and its speed
+        depends on your memory and processor.
+      </li>
+    </ul>
+    <p>
+      A model you can run freely is a good place to experiment, because you can
+      try things, break things, and look closely at every request without
+      worrying about cost. Two free apps can run one on your computer: Llama App
+      and Ollama. Both download a model, run it, and let a web page talk to it
+      through a local address. This workshop uses Qwen2.5 1.5B. Qwen (通义千问)
+      is a family of open models from the Qwen Team at Alibaba Cloud.
+    </p>
+    <p>
+      When you send a message, the model uses what it already learned to write a
+      reply. This is called <strong>inference</strong>. In the Markov workshop,
+      you trained a model by counting patterns in a text. Here, you don’t change
+      the model at all. You change only what you give it, like the instructions
+      and the messages, so the same model can respond very differently. <a
+        href="https://llama.app/docs/api">Llama App’s local API documentation</a
+      >
+    </p>
+  </div>
+
+  <h2 id="llama-connect" class="llama-step">1. Connect a local model</h2>
+  <div class="llama-stack">
+    <p>
+      Set up one of these apps and make sure the Qwen2.5 1.5B model is
+      downloaded. You only need one.
+    </p>
+    <ul>
+      <li>
+        <strong>Llama App (macOS or Windows 11)</strong>
+        <ul>
+          <li>
+            <strong>Download the app.</strong>
+            <a href="https://llama.app/docs/installation"
+              >Llama App installation</a
+            >
+          </li>
+          <li>
+            <strong>Download the model.</strong> Open Qwen’s GGUF page and choose
+            <strong>Use this model → Llama</strong>. <a
+              href="https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF"
+              >Qwen GGUF model</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li>
+        <strong>Ollama (macOS, Windows, or Linux)</strong>
+        <ul>
+          <li>
+            <strong>Download the app.</strong>
+            <a href="https://ollama.com/download">Ollama installation</a>
+          </li>
+          <li>
+            <strong>Download the model.</strong> Select <code>qwen2.5:1.5b</code
+            > in the app, or run <code>ollama pull qwen2.5:1.5b</code> in a terminal.
+            <a href="https://ollama.com/library/qwen2.5:1.5b">Qwen on Ollama</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <p>Then connect this page to your app:</p>
+    <ul>
+      <li>Keep your app open.</li>
+      <li>Choose your app in the panel below.</li>
+      <li>Click <strong>Find models</strong>.</li>
+      <li>
+        Select the Qwen model. The Flappy Bird exercise in step 4 needs a model
+        that supports tool calls.
+      </li>
+    </ul>
+    <div class="week-panel">
+      <p class="week-panel-header">
+        How to read <code>Qwen2.5-1.5B-Instruct</code>
+      </p>
+      <dl class="llama-panel-body llama-model-guide">
+        <dt><code>qwen2.5</code></dt>
+        <dd>The model family (Qwen) and its version (2.5).</dd>
+        <dt><code>1.5b</code></dt>
+        <dd>
+          The model’s size: about 1.5 billion parameters. Parameters are the
+          numbers a model adjusts while it learns. More parameters usually means
+          a more capable model that needs more memory.
+        </dd>
+        <dt><code>Instruct</code></dt>
+        <dd>
+          The model was trained to follow instructions and hold a conversation,
+          not only to continue a piece of text.
+        </dd>
+        <dt><code>Q4_K_M</code></dt>
+        <dd>
+          A compression setting you may see on download files. It stores the
+          model’s numbers with less precision, so the file is smaller and uses
+          less memory, usually with a small loss in quality.
+        </dd>
+      </dl>
+    </div>
+    <figure class="lecture-figure llama-source-figure">
+      <Image
+        src={qwenSizes}
+        alt="Qwen Team’s Qwen2.5 comparison chart with a column for each model size."
+        widths={[480, 860, 1440]}
+        sizes="(max-width: 680px) 100vw, 860px"
+        data-no-dither
+      />
+      <figcaption>
+        Qwen2.5 comes in several sizes. Compare the 1.5B column with a larger
+        one to see how the family changes with size. <a
+          href="https://qwenlm.github.io/blog/qwen2.5/"
+          >Qwen2.5 release announcement</a
+        >
+      </figcaption>
+    </figure>
+    <figure class="lecture-figure llama-setup">
+      <Image
+        src={llamaDesktop}
+        alt="Llama App’s menu showing installed and recommended models."
+        data-no-dither
+      />
+      <figcaption>
+        In Llama App, click the download arrow next to a recommended model. <a
+          href="https://llama.app/docs/quickstart">Screenshot from Llama App.</a
+        >
+      </figcaption>
+    </figure>
+    <div class="week-panel">
+      <p class="week-panel-header">Local connection</p>
+      <div class="llama-panel-body">
+        <label class="llama-field">
+          App
+          <select id="llama-runtime">
+            <option value="llama">Llama App</option>
+            <option value="ollama">Ollama</option>
+          </select>
+        </label>
+        <p>
+          Local address <code id="llama-runtime-address"
+            >http://127.0.0.1:9931</code
+          >
+        </p>
+        <div class="llama-toolbar">
+          <button id="llama-find" type="button" class="button"
+            >Find models</button
+          >
+          <p id="llama-connection-status" role="status">Waiting to connect.</p>
+        </div>
+        <label class="llama-field">
+          Model
+          <select id="llama-model" disabled>
+            <option value="">Connect to load your models</option>
+          </select>
+        </label>
+        <p id="llama-model-details" hidden></p>
+      </div>
+    </div>
+    <details class="week-toc">
+      <summary
+        ><span class="toc-heading-link">Connection help</span><span
+          class="toc-disclosure"
+          aria-hidden="true"></span></summary
+      >
+      <p>
+        Keep your app running. If your browser asks to allow local network
+        access, choose Allow, because this page needs it to reach the app. If
+        you use Ollama on the published class site, add the site’s exact address
+        to Ollama’s <code>OLLAMA_ORIGINS</code> setting and restart Ollama. You can
+        also avoid this by opening a local preview from <code>127.0.0.1</code>. <a
+          href="https://docs.ollama.com/faq#how-can-i-allow-additional-web-origins-to-access-ollama"
+          >Ollama browser access</a
+        >
+      </p>
+    </details>
+  </div>
+
+  <h2 id="llama-prompt" class="llama-step">2. Write a system message</h2>
+  <div class="llama-stack">
+    <p>
+      A <strong>system message</strong> is a set of instructions that comes before
+      the conversation. It tells the model who to be and how to respond. Choose an
+      example role or write your own, then change it to hear how the same model sounds
+      different.
+    </p>
+    <section class="week-panel" id="llama-chat-settings">
+      <p class="week-panel-header">Role and settings</p>
+      <div class="llama-panel-body">
+        <label class="llama-field">
+          Role
+          <select id="llama-persona">
+            {
+              personas.map((persona) => (
+                <option data-persona={JSON.stringify(persona)}>
+                  {persona.label}
+                </option>
+              ))
+            }
+          </select>
+        </label>
+        <label class="llama-field">
+          System message
+          <textarea
+            id="llama-system"
+            rows="4"
+            maxlength="4000"
+            set:text={personas[0].instructions}
+          />
+        </label>
+      </div>
+      <details class="week-toc llama-code">
+        <summary
+          ><span class="toc-heading-link"
+            >Temperature, top-p, and output limit</span
+          ><span class="toc-disclosure" aria-hidden="true"></span></summary
+        >
+        <div class="llama-panel-body llama-settings">
+          <div>
+            <label class="llama-field">
+              <span
+                >Temperature <span
+                  class="llama-slider-value"
+                  data-slider-value="llama-temperature"
+                  aria-hidden="true">0.8</span
+                ></span
+              >
+              <input
+                id="llama-temperature"
+                type="range"
+                min="0"
+                max="2"
+                step="0.1"
+                value="0.8"
+                aria-describedby="llama-temperature-help"
+              />
+            </label>
+            <p id="llama-temperature-help">
+              Controls how predictable the reply is. At <code>0</code>, the
+              model picks the most likely next token every time. Higher values
+              let less likely tokens in, so replies get more varied and less
+              reliable. Try <code>0</code> and <code>1</code> with the same message.
+            </p>
+          </div>
+          <div>
+            <label class="llama-field">
+              <span
+                >Top-p <span
+                  class="llama-slider-value"
+                  data-slider-value="llama-top-p"
+                  aria-hidden="true">0.9</span
+                ></span
+              >
+              <input
+                id="llama-top-p"
+                type="range"
+                min="0.05"
+                max="1"
+                step="0.05"
+                value="0.9"
+                aria-describedby="llama-top-p-help"
+              />
+            </label>
+            <p id="llama-top-p-help">
+              Limits the model to the most likely tokens that together add up to
+              this share of the probability. A smaller value means fewer choices
+              and safer replies.
+            </p>
+          </div>
+          <div>
+            <label class="llama-field">
+              <span
+                >Max output tokens <span
+                  class="llama-slider-value"
+                  data-slider-value="llama-limit"
+                  aria-hidden="true">192</span
+                ></span
+              >
+              <input
+                id="llama-limit"
+                type="range"
+                min="16"
+                max="512"
+                step="16"
+                value="192"
+                aria-describedby="llama-limit-help"
+              />
+            </label>
+            <p id="llama-limit-help">
+              Sets the longest reply the model can write. A token is a word,
+              part of a word, or a punctuation mark. If the limit is too low, a
+              reply can stop in the middle of a sentence.
+            </p>
+          </div>
+        </div>
+      </details>
+    </section>
+    <details class="week-toc llama-code">
+      <summary
+        ><span class="toc-heading-link">Context window in Llama App</span><span
+          class="toc-disclosure"
+          aria-hidden="true"></span></summary
+      >
+      <figure class="lecture-figure llama-setup">
+        <Image
+          src={llamaContext}
+          alt="Llama App menu with context window options for a model."
+          data-no-dither
+        />
+        <figcaption>
+          <strong>Context length</strong> is how much text the model can read at
+          once, including your messages and its replies. <strong
+            >Max output tokens</strong
+          > is a separate limit on how long a single reply can be. A larger context
+          uses more memory. <a href="https://llama.app/docs/quickstart"
+            >Screenshot from the Llama App quickstart.</a
+          >
+        </figcaption>
+      </figure>
+    </details>
+  </div>
+
+  <h2 id="llama-request" class="llama-step">3. Chat with the model</h2>
+  <div class="llama-stack">
+    <p>
+      Send a message and read the reply. Then try the same message in another
+      language, or ask the model to answer in a different one. Qwen2.5 <a
+        href="https://qwenlm.github.io/blog/qwen2.5/"
+        >lists support for more than 29 languages</a
+      >, but a small model can be uneven. Notice where the role stays
+      consistent, where the grammar slips, and what changes when you switch
+      languages in the middle of a conversation.
+    </p>
+    <section class="week-panel" aria-labelledby="llama-chat-persona">
+      <div class="week-panel-header conversation-header">
+        <div>
+          <strong id="llama-chat-persona" set:text={personas[0].name} />
+          <p id="llama-chat-scene" set:text={personas[0].opening} />
+        </div>
+        <button type="button" class="llama-example" id="llama-chat-reset"
+          >New chat</button
+        >
+      </div>
+      <div class="llama-panel-body">
+        <ol
+          class="conversation-log"
+          id="llama-chat-log"
+          aria-label="Chat transcript"
+          aria-live="polite"
+        >
+        </ol>
+        <form id="llama-chat-form" class="conversation-composer">
+          <label class="llama-field">
+            Your message
+            <textarea
+              id="llama-user"
+              rows="2"
+              maxlength="1200"
+              placeholder="Write a message. Try another language too."
+              required></textarea>
+          </label>
+          <div class="llama-toolbar">
+            <button type="submit" class="button" id="llama-send" disabled
+              >Send</button
+            >
+            <button type="button" class="llama-example" id="llama-cancel" hidden
+              >Stop reply</button
+            >
+            <p id="llama-chat-status" role="status"></p>
+          </div>
+        </form>
+        <details class="week-toc llama-code">
+          <summary
+            ><span class="toc-heading-link">Inspect the latest exchange</span
+            ><span class="toc-disclosure" aria-hidden="true"></span></summary
+          >
+          <p>
+            Open this to see exactly what your browser sent and what came back.
+            Each request includes the system message and the last six exchanges.
+          </p>
+          <pre><code id="llama-request-json" /></pre>
+          <pre><code id="llama-response-json" /></pre>
+        </details>
+      </div>
+    </section>
+    <MunusNote label="System messages and chat history">
+      <p>
+        The model doesn’t remember your earlier messages. Each time you send
+        one, the page sends the <code>system</code> message and the recent conversation
+        again, and the model reads all of it before replying. That’s why a follow-up
+        question can refer back to something you said before.
+      </p>
+    </MunusNote>
+  </div>
+
+  <h2 id="llama-tools" class="llama-step">
+    4. Tool calls and structured output
+  </h2>
+  <div class="llama-stack">
+    <p>
+      A model can do more than write text. Here, it chooses an action. In
+      <strong>Arcade</strong> mode, press Space or tap to flap and fly. In
+      <strong>Model Autopilot</strong> mode, press Start and watch the model fly.
+      The page asks it for a new move again and again until the bird crashes or you
+      stop it. See how many pipes it can clear.
+    </p>
+    <div class="week-panel" id="llama-bird">
+      <div class="week-panel-header bird-header">
+        <strong>Flappy Bird</strong>
+        <div class="bird-modes" role="group" aria-label="Game mode">
+          <button type="button" data-bird-mode="arcade" aria-pressed="true"
+            >Arcade</button
+          >
+          <button type="button" data-bird-mode="llama" aria-pressed="false"
+            >Model Autopilot</button
+          >
+        </div>
+      </div>
+      <div class="llama-panel-body bird-body">
+        <div class="bird-frame">
+          <button
+            id="bird-stage-control"
+            type="button"
+            aria-label="Flap in Arcade mode"
+          >
+            <canvas id="bird-stage" width="480" height="270" aria-hidden="true"
+            ></canvas>
+            <span id="bird-overlay" aria-hidden="true"
+              ><strong id="bird-overlay-title">Ready to fly?</strong><span
+                id="bird-overlay-hint">Space or tap to flap</span
+              ></span
+            >
+          </button>
+          <div class="bird-scoreboard" aria-label="Scores">
+            <span>Pipes <strong id="bird-score">0</strong></span>
+            <span>Best <strong id="bird-best">0</strong></span>
+          </div>
+        </div>
+        <div class="llama-toolbar bird-controls">
+          <button type="button" class="button" data-bird-move="flap"
+            >Flap</button
+          >
+          <div id="bird-pilot-controls" hidden>
+            <button type="button" class="button" id="bird-ask" disabled
+              >Start autopilot</button
+            >
+          </div>
+          <button type="button" class="llama-example" id="bird-pause" disabled
+            >Pause</button
+          >
+          <button type="button" class="llama-example" id="bird-reset"
+            >Reset game</button
+          >
+        </div>
+        <p id="bird-status" role="status">
+          Press Space on the game or tap the board to start.
+        </p>
+        <ol id="bird-flight-log" aria-label="Recent model moves" hidden></ol>
+        <details class="week-toc llama-code bird-code" id="bird-inspect" hidden>
+          <summary
+            ><span class="toc-heading-link"
+              >Inspect the latest observation, tool, and reply</span
+            ><span class="toc-disclosure" aria-hidden="true"></span></summary
+          >
+          <pre><code id="bird-inspector" /></pre>
+        </details>
+      </div>
+    </div>
+    <p>
+      Each turn, the page tells the model where the bird is and what the game
+      predicts will happen after <code>flap</code> or <code>glide</code>. The
+      model replies by calling a tool named <code>move_bird</code>. The page
+      checks the call, makes the move, and sends the next situation.
+    </p>
+    <MunusNote label="Tool calls: propose, validate, execute">
+      <p>
+        A <strong>tool call</strong> is how a model asks for something to happen.
+        You describe a tool and the inputs it accepts, and the model can propose
+        a call, like <code>move_bird</code> with the action
+        <code>flap</code>. The model doesn’t move the bird. Your code checks the
+        proposal, decides whether to run it, and sends back what happened.
+      </p>
+    </MunusNote>
+  </div>
+
+  <h3 id="llama-shared-drawing">Color an illustration together</h3>
+  <div class="llama-stack">
+    <p>
+      Now the model works with you on a shared drawing. Pick a color and click
+      an area to fill it. When you start model coloring, the model fills the
+      lavender areas on its own. Type your own art direction to guide its
+      choices. The model can use any color.
+    </p>
+    <section
+      class="week-panel"
+      id="llama-canvas"
+      aria-labelledby="canvas-title"
+    >
+      <div class="week-panel-header coloring-header">
+        <strong id="canvas-title">Coloring illustration</strong>
+        <span id="canvas-count"></span>
+      </div>
+      <div class="llama-panel-body">
+        <canvas
+          width="720"
+          height="480"
+          aria-label="Text-free coloring illustration. Click an area to fill it with the selected color."
+        ></canvas>
+        <label class="llama-field coloring-picker">
+          Your color
+          <input id="canvas-color" type="color" value="#f28ab5" />
+        </label>
+        <div class="coloring-controls">
+          <label class="llama-field">
+            Your art direction for the model (optional)
+            <textarea
+              id="canvas-brief"
+              rows="3"
+              maxlength="500"
+              placeholder="Describe the colors or mood you want, like “a quiet winter morning.”"
+            ></textarea>
+          </label>
+          <button type="button" class="button" id="canvas-toggle" disabled
+            >Start model coloring</button
+          >
+        </div>
+        <div class="llama-toolbar">
+          <button type="button" class="llama-example" id="canvas-clear"
+            >Reset illustration</button
+          >
+          <p id="canvas-status" role="status">
+            Choose a color, then click the illustration.
+          </p>
+        </div>
+        <details class="week-toc llama-code">
+          <summary
+            ><span class="toc-heading-link"
+              >Inspect the latest color decision</span
+            ><span class="toc-disclosure" aria-hidden="true"></span></summary
+          >
+          <pre><code id="canvas-json">The latest color decision will appear here.</code></pre>
+        </details>
+      </div>
+    </section>
+    <MunusNote label="Structured output and shared state">
+      <p>
+        Normally a model writes free text. <strong>Structured output</strong> makes
+        it reply in a fixed format that your code can read. Here, a JSON schema requires
+        a region name and a hex color code like <code>#4a90d9</code>, and the
+        page checks both before it paints. Each request also includes your art
+        direction and the colors used so far, so the model can respond to what
+        you’ve done.
+      </p>
+    </MunusNote>
+  </div>
+
+  <h2 id="llama-agents" class="llama-step">5. Let two speakers talk</h2>
+  <div class="llama-stack">
+    <p>
+      One model plays both speakers by taking turns. Each speaker has their own
+      system message, and both share the same setting. Choose an example pair or
+      write your own, then press Start. Change a speaker’s instructions and run
+      it again to see how small edits change the conversation. Try the pirate
+      and chef pair to see whether each speaker stays in their own language.
+    </p>
+    <section class="week-panel" id="llama-stage" aria-labelledby="stage-title">
+      <p class="week-panel-header" id="stage-title">Two speakers</p>
+      <div class="llama-panel-body">
+        <label class="llama-field">
+          Example pair
+          <select id="stage-preset">
+            {
+              stagePresets.map((preset) => (
+                <option data-preset={JSON.stringify(preset)}>
+                  {preset.label}
+                </option>
+              ))
+            }
+          </select>
+        </label>
+        <div class="stage-cast">
+          {
+            stagePresets[0].speakers.map((speaker) => (
+              <div data-actor>
+                <label class="llama-field">
+                  Speaker name
+                  <input type="text" maxlength="30" value={speaker.name} />
+                </label>
+                <label class="llama-field">
+                  System message
+                  <textarea
+                    maxlength="240"
+                    rows="3"
+                    placeholder="Write an instruction for this speaker."
+                    set:text={speaker.instructions}
+                  />
+                </label>
+              </div>
+            ))
+          }
+        </div>
+        <label class="llama-field">
+          Setting
+          <textarea
+            id="stage-direction"
+            rows="2"
+            maxlength="300"
+            placeholder="Describe where they are or what they’re discussing."
+            set:text={stagePresets[0].context}
+          />
+        </label>
+        <div class="llama-toolbar">
+          <button type="button" class="button" id="stage-toggle" disabled
+            >Start conversation</button
+          >
+          <button type="button" class="llama-example" id="stage-reset"
+            >Reset conversation</button
+          >
+          <p id="stage-status" role="status"></p>
+        </div>
+        <ol
+          class="conversation-log"
+          id="stage-dialogue"
+          aria-label="Conversation"
+          aria-live="polite"
+        >
+        </ol>
+        <details class="week-toc llama-code">
+          <summary
+            ><span class="toc-heading-link">Inspect the latest request</span
+            ><span class="toc-disclosure" aria-hidden="true"></span></summary
+          >
+          <pre><code id="stage-json">The latest request and response will appear here.</code></pre>
+        </details>
+      </div>
+    </section>
+    <MunusNote label="Roles and conversation history">
+      <p>
+        Both speakers are the same model. The page switches between two system
+        messages and sends the conversation so far with each request. For each
+        speaker, their own earlier lines are labeled as the assistant and the
+        other speaker’s lines as the user, which is how the model can answer
+        someone else. Small models often drift out of character or repeat each
+        other, so watch for that.
+      </p>
+    </MunusNote>
+  </div>
+
+  <h2 id="llama-mcp" class="llama-step">Going further: MCP</h2>
+  <div class="llama-stack">
+    <p>
+      The Flappy Bird tool, <code>move_bird</code>, is defined inside this page.
+      <strong>MCP (Model Context Protocol)</strong> is an open standard for connecting
+      a model to tools in other apps. An app acting as the host can find those tools,
+      show their names and inputs to your local model, and run the calls the model
+      requests. The host decides which tools the model is allowed to use. <a
+        href="https://modelcontextprotocol.io/docs/learn/architecture"
+        >MCP architecture</a
+      >
+      <a href="https://llama.app/docs/agents">Connect Llama App to a host</a>
+    </p>
+    <ul>
+      <li>
+        <strong>GitHub.</strong> Read an issue, summarize a pull request, or check
+        which changes are waiting for review. <a
+          href="https://github.com/github/github-mcp-server"
+          >GitHub MCP server</a
+        >
+      </li>
+      <li>
+        <strong>Library documentation.</strong> Look up examples for the exact version
+        of a library you’re using. <a href="https://github.com/upstash/context7"
+          >Context7</a
+        >
+      </li>
+      <li>
+        <strong>Browser testing.</strong> Open your sketch, click its buttons, and
+        check that they work. <a
+          href="https://github.com/microsoft/playwright-mcp"
+          >Playwright MCP server</a
+        >
+      </li>
+    </ul>
+  </div>
+
+  <h2 id="llama-reuse" class="llama-step">Start your own JavaScript sketch</h2>
+  <div class="llama-stack llama-starters">
+    <p>
+      Create a <code>sketch.js</code> file and load it in your page with
+      <code>&lt;script type="module" src="./sketch.js"&gt;&lt;/script&gt;</code
+      >. Serve the page locally, for example with VS Code Live Preview. First,
+      paste in the shared setup code below. Then add one of the examples under
+      it. Keep your app open while the sketch runs.
+    </p>
+    <CodeSnippet
+      code={llamaSetup}
+      language="js"
+      title="Shared setup for sketch.js"
+    />
+    {
+      llamaStarters.map(({ title, guide, code }) => (
+        <details class="week-toc llama-starter">
+          <summary>
+            <>
+              <span class="toc-heading-link">{title}</span>
+              <span class="toc-disclosure" aria-hidden="true" />
+            </>
+          </summary>
+          <p>{guide}</p>
+          <CodeSnippet
+            code={code}
+            language="js"
+            title="Add below the shared setup"
+          />
+        </details>
+      ))
+    }
+  </div>
+
+  <h2 id="llama-resources" class="llama-step">Tutorials and resources</h2>
+  <ul>
+    <li>
+      <a href="https://llama.app/docs/quickstart">Llama App quickstart</a>:
+      download a model and open its chat.
+    </li>
+    <li>
+      <a href="https://llama.app/docs/api">Llama App API reference</a>: <code
+        >GET /v1/models</code
+      >, <code>POST /v1/chat/completions</code>, JSON output, and tool calls.
+    </li>
+    <li>
+      <a
+        href="https://qwen.readthedocs.io/en/v2.5/getting_started/concepts.html"
+        >Qwen’s key concepts</a
+      >: how Qwen names its versions and model sizes.
+    </li>
+  </ul>
+</WeekPost>
+
+<script>
+  import "@/scripts/llama-playground.js";
+</script>
+
+<style>
+  :global(.llama-content > h1) {
+    margin-bottom: 1rem;
+    text-align: left;
+  }
+
+  .llama-intro {
+    max-width: 68ch;
+  }
+
+  .llama-reference {
+    margin-block-start: 1.5rem;
+    border-top: 1px solid var(--sketch-echo);
+    padding-top: 1rem;
+    max-width: 32ch;
+  }
+
+  :global(#week-header) .llama-reference .sidebar-section-title {
+    margin: 0 0 0.75rem !important;
+  }
+
+  .llama-reference dt {
+    font-weight: 650;
+  }
+
+  .llama-reference dd + dt {
+    margin-top: 0.55rem;
+  }
+
+  :global(#week-content .content-section) > .llama-step {
+    margin-block: 2rem 0.75rem;
+    border-top: 1px solid currentColor;
+    padding: 1rem 0 0;
+    font-size: 1.45rem;
+  }
+
+  :global(#week-content) .llama-step::before {
+    content: none;
+  }
+
+  .llama-stack,
+  .llama-panel-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.85rem;
+    min-width: 0;
+  }
+
+  .llama-panel-body {
+    padding: 0.85rem;
+  }
+
+  .llama-stack > :is(.week-panel, .llama-setup),
+  .llama-stack > :global(.munus-note),
+  .llama-toolbar .button {
+    margin: 0;
+  }
+
+  :global(#week-content) .llama-setup {
+    max-width: 29rem;
+  }
+
+  .llama-field {
+    display: grid;
+    align-content: start;
+    gap: 0.35rem;
+    min-width: 0;
+    font-weight: 650;
+  }
+
+  .llama-field :is(input, textarea, select) {
+    border: 1px solid var(--sketch-echo);
+    background: var(--sketch-paper);
+    padding: 0.45rem 0.65rem;
+    width: 100%;
+    font-weight: 400;
+    font-size: var(--body-copy-size);
+    line-height: 1.5;
+  }
+
+  .llama-settings {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    border-top: 1px solid var(--sketch-echo);
+  }
+
+  .llama-settings > div p {
+    margin-top: 0.3rem;
+    line-height: 1.45;
+  }
+
+  .llama-field input[type="range"] {
+    border: 0;
+    background: transparent;
+    padding: 0.2rem 0;
+    min-height: 2rem;
+    accent-color: var(--sketch-accent);
+  }
+
+  .llama-slider-value {
+    float: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .llama-model-guide {
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: 0.55rem 0.85rem;
+  }
+
+  .llama-model-guide dt {
+    font-weight: 650;
+  }
+
+  .llama-starter,
+  :global(#week-content) .llama-starters :global(.expressive-code),
+  .llama-starters :global(.expressive-code .frame) {
+    min-inline-size: 0;
+    max-inline-size: 100%;
+  }
+
+  .llama-starters :global(.expressive-code pre) {
+    max-inline-size: 100%;
+    overflow-x: auto;
+  }
+
+  .llama-starter > p {
+    margin: 0.55rem 0;
+  }
+
+  #bird-stage {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .bird-header {
+    flex-wrap: wrap;
+  }
+
+  .bird-modes,
+  .bird-scoreboard {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .bird-modes button {
+    cursor: pointer;
+    border: 1px solid var(--sketch-echo);
+    border-radius: 2rem;
+    padding: 0.3rem 0.65rem;
+  }
+
+  .bird-modes button[aria-pressed="true"] {
+    border-color: var(--sketch-accent);
+    background: var(--sketch-accent);
+    color: white;
+  }
+
+  .bird-frame {
+    position: relative;
+    border-radius: 0.65rem;
+    background: #302842;
+  }
+
+  #bird-stage-control {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    border-radius: inherit;
+    width: 100%;
+    overflow: hidden;
+    touch-action: manipulation;
+  }
+
+  #bird-stage-control:disabled {
+    cursor: default;
+  }
+
+  .bird-scoreboard {
+    position: absolute;
+    top: clamp(0.45rem, 2vw, 0.85rem);
+    left: clamp(0.45rem, 2vw, 0.85rem);
+    pointer-events: none;
+  }
+
+  .bird-scoreboard span,
+  #bird-overlay {
+    border: 1px solid #e9d8c85c;
+    border-radius: 0.5rem;
+    background: #29213deb;
+    color: #fff0d4;
+  }
+
+  .bird-scoreboard span {
+    padding: 0.22rem 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .bird-scoreboard strong {
+    margin-left: 0.15rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  #bird-overlay {
+    display: grid;
+    position: absolute;
+    gap: 0.25rem;
+    transform: translate(-50%, -48%);
+    inset: 50% auto auto 50%;
+    padding: clamp(0.45rem, 2vw, 0.85rem) clamp(0.8rem, 3vw, 1.4rem);
+    width: max-content;
+    max-width: 85%;
+    pointer-events: none;
+  }
+
+  #bird-overlay[hidden] {
+    display: none;
+  }
+
+  #bird-overlay-title {
+    font-size: clamp(1.2rem, 3.5vw, 2rem);
+    line-height: 1.15;
+  }
+
+  .bird-code {
+    border-top: 1px solid var(--sketch-echo);
+    padding: 0.65rem 0 0;
+  }
+
+  :global(#week-content) :is(.llama-source-figure, .llama-setup) {
+    margin: 0;
+  }
+
+  .llama-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem 0.85rem;
+  }
+
+  .llama-example {
+    cursor: pointer;
+    border: 1px solid var(--sketch-echo);
+    border-radius: 2rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .llama-example:hover {
+    background: #e1daf2;
+  }
+
+  .llama-example[aria-pressed="true"] {
+    border-color: var(--sketch-accent);
+    background: var(--sketch-accent);
+    color: white;
+  }
+
+  .llama-example:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+
+  .llama-code {
+    padding: 0.85rem;
+  }
+
+  pre {
+    margin: 0;
+    background: var(--sketch-paper);
+    padding: 0.65rem;
+    max-width: 100%;
+    max-height: 28rem;
+    overflow: auto;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  .llama-code pre {
+    margin-block-start: 0.5rem;
+  }
+
+  :global(html[data-course-year="2026"]) code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace !important;
+  }
+
+  :global(#week-content) :not(pre) > code,
+  .llama-reference code {
+    box-decoration-break: clone;
+    border: 1px solid #cfc0dd;
+    border-radius: 0.24rem;
+    background: #eee5f6;
+    padding: 0.04em 0.28em;
+    color: #3b2854;
+    font-size: 0.88em;
+    overflow-wrap: anywhere;
+  }
+
+  :global(#week-content) #bird-flight-log {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  :global(#week-content) #bird-flight-log :global(li) {
+    border: 1px solid #d7cbe2;
+    border-radius: 0.35rem;
+    background: #f8f2fb;
+    padding: 0.25rem 0.45rem;
+    font-size: 0.84rem;
+    list-style: none;
+  }
+
+  :global(#week-content) #bird-flight-log[hidden] {
+    display: none;
+  }
+
+  #bird-pilot-controls[hidden] {
+    display: none;
+  }
+
+  .conversation-header {
+    justify-content: space-between;
+    align-items: start;
+    gap: 1rem;
+  }
+
+  .conversation-header p {
+    margin-top: 0.2rem;
+    max-width: 60ch;
+  }
+
+  .conversation-header button {
+    flex: none;
+  }
+
+  :global(#week-content) .conversation-log {
+    display: grid;
+    gap: 0.7rem;
+    margin: 0;
+    border: 1px solid #d1c3df;
+    border-radius: 0.55rem;
+    background: #f6effa;
+    padding: 0.85rem;
+    max-height: 28rem;
+    overflow-y: auto;
+    list-style: none;
+  }
+
+  :global(#week-content) .conversation-log:empty {
+    display: none;
+  }
+
+  :global(#week-content) .conversation-log :global(li) {
+    margin: 0;
+    border-radius: 0.25rem 0.7rem 0.7rem;
+    background: #e8daef;
+    padding: 0.65rem 0.85rem;
+    width: fit-content;
+    max-width: 88%;
+    list-style: none;
+    overflow-wrap: anywhere;
+  }
+
+  :global(#week-content)
+    .conversation-log
+    :global(li:is([data-speaker="user"], [data-speaker="1"])) {
+    justify-self: end;
+    border-radius: 0.7rem 0.25rem 0.7rem 0.7rem;
+    background: #dbece6;
+  }
+
+  .conversation-log :global(li > strong) {
+    display: block;
+    margin-bottom: 0.2rem;
+    font-size: 0.84rem;
+  }
+
+  .conversation-log :global(li > p) {
+    white-space: pre-wrap;
+  }
+
+  .conversation-composer {
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .coloring-header {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.35rem 1rem;
+  }
+
+  #canvas-count {
+    color: #493a59;
+    font-variant-numeric: tabular-nums;
+  }
+
+  #llama-canvas canvas {
+    display: block;
+    cursor: crosshair;
+    border: 1px solid #b5a4ce;
+    border-radius: 0.55rem;
+    background: #2b2144;
+    width: 100%;
+    height: auto;
+  }
+
+  .coloring-picker input[type="color"] {
+    cursor: pointer;
+    padding: 0.15rem;
+    width: 4.5rem;
+    height: 2.5rem;
+  }
+
+  .coloring-controls {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 0.55rem;
+  }
+
+  .coloring-controls :is(button, .button) {
+    justify-self: start;
+    margin: 0;
+  }
+
+  @media (max-width: 540px) {
+    .coloring-controls {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .stage-cast {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+    gap: 0.65rem;
+  }
+
+  .stage-cast > div {
+    display: grid;
+    gap: 0.65rem;
+    border: 1px solid #cebedc;
+    border-radius: 0.45rem;
+    background: #f6effa;
+    padding: 0.65rem 0.85rem;
+  }
+
+  .stage-cast > div[data-active="true"] {
+    box-shadow: inset 0 -3px var(--sketch-accent);
+    border-color: var(--sketch-accent);
+  }
+</style>

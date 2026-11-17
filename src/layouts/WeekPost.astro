@@ -9,7 +9,6 @@ import Nav from "@/components/Nav.astro";
 import Analytics from "@vercel/analytics/astro";
 import StudentResponses from "@/components/StudentResponses.astro";
 import ArchiveNotice from "@/components/ArchiveNotice.astro";
-import WeekTldr from "@/components/WeekTldr.astro";
 import WeekCursorFlock from "@/components/WeekCursorFlock.astro";
 import "@/styles/lectures.css";
 import { getYearBasePath, getYearConfig, isArchivedYear } from "@/config";
@@ -19,6 +18,8 @@ import { marked } from "marked";
 type Props = CollectionEntry<"weeks">["data"] & {
   year: number;
   contentId?: string;
+  contentClass?: string;
+  pageLinks?: { href: string; label: string }[];
 };
 
 const {
@@ -30,6 +31,8 @@ const {
   heroImage,
   heroImageAlt,
   year,
+  contentClass,
+  pageLinks,
 } = Astro.props;
 const config = getYearConfig(year);
 const archived = isArchivedYear(year);
@@ -80,7 +83,7 @@ function addHeadingAnchors(html: string): {
   const outline: OutlineItem[] = [];
   const slugCounts = new Map<string, number>();
   const content = html.replace(
-    /<h([23])([^>]*)>(.*?)<\/h\1>/gi,
+    /<h([23])([^>]*)>(.*?)<\/h\1>/gis,
     (heading, rawLevel, rawAttributes, innerHTML) => {
       const level = Number(rawLevel) as 2 | 3;
       const title = cleanHeadingText(innerHTML);
@@ -129,7 +132,7 @@ function resolveCourseLinks(html: string): string {
 }
 
 function wrapContentSections(html: string): string {
-  const h2Regex = /(<h2[^>]*>.*?<\/h2>)/gi;
+  const h2Regex = /(<h2[^>]*>.*?<\/h2>)/gis;
   const parts = html.split(h2Regex);
   let result = "";
   let currentSection = "";
@@ -142,7 +145,7 @@ function wrapContentSections(html: string): string {
     let dataSection = "";
 
     if (sectionHasHeading) {
-      const h2Match = content.match(/<h2[^>]*>(.*?)<\/h2>/i);
+      const h2Match = content.match(/<h2[^>]*>(.*?)<\/h2>/is);
       if (h2Match) {
         const sectionId = h2Match[1]
           .replace(/<[^>]*>/g, "")
@@ -184,13 +187,14 @@ const processedContent = wrapContentSections(
   archived ? disableSubmissionLinks(linkedContent) : linkedContent,
 );
 const shouldTrackAnalytics = import.meta.env.PROD;
+const pageTitle = pageLinks ? title : `Week ${week}: ${title}`;
 ---
 
 <!doctype html>
 <html lang="en" data-course-year={year}>
   <head>
     <BaseHead
-      title={`Week ${week}: ${title}`}
+      title={pageTitle}
       description={description}
       image="/opengraph.jpg"
     />
@@ -203,7 +207,7 @@ const shouldTrackAnalytics = import.meta.env.PROD;
         <a href={`${basePath}/`}>
           <CourseTitle year={year} />
         </a>
-        <h2 class="heading-1">Week {week}</h2>
+        {!pageLinks && <h2 class="heading-1">Week {week}</h2>}
         {
           tldr && (
             <p class="week-description my-8" set:html={tldr}/>
@@ -215,14 +219,28 @@ const shouldTrackAnalytics = import.meta.env.PROD;
             <div class="long-description" set:html={longDescriptionHTML} />
           )
         }
-        <nav class="weekly-schedule"><Nav year={year} /></nav>
+        {
+          pageLinks ? (
+            <nav class="week-toc" aria-label="Week resources">
+              <ol>
+                {pageLinks.map(({ href, label }) => (
+                  <li><a href={href}>{label}</a></li>
+                ))}
+              </ol>
+            </nav>
+          ) : (
+            <nav class="weekly-schedule"><Nav year={year} /></nav>
+          )
+        }
         {
           pageOutline.length > 0 && (
             <nav class="week-toc" aria-label={`Week ${week} page sections`}>
               <h1 class="sidebar-section-title">On This Page</h1>
               <ol>
                 <li class="toc-level-2">
-                  <a href="#week-content">Week {week} overview</a>
+                  <a href="#week-content">
+                    {pageLinks ? "Overview" : `Week ${week} overview`}
+                  </a>
                 </li>
                 {groupedPageOutline.map(({ heading, children }) => (
                   <li class={`toc-level-${heading.level}`}>
@@ -251,17 +269,22 @@ const shouldTrackAnalytics = import.meta.env.PROD;
             </nav>
           )
         }
-        <div class="week-sidebar-responses">
-          <StudentResponses year={year} week={week} />
-        </div>
+        {
+          !pageLinks && (
+            <div class="week-sidebar-responses">
+              <StudentResponses year={year} week={week} />
+            </div>
+          )
+        }
+        <slot name="sidebar" />
       </div>
       <div class="week-sidebar-meta">
         <Footer year={year} />
       </div>
     </header>
 
-    <main id="week-content" class="week-main-content">
-      <h1 class="heading-1 !no-underline !mt-0 text-center !max-w-[var(--week-content-max)]">Week {week}: {title}</h1>
+    <main id="week-content" class:list={["week-main-content", contentClass]}>
+      <h1 class="heading-1 !no-underline !mt-0 text-center !max-w-[var(--week-content-max)]">{pageTitle}</h1>
       {
         heroImage && (
           <figure class:list={["week-hero", tldrHTML && "week-hero--has-tldr"]}>

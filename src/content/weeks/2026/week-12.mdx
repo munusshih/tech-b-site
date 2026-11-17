@@ -1,0 +1,64 @@
+---
+title: "Attention Is All You Need"
+description: "Explore how language models generate text and use a local model to develop your Alternative Now(s) project."
+week: 12
+heroImage: "../../../assets/week-12-community-memory.jpg"
+heroImageAlt: "A [Community Memory workstation](https://commons.wikimedia.org/wiki/File:Community_Memory_Project_coin-op_workstation_1,_Computer_History_Museum,_Mountain_View,_California,_USA_(49502016452).jpg) at the Computer History Museum. [Community Memory](https://computerhistory.org/blog/community-memory-precedents-in-social-media-and-movements/) began in 1973 as a public computer bulletin board in a Berkeley record shop. Photo by Cory Doctorow, resized, [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/)."
+draft: false
+tldr: |
+  What changes when a machine writes on someone else’s behalf?
+
+  <br><br>
+
+  After our Alternative Now(s) critique, we’ll join Tyler Paige’s section for a 30-minute lecture on the history of language models and an hour of hands-on experiments with Llama App or Ollama.
+---
+
+## Lectures
+
+- [Attention Is All You Need (lecture)](https://www.figma.com/proto/5mSFxN6QSa64WnKkg6dpsF/-Tech-B--Week-12?node-id=12004-346&viewport=137%2C3817%2C0.08&t=B7yWF1HJLWW3LBQg-1&scaling=contain&content-scaling=fixed&page-id=0%3A1) (pw: `pratt`)
+
+## Readings
+
+- [A Mathematical Theory of Communication](https://web.mit.edu/6.441/spring05/reading/shannon1948.pdf#page=7), Claude Shannon, section 3
+- [Taroko Gorge](https://nickm.com/poems/taroko_gorge/), Nick Montfort
+- [Attention Is All You Need](https://proceedings.neurips.cc/paper_files/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf#page=3), Ashish Vaswani et al., section 3.2
+- [Not the Only One](https://www.stephaniedinkins.com/ntoo.html), Stephanie Dinkins
+- [Designing AI with Agency](https://hai.stanford.edu/news/hai-visiting-artist-rashaad-newsome-designing-ai-agency), interview with Rashaad Newsome
+
+## Workshops
+
+- [Workshop 1: Markov Chain](/week-12/markov/)
+- [Workshop 2: Generative Grammar with RiTa](/week-12/grammar/)
+- [Workshop 3: Local Model APIs](/week-12/llama/)
+
+### Before Workshop 3
+
+You need a local model app and the Qwen2.5 1.5B model on your computer. Choose one option below and complete both steps.
+
+- **Option 1: Llama App (macOS or Windows 11)**
+  1. **Download the app.** [Install Llama App](https://llama.app/docs/installation).
+  2. **Download the model.** Open the [Qwen2.5-1.5B-Instruct GGUF page](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF) and choose **Use this model → Llama**.
+- **Option 2: Ollama (Windows)**
+  1. **Download the app.** [Install Ollama](https://ollama.com/download/windows).
+  2. **Download the model.** Open PowerShell and run `ollama pull qwen2.5:1.5b`. This downloads the [Qwen2.5 1.5B model](https://ollama.com/library/qwen2.5:1.5b).
+
+## Assignment 12
+
+This assignment is part 2 of [Project 3: Alternative Now(s)](https://tech-b.designfuture.space/#module-3:-disrupting-the-chain-of-thought).
+
+<a
+  href="https://docs.google.com/forms/d/e/1FAIpQLSfSCSweo6LnMUcIWQiqlnzxiyUylDq4f8ZlqdEASHlpQy3Pkw/viewform?usp=publish-editor"
+  target="_blank"
+  class="button"
+  rel="noopener noreferrer"
+>
+  Submit Assignment
+</a>
+
+Choose one _Alternative Now(s)_ sketch from Week 11 and return to a question raised during critique. Who might receive, buy, or keep this work? What kind of relationship do you want it to create or change? Use these questions to guide what you make.
+
+Build on your sketch to make **three technical prototypes** of an encounter with your work. Each one should run: a small program, interface, or script that someone can interact with, where generated language enters and they can respond to it. They can be rough. The prototypes can explore different possibilities or develop the same idea over several iterations; they do not need to be distinct.
+
+Build them with this week’s tools: a [Markov chain](/week-12/markov/), [generative grammar with RiTa](/week-12/grammar/), or a [local AI model](/week-12/llama/). You can use one tool or combine them, and you can start from the [Rain Library starter files](/workshop/rain-library.zip). Pay attention to what the generated language makes possible, what it makes difficult, and how it shapes the encounter.
+
+Bring your three prototypes, along with the code, sources, rules, prompts, and outputs you used. Be ready to discuss what you learned about the relationship at the center of your project and what you might explore next.

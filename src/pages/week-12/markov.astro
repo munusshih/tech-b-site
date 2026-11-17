@@ -1,0 +1,542 @@
+---
+import MunusNote from "@/components/MunusNote.astro";
+import GeneratorExport from "@/components/GeneratorExport.astro";
+import WeekPost from "@/layouts/WeekPost.astro";
+import { ACTIVE_YEAR } from "@/config";
+import { markovSources } from "@/lib/markov-sources";
+
+const pageLinks = [{ href: "/week-12/", label: "← Back to Week 12" }];
+---
+
+<WeekPost
+  title="Workshop 1: Markov Chain"
+  description="Train a Markov chain on your own text, explore its predictions, and generate a draft."
+  week={12}
+  year={ACTIVE_YEAR}
+  contentClass="markov-content"
+  pageLinks={pageLinks}
+>
+  <section
+    slot="sidebar"
+    class="markov-reference"
+    aria-labelledby="markov-reference-title"
+  >
+    <h2 class="sidebar-section-title" id="markov-reference-title">
+      Quick reference
+    </h2>
+    <dl>
+      <dt>Corpus</dt>
+      <dd>The collection of text used to train the model.</dd>
+      <dt>Token</dt>
+      <dd>A unit of text, such as a word or a punctuation mark.</dd>
+      <dt>N-gram</dt>
+      <dd>A sequence of <em>n</em> consecutive tokens.</dd>
+      <dt>Context</dt>
+      <dd>The previous tokens the model uses to predict what comes next.</dd>
+      <dt>Entropy</dt>
+      <dd>
+        How uncertain the model is about the next token, measured in bits.
+      </dd>
+    </dl>
+  </section>
+
+  <div class="markov-intro">
+    <p>
+      A Markov chain predicts the next state from its current state. Here, the
+      current state is a short sequence of tokens. Training counts which tokens
+      followed that sequence in the corpus. Generation samples from those
+      counts, adds a token, and repeats.
+    </p>
+    <p>
+      Start with <em>Alice’s Adventures in Wonderland</em>, compare what changes
+      when you adjust the n-gram size, then remix the corpus and write a draft.
+    </p>
+  </div>
+
+  <h2 id="train" class="markov-step">1. Train the model</h2>
+  <div class="markov-step-body">
+    <p>
+      Try the sample first. Then add a library selection, import a file, or edit
+      the training corpus directly.
+    </p>
+    <form id="training" class="week-panel markov-form">
+      <div class="markov-corpus">
+        <div class="markov-library">
+          <fieldset>
+            <legend>Corpus library</legend>
+            <div class="markov-choices">
+              {
+                markovSources.map(({ title, author, url }, index) => (
+                  <div class="markov-source">
+                    <label>
+                      <input
+                        type="radio"
+                        name="source-preset"
+                        value={index}
+                        checked={index === 0}
+                      />
+                      <span>{title}</span>
+                    </label>
+                    {url && (
+                      <a
+                        href={url}
+                        class="markov-edition"
+                        aria-label={`Read the original edition of ${title}`}
+                      >
+                        {author}
+                      </a>
+                    )}
+                  </div>
+                ))
+              }
+            </div>
+          </fieldset>
+          <div class="markov-actions">
+            <button
+              id="replace-source"
+              type="button"
+              class="button markov-secondary"
+              aria-label="Replace corpus">Replace</button
+            >
+            <button
+              id="add-source"
+              type="button"
+              class="button markov-secondary"
+              aria-label="Append to corpus">Append</button
+            >
+          </div>
+        </div>
+        <div class="markov-corpus-editor">
+          <label class="markov-editor">
+            <span class="week-panel-header">Training corpus</span>
+            <textarea id="corpus" rows="10" maxlength="50000"
+              >{markovSources[0].text}</textarea
+            >
+          </label>
+          <div class="markov-panel-section">
+            <label class="markov-file">
+              Import .txt or .md
+              <input
+                id="source-file"
+                type="file"
+                accept=".txt,.md"
+                aria-describedby="source-status"
+              />
+            </label>
+            <p class="markov-status" id="source-status" role="status"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="markov-panel-section">
+        <fieldset class="markov-ngram" aria-describedby="ngram-hint">
+          <legend>N-gram size</legend>
+          <div class="markov-actions">
+            {
+              [2, 3, 4, 5, 6].map((ngram) => (
+                <label>
+                  <input
+                    type="radio"
+                    name="ngram"
+                    value={ngram}
+                    checked={ngram === 3}
+                  />
+                  {ngram}
+                </label>
+              ))
+            }
+          </div>
+        </fieldset>
+        <p id="ngram-hint">
+          A 3-gram uses two tokens as context and counts the predicted token as
+          the third.
+          <a href="https://rednoise.org/rita/reference/RiTa/markov/index.html"
+            >RiTa</a
+          >
+          also counts punctuation as tokens.
+        </p>
+      </div>
+      <div class="markov-panel-section markov-actions">
+        <button type="submit" class="button">Train model</button>
+        <p class="markov-status" id="training-status" role="status"></p>
+      </div>
+    </form>
+    <MunusNote>
+      <p>
+        Add two sentences that begin with the same phrase and end differently.
+        Train again, then look for that phrase in Step 2. What happens if you
+        add one of those sentences twice?
+      </p>
+    </MunusNote>
+  </div>
+
+  <h2 id="predict" class="markov-step">2. Compare predictions</h2>
+  <div class="markov-step-body">
+    <div class="week-panel">
+      <span class="week-panel-header" id="context-label">Context</span>
+      <input
+        id="context"
+        aria-labelledby="context-label"
+        type="text"
+        maxlength="300"
+        disabled
+      />
+      <div class="markov-panel-section markov-prediction">
+        <div class="markov-flow" aria-hidden="true">
+          <strong>Context used</strong>
+          <div id="context-tokens"></div>
+        </div>
+        <p class="markov-status" id="prediction-status" role="status">
+          Train the model to see its predictions.
+        </p>
+        <ul id="probabilities" aria-label="Next-token probabilities"></ul>
+        <p id="markov-entropy" hidden>
+          <strong>Next-token entropy</strong>
+          <output id="markov-entropy-value"></output>
+        </p>
+      </div>
+    </div>
+    <MunusNote>
+      <p>
+        With <em>Alice</em> and a 3-gram, enter <code>White Rabbit</code>. Two
+        equally likely continuations give 1 bit of entropy. Retrain with a
+        2-gram and enter the same phrase. How do the probabilities change when
+        RiTa uses only <code>Rabbit</code>?
+      </p>
+    </MunusNote>
+  </div>
+
+  <h2 id="write" class="markov-step">3. Write with the model</h2>
+  <div class="markov-step-body">
+    <p>
+      Generate a sentence from <em>Alice</em>. Add a poem to the corpus and
+      retrain, then generate an article to see the mix across three paragraphs.
+      Keep a line from each version and write a line that connects them.
+    </p>
+    <div class="week-panel">
+      <label class="markov-editor">
+        <span class="week-panel-header">Your draft</span>
+        <textarea id="draft" rows="8"></textarea>
+      </label>
+      <div class="markov-panel-section markov-actions">
+        <button id="generate-sentence" type="button" class="button" disabled
+          >Generate sentence</button
+        >
+        <button id="generate-article" type="button" class="button" disabled
+          >Generate article</button
+        >
+        <p class="markov-status" id="draft-status" role="status"></p>
+      </div>
+    </div>
+    <MunusNote>
+      <p>
+        Try combining the opening letters of <em>Frankenstein</em> with a poem. Generate
+        once with a 2-gram and once with a 5-gram. Which phrases feel borrowed, and
+        where do the two voices meet?
+      </p>
+    </MunusNote>
+  </div>
+
+  <h2 id="export" class="markov-step">Use your generator in another project</h2>
+  <GeneratorExport />
+
+  <h2 id="resources" class="markov-step">Tutorials and resources</h2>
+  <ul>
+    <li>
+      <a href="https://rednoise.org/rita/tutorials/ngrams.html"
+        >Generating with Markov chains</a
+      > walks through transitions and a minimal JavaScript example.
+    </li>
+    <li>
+      <a href="https://observablehq.com/@dhowe/tut-rita-ngrams"
+        >RiTa n-grams notebook</a
+      > lets you edit the code and rerun the examples.
+    </li>
+    <li>
+      <a href="https://rednoise.org/rita/reference/RiMarkov/generate/"
+        >RiMarkov.generate()</a
+      > documents how to seed a generation with your own opening tokens.
+    </li>
+    <li>
+      <a
+        href="https://web.mit.edu/6.441/spring05/reading/shannon1948.pdf#page=7"
+        >A Mathematical Theory of Communication</a
+      >, section 3, shows how Shannon built progressively closer approximations
+      of English.
+    </li>
+    <li>
+      <a
+        href="https://web.mit.edu/6.441/spring05/reading/shannon1948.pdf#page=10"
+        >Shannon’s definition of entropy</a
+      >
+      explains why one certain outcome gives 0 bits and two equally likely outcomes
+      give 1 bit.
+    </li>
+    <li>
+      <a
+        href="https://rednoise.org/daniel/res/pdfs/the_readers_project-reading_writing_resisting-howe_cayley.pdf"
+        >The Readers Project</a
+      > describes how John Cayley and Daniel C. Howe use computational reading and
+      writing as literary practice.
+    </li>
+    <li>
+      <a href="/week-12/grammar/">Workshop 2: Generative Grammar with RiTa</a> lets
+      you write the rules a sentence follows.
+    </li>
+  </ul>
+</WeekPost>
+
+<script>
+  import "@/scripts/markov-playground.js";
+</script>
+
+<style>
+  :global(.markov-content > h1) {
+    margin-bottom: 1rem;
+    text-align: left;
+  }
+
+  .markov-intro {
+    display: grid;
+    gap: 0.75rem;
+    max-width: 68ch;
+  }
+
+  .markov-reference {
+    margin-block-start: 1.5rem;
+    border-top: 1px solid var(--sketch-echo);
+    padding-top: 1rem;
+    max-width: 32ch;
+  }
+
+  :global(#week-header) .markov-reference .sidebar-section-title {
+    margin: 0 0 0.75rem !important;
+  }
+
+  .markov-reference dt {
+    font-weight: 650;
+  }
+
+  .markov-reference dd + dt {
+    margin-top: 0.55rem;
+  }
+
+  :global(#week-content .content-section) > .markov-step {
+    margin-block: 2rem 0.75rem;
+    border-top: 1px solid currentColor;
+    padding: 1rem 0 0;
+    font-size: 1.45rem;
+  }
+
+  :global(#week-content) .markov-step::before {
+    content: none;
+  }
+
+  .markov-step-body {
+    display: grid;
+    gap: 0.85rem;
+    min-width: 0;
+  }
+
+  .markov-panel-section {
+    display: grid;
+    gap: 0.75rem;
+    border-top: 1px solid var(--sketch-echo);
+    padding: 0.85rem;
+  }
+
+  .markov-panel-section.markov-actions {
+    display: flex;
+  }
+
+  .markov-prediction {
+    border-top: 0;
+  }
+
+  .markov-step-body > :global(.munus-note),
+  .markov-step-body > :global(.week-panel),
+  .markov-actions .button {
+    margin: 0;
+  }
+
+  .markov-status:empty {
+    position: absolute;
+  }
+
+  :global(#week-content)
+    .markov-step-body
+    :is(
+      legend,
+      label,
+      button,
+      input,
+      textarea,
+      .week-panel-header,
+      .markov-flow
+    ) {
+    font-size: var(--body-copy-size);
+  }
+
+  .markov-form legend,
+  .week-panel-header {
+    font-weight: 650;
+  }
+
+  .markov-editor {
+    display: block;
+  }
+
+  .markov-editor textarea,
+  #context {
+    display: block;
+    background: var(--sketch-paper);
+    padding: 0.65rem 0.8rem;
+    width: 100%;
+    line-height: 1.6;
+  }
+
+  .markov-corpus {
+    display: grid;
+    grid-template-columns: minmax(13.5rem, 0.9fr) minmax(0, 2fr);
+  }
+
+  .markov-library {
+    display: grid;
+    align-content: start;
+    gap: 0.85rem;
+    border-right: 1px solid var(--sketch-echo);
+    background: var(--sketch-paper);
+    padding: 0.85rem;
+  }
+
+  .markov-choices {
+    display: grid;
+    gap: 0.55rem;
+    margin-block-start: 0.6rem;
+  }
+
+  .markov-edition {
+    margin-inline-start: 1.3rem;
+  }
+
+  .markov-actions .markov-secondary {
+    border-color: var(--sketch-echo);
+    background: transparent;
+    padding-inline: 0.8rem;
+    color: var(--sketch-ink);
+  }
+
+  .markov-secondary:hover {
+    background: #e1daf2;
+  }
+
+  .markov-actions,
+  .markov-flow,
+  #context-tokens {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.8rem;
+  }
+
+  .markov-source label,
+  .markov-ngram label {
+    display: flex;
+    align-items: baseline;
+    gap: 0.45rem;
+    cursor: pointer;
+  }
+
+  .markov-source input {
+    flex: none;
+  }
+
+  input[type="radio"] {
+    accent-color: var(--sketch-accent);
+  }
+
+  .markov-ngram label {
+    align-items: center;
+    min-width: 2.5rem;
+    min-height: 2.75rem;
+  }
+
+  .markov-file {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.85rem;
+  }
+
+  .markov-file input {
+    display: block;
+    max-width: 100%;
+    font-weight: 400;
+  }
+
+  @media (max-width: 42rem) {
+    .markov-corpus {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .markov-library {
+      border-right: 0;
+      border-bottom: 1px solid var(--sketch-echo);
+    }
+  }
+
+  .markov-file input::file-selector-button {
+    cursor: pointer;
+    margin-right: 0.65rem;
+    border: 1px solid currentColor;
+    background: var(--sketch-paper);
+    padding: 0.35rem 0.65rem;
+  }
+
+  #context {
+    border-bottom: 1px solid currentColor;
+  }
+
+  #context-tokens :global(span) {
+    border-bottom: 1px solid var(--sketch-accent);
+    overflow-wrap: anywhere;
+  }
+
+  :global(#week-content) #probabilities {
+    margin: 0;
+    padding: 0;
+    max-width: 36rem;
+  }
+
+  :global(#week-content) #probabilities :global(li) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(2rem, 2fr) 4.5rem;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0;
+    overflow-wrap: anywhere;
+  }
+
+  :global(#week-content) #probabilities :global(li::before) {
+    content: none;
+  }
+
+  #probabilities :global(meter) {
+    appearance: none;
+    width: 100%;
+    height: 0.75rem;
+  }
+
+  #probabilities :global(meter::-webkit-meter-optimum-value) {
+    background: var(--sketch-accent);
+  }
+
+  #probabilities :global(meter::-moz-meter-bar) {
+    background: var(--sketch-accent);
+  }
+
+  #probabilities :global(li > :last-child) {
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+</style>
