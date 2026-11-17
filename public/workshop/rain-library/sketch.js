@@ -1,3 +1,4 @@
+/* global document, fetch, AbortSignal, Option */
 // The runtime picker selects the loopback address of Llama App or Ollama.
 const runtime = document.querySelector("#runtime");
 const form = document.querySelector("#draft-form");

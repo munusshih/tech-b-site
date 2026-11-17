@@ -1,17 +1,7 @@
 /* global AbortController, AbortSignal, clearTimeout, document, setTimeout */
+import { stageMessages } from "./llama-instructions.js";
 
 const turnLimit = 8;
-
-// Small models sometimes begin with their own name or wrap a line in quotes.
-function cleanLine(text, name) {
-  const label = new RegExp(
-    `^${name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*:\\s*`,
-    "i",
-  );
-  let line = text.trim();
-  while (label.test(line)) line = line.replace(label, "");
-  return line.replace(/^["“](.*)["”]$/s, "$1").trim();
-}
 
 export function initAgentStage({ complete, getModel }) {
   const root = document.querySelector("#llama-stage");
@@ -30,13 +20,23 @@ export function initAgentStage({ complete, getModel }) {
   let run;
   let timer;
   let history = [];
+  let selectedPreset = preset.value;
+  const sceneDrafts = new Map();
 
   const nameOf = (index) =>
     speakers[index].nameInput.value.trim() || `Speaker ${index + 1}`;
 
   function update() {
+    if (run && run.model !== getModel()) {
+      clearScene();
+      status.textContent = "Model changed. Start a new conversation.";
+      return;
+    }
+    const missingRole = speakers.some(
+      ({ instructions }) => !instructions.value.trim(),
+    );
     preset.disabled = Boolean(run);
-    toggle.disabled = !run && !getModel();
+    toggle.disabled = !run && (!getModel() || missingRole);
     toggle.textContent = run
       ? "Pause conversation"
       : history.length && history.length < turnLimit
@@ -81,59 +81,35 @@ export function initAgentStage({ complete, getModel }) {
     const otherName = nameOf(1 - index);
     const cue = direction.value.trim();
     const instructions = speaker.instructions.value.trim();
-    const systemMessage = [
-      `You are playing ${name} in a conversation with ${otherName}.`,
+    const messages = stageMessages({
+      name,
+      otherName,
       instructions,
-      cue && `Setting: ${cue}`,
-      `Stay in character as ${name} and keep your own point of view. Do not simply agree with ${otherName}, do not repeat earlier lines, and do not write ${otherName}’s lines. Do not start with your name. Write only spoken dialogue, with no stage directions or notes in parentheses.`,
-    ]
-      .filter(Boolean)
-      .join("\n");
-    // Each speaker’s earlier lines are assistant messages; the other speaker’s are user messages.
-    const messages = [{ role: "system", content: systemMessage }];
-    if (index === 0) {
-      messages.push({
-        role: "user",
-        content: `Begin the conversation as ${name} by saying something to ${otherName}.`,
-      });
-    }
-    history.forEach((line, i) => {
-      const own = line.index === index;
-      const latest = i === history.length - 1;
-      // A short reminder on the latest line keeps a small model in its own role.
-      messages.push({
-        role: own ? "assistant" : "user",
-        content:
-          !own && latest
-            ? `${line.text}\n\n(Reply as ${name} in one to three sentences, responding to something specific ${otherName} said.)`
-            : line.text,
-      });
+      cue,
+      history,
+      index,
     });
     speakers.forEach(({ card }, i) => {
       card.dataset.active = String(i === index);
     });
     status.textContent = `${name} is about to respond…`;
     try {
+      const request = { messages, temperature: 0.7, max_tokens: 256 };
       const data = await complete(
         current.model,
-        {
-          messages,
-          temperature: 0.75,
-          max_tokens: 104,
-        },
+        request,
         AbortSignal.any([
           current.controller.signal,
           AbortSignal.timeout(30000),
         ]),
       );
       if (run !== current) return;
-      const content = data.choices?.[0]?.message?.content?.trim() ?? "";
-      const reply = cleanLine(content, name);
       inspect.textContent = JSON.stringify(
-        { speaker: name, messages, response: data },
+        { speaker: name, request, response: data },
         null,
         2,
       );
+      const reply = data.choices?.[0]?.message?.content?.trim();
       if (!reply) throw new Error("The speaker returned no response.");
       history.push({ index, text: reply });
       appendLine(index, name, reply);
@@ -157,7 +133,11 @@ export function initAgentStage({ complete, getModel }) {
       return;
     }
     const model = getModel();
-    if (!model) return;
+    if (
+      !model ||
+      speakers.some(({ instructions }) => !instructions.value.trim())
+    )
+      return;
     if (history.length === turnLimit) {
       history = [];
       log.replaceChildren();
@@ -170,8 +150,31 @@ export function initAgentStage({ complete, getModel }) {
     next(run);
   });
   reset.addEventListener("click", clearScene);
+  for (const field of [
+    direction,
+    ...speakers.flatMap(({ nameInput, instructions }) => [
+      nameInput,
+      instructions,
+    ]),
+  ]) {
+    field.addEventListener("input", () => {
+      clearScene();
+      status.textContent =
+        "Roles or setting updated. Start a new conversation.";
+    });
+  }
   preset.addEventListener("change", () => {
-    const selected = JSON.parse(preset.selectedOptions[0].dataset.preset);
+    sceneDrafts.set(selectedPreset, {
+      context: direction.value,
+      speakers: speakers.map(({ nameInput, instructions }) => ({
+        name: nameInput.value,
+        instructions: instructions.value,
+      })),
+    });
+    selectedPreset = preset.value;
+    const selected =
+      sceneDrafts.get(selectedPreset) ??
+      JSON.parse(preset.selectedOptions[0].dataset.preset);
     selected.speakers.forEach((speaker, i) => {
       speakers[i].nameInput.value = speaker.name;
       speakers[i].instructions.value = speaker.instructions;

@@ -453,6 +453,7 @@ export function initBirdGame({ complete, getModel }) {
   render();
 
   return () => {
+    if (flight && flight.model !== getModel()) setPaused();
     updateControls();
     if (mode === "llama" && phase === "ready") status.textContent = modelHint();
   };

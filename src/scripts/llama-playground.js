@@ -68,6 +68,8 @@ function updateSelectedModel() {
   for (const update of updateDemos) update();
 }
 
+modelPicker.addEventListener("change", updateSelectedModel);
+
 function setModels(models, previous, fallbackLabel) {
   installedModels = new Map(models.map((model) => [model.name, model]));
   const names = [...installedModels.keys()];

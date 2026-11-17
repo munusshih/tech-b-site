@@ -15,7 +15,10 @@
     "fetch:bios": "node scripts/fetch-student-bios.js",
     "fetch:all": "npm run fetch:data && npm run fetch:bios",
     "sync": "npm run fetch:all",
-    "year:advance": "node scripts/advance-year.js"
+    "year:advance": "node scripts/advance-year.js",
+    "test:workshops": "npm run build && node --test tests/workshops.test.js",
+    "test:workshops:live": "node tests/workshops-custom-live.mjs && node tests/workshops-live.mjs",
+    "test:workshops:custom": "node tests/workshops-custom-live.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.3",
@@ -43,6 +46,7 @@
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "prettier": "^3.6.2",
     "prettier-plugin-astro": "^0.14.1",
-    "prettier-plugin-css-order": "^2.1.2"
+    "prettier-plugin-css-order": "^2.1.2",
+    "puppeteer": "^24.34.0"
   }
 }

@@ -1,4 +1,5 @@
 /* global AbortController, AbortSignal, document */
+import { roleChatMessages } from "./llama-instructions.js";
 
 export function initRoleChat({ complete, getModel }) {
   const settings = document.querySelector("#llama-chat-settings");
@@ -19,13 +20,21 @@ export function initRoleChat({ complete, getModel }) {
   const responseJson = document.querySelector("#llama-response-json");
   let history = [];
   let active;
+  let selectedRole = persona.value;
+  const roleDrafts = new Map();
 
   function profile() {
     return JSON.parse(persona.selectedOptions[0].dataset.persona);
   }
 
   function update() {
-    send.disabled = !getModel() || Boolean(active);
+    if (active && active.model !== getModel()) {
+      clearChat();
+      status.textContent = "Model changed. Start a new conversation.";
+      return;
+    }
+    send.disabled =
+      !getModel() || Boolean(active) || !instructions.value.trim();
     persona.disabled = Boolean(active);
     instructions.readOnly = Boolean(active);
     cancel.hidden = !active;
@@ -65,10 +74,17 @@ export function initRoleChat({ complete, getModel }) {
   }
 
   persona.addEventListener("change", () => {
-    instructions.value = profile().instructions;
+    roleDrafts.set(selectedRole, instructions.value);
+    selectedRole = persona.value;
+    instructions.value = roleDrafts.get(selectedRole) ?? profile().instructions;
     clearChat();
   });
   settings.addEventListener("input", update);
+  instructions.addEventListener("input", () => {
+    clearChat();
+    status.textContent =
+      "Role updated. Start a new conversation with these instructions.";
+  });
   reset.addEventListener("click", clearChat);
   cancel.addEventListener("click", () => active?.abort());
   input.addEventListener("keydown", (event) => {
@@ -81,23 +97,16 @@ export function initRoleChat({ complete, getModel }) {
     event.preventDefault();
     const model = getModel();
     const message = input.value.trim();
-    if (active || !model || !message) return;
+    const role = instructions.value.trim();
+    if (active || !model || !message || !role) return;
     const current = new AbortController();
+    current.model = model;
     active = current;
     const selected = profile();
     const user = { role: "user", content: message };
     const body = {
       model: model.name,
-      messages: [
-        {
-          role: "system",
-          content:
-            instructions.value.trim() ||
-            "Respond clearly and briefly to the user's message.",
-        },
-        ...history.slice(-12),
-        user,
-      ],
+      messages: roleChatMessages({ instructions: role, history, message }),
       temperature: temperature.valueAsNumber,
       top_p: topP.valueAsNumber,
       max_tokens: limit.valueAsNumber,

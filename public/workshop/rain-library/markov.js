@@ -1,3 +1,4 @@
+/* global document */
 import { RiTa } from "https://esm.sh/rita@4.1.0?bundle";
 
 // These are the examples RiTa can learn from.
