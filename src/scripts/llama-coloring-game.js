@@ -1,4 +1,5 @@
 /* global AbortController, AbortSignal, Path2D, clearTimeout, document, setTimeout */
+import { interactiveSettings } from "./llama-generation.js";
 import { colorRequest } from "./llama-instructions.js";
 
 const hexColor = /^#[0-9a-f]{6}$/i;
@@ -329,17 +330,20 @@ export function initColoringGame({ complete, getModel }) {
       coloredRegions: Object.fromEntries(fills),
     };
     try {
-      const request = colorRequest({
-        brief: current.brief,
-        target: observation.target,
-        coloredRegions: observation.coloredRegions,
-      });
+      const request = {
+        ...colorRequest({
+          brief: current.brief,
+          target: observation.target,
+          coloredRegions: observation.coloredRegions,
+        }),
+        ...interactiveSettings(current.model, { small: 80, large: 256 }),
+      };
       const data = await complete(
         current.model,
         request,
         AbortSignal.any([
           current.controller.signal,
-          AbortSignal.timeout(30000),
+          AbortSignal.timeout(120000),
         ]),
       );
       if (run !== current) return;

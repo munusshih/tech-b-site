@@ -1,4 +1,5 @@
 /* global AbortController, AbortSignal, cancelAnimationFrame, document, performance, requestAnimationFrame */
+import { interactiveSettings } from "./llama-generation.js";
 import { createBirdPainter } from "./llama-bird-art.js";
 
 const actions = ["flap", "glide"];
@@ -368,6 +369,7 @@ export function initBirdGame({ complete, getModel }) {
       const data = await complete(
         run.model,
         {
+          ...interactiveSettings(run.model, { small: 128, large: 256 }),
           stream: false,
           tools: [moveTool],
           tool_choice: {
@@ -375,7 +377,6 @@ export function initBirdGame({ complete, getModel }) {
             function: { name: moveTool.function.name },
           },
           temperature: 0,
-          max_tokens: 128,
           messages: [
             {
               role: "system",
@@ -389,7 +390,7 @@ export function initBirdGame({ complete, getModel }) {
             },
           ],
         },
-        AbortSignal.any([run.controller.signal, AbortSignal.timeout(20000)]),
+        AbortSignal.any([run.controller.signal, AbortSignal.timeout(120000)]),
       );
       if (flight !== run) return;
 

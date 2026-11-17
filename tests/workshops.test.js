@@ -8,6 +8,10 @@ import { spawn } from "node:child_process";
 import { setTimeout as delay } from "node:timers/promises";
 import puppeteer from "puppeteer";
 import { grammarHtml, markovHtml } from "../src/scripts/generator-export.js";
+import {
+  llamaSetup,
+  llamaStarters,
+} from "../src/lib/llama-workshop-starters.js";
 
 const base = process.env.WORKSHOP_URL || "http://127.0.0.1:4322";
 let server, browser;
@@ -75,7 +79,11 @@ async function connect(page) {
     () => !document.querySelector("#llama-model").disabled,
   );
 }
-async function mockModel(page, handler) {
+async function mockModel(
+  page,
+  handler,
+  catalog = [{ id: "test-model" }, { id: "other-model" }],
+) {
   await page.setRequestInterception(true);
   page.on("request", async (request) => {
     if (!/^http:\/\/127\.0\.0\.1:(9931|11434)/.test(request.url()))
@@ -92,7 +100,7 @@ async function mockModel(page, handler) {
         headers,
         contentType: "application/json",
         body: JSON.stringify({
-          data: [{ id: "test-model" }, { id: "other-model" }],
+          data: catalog,
         }),
       });
     const body = JSON.parse(request.postData());
@@ -653,6 +661,7 @@ test("Optional controls: chat sampling, multiline input, runtime switch and Olla
   await mockModel(page, async (body) => {
     requests.push(body);
     if (body.tools) {
+      assert.equal(body.thinking_budget_tokens, undefined);
       const observation = JSON.parse(
         body.messages[1].content.split("safe: ")[1],
       );
@@ -676,7 +685,7 @@ test("Optional controls: chat sampling, multiline input, runtime switch and Olla
   );
   assert.equal(requests[0].temperature, 1.2);
   assert.equal(requests[0].top_p, 0.5);
-  assert.equal(requests[0].max_tokens, 64);
+  assert.equal(requests[0].max_tokens - requests[0].thinking_budget_tokens, 64);
   assert.ok(
     requests[0].messages.at(-1).content.includes("line one\\nline two"),
   );
@@ -734,6 +743,142 @@ test("Optional exports: both download buttons create working HTML and source upd
     await session.send("Browser.setDownloadBehavior", { behavior: "default" });
     await session.detach();
     await rm(directory, { recursive: true, force: true });
+  }
+});
+
+test("Reasoning models: chat, speakers, coloring and tools receive final output within short limits", async () => {
+  const page = await pageAt("llama");
+  const exercises = new Set();
+  await mockModel(
+    page,
+    async (body) => {
+      // Model the GPT-OSS failure: thinking consumes the entire output budget.
+      if (body.thinking_budget_tokens !== 0)
+        return {
+          choices: [
+            {
+              message: { content: "", reasoning_content: "Still thinking..." },
+              finish_reason: "length",
+            },
+          ],
+        };
+      if (body.tools) {
+        exercises.add("tools");
+        return {
+          choices: [
+            {
+              message: {
+                tool_calls: [
+                  {
+                    function: {
+                      name: "move_bird",
+                      arguments: '{"action":"flap"}',
+                    },
+                  },
+                ],
+              },
+              finish_reason: "tool_calls",
+            },
+          ],
+        };
+      }
+      if (body.response_format) {
+        exercises.add("coloring");
+        const region =
+          body.response_format.json_schema.schema.properties.region.enum[0];
+        return reply(JSON.stringify({ region, color: "#123456" }));
+      }
+      exercises.add(
+        body.messages.at(-1).content.includes("You play ONLY")
+          ? "speakers"
+          : "chat",
+      );
+      return reply("A final spoken answer.");
+    },
+    [{ id: "unfamiliar-model", meta: { n_params: 20e9 } }],
+  );
+  await connect(page);
+  await set(page, "#llama-user", "Hello");
+  await submit(page, "#llama-chat-form");
+  await page.waitForFunction(
+    () => document.querySelectorAll("#llama-chat-log li").length === 2,
+  );
+  await page.click("#stage-toggle");
+  await page.waitForFunction(
+    () => document.querySelectorAll("#stage-dialogue li").length > 0,
+  );
+  await page.click("#stage-toggle");
+  await page.click("#canvas-toggle");
+  await page.waitForFunction(
+    () =>
+      !document.querySelector("#canvas-count").textContent.startsWith("0 /"),
+  );
+  await page.click("#canvas-toggle");
+  await page.click('[data-bird-mode="llama"]');
+  await page.click("#bird-ask");
+  await page.waitForFunction(
+    () => document.querySelectorAll("#bird-flight-log li").length > 0,
+  );
+  await page.click("#bird-ask");
+  assert.deepEqual([...exercises].sort(), [
+    "chat",
+    "coloring",
+    "speakers",
+    "tools",
+  ]);
+  await page.close();
+});
+
+test("Copyable starters run with small, large and unrecognized model catalogs", async () => {
+  const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
+  for (const parameters of [1.7e9, 20e9, undefined]) {
+    for (const starter of llamaStarters) {
+      const requests = [];
+      const localFetch = async (url, options) => {
+        if (url.endsWith("/models"))
+          return {
+            ok: true,
+            json: async () => ({
+              data: [
+                {
+                  id: "student-selected-model",
+                  meta: { n_params: parameters },
+                },
+              ],
+            }),
+          };
+        const body = JSON.parse(options.body);
+        requests.push(body);
+        const message = body.tools
+          ? {
+              tool_calls: [
+                {
+                  function: {
+                    name: "move_bird",
+                    arguments: '{"action":"flap"}',
+                  },
+                },
+              ],
+            }
+          : {
+              content: body.response_format
+                ? '{"region":"area-1","color":"#123456"}'
+                : "A complete reply.",
+            };
+        return { ok: true, json: async () => ({ choices: [{ message }] }) };
+      };
+      await new AsyncFunction(
+        "fetch",
+        "console",
+        llamaSetup + "\n" + starter.code,
+      )(localFetch, { log() {} });
+      assert.ok(requests.length > 0, starter.title);
+      for (const request of requests) {
+        assert.equal(request.model, "student-selected-model");
+        assert.ok(request.max_tokens > request.thinking_budget_tokens);
+        assert.equal(request.thinking_budget_tokens, 0);
+      }
+    }
   }
 });
 

@@ -1,4 +1,5 @@
 /* global AbortController, AbortSignal, document */
+import { interactiveSettings, modelProfile } from "./llama-generation.js";
 import { roleChatMessages } from "./llama-instructions.js";
 
 export function initRoleChat({ complete, getModel }) {
@@ -21,6 +22,7 @@ export function initRoleChat({ complete, getModel }) {
   let history = [];
   let active;
   let selectedRole = persona.value;
+  let selectedModel;
   const roleDrafts = new Map();
 
   function profile() {
@@ -28,6 +30,11 @@ export function initRoleChat({ complete, getModel }) {
   }
 
   function update() {
+    const model = getModel();
+    if (model && selectedModel !== model.name) {
+      limit.value = String(modelProfile(model).chatTokens);
+      selectedModel = model.name;
+    }
     if (active && active.model !== getModel()) {
       clearChat();
       status.textContent = "Model changed. Start a new conversation.";
@@ -105,11 +112,11 @@ export function initRoleChat({ complete, getModel }) {
     const selected = profile();
     const user = { role: "user", content: message };
     const body = {
+      ...interactiveSettings(model, limit.valueAsNumber),
       model: model.name,
       messages: roleChatMessages({ instructions: role, history, message }),
       temperature: temperature.valueAsNumber,
       top_p: topP.valueAsNumber,
-      max_tokens: limit.valueAsNumber,
     };
     requestJson.textContent = JSON.stringify(body, null, 2);
     responseJson.textContent = "Waiting for the reply…";
@@ -122,7 +129,7 @@ export function initRoleChat({ complete, getModel }) {
       const data = await complete(
         model,
         body,
-        AbortSignal.any([current.signal, AbortSignal.timeout(60000)]),
+        AbortSignal.any([current.signal, AbortSignal.timeout(120000)]),
       );
       if (active !== current) return;
       responseJson.textContent = JSON.stringify(data, null, 2);

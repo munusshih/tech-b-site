@@ -2,9 +2,13 @@
 import assert from "node:assert/strict";
 import puppeteer from "puppeteer";
 import { modelQualityChecks } from "./model-quality.js";
+import { connectModel, measureModel } from "./workshop-live-session.js";
 const { quality, report } = modelQualityChecks();
 const base = process.env.WORKSHOP_URL || "http://127.0.0.1:4321";
-const browser = await puppeteer.launch({ headless: true });
+const browser = await puppeteer.launch({
+  headless: true,
+  protocolTimeout: 660000,
+});
 function rgb(color) {
   return color
     .slice(1)
@@ -28,13 +32,8 @@ try {
   await page.waitForFunction(() =>
     document.querySelector("#canvas-count").textContent.includes("colored"),
   );
-  await page.click("#llama-find");
-  await page.waitForFunction(
-    () => !document.querySelector("#llama-model").disabled,
-  );
-  console.log("MODEL " + (await page.$eval("#llama-model", (el) => el.value)));
-  if (process.env.WORKSHOP_MODEL)
-    await page.select("#llama-model", process.env.WORKSHOP_MODEL);
+  await connectModel(page);
+  const reportPerformance = measureModel(page);
   const marks = [];
   page.on("response", async (response) => {
     if (
@@ -85,7 +84,7 @@ try {
       () =>
         document.querySelector("#canvas-toggle").textContent ===
         "Start model coloring",
-      { timeout: 240000 },
+      { timeout: 600000 },
     );
     const last = JSON.parse(
       await page.$eval("#canvas-json", (el) => el.textContent),
@@ -160,8 +159,10 @@ try {
   await page.waitForFunction(
     () =>
       document.querySelector("#bird-score").textContent !== "0" ||
-      document.querySelector("#bird-status").textContent.includes("paused"),
-    { timeout: 60000 },
+      /paused|too long|before crashing/.test(
+        document.querySelector("#bird-status").textContent,
+      ),
+    { timeout: 240000 },
   );
   console.log(
     "BIRD " + (await page.$eval("#bird-status", (el) => el.textContent)),
@@ -170,8 +171,12 @@ try {
     (await page.$eval("#bird-score", (el) => el.textContent)) !== "0",
     "The model should clear at least one pipe",
   );
-  await page.click("#bird-ask");
+  if (
+    await page.$eval("#bird-ask", (el) => el.textContent === "Stop autopilot")
+  )
+    await page.click("#bird-ask");
   report();
+  reportPerformance();
   console.log(
     "PASS: selected illustrations completed. Model quality is reported separately.",
   );

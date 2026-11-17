@@ -260,8 +260,9 @@ const stagePresets = [
   <h2 id="llama-connect" class="llama-step">1. Connect a local model</h2>
   <div class="llama-stack">
     <p>
-      Set up one of these apps and make sure the Qwen2.5 1.5B model is
-      downloaded. You only need one.
+      Set up one of these apps and download a text model. Qwen2.5 1.5B is a
+      small starting point; you can select another installed model to compare
+      its answers. You only need one app.
     </p>
     <ul>
       <li>
@@ -504,7 +505,7 @@ const stagePresets = [
           <div>
             <label class="llama-field">
               <span
-                >Max output tokens <span
+                >Reply token allowance <span
                   class="llama-slider-value"
                   data-slider-value="llama-limit"
                   aria-hidden="true">192</span
@@ -514,16 +515,17 @@ const stagePresets = [
                 id="llama-limit"
                 type="range"
                 min="16"
-                max="512"
+                max="2048"
                 step="16"
                 value="192"
                 aria-describedby="llama-limit-help"
               />
             </label>
             <p id="llama-limit-help">
-              Sets the longest reply the model can write. A token is a word,
-              part of a word, or a punctuation mark. If the limit is too low, a
-              reply can stop in the middle of a sentence.
+              A token is a word, part of a word, or a punctuation mark. Defaults
+              adjust to the selected model. These exercises skip optional
+              reasoning in Llama App for quicker replies. Raise the allowance if
+              a reply stops in the middle of a sentence.
             </p>
           </div>
         </div>

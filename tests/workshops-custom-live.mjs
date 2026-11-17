@@ -2,8 +2,12 @@
 import assert from "node:assert/strict";
 import puppeteer from "puppeteer";
 import { modelQualityChecks } from "./model-quality.js";
+import { connectModel, measureModel } from "./workshop-live-session.js";
 const { quality, report } = modelQualityChecks();
-const browser = await puppeteer.launch({ headless: true });
+const browser = await puppeteer.launch({
+  headless: true,
+  protocolTimeout: 660000,
+});
 const base = process.env.WORKSHOP_URL || "http://127.0.0.1:4321";
 async function set(page, selector, value, event = "input") {
   await page.$eval(
@@ -21,12 +25,8 @@ try {
   await page.waitForFunction(() =>
     document.querySelector("#canvas-count").textContent.includes("colored"),
   );
-  await page.click("#llama-find");
-  await page.waitForFunction(
-    () => !document.querySelector("#llama-model").disabled,
-  );
-  if (process.env.WORKSHOP_MODEL)
-    await page.select("#llama-model", process.env.WORKSHOP_MODEL);
+  await connectModel(page);
+  const reportPerformance = measureModel(page);
   await page.select("#llama-persona", "Custom role");
   await set(
     page,
@@ -45,9 +45,13 @@ try {
     await set(page, "#llama-user", message);
     await page.$eval("#llama-chat-form", (el) => el.requestSubmit());
     await page.waitForFunction(
-      (n) => document.querySelectorAll("#llama-chat-log li").length === n + 2,
-      { timeout: 60000 },
-      before,
+      () => !document.querySelector("#llama-send").disabled,
+      { timeout: 150000 },
+    );
+    assert.equal(
+      await page.$$eval("#llama-chat-log li", (els) => els.length),
+      before + 2,
+      await page.$eval("#llama-chat-status", (el) => el.textContent),
     );
     const reply = await page.$eval(
       "#llama-chat-log li:last-child p",
@@ -109,9 +113,14 @@ try {
     await page.click("#stage-toggle");
     await page.waitForFunction(
       () =>
-        document.querySelector("#stage-status").textContent ===
-        "Conversation complete.",
-      { timeout: 120000 },
+        /Conversation complete|Conversation paused/.test(
+          document.querySelector("#stage-status").textContent,
+        ),
+      { timeout: 360000 },
+    );
+    assert.equal(
+      await page.$eval("#stage-status", (el) => el.textContent),
+      "Conversation complete.",
     );
     const lines = await page.$$eval("#stage-dialogue li p", (els) =>
       els.map((el) => el.textContent),
@@ -140,9 +149,14 @@ try {
   await page.click("#stage-toggle");
   await page.waitForFunction(
     () =>
-      document.querySelector("#stage-status").textContent ===
-      "Conversation complete.",
-    { timeout: 120000 },
+      /Conversation complete|Conversation paused/.test(
+        document.querySelector("#stage-status").textContent,
+      ),
+    { timeout: 360000 },
+  );
+  assert.equal(
+    await page.$eval("#stage-status", (el) => el.textContent),
+    "Conversation complete.",
   );
   const lines = await page.$$eval("#stage-dialogue li p", (els) =>
     els.map((el) => el.textContent),
@@ -160,6 +174,7 @@ try {
   });
   quality.ok(new Set(lines).size >= 7, "Do not repeat whole dialogue lines");
   report();
+  reportPerformance();
   console.log(
     "PASS: custom chat and all speaker runs completed. Model quality is reported separately.",
   );

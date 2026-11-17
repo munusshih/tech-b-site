@@ -1,0 +1,295 @@
+{
+  "date": "2026-11-17",
+  "runtime": "Llama App 0.47.0",
+  "contextTokens": 8192,
+  "thinkingBudgetTokens": 0,
+  "browserRegressionTestsPassed": 15,
+  "models": [
+    {
+      "name": "GPT-OSS 20B MXFP4",
+      "id": "ggml-org/gpt-oss-20b-GGUF:MXFP4",
+      "functionalSuitesPassed": 2,
+      "qualityPassed": 62,
+      "qualityChecked": 62,
+      "quality": [
+        {
+          "checked": 42,
+          "passed": 42,
+          "observations": []
+        },
+        {
+          "checked": 20,
+          "passed": 20,
+          "observations": []
+        }
+      ],
+      "performance": [
+        {
+          "exercise": "dialogue",
+          "requests": 29,
+          "medianMs": 2075,
+          "p95Ms": 2739,
+          "meanTokensPerSecond": 57,
+          "reasoningResponses": 0,
+          "budgets": ["512 total / 0 thinking"],
+          "truncated": 0,
+          "httpErrors": 0
+        },
+        {
+          "exercise": "coloring",
+          "requests": 260,
+          "medianMs": 554,
+          "p95Ms": 636,
+          "meanTokensPerSecond": 71,
+          "reasoningResponses": 0,
+          "budgets": ["256 total / 0 thinking"],
+          "truncated": 0,
+          "httpErrors": 0
+        },
+        {
+          "exercise": "tools",
+          "requests": 9,
+          "medianMs": 537,
+          "p95Ms": 927,
+          "meanTokensPerSecond": 72,
+          "reasoningResponses": 0,
+          "budgets": ["256 total / 0 thinking"],
+          "truncated": 0,
+          "httpErrors": 0
+        }
+      ],
+      "illustrations": [
+        {
+          "brief": "default",
+          "count": 52,
+          "unique": [
+            "#87ceeb",
+            "#ffd700",
+            "#ffb400",
+            "#f5f5f5",
+            "#ffffff",
+            "#f0f0f0",
+            "#6a4cff",
+            "#8b8589",
+            "#a9a9a9",
+            "#b9a9a3",
+            "#8b6d4f",
+            "#7a6a5e",
+            "#8b5e3c",
+            "#8b6c4e",
+            "#7e5e4a",
+            "#4a7d4e",
+            "#4a7d1c",
+            "#8b7765",
+            "#6b5b3d",
+            "#ff6a00",
+            "#ff69b4",
+            "#ff5e5e",
+            "#ff6f61",
+            "#ffb700",
+            "#ff6a87",
+            "#ff5e00",
+            "#ff4500",
+            "#ff5733",
+            "#00ff7f",
+            "#1e90ff",
+            "#4a90e2",
+            "#6a5acd",
+            "#ff8c00",
+            "#4e8bc9",
+            "#ff6ec7",
+            "#4f7ac9",
+            "#ff5a00"
+          ],
+          "status": "Illustration colored. You can still change any color."
+        },
+        {
+          "brief": "Use only red.",
+          "count": 52,
+          "unique": ["#ff0000"],
+          "status": "Illustration colored. You can still change any color."
+        },
+        {
+          "brief": "Use only #123456.",
+          "count": 52,
+          "unique": ["#123456"],
+          "status": "Illustration colored. You can still change any color."
+        },
+        {
+          "brief": "A quiet winter morning. No warm colors.",
+          "count": 52,
+          "unique": [
+            "#d0e0ff",
+            "#c0d8ff",
+            "#b0d0ff",
+            "#f5f5f5",
+            "#c0c0c0",
+            "#e0e8f0",
+            "#b0c0d0",
+            "#a0c8e0",
+            "#a0b8d0",
+            "#b0c8e0",
+            "#c0c8e0"
+          ],
+          "status": "Illustration colored. You can still change any color."
+        },
+        {
+          "brief": "Use #8e44ad for every sky area, #ffffff for every cloud, and #228b22 for mountains and mountain faces. Choose varied colors freely for the other objects.",
+          "count": 52,
+          "unique": [
+            "#8e44ad",
+            "#ffcc00",
+            "#ffffff",
+            "#ff4500",
+            "#228b22",
+            "#00ff00",
+            "#ff69b4",
+            "#00ffff"
+          ],
+          "status": "Illustration colored. You can still change any color."
+        }
+      ],
+      "bird": "Turn 9: the model chose glide."
+    },
+    {
+      "name": "Qwen2.5 1.5B Q4_K_M",
+      "id": "Qwen/Qwen2.5-1.5B-Instruct-GGUF:Q4_K_M",
+      "functionalSuitesPassed": 2,
+      "qualityPassed": 48,
+      "qualityChecked": 62,
+      "quality": [
+        {
+          "checked": 42,
+          "passed": 35,
+          "observations": [
+            "The input did not match the regular expression /^Books:/i. Input:\n\n\"Books! The library relies on these volumes to keep the knowledge alive. It's crucial to preserve them from the encroaching seawater. Let's think of a practical solution to stop the flood from spreading further.\"\n",
+            "The input did not match the regular expression /^Dive:/i. Input:\n\n\"Dive, I need to assess the crack in the window. Let's secure the books and prevent the seawater from flooding the reading room.\"\n",
+            "The input did not match the regular expression /^Books:/i. Input:\n\n\"The crack in the window is causing water to seep into the reading room. I must quickly secure the books to prevent any further damage. Let's consider a method to seal the crack and ensure the books are protected against the encroaching seawater.\"\n",
+            "The input did not match the regular expression /^Dive:/i. Input:\n\n\"Dive! I've located the crack in the window. It seems to be widening, and seawater is slowly seeping into the reading room. The books are now exposed to the elements, and without immediate action, they may be damaged. Let's construct a seal around the crack to contain the water and protect the books.\"\n",
+            "The input did not match the regular expression /^Books:/i. Input:\n\n\"The crack in the window is rapidly widening, and the seawater is beginning to seep into the reading room. I must act quickly to seal the crack and prevent the books from being exposed to the elements. What innovative solution can I implement to contain the water and ensure the books' safety?\"\n",
+            "The input did not match the regular expression /^Books:/i. Input:\n\n\"The crack in the window is rapidly widening, and the seawater is now seeping into the reading room. I must act quickly to seal the crack and prevent the books from being exposed to the elements. What innovative solution can I implement to contain the water and ensure the books' safety?\"\n",
+            "Do not repeat whole dialogue lines"
+          ]
+        },
+        {
+          "checked": 20,
+          "passed": 13,
+          "observations": [
+            "Unspecified objects retain creative color variety",
+            "Expected values to be strictly equal:\n+ actual - expected\n\n+ '#8e44ad'\n- '#ffffff'\n",
+            "Expected values to be strictly equal:\n+ actual - expected\n\n+ '#8e44ad'\n- '#ffffff'\n",
+            "Expected values to be strictly equal:\n+ actual - expected\n\n+ '#8e44ad'\n- '#ffffff'\n",
+            "Expected values to be strictly equal:\n+ actual - expected\n\n+ '#8e44ad'\n- '#228b22'\n",
+            "Expected values to be strictly equal:\n+ actual - expected\n\n+ '#8e44ad'\n- '#228b22'\n",
+            "Expected values to be strictly equal:\n+ actual - expected\n\n+ '#8e44ad'\n- '#228b22'\n"
+          ]
+        }
+      ],
+      "performance": [
+        {
+          "exercise": "dialogue",
+          "requests": 29,
+          "medianMs": 610,
+          "p95Ms": 1615,
+          "meanTokensPerSecond": 226,
+          "reasoningResponses": 0,
+          "budgets": ["192 total / 0 thinking", "256 total / 0 thinking"],
+          "truncated": 5,
+          "httpErrors": 0
+        },
+        {
+          "exercise": "coloring",
+          "requests": 260,
+          "medianMs": 264,
+          "p95Ms": 296,
+          "meanTokensPerSecond": 136,
+          "reasoningResponses": 0,
+          "budgets": ["80 total / 0 thinking"],
+          "truncated": 0,
+          "httpErrors": 0
+        },
+        {
+          "exercise": "tools",
+          "requests": 9,
+          "medianMs": 201,
+          "p95Ms": 295,
+          "meanTokensPerSecond": 145,
+          "reasoningResponses": 0,
+          "budgets": ["128 total / 0 thinking"],
+          "truncated": 0,
+          "httpErrors": 0
+        }
+      ],
+      "illustrations": [
+        {
+          "brief": "default",
+          "count": 52,
+          "unique": [
+            "#87cefa",
+            "#ffd700",
+            "#f7f7f7",
+            "#f5f5f5",
+            "#996633",
+            "#8b451b",
+            "#b0afaf",
+            "#008000",
+            "#a0a0a0",
+            "#323232",
+            "#ff69b4",
+            "#ff00ff",
+            "#ff7f50",
+            "#f48d5c",
+            "#f9c74f",
+            "#f5a623",
+            "#1e90ff",
+            "#00ffff",
+            "#0074d9",
+            "#232323",
+            "#ff0000",
+            "#ffa500",
+            "#f44336",
+            "#f5e7ce"
+          ],
+          "status": "Illustration colored. You can still change any color."
+        },
+        {
+          "brief": "Use only red.",
+          "count": 52,
+          "unique": ["#ff0000"],
+          "status": "Illustration colored. You can still change any color."
+        },
+        {
+          "brief": "Use only #123456.",
+          "count": 52,
+          "unique": ["#123456"],
+          "status": "Illustration colored. You can still change any color."
+        },
+        {
+          "brief": "A quiet winter morning. No warm colors.",
+          "count": 52,
+          "unique": [
+            "#8b8b8b",
+            "#d9d9d9",
+            "#c5c5c5",
+            "#f8f8f8",
+            "#e5e5e5",
+            "#666666",
+            "#b3b3b3",
+            "#222222",
+            "#535353",
+            "#4a4a4a",
+            "#333333"
+          ],
+          "status": "Illustration colored. You can still change any color."
+        },
+        {
+          "brief": "Use #8e44ad for every sky area, #ffffff for every cloud, and #228b22 for mountains and mountain faces. Choose varied colors freely for the other objects.",
+          "count": 52,
+          "unique": ["#8e44ad", "#ffffff", "#228b22"],
+          "status": "Illustration colored. You can still change any color."
+        }
+      ],
+      "bird": "Turn 9: the model chose glide."
+    }
+  ]
+}

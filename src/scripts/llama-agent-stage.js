@@ -1,4 +1,5 @@
 /* global AbortController, AbortSignal, clearTimeout, document, setTimeout */
+import { interactiveSettings } from "./llama-generation.js";
 import { stageMessages } from "./llama-instructions.js";
 
 const turnLimit = 8;
@@ -94,13 +95,17 @@ export function initAgentStage({ complete, getModel }) {
     });
     status.textContent = `${name} is about to respond…`;
     try {
-      const request = { messages, temperature: 0.7, max_tokens: 256 };
+      const request = {
+        ...interactiveSettings(current.model, { small: 256, large: 512 }),
+        messages,
+        temperature: 0.7,
+      };
       const data = await complete(
         current.model,
         request,
         AbortSignal.any([
           current.controller.signal,
-          AbortSignal.timeout(30000),
+          AbortSignal.timeout(120000),
         ]),
       );
       if (run !== current) return;
