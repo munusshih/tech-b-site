@@ -1,0 +1,334 @@
+{
+  "date": "2026-11-17",
+  "runtime": "Llama App 0.47.0",
+  "contextTokens": 8192,
+  "thinkingBudgetTokens": 0,
+  "browserRegressionTestsPassed": 15,
+  "probe": {
+    "model": "Qwen/Qwen2.5-1.5B-Instruct-GGUF:Q4_K_M",
+    "seeds": [42, 123],
+    "results": [
+      {
+        "compact": false,
+        "color": {
+          "correct": 12,
+          "total": 16
+        },
+        "stage": {
+          "prefixes": 1,
+          "lines": 16,
+          "truncated": 0,
+          "unique": [3, 5]
+        }
+      },
+      {
+        "compact": true,
+        "color": {
+          "correct": 15,
+          "total": 16
+        },
+        "stage": {
+          "prefixes": 16,
+          "lines": 16,
+          "truncated": 1,
+          "unique": [6, 7]
+        }
+      }
+    ]
+  },
+  "models": [
+    {
+      "name": "Qwen2.5 1.5B Q4_K_M",
+      "id": "Qwen/Qwen2.5-1.5B-Instruct-GGUF:Q4_K_M",
+      "compact": true,
+      "functionalSuitesPassed": 2,
+      "qualityPassed": 59,
+      "qualityChecked": 62,
+      "baselineQualityPassed": 48,
+      "quality": [
+        {
+          "checked": 42,
+          "passed": 40,
+          "observations": [
+            "Advance the conversation with varied lines",
+            "Do not repeat whole dialogue lines"
+          ]
+        },
+        {
+          "checked": 20,
+          "passed": 19,
+          "observations": [
+            "Expected values to be strictly equal:\n+ actual - expected\n\n+ '#8e44ad'\n- '#228b22'\n"
+          ]
+        }
+      ],
+      "performance": [
+        {
+          "exercise": "dialogue",
+          "requests": 29,
+          "medianMs": 557,
+          "p95Ms": 1352,
+          "meanTokensPerSecond": 178,
+          "reasoningResponses": 0,
+          "budgets": ["192 total / 0 thinking", "256 total / 0 thinking"],
+          "truncated": 0,
+          "httpErrors": 0
+        },
+        {
+          "exercise": "coloring",
+          "requests": 260,
+          "medianMs": 284,
+          "p95Ms": 552,
+          "meanTokensPerSecond": 118,
+          "reasoningResponses": 0,
+          "budgets": ["80 total / 0 thinking"],
+          "truncated": 0,
+          "httpErrors": 0
+        },
+        {
+          "exercise": "tools",
+          "requests": 9,
+          "medianMs": 289,
+          "p95Ms": 469,
+          "meanTokensPerSecond": 115,
+          "reasoningResponses": 0,
+          "budgets": ["128 total / 0 thinking"],
+          "truncated": 0,
+          "httpErrors": 0
+        }
+      ],
+      "illustrations": [
+        {
+          "brief": "default",
+          "count": 52,
+          "unique": [
+            "#87cefa",
+            "#add8e6",
+            "#f7dc6f",
+            "#ffd700",
+            "#f9d189",
+            "#ff0000",
+            "#f7a35b",
+            "#f5f5dc",
+            "#f2f2f2",
+            "#996633",
+            "#757575",
+            "#008000",
+            "#34a853",
+            "#9e8b7c",
+            "#756bb1",
+            "#f0e68c",
+            "#ffc107",
+            "#f5a623",
+            "#ff9933",
+            "#ffa500",
+            "#ff69b4",
+            "#ff4500",
+            "#ff5733",
+            "#f8d03c",
+            "#f95420"
+          ],
+          "status": "Illustration colored. You can still change any color."
+        },
+        {
+          "brief": "Use only red.",
+          "count": 52,
+          "unique": ["#ff0000"],
+          "status": "Illustration colored. You can still change any color."
+        },
+        {
+          "brief": "Use only #123456.",
+          "count": 52,
+          "unique": ["#123456"],
+          "status": "Illustration colored. You can still change any color."
+        },
+        {
+          "brief": "A quiet winter morning. No warm colors.",
+          "count": 52,
+          "unique": [
+            "#87cefa",
+            "#8797a6",
+            "#c7c7c7",
+            "#8b8b8b",
+            "#999999",
+            "#d3d3d3",
+            "#87949a",
+            "#87998a",
+            "#99ccff",
+            "#878a8c",
+            "#87907d",
+            "#878d9a",
+            "#87977a",
+            "#d4d4d4",
+            "#f0f8ff",
+            "#9a9a9a",
+            "#d9d9d9",
+            "#a9a9a9",
+            "#878787",
+            "#8e9e8e",
+            "#8e8e8e",
+            "#8b969f",
+            "#808080",
+            "#8b96a1",
+            "#f4f4f4",
+            "#9fa3a9",
+            "#8a8a8a",
+            "#f8f8f2"
+          ],
+          "status": "Illustration colored. You can still change any color."
+        },
+        {
+          "brief": "Use #8e44ad for every sky area, #ffffff for every cloud, and #228b22 for mountains and mountain faces. Choose varied colors freely for the other objects.",
+          "count": 52,
+          "unique": ["#8e44ad", "#ffffff", "#228b22", "#f7a6c0", "#ff0000"],
+          "status": "Illustration colored. You can still change any color."
+        }
+      ],
+      "bird": "Turn 9: the model chose glide."
+    },
+    {
+      "name": "GPT-OSS 20B MXFP4",
+      "id": "ggml-org/gpt-oss-20b-GGUF:MXFP4",
+      "compact": false,
+      "functionalSuitesPassed": 2,
+      "qualityPassed": 62,
+      "qualityChecked": 62,
+      "baselineQualityPassed": 62,
+      "quality": [
+        {
+          "checked": 42,
+          "passed": 42,
+          "observations": []
+        },
+        {
+          "checked": 20,
+          "passed": 20,
+          "observations": []
+        }
+      ],
+      "performance": [
+        {
+          "exercise": "dialogue",
+          "requests": 29,
+          "medianMs": 3266,
+          "p95Ms": 5064,
+          "meanTokensPerSecond": 33,
+          "reasoningResponses": 0,
+          "budgets": ["512 total / 0 thinking"],
+          "truncated": 0,
+          "httpErrors": 0
+        },
+        {
+          "exercise": "coloring",
+          "requests": 260,
+          "medianMs": 777,
+          "p95Ms": 1071,
+          "meanTokensPerSecond": 50,
+          "reasoningResponses": 0,
+          "budgets": ["256 total / 0 thinking"],
+          "truncated": 0,
+          "httpErrors": 0
+        },
+        {
+          "exercise": "tools",
+          "requests": 9,
+          "medianMs": 896,
+          "p95Ms": 1616,
+          "meanTokensPerSecond": 40,
+          "reasoningResponses": 0,
+          "budgets": ["256 total / 0 thinking"],
+          "truncated": 0,
+          "httpErrors": 0
+        }
+      ],
+      "illustrations": [
+        {
+          "brief": "default",
+          "count": 52,
+          "unique": [
+            "#87cefa",
+            "#87ceeb",
+            "#ffd700",
+            "#ffcc00",
+            "#ffffff",
+            "#f5f5f5",
+            "#4a90e2",
+            "#b0afa9",
+            "#afafaf",
+            "#8a8a8a",
+            "#8b5e3c",
+            "#6e5c4d",
+            "#7a5c4b",
+            "#8b7355",
+            "#6a5e4d",
+            "#3a7a4d",
+            "#4c9a2a",
+            "#8b6d5c",
+            "#ff69b4",
+            "#ffb7b7",
+            "#ff5a00",
+            "#ff5a1e",
+            "#ff5a3d",
+            "#ff4500",
+            "#3e8ede",
+            "#ff5733",
+            "#1e90ff",
+            "#4a6e8c",
+            "#4b5eae",
+            "#ff7f00",
+            "#ff7f50",
+            "#00ffaa",
+            "#6e4cb1",
+            "#00ff7f",
+            "#8a2be2"
+          ],
+          "status": "Illustration colored. You can still change any color."
+        },
+        {
+          "brief": "Use only red.",
+          "count": 52,
+          "unique": ["#ff0000"],
+          "status": "Illustration colored. You can still change any color."
+        },
+        {
+          "brief": "Use only #123456.",
+          "count": 52,
+          "unique": ["#123456"],
+          "status": "Illustration colored. You can still change any color."
+        },
+        {
+          "brief": "A quiet winter morning. No warm colors.",
+          "count": 52,
+          "unique": [
+            "#b3c5e8",
+            "#a3b5e0",
+            "#8da1d6",
+            "#d9e3f0",
+            "#f2f4f8",
+            "#c0c8d8",
+            "#d8e1f3",
+            "#a0b3c6"
+          ],
+          "status": "Illustration colored. You can still change any color."
+        },
+        {
+          "brief": "Use #8e44ad for every sky area, #ffffff for every cloud, and #228b22 for mountains and mountain faces. Choose varied colors freely for the other objects.",
+          "count": 52,
+          "unique": [
+            "#8e44ad",
+            "#ffeb3b",
+            "#ffffff",
+            "#ff4500",
+            "#f5a623",
+            "#228b22",
+            "#4c1f1f",
+            "#ff69b4",
+            "#00ff00"
+          ],
+          "status": "Illustration colored. You can still change any color."
+        }
+      ],
+      "bird": "Turn 9: the model chose glide."
+    }
+  ]
+}

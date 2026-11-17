@@ -1,5 +1,5 @@
 /* global AbortController, AbortSignal, Path2D, clearTimeout, document, setTimeout */
-import { interactiveSettings } from "./llama-generation.js";
+import { interactiveSettings, modelProfile } from "./llama-generation.js";
 import { colorRequest } from "./llama-instructions.js";
 
 const hexColor = /^#[0-9a-f]{6}$/i;
@@ -335,6 +335,7 @@ export function initColoringGame({ complete, getModel }) {
           brief: current.brief,
           target: observation.target,
           coloredRegions: observation.coloredRegions,
+          compact: !modelProfile(current.model).large,
         }),
         ...interactiveSettings(current.model, { small: 80, large: 256 }),
       };

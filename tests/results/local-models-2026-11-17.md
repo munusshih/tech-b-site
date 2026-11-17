@@ -1,5 +1,7 @@
 # Local workshop model comparison
 
+This records the generation-settings baseline. See [the compact-prompt follow-up](./small-model-prompts-2026-11-17.md) for the latest conditional small-model results.
+
 Tested November 17, 2026 using Llama App 0.47.0 on a Mac with 24 GiB unified memory. Both models used an 8,192-token context. Optional reasoning was disabled with `thinking_budget_tokens: 0`.
 
 ## Results

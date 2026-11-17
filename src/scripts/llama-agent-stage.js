@@ -1,5 +1,5 @@
 /* global AbortController, AbortSignal, clearTimeout, document, setTimeout */
-import { interactiveSettings } from "./llama-generation.js";
+import { interactiveSettings, modelProfile } from "./llama-generation.js";
 import { stageMessages } from "./llama-instructions.js";
 
 const turnLimit = 8;
@@ -89,6 +89,7 @@ export function initAgentStage({ complete, getModel }) {
       cue,
       history,
       index,
+      compact: !modelProfile(current.model).large,
     });
     speakers.forEach(({ card }, i) => {
       card.dataset.active = String(i === index);

@@ -26,8 +26,36 @@ export function stageMessages({
   cue,
   history,
   index,
+  compact = false,
 }) {
   const role = roleReminder(instructions || `You are ${name}.`);
+  if (compact) {
+    // Long quoted transcripts can make small models imitate earlier turns.
+    // Keep the latest line from each speaker beside the active instructions.
+    const previous = history.findLast((line) => line.index === index)?.text;
+    const other = history.findLast((line) => line.index !== index)?.text;
+    return [
+      {
+        role: "system",
+        content: `${role}\nYou play ONLY ${name}. Write one new reply, not multiple turns. Use one or two short sentences unless your role requires another format. Copy any required opening text exactly.`,
+      },
+      {
+        role: "user",
+        content: [
+          `Setting: ${cue || "An open conversation."}`,
+          other
+            ? `${otherName} just said (quoted dialogue): ${JSON.stringify(other)}`
+            : `Begin the conversation with ${otherName} about the setting.`,
+          previous &&
+            `Your last reply (do not repeat it): ${JSON.stringify(previous)}`,
+          role,
+          `Reply to ${otherName} with one NEW idea or question. Follow your required language and opening text exactly. Write only your next reply.`,
+        ]
+          .filter(Boolean)
+          .join("\n\n"),
+      },
+    ];
+  }
   const transcript = history.slice(-6).map((line) => ({
     speaker: line.index === index ? name : otherName,
     dialogue: line.text,
@@ -49,7 +77,12 @@ export function stageMessages({
   ];
 }
 
-export function colorRequest({ brief, target, coloredRegions }) {
+export function colorRequest({
+  brief,
+  target,
+  coloredRegions,
+  compact = false,
+}) {
   const naturalHint = target.id.startsWith("sky-")
     ? "This is daylight sky. Choose a shade of blue."
     : target.id.startsWith("cloud-")
@@ -87,22 +120,40 @@ export function colorRequest({ brief, target, coloredRegions }) {
         },
       },
     },
-    messages: [
-      {
-        role: "system",
-        content: `You are coloring one part of a space arcade illustration. You can choose ANY color in the full RGB range. There is no fixed palette. ${artDirection} Return only JSON with region and a six-digit hex color.`,
-      },
-      {
-        role: "user",
-        content: [
-          brief &&
-            `Already painted areas (context only, not a palette): ${JSON.stringify(coloredRegions)}`,
-          artDirection,
-          `Color ONLY ${target.title} (id: ${target.id}). Which color did the user ask for THIS object? Copy any exact hex code specified for this object without changing its shade. If no exact color was specified, choose a suitable RGB color freely within the direction.`,
+    // A full paint history can become an accidental palette for small models.
+    // Keep their brief and current target together without that distraction.
+    messages: compact
+      ? [
+          {
+            role: "system",
+            content:
+              "Choose one color for the current object. Follow the user's art direction. A color assigned to a different object does not apply to this object. If this object has no assigned color, choose a suitable color freely. Return only JSON with region and a six-digit hex color.",
+          },
+          {
+            role: "user",
+            content: [
+              `Art direction: ${brief || naturalHint + " Related objects may share colors; vary unrelated objects."}`,
+              `Current object: ${target.title} (region: ${target.id}).`,
+              "Return the color for this object only. Follow any exact color assigned to it; otherwise choose freely within the art direction.",
+            ].join("\n\n"),
+          },
         ]
-          .filter(Boolean)
-          .join("\n\n"),
-      },
-    ],
+      : [
+          {
+            role: "system",
+            content: `You are coloring one part of a space arcade illustration. You can choose ANY color in the full RGB range. There is no fixed palette. ${artDirection} Return only JSON with region and a six-digit hex color.`,
+          },
+          {
+            role: "user",
+            content: [
+              brief &&
+                `Already painted areas (context only, not a palette): ${JSON.stringify(coloredRegions)}`,
+              artDirection,
+              `Color ONLY ${target.title} (id: ${target.id}). Which color did the user ask for THIS object? Copy any exact hex code specified for this object without changing its shade. If no exact color was specified, choose a suitable RGB color freely within the direction.`,
+            ]
+              .filter(Boolean)
+              .join("\n\n"),
+          },
+        ],
   };
 }

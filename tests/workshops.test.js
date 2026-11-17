@@ -82,7 +82,10 @@ async function connect(page) {
 async function mockModel(
   page,
   handler,
-  catalog = [{ id: "test-model" }, { id: "other-model" }],
+  catalog = [
+    { id: "test-model", meta: { n_params: 1.7e9 } },
+    { id: "other-model" },
+  ],
 ) {
   await page.setRequestInterception(true);
   page.on("request", async (request) => {
@@ -350,7 +353,7 @@ test("Stage: eight turns, correct role each turn, edits stop stale requests, emp
   assert.equal(await page.$$eval("#stage-dialogue li", (els) => els.length), 8);
   requests.forEach((body, i) => {
     assert.match(
-      body.messages.at(-1).content,
+      body.messages.map((message) => message.content).join("\n"),
       i % 2 === 0 ? /You play ONLY Detective/ : /You play ONLY Suspect/,
     );
     assert.match(body.messages.at(-1).content, /Active role instructions/);
