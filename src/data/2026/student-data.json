@@ -3635,5 +3635,437 @@
         "local": "/student-files/2026/lulah-balde-week-9--latent-space-1.png"
       }
     ]
+  },
+  {
+    "timestamp": "11/16/2026 13:46:43",
+    "studentEmail": "yliu124@pratt.edu",
+    "studentId": "zoe-liu",
+    "assignmentTitle": "Week 9: Latent Space",
+    "projectDescription": "An interactive experiment on memes, hesitation, and the people we answer\n\nIn Chinese chat apps a meme often does the work a sentence would be too heavy for. A cat with two question marks can mean confusion, hurt, teasing, or a quiet please keep talking, and the person who sent it gets to decide later which one they meant. What Would You Send? started from that small, slippery habit. I collected 958 memes and first tried to read them from the outside. I trained a machine learning model on them, which could recognise a crying face or an angry one well enough but fell apart the moment a meme depended on who sent it and why. Then I built a quiz that showed one meme at a time and asked people what emotion it carried. The quiz worked, and it asked the wrong question. With nobody on the other end, people decoded pictures like vocabulary cards, and the thing I cared about, what they would actually do with one, never appeared.\n\nSo the project turned from reading to sending. It now opens as a phone chat list: twelve to sixteen conversations with red unread badges, a mother asking if you’ve eaten, a crush who finally tried the café you mentioned, an ex who walked past your old noodle place and found it closed, a boss who only writes are you there. Hidden among them are a few characters from games and novels you could only have befriended inside a story. There are no instructions. You choose who to answer and who to leave on read, open a panel of 894 memes reshuffled for every chat, and send one. Sometimes the other person replies with a question mark, and you get one more try to fix it.",
+    "credit": "claude",
+    "uploadedFiles": "/student-files/2026/zoe-liu-week-9--latent-space-1.png, /student-files/2026/zoe-liu-week-9--latent-space-2.png, /student-files/2026/zoe-liu-week-9--latent-space-3.png, /student-files/2026/zoe-liu-week-9--latent-space-4.png, /student-files/2026/zoe-liu-week-9--latent-space-5.png",
+    "linkToWork": "https://psynone.github.io/meme/",
+    "linkToWorks": [
+      "https://psynone.github.io/meme/"
+    ],
+    "linkToWorkRaw": "https://psynone.github.io/meme/",
+    "certification": "Yes",
+    "weeklyResponse": "A meme means very little on its own; its meaning lives in who sent it, to whom, and after what, which led me back to the relationships my thesis is about. I also learned that every instruction makes people perform. Removing all prompts and borrowing a familiar chat interface let their real habits show, so the chats they skipped and the seconds they hesitated became the most telling data.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1guU16zZWNIK7qVdR3nwpILJe4jZQOhLE",
+        "fileId": "1guU16zZWNIK7qVdR3nwpILJe4jZQOhLE",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1guU16zZWNIK7qVdR3nwpILJe4jZQOhLE&sz=w800",
+        "embed": "https://drive.google.com/file/d/1guU16zZWNIK7qVdR3nwpILJe4jZQOhLE/preview",
+        "local": "/student-files/2026/zoe-liu-week-9--latent-space-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1DG5ADYiUMw_8HOTLvT9pMSvG6s-FPcIM",
+        "fileId": "1DG5ADYiUMw_8HOTLvT9pMSvG6s-FPcIM",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1DG5ADYiUMw_8HOTLvT9pMSvG6s-FPcIM&sz=w800",
+        "embed": "https://drive.google.com/file/d/1DG5ADYiUMw_8HOTLvT9pMSvG6s-FPcIM/preview",
+        "local": "/student-files/2026/zoe-liu-week-9--latent-space-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1S68XJ1k3TDw6kL0LP0Z17nn3yENMkSe8",
+        "fileId": "1S68XJ1k3TDw6kL0LP0Z17nn3yENMkSe8",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1S68XJ1k3TDw6kL0LP0Z17nn3yENMkSe8&sz=w800",
+        "embed": "https://drive.google.com/file/d/1S68XJ1k3TDw6kL0LP0Z17nn3yENMkSe8/preview",
+        "local": "/student-files/2026/zoe-liu-week-9--latent-space-3.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1QxJwrKgjlnj4y1HVV06waaGBnBJZLWqB",
+        "fileId": "1QxJwrKgjlnj4y1HVV06waaGBnBJZLWqB",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1QxJwrKgjlnj4y1HVV06waaGBnBJZLWqB&sz=w800",
+        "embed": "https://drive.google.com/file/d/1QxJwrKgjlnj4y1HVV06waaGBnBJZLWqB/preview",
+        "local": "/student-files/2026/zoe-liu-week-9--latent-space-4.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1i34dP7-P6ZXohnSZegP4v08BpWWBQa2T",
+        "fileId": "1i34dP7-P6ZXohnSZegP4v08BpWWBQa2T",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1i34dP7-P6ZXohnSZegP4v08BpWWBQa2T&sz=w800",
+        "embed": "https://drive.google.com/file/d/1i34dP7-P6ZXohnSZegP4v08BpWWBQa2T/preview",
+        "local": "/student-files/2026/zoe-liu-week-9--latent-space-5.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "11/17/2026 0:00:23",
+    "studentEmail": "schoei@pratt.edu",
+    "studentId": "seulgi-choei",
+    "assignmentTitle": "Week 9: Latent Space",
+    "projectDescription": "I photographed deviations in New York: the things on the street that do not quite fit. Here, a deviation is something that departs from the standards the city was designed around. I sorted them by the verb through which each deviation happens: tilted, dented, cracked, erased, written over, pasted over, and crossing boundaries. The archive became an interactive map where the arrangement of photographs is a musical score. A playhead reads the map from left to right. Each photograph plays its own short melody, drawn from its color, edges, and brightness. The classification decides when it sounds (its position), which instrument plays it (its group), and, where the groups have names, how the sound deviates.\nThe same photographs are arranged in four ways, and so become four pieces of music: My Categories, the verbs I chose; Model Learning, a machine learning my categories as the map plays; Machine Clusters, groups the machine forms without my labels; and Visual Properties, plain measurement. Only the first two carry verbs, because only a named standard can produce a deviation.\n",
+    "credit": "Claude, ImagePlot, Teachable Machine",
+    "uploadedFiles": "/student-files/2026/seulgi-choei-week-9--latent-space-1.mp4, /student-files/2026/seulgi-choei-week-9--latent-space-2.mp4, /student-files/2026/seulgi-choei-week-9--latent-space-3.mp4, /student-files/2026/seulgi-choei-week-9--latent-space-4.mp4",
+    "linkToWork": "https://seulgich.github.io/deviation-from-deviation/",
+    "linkToWorks": [
+      "https://seulgich.github.io/deviation-from-deviation/"
+    ],
+    "linkToWorkRaw": "https://seulgich.github.io/deviation-from-deviation/",
+    "certification": "Yes",
+    "weeklyResponse": "I see actions and the machine reads surfaces. What I learned is that, for a machine, learning is the repetition of reducing the difference from a given standard. Also, there is no neutral standard.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1DWRqlJmP9wtnBhrWKjAGAh89wluCDw9c",
+        "fileId": "1DWRqlJmP9wtnBhrWKjAGAh89wluCDw9c",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1DWRqlJmP9wtnBhrWKjAGAh89wluCDw9c&sz=w800",
+        "embed": "https://drive.google.com/file/d/1DWRqlJmP9wtnBhrWKjAGAh89wluCDw9c/preview",
+        "local": "/student-files/2026/seulgi-choei-week-9--latent-space-1.mp4"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1zgW2agqM5vnGYOu_qwrWxQb4VRkQoy5e",
+        "fileId": "1zgW2agqM5vnGYOu_qwrWxQb4VRkQoy5e",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1zgW2agqM5vnGYOu_qwrWxQb4VRkQoy5e&sz=w800",
+        "embed": "https://drive.google.com/file/d/1zgW2agqM5vnGYOu_qwrWxQb4VRkQoy5e/preview",
+        "local": "/student-files/2026/seulgi-choei-week-9--latent-space-2.mp4"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1gmm89Y7teBMuHIoFHrYrBxF6u6AxjW5_",
+        "fileId": "1gmm89Y7teBMuHIoFHrYrBxF6u6AxjW5_",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1gmm89Y7teBMuHIoFHrYrBxF6u6AxjW5_&sz=w800",
+        "embed": "https://drive.google.com/file/d/1gmm89Y7teBMuHIoFHrYrBxF6u6AxjW5_/preview",
+        "local": "/student-files/2026/seulgi-choei-week-9--latent-space-3.mp4"
+      },
+      {
+        "original": "https://drive.google.com/open?id=14sXgHoCjYh3552lpCCU_ZLcinlN2JTif",
+        "fileId": "14sXgHoCjYh3552lpCCU_ZLcinlN2JTif",
+        "thumbnail": "https://drive.google.com/thumbnail?id=14sXgHoCjYh3552lpCCU_ZLcinlN2JTif&sz=w800",
+        "embed": "https://drive.google.com/file/d/14sXgHoCjYh3552lpCCU_ZLcinlN2JTif/preview",
+        "local": "/student-files/2026/seulgi-choei-week-9--latent-space-4.mp4"
+      }
+    ]
+  },
+  {
+    "timestamp": "11/17/2026 12:43:32",
+    "studentEmail": "sjain75@pratt.edu",
+    "studentId": "samridhi-jain",
+    "assignmentTitle": "Week 6: Mapping Our Values in the Age of AI",
+    "projectDescription": "For this project, I collected an archive of eating behavior, starting from something I recognize instantly but can’t fully explain: how people eat when they’re alone, in a car, on a couch, or sharing a table. The archive has items in two groups. The captured items are my own: photos of food, setups and leftovers, plus overheard phrases such as “Have you eaten yet?” and “Are you going to finish that?” The found items come from online sources: food challenges, close-ups of open mouths, banana-leaf feasts, children eating. I labeled the found items separately so I could compare how eating is performed for a camera with how it happens around me.\n\nTo organize it, I used two of the methods from our reading. The first was a morphology grid that sorts each item by setting (table, car, lap or couch, street, tray or counter) and vessel (plate, bowl, thali, takeout box or cone, pot, hand). The second was a typology of types arranged along the arc of a meal, such as the Check-in, the Shared Spread, the Solo Improviser, the Monitor, the Saver, the Performer and the Unwatched Eater.\n\nThe two maps disagreed. The grid showed my own eating as mostly solo and improvised. The typology showed that the language around eating is mostly about other people: asking, deciding, saving for later. Some items didn’t fit either system, such as eating noodles from the pot I cooked them in, a plate held in a hand on a lap, and a phrase whose meaning changes with tone (“Are you going to finish that?” can be care or a claim on the food). The Performer and the Unwatched Eater also look alike but mean opposite things. These remainders led to the next step, because a camera or a model can only see what’s on the plate, not what it means.",
+    "credit": "Gemini",
+    "uploadedFiles": "/student-files/2026/samridhi-jain-week-6--mapping-our-values-in-the-age-of-ai-1.jpg, /student-files/2026/samridhi-jain-week-6--mapping-our-values-in-the-age-of-ai-2.jpg, /student-files/2026/samridhi-jain-week-6--mapping-our-values-in-the-age-of-ai-3.jpg",
+    "linkToWork": "https://app.milanote.com/1XdvfQ18sBjJax?p=6zEudJCIRXR",
+    "linkToWorks": [
+      "https://app.milanote.com/1XdvfQ18sBjJax?p=6zEudJCIRXR"
+    ],
+    "linkToWorkRaw": "https://app.milanote.com/1XdvfQ18sBjJax?p=6zEudJCIRXR",
+    "certification": "Yes",
+    "weeklyResponse": "Sorting my eating archive showed me that eating online is staged for a camera while eating in my life is improvised, that my words about eating are mostly about other people, and that the items that broke my categories were the most revealing, which leaves me wondering whether a machine could ever see what a photo can’t.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1R0aOTEvnK1roW-vY_ZZ0WQ2dfa5soW2W",
+        "fileId": "1R0aOTEvnK1roW-vY_ZZ0WQ2dfa5soW2W",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1R0aOTEvnK1roW-vY_ZZ0WQ2dfa5soW2W&sz=w800",
+        "embed": "https://drive.google.com/file/d/1R0aOTEvnK1roW-vY_ZZ0WQ2dfa5soW2W/preview",
+        "local": "/student-files/2026/samridhi-jain-week-6--mapping-our-values-in-the-age-of-ai-1.jpg"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1OsgFY-tIZ5D--pa3ih77oTTRP-pb5G8j",
+        "fileId": "1OsgFY-tIZ5D--pa3ih77oTTRP-pb5G8j",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1OsgFY-tIZ5D--pa3ih77oTTRP-pb5G8j&sz=w800",
+        "embed": "https://drive.google.com/file/d/1OsgFY-tIZ5D--pa3ih77oTTRP-pb5G8j/preview",
+        "local": "/student-files/2026/samridhi-jain-week-6--mapping-our-values-in-the-age-of-ai-2.jpg"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1JrxIX-p60dnwxqc0uj7OGeWMNJUsTzkV",
+        "fileId": "1JrxIX-p60dnwxqc0uj7OGeWMNJUsTzkV",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1JrxIX-p60dnwxqc0uj7OGeWMNJUsTzkV&sz=w800",
+        "embed": "https://drive.google.com/file/d/1JrxIX-p60dnwxqc0uj7OGeWMNJUsTzkV/preview",
+        "local": "/student-files/2026/samridhi-jain-week-6--mapping-our-values-in-the-age-of-ai-3.jpg"
+      }
+    ]
+  },
+  {
+    "timestamp": "11/17/2026 13:05:07",
+    "studentEmail": "lzhang76@pratt.edu",
+    "studentId": "li-zhang",
+    "assignmentTitle": "Week 11: Generative Authorship",
+    "projectDescription": "A digital gift that challenges the productivity-oriented logic of conventional task management tools. Instead of helping users accomplish more, this interface encourages them to postpone, abandon, or reconsider their tasks. The system celebrates the freedom to do less rather than the achievement of doing more.",
+    "credit": "/",
+    "uploadedFiles": "/student-files/2026/li-zhang-week-11--generative-authorship-1.jpg, /student-files/2026/li-zhang-week-11--generative-authorship-2.jpg, /student-files/2026/li-zhang-week-11--generative-authorship-3.jpg, /student-files/2026/li-zhang-week-11--generative-authorship-4.jpg, /student-files/2026/li-zhang-week-11--generative-authorship-5.jpg",
+    "linkToWork": "",
+    "linkToWorkRaw": "",
+    "certification": "Yes",
+    "weeklyResponse": "the question about what's the authorship.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1lPpNzeGM60ziqHs8rXP2TJLXldpSme-F",
+        "fileId": "1lPpNzeGM60ziqHs8rXP2TJLXldpSme-F",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1lPpNzeGM60ziqHs8rXP2TJLXldpSme-F&sz=w800",
+        "embed": "https://drive.google.com/file/d/1lPpNzeGM60ziqHs8rXP2TJLXldpSme-F/preview",
+        "local": "/student-files/2026/li-zhang-week-11--generative-authorship-1.jpg"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1lPWbcAE245Qx_9n4g6ShNmcJnKOkYQhY",
+        "fileId": "1lPWbcAE245Qx_9n4g6ShNmcJnKOkYQhY",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1lPWbcAE245Qx_9n4g6ShNmcJnKOkYQhY&sz=w800",
+        "embed": "https://drive.google.com/file/d/1lPWbcAE245Qx_9n4g6ShNmcJnKOkYQhY/preview",
+        "local": "/student-files/2026/li-zhang-week-11--generative-authorship-2.jpg"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1OGsTzHsnn5ZoAZQFOpIvxnzyu7Lrr5he",
+        "fileId": "1OGsTzHsnn5ZoAZQFOpIvxnzyu7Lrr5he",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1OGsTzHsnn5ZoAZQFOpIvxnzyu7Lrr5he&sz=w800",
+        "embed": "https://drive.google.com/file/d/1OGsTzHsnn5ZoAZQFOpIvxnzyu7Lrr5he/preview",
+        "local": "/student-files/2026/li-zhang-week-11--generative-authorship-3.jpg"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1ZmciMnQkd9jKI0E9IgW1aLdi5T81Bzvn",
+        "fileId": "1ZmciMnQkd9jKI0E9IgW1aLdi5T81Bzvn",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1ZmciMnQkd9jKI0E9IgW1aLdi5T81Bzvn&sz=w800",
+        "embed": "https://drive.google.com/file/d/1ZmciMnQkd9jKI0E9IgW1aLdi5T81Bzvn/preview",
+        "local": "/student-files/2026/li-zhang-week-11--generative-authorship-4.jpg"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1JCABfef6uvAiqB6vocrvKTVsu7uu864P",
+        "fileId": "1JCABfef6uvAiqB6vocrvKTVsu7uu864P",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1JCABfef6uvAiqB6vocrvKTVsu7uu864P&sz=w800",
+        "embed": "https://drive.google.com/file/d/1JCABfef6uvAiqB6vocrvKTVsu7uu864P/preview",
+        "local": "/student-files/2026/li-zhang-week-11--generative-authorship-5.jpg"
+      }
+    ]
+  },
+  {
+    "timestamp": "11/17/2026 14:10:16",
+    "studentEmail": "rdavi176@pratt.edu",
+    "studentId": "rebecca-davidson",
+    "assignmentTitle": "Week 11: Generative Authorship",
+    "projectDescription": "My ideas for project 3!",
+    "credit": "n/a",
+    "uploadedFiles": "/student-files/2026/rebecca-davidson-week-11--generative-authorship-1.jpg",
+    "linkToWork": "",
+    "linkToWorkRaw": "",
+    "certification": "Yes",
+    "weeklyResponse": "That I have a sort of formula for the ideas I come up with, many are driven by extracting data and telling a story with it!",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1-QHwE9nLJauxUVz3CugssL53qkkoONlH",
+        "fileId": "1-QHwE9nLJauxUVz3CugssL53qkkoONlH",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1-QHwE9nLJauxUVz3CugssL53qkkoONlH&sz=w800",
+        "embed": "https://drive.google.com/file/d/1-QHwE9nLJauxUVz3CugssL53qkkoONlH/preview",
+        "local": "/student-files/2026/rebecca-davidson-week-11--generative-authorship-1.jpg"
+      }
+    ]
+  },
+  {
+    "timestamp": "11/17/2026 15:34:10",
+    "studentEmail": "zwang75@pratt.edu",
+    "studentId": "wendy-wang",
+    "assignmentTitle": "Week 11: Generative Authorship",
+    "projectDescription": "This project explores ten speculative design concepts that reimagine the role of AI in everyday life. Moving beyond productivity and efficiency, the ideas focus on emotions, memories, relationships, imagination, and ordinary experiences. Through unexpected machines, personal objects, and alternative services, I question whether technology always needs to be useful or provide clear answers. Instead, I imagine AI as something that encourages reflection, connection, play, and new ways of experiencing everyday life.",
+    "credit": "Chat GPT",
+    "uploadedFiles": "/student-files/2026/wendy-wang-week-11--generative-authorship-1.png",
+    "linkToWork": "",
+    "linkToWorkRaw": "",
+    "certification": "Yes",
+    "weeklyResponse": "This week, I learned that AI does not always have to focus on productivity, efficiency, or solving problems. It can also be used to explore emotions, memories, imagination, and unexpected experiences. While developing my ten concepts, I started thinking about how AI could become part of ordinary life in more playful and personal ways. I also realized that speculative design is not always about creating something practical. It can be about asking questions, challenging expectations, and imagining different relationships between people and technology.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1jK3rYUOz2VjFcmNLFiOsqeLYP13dUdMc",
+        "fileId": "1jK3rYUOz2VjFcmNLFiOsqeLYP13dUdMc",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1jK3rYUOz2VjFcmNLFiOsqeLYP13dUdMc&sz=w800",
+        "embed": "https://drive.google.com/file/d/1jK3rYUOz2VjFcmNLFiOsqeLYP13dUdMc/preview",
+        "local": "/student-files/2026/wendy-wang-week-11--generative-authorship-1.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "11/17/2026 19:13:20",
+    "studentEmail": "mbalde@pratt.edu",
+    "studentId": "lulah-balde",
+    "assignmentTitle": "Week 11: Generative Authorship",
+    "projectDescription": "For this round of brainstorming, I started from my everyday rituals and relationships rather than from the technology: my morning matcha, the cafés I spend time in, my family, and my friends. From there, I focused mostly on tactile objects I could develop into physical prototypes through 3D printing, textiles and print, things meant to be held, used or kept rather than looked at on a screen.\n\nAcross my ideas, the language model doesn’t make the work for me. It acts as a reader and translator. It takes something written or spoken (a morning reflection, an inside joke, a phrase my mom always says) and interprets it as form, pattern or classification. I then design and make the object myself, deciding where to follow the machine’s reading and where my own knowledge of the person or moment matters more.\n\nMost ideas are framed as gifts or things to keep, because I’m interested in how these objects hold memory and care over time, and in slowness and ritual instead of efficiency.",
+    "credit": "claude",
+    "uploadedFiles": "/student-files/2026/lulah-balde-week-11--generative-authorship-1.png, /student-files/2026/lulah-balde-week-11--generative-authorship-2.png, /student-files/2026/lulah-balde-week-11--generative-authorship-3.png, /student-files/2026/lulah-balde-week-11--generative-authorship-4.png",
+    "linkToWork": "",
+    "linkToWorkRaw": "",
+    "certification": "Yes",
+    "weeklyResponse": "I learned that trying to think of slow day-to-day things to keep, gift, or to create in companionship with AI or machine-learning was actually alot more difficult to conceptualize as we're forced to think of technology as a means of productivity, or to solve something that's already slow in itself. So it feels interesting to think of something intentional and thoughtful but from the lens or in relationship with AI.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1tj4KwYsFZcTeTRbKiOZ8CM-Cb4SUOTKH",
+        "fileId": "1tj4KwYsFZcTeTRbKiOZ8CM-Cb4SUOTKH",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1tj4KwYsFZcTeTRbKiOZ8CM-Cb4SUOTKH&sz=w800",
+        "embed": "https://drive.google.com/file/d/1tj4KwYsFZcTeTRbKiOZ8CM-Cb4SUOTKH/preview",
+        "local": "/student-files/2026/lulah-balde-week-11--generative-authorship-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1nk663Kw_LNmPLAeQTkxSm0aHkh9MAu1Z",
+        "fileId": "1nk663Kw_LNmPLAeQTkxSm0aHkh9MAu1Z",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1nk663Kw_LNmPLAeQTkxSm0aHkh9MAu1Z&sz=w800",
+        "embed": "https://drive.google.com/file/d/1nk663Kw_LNmPLAeQTkxSm0aHkh9MAu1Z/preview",
+        "local": "/student-files/2026/lulah-balde-week-11--generative-authorship-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=10_tk37vYYIGlL4keHFbuYSPOW-NYYjae",
+        "fileId": "10_tk37vYYIGlL4keHFbuYSPOW-NYYjae",
+        "thumbnail": "https://drive.google.com/thumbnail?id=10_tk37vYYIGlL4keHFbuYSPOW-NYYjae&sz=w800",
+        "embed": "https://drive.google.com/file/d/10_tk37vYYIGlL4keHFbuYSPOW-NYYjae/preview",
+        "local": "/student-files/2026/lulah-balde-week-11--generative-authorship-3.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1oZiGtoLUz7VBZoBp-AiDQ6-a7anskstU",
+        "fileId": "1oZiGtoLUz7VBZoBp-AiDQ6-a7anskstU",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1oZiGtoLUz7VBZoBp-AiDQ6-a7anskstU&sz=w800",
+        "embed": "https://drive.google.com/file/d/1oZiGtoLUz7VBZoBp-AiDQ6-a7anskstU/preview",
+        "local": "/student-files/2026/lulah-balde-week-11--generative-authorship-4.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "11/22/2026 22:19:05",
+    "studentEmail": "xwang112@pratt.edu",
+    "studentId": "xiran-wang",
+    "assignmentTitle": "Week 11: Generative Authorship",
+    "projectDescription": "In big cities, daily life is significantly driven by productivity, tight schedules, optimisation, and pressure to continuously work with AI bots to get things done faster and better. Many people amid this productivity rarely pause to listen to themselves, step into nature, or sit with thoughts for meditation, reflection, forest bathing, or journaling. \nInspired by slow living practices and concepts such as Unscheduled Day, this project explores what happens when technology and digital devices move away from efficiency and time management to slow down, wander around in nature, and have inner listening. Instead of improving daily productivity, optimising workflows, pushing for outputs, and highly aligning with schedule, my speculative AI and LLM concepts behave as gentle prompts for slowing down, encouraging people to notice their surroundings and their inner thoughts, step outside, keep imperfect reflections, and reconnect with themselves and nature. ",
+    "credit": "Pinterest for visual references",
+    "uploadedFiles": "/student-files/2026/xiran-wang-week-11--generative-authorship-1.jpg",
+    "linkToWork": "https://www.figma.com/design/zpIesX8QBRJYaDD7Fren95/Technology-B?node-id=171-3&t=cVcTe0rkbJLagnT7-1",
+    "linkToWorks": [
+      "https://www.figma.com/design/zpIesX8QBRJYaDD7Fren95/Technology-B?node-id=171-3&t=cVcTe0rkbJLagnT7-1"
+    ],
+    "linkToWorkRaw": "https://www.figma.com/design/zpIesX8QBRJYaDD7Fren95/Technology-B?node-id=171-3&t=cVcTe0rkbJLagnT7-1",
+    "certification": "Yes",
+    "weeklyResponse": "I learned from other students during the critique in class that nowadays many people prioritise productivity and optimise their workflow. Most AI bots available to public seem to be related to work, study, searching for specific information online. They can be a great assistance of work, life, and study. Why haven't we built AI bots that focus on things beyond work and study, such as slow living or even death?",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1ML5jCrq4Qdz5HwINBk8pWw444Fx9imZ0",
+        "fileId": "1ML5jCrq4Qdz5HwINBk8pWw444Fx9imZ0",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1ML5jCrq4Qdz5HwINBk8pWw444Fx9imZ0&sz=w800",
+        "embed": "https://drive.google.com/file/d/1ML5jCrq4Qdz5HwINBk8pWw444Fx9imZ0/preview",
+        "local": "/student-files/2026/xiran-wang-week-11--generative-authorship-1.jpg"
+      }
+    ]
+  },
+  {
+    "timestamp": "11/24/2026 0:17:32",
+    "studentEmail": "jlix92@pratt.edu",
+    "studentId": "jiayi-li",
+    "assignmentTitle": "Week 11: Generative Authorship",
+    "projectDescription": "My ten ideas come from three main areas of interest.\nThe first is my curiosity about regret and the paths we didn't take. I often wonder what my life would be like if I had made different choices. I was also inspired by a story suggesting that we read the script of our entire life before birth and choose to experience it anyway. This led me to explore ideas around life scripts, alternative lives, and what makes a life worth living.\nThe second explores the ambiguity of everyday language, particularly the difference between a wish, a suggestion, and a command. I am interested in how people interpret others' expectations, and how something that is not explicitly stated as a request can still feel like an obligation. This also connects to my personal reflections on being someone who tends to follow others' expectations.\nThe third connects to my thesis research on “thank you,” particularly how gratitude and politeness can carry different meanings across social and cultural contexts.\nFor now, I've developed these ten ideas into hand-drawn sketches to illustrate their basic concepts and possible directions.",
+    "credit": "Karin Aijmer, Conversational Routines in English, ChatGPT",
+    "uploadedFiles": "/student-files/2026/jiayi-li-week-11--generative-authorship-1.png",
+    "linkToWork": "https://app.milanote.com/1XsOrl1iwBYZd5?p=d0ep8fhG34a",
+    "linkToWorks": [
+      "https://app.milanote.com/1XsOrl1iwBYZd5?p=d0ep8fhG34a"
+    ],
+    "linkToWorkRaw": "https://app.milanote.com/1XsOrl1iwBYZd5?p=d0ep8fhG34a",
+    "certification": "Yes",
+    "weeklyResponse": "I'm still thinking about how to move beyond simply communicating a critical idea and instead design an experience that encourages people to reflect and form their own interpretations.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1FmPiYbd-RgsH4NG7cieLrBFZwrLU0Ebu",
+        "fileId": "1FmPiYbd-RgsH4NG7cieLrBFZwrLU0Ebu",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1FmPiYbd-RgsH4NG7cieLrBFZwrLU0Ebu&sz=w800",
+        "embed": "https://drive.google.com/file/d/1FmPiYbd-RgsH4NG7cieLrBFZwrLU0Ebu/preview",
+        "local": "/student-files/2026/jiayi-li-week-11--generative-authorship-1.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "11/24/2026 0:58:09",
+    "studentEmail": "jlix92@pratt.edu",
+    "studentId": "jiayi-li",
+    "assignmentTitle": "Week 12: Attention Is All You Need",
+    "projectDescription": "The Unchosen Future began with my habit of looking back on past decisions and wondering whether my life would have been better if I had chosen differently. Since I can never know what those alternative lives would have been like, I want to explore whether AI can help me imagine these possibilities and whether they can help me come to terms with past regrets.\n\nThis week, I developed three interactive prototypes using different approaches to language generation.\n\nThe first prototype, If I Had…, uses a Markov chain trained on 27 personal “what if” statements I collected from childhood to the present. The model combined words from different experiences into unexpected sentences, but it could not really describe what those alternative lives might look like. However, these repetitive and sometimes meaningless sentences reminded me of overthinking late at night, when I keep looking back on past choices and imagining endless.\n\nThe second prototype, The Other School, uses RiTa's generative grammar to explore what I might have gained or lost if I had chosen a different graduate school. This made me question: Who decides what counts as a “better” life? Does gaining more things necessarily mean having a better life?\n\nThe third prototype, The Unchosen Life, uses a local language model, Qwen2.5 1.5B, to generate alternative lives through an interactive branching diagram. A fixed ink line represents my real life, while imagined possibilities grow outward as watercolor circles. I also used Carol Ryff's six dimensions of psychological well-being to categorize changes along different life paths. Unlike the previous two prototypes, the local AI could generate experiences I had never written about. However, it often misunderstood my personal background or imagined behaviors that felt completely unlike me. I also found that its imagination was strongly influenced by my prompts and parameters such as temperature.\n\nThrough these three experiments, I gradually realized that the alternative lives generated by AI are always shaped by the words and assumptions I provide. Even when the technology can generate more complex and flexible stories, it still cannot tell me whether a different choice would truly have led to a better life. Next, I want to continue training the AI to see whether it can create more complete and believable stories about the lives I didn't choose.",
+    "credit": "Carol Ryff's Six Dimensions of Psychological Well-Being, RiTa, Markov Chain Generator, Llama, Claude, Qwen2.5 1.5B",
+    "uploadedFiles": "/student-files/2026/jiayi-li-week-12--attention-is-all-you-need-1.png, /student-files/2026/jiayi-li-week-12--attention-is-all-you-need-2.png, /student-files/2026/jiayi-li-week-12--attention-is-all-you-need-3.png, /student-files/2026/jiayi-li-week-12--attention-is-all-you-need-4.png, /student-files/2026/jiayi-li-week-12--attention-is-all-you-need-5.png",
+    "linkToWork": "https://app.milanote.com/1XvuRg1aBoJM6E?p=abt40OhOXiF",
+    "linkToWorks": [
+      "https://app.milanote.com/1XvuRg1aBoJM6E?p=abt40OhOXiF"
+    ],
+    "linkToWorkRaw": "https://app.milanote.com/1XvuRg1aBoJM6E?p=abt40OhOXiF",
+    "certification": "Yes",
+    "weeklyResponse": "Nothing else for now. Thank you!",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1HgGKtFKsVts1eQ52RBn-otS1bRNbcVE8",
+        "fileId": "1HgGKtFKsVts1eQ52RBn-otS1bRNbcVE8",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1HgGKtFKsVts1eQ52RBn-otS1bRNbcVE8&sz=w800",
+        "embed": "https://drive.google.com/file/d/1HgGKtFKsVts1eQ52RBn-otS1bRNbcVE8/preview",
+        "local": "/student-files/2026/jiayi-li-week-12--attention-is-all-you-need-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1VIVRud5VT___Qyf1gAFtNLcntHG3latg",
+        "fileId": "1VIVRud5VT___Qyf1gAFtNLcntHG3latg",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1VIVRud5VT___Qyf1gAFtNLcntHG3latg&sz=w800",
+        "embed": "https://drive.google.com/file/d/1VIVRud5VT___Qyf1gAFtNLcntHG3latg/preview",
+        "local": "/student-files/2026/jiayi-li-week-12--attention-is-all-you-need-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1tU-V3L-6LRt0sRx7vW9cdQ6-t_f2g70S",
+        "fileId": "1tU-V3L-6LRt0sRx7vW9cdQ6-t_f2g70S",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1tU-V3L-6LRt0sRx7vW9cdQ6-t_f2g70S&sz=w800",
+        "embed": "https://drive.google.com/file/d/1tU-V3L-6LRt0sRx7vW9cdQ6-t_f2g70S/preview",
+        "local": "/student-files/2026/jiayi-li-week-12--attention-is-all-you-need-3.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1F76jzMBnePy6QqQqRiFbbGeKDmhcNMOV",
+        "fileId": "1F76jzMBnePy6QqQqRiFbbGeKDmhcNMOV",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1F76jzMBnePy6QqQqRiFbbGeKDmhcNMOV&sz=w800",
+        "embed": "https://drive.google.com/file/d/1F76jzMBnePy6QqQqRiFbbGeKDmhcNMOV/preview",
+        "local": "/student-files/2026/jiayi-li-week-12--attention-is-all-you-need-4.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1axg0xqFYT3P8b9NEl0LRjl8DZxGOEcew",
+        "fileId": "1axg0xqFYT3P8b9NEl0LRjl8DZxGOEcew",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1axg0xqFYT3P8b9NEl0LRjl8DZxGOEcew&sz=w800",
+        "embed": "https://drive.google.com/file/d/1axg0xqFYT3P8b9NEl0LRjl8DZxGOEcew/preview",
+        "local": "/student-files/2026/jiayi-li-week-12--attention-is-all-you-need-5.png"
+      }
+    ]
+  },
+  {
+    "timestamp": "11/24/2026 14:17:44",
+    "studentEmail": "lzhang76@pratt.edu",
+    "studentId": "li-zhang",
+    "assignmentTitle": "Week 12: Attention Is All You Need",
+    "projectDescription": "The Oracle of Maybe is a gift for someone who keeps asking a friend what they should do. A visitor types a question and receives three cards. Each card offers a plausible answer, and following one means giving up something another card offers. All three stay on the page together. The visitor can question any of them or print the set to keep.",
+    "credit": "ChatGpt6.2/Qianwen",
+    "uploadedFiles": "/student-files/2026/li-zhang-week-12--attention-is-all-you-need-1.png, /student-files/2026/li-zhang-week-12--attention-is-all-you-need-2.png, /student-files/2026/li-zhang-week-12--attention-is-all-you-need-3.png, /student-files/2026/li-zhang-week-12--attention-is-all-you-need-4.png",
+    "linkToWork": "",
+    "linkToWorkRaw": "",
+    "certification": "Yes",
+    "weeklyResponse": "Would I choose differently if each card opened with what I stand to lose and ended with what I gain?",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1LtaRuLXoQ9x3DLuzdmlyfrnZPijymr78",
+        "fileId": "1LtaRuLXoQ9x3DLuzdmlyfrnZPijymr78",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1LtaRuLXoQ9x3DLuzdmlyfrnZPijymr78&sz=w800",
+        "embed": "https://drive.google.com/file/d/1LtaRuLXoQ9x3DLuzdmlyfrnZPijymr78/preview",
+        "local": "/student-files/2026/li-zhang-week-12--attention-is-all-you-need-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1cAe4diDj_T9z5U7meCGy2Bu-PbkQSCtH",
+        "fileId": "1cAe4diDj_T9z5U7meCGy2Bu-PbkQSCtH",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1cAe4diDj_T9z5U7meCGy2Bu-PbkQSCtH&sz=w800",
+        "embed": "https://drive.google.com/file/d/1cAe4diDj_T9z5U7meCGy2Bu-PbkQSCtH/preview",
+        "local": "/student-files/2026/li-zhang-week-12--attention-is-all-you-need-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1Hsl7-p80BPQ6ApUdCQvCi8cJuw645KfR",
+        "fileId": "1Hsl7-p80BPQ6ApUdCQvCi8cJuw645KfR",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1Hsl7-p80BPQ6ApUdCQvCi8cJuw645KfR&sz=w800",
+        "embed": "https://drive.google.com/file/d/1Hsl7-p80BPQ6ApUdCQvCi8cJuw645KfR/preview",
+        "local": "/student-files/2026/li-zhang-week-12--attention-is-all-you-need-3.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1Z-HibI35lUSn9y2yXEOOJ8QTx9tWyu7B",
+        "fileId": "1Z-HibI35lUSn9y2yXEOOJ8QTx9tWyu7B",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1Z-HibI35lUSn9y2yXEOOJ8QTx9tWyu7B&sz=w800",
+        "embed": "https://drive.google.com/file/d/1Z-HibI35lUSn9y2yXEOOJ8QTx9tWyu7B/preview",
+        "local": "/student-files/2026/li-zhang-week-12--attention-is-all-you-need-4.png"
+      }
+    ]
   }
 ]
