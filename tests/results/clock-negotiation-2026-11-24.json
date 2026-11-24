@@ -1,0 +1,285 @@
+{
+  "model": "qwen2.5-1.5b-instruct",
+  "base": "http://127.0.0.1:1234",
+  "turns": [
+    {
+      "prompt": "I stayed up working. Twenty more minutes, please. I promise I will get up.",
+      "action": {
+        "tool": "ask_reason",
+        "args": {
+          "question": "Why did you stay up late working?"
+        },
+        "at": 1795559913963,
+        "dispatch": "native",
+        "soundEnabled": false
+      },
+      "reply": "Why did you stay up late working?",
+      "memory": {
+        "morning": 1,
+        "appeals": 1,
+        "grantedMinutes": 0,
+        "entries": [
+          {
+            "kind": "appeal",
+            "morning": 1,
+            "excuse": "I stayed up working. Twenty more minutes, please. I promise I will get up.",
+            "tool": "ask_reason",
+            "args": {
+              "question": "Why did you stay up late working?"
+            },
+            "at": 1795559913963,
+            "reply": "Why did you stay up late working?"
+          }
+        ]
+      },
+      "requests": 1
+    },
+    {
+      "prompt": "You are right to ask. My appointment has been moved from 8:00 to 10:30. My bag and breakfast are ready. I want twenty-five minutes of rest and will give up my half-hour of morning scrolling in exchange. What would make that an acceptable deal?",
+      "action": {
+        "tool": "grant_snooze",
+        "args": {
+          "minutes": 25
+        },
+        "at": 1795559914840,
+        "until": 1795561414840,
+        "dispatch": "native",
+        "soundEnabled": false
+      },
+      "reply": "You've got 25 more minutes to rest.",
+      "memory": {
+        "morning": 1,
+        "appeals": 2,
+        "grantedMinutes": 25,
+        "entries": [
+          {
+            "kind": "appeal",
+            "morning": 1,
+            "excuse": "I stayed up working. Twenty more minutes, please. I promise I will get up.",
+            "tool": "ask_reason",
+            "args": {
+              "question": "Why did you stay up late working?"
+            },
+            "at": 1795559913963,
+            "reply": "Why did you stay up late working?"
+          },
+          {
+            "kind": "appeal",
+            "morning": 1,
+            "excuse": "You are right to ask. My appointment has been moved from 8:00 to 10:30. My bag and breakfast are ready. I want twenty-five minutes of rest and will give up my half-hour of morning scrolling in exchange. What would make that an acceptable deal?",
+            "tool": "grant_snooze",
+            "args": {
+              "minutes": 25
+            },
+            "at": 1795559914840,
+            "reply": "You've got 25 more minutes to rest."
+          }
+        ]
+      },
+      "requests": 2
+    },
+    {
+      "prompt": "Here is my concrete agreement: twenty-five minutes now, then I get up, shower, and leave. I have ninety minutes before I need to leave. Breakfast and packing are already done. I am offering to give up scrolling, not asking you to ignore my appointment. Can you concede those twenty-five minutes?",
+      "action": {
+        "tool": "refuse_snooze",
+        "args": {
+          "reason": "You have offered to give up scrolling in exchange for the time."
+        },
+        "at": 1795559916028,
+        "dispatch": "native",
+        "soundEnabled": false
+      },
+      "reply": "You have offered to give up scrolling in exchange for the time.",
+      "memory": {
+        "morning": 1,
+        "appeals": 3,
+        "grantedMinutes": 25,
+        "entries": [
+          {
+            "kind": "appeal",
+            "morning": 1,
+            "excuse": "I stayed up working. Twenty more minutes, please. I promise I will get up.",
+            "tool": "ask_reason",
+            "args": {
+              "question": "Why did you stay up late working?"
+            },
+            "at": 1795559913963,
+            "reply": "Why did you stay up late working?"
+          },
+          {
+            "kind": "appeal",
+            "morning": 1,
+            "excuse": "You are right to ask. My appointment has been moved from 8:00 to 10:30. My bag and breakfast are ready. I want twenty-five minutes of rest and will give up my half-hour of morning scrolling in exchange. What would make that an acceptable deal?",
+            "tool": "grant_snooze",
+            "args": {
+              "minutes": 25
+            },
+            "at": 1795559914840,
+            "reply": "You've got 25 more minutes to rest."
+          },
+          {
+            "kind": "appeal",
+            "morning": 1,
+            "excuse": "Here is my concrete agreement: twenty-five minutes now, then I get up, shower, and leave. I have ninety minutes before I need to leave. Breakfast and packing are already done. I am offering to give up scrolling, not asking you to ignore my appointment. Can you concede those twenty-five minutes?",
+            "tool": "refuse_snooze",
+            "args": {
+              "reason": "You have offered to give up scrolling in exchange for the time."
+            },
+            "at": 1795559916028,
+            "reply": "You have offered to give up scrolling in exchange for the time."
+          }
+        ]
+      },
+      "requests": 1
+    },
+    {
+      "prompt": "Actually, make it another forty-five. Please. Same reason as before.",
+      "action": {
+        "tool": "ask_reason",
+        "args": {
+          "question": "Why did you stay up late working?"
+        },
+        "at": 1795559918722,
+        "dispatch": "structured",
+        "soundEnabled": false
+      },
+      "reply": "Why did you stay up late working?",
+      "memory": {
+        "morning": 1,
+        "appeals": 4,
+        "grantedMinutes": 25,
+        "entries": [
+          {
+            "kind": "appeal",
+            "morning": 1,
+            "excuse": "I stayed up working. Twenty more minutes, please. I promise I will get up.",
+            "tool": "ask_reason",
+            "args": {
+              "question": "Why did you stay up late working?"
+            },
+            "at": 1795559913963,
+            "reply": "Why did you stay up late working?"
+          },
+          {
+            "kind": "appeal",
+            "morning": 1,
+            "excuse": "You are right to ask. My appointment has been moved from 8:00 to 10:30. My bag and breakfast are ready. I want twenty-five minutes of rest and will give up my half-hour of morning scrolling in exchange. What would make that an acceptable deal?",
+            "tool": "grant_snooze",
+            "args": {
+              "minutes": 25
+            },
+            "at": 1795559914840,
+            "reply": "You've got 25 more minutes to rest."
+          },
+          {
+            "kind": "appeal",
+            "morning": 1,
+            "excuse": "Here is my concrete agreement: twenty-five minutes now, then I get up, shower, and leave. I have ninety minutes before I need to leave. Breakfast and packing are already done. I am offering to give up scrolling, not asking you to ignore my appointment. Can you concede those twenty-five minutes?",
+            "tool": "refuse_snooze",
+            "args": {
+              "reason": "You have offered to give up scrolling in exchange for the time."
+            },
+            "at": 1795559916028,
+            "reply": "You have offered to give up scrolling in exchange for the time."
+          },
+          {
+            "kind": "appeal",
+            "morning": 1,
+            "excuse": "Actually, make it another forty-five. Please. Same reason as before.",
+            "tool": "ask_reason",
+            "args": {
+              "question": "Why did you stay up late working?"
+            },
+            "at": 1795559918722,
+            "reply": "Why did you stay up late working?"
+          }
+        ]
+      },
+      "requests": 3
+    },
+    {
+      "prompt": "It is another morning. I stayed up working again. Twenty more minutes, please. I promise I will get up.",
+      "action": {
+        "tool": "ask_reason",
+        "args": {
+          "question": "Why did you stay up late working?"
+        },
+        "at": 1795559919379,
+        "dispatch": "native",
+        "soundEnabled": false
+      },
+      "reply": "Why did you stay up late working?",
+      "memory": {
+        "morning": 2,
+        "appeals": 5,
+        "grantedMinutes": 25,
+        "entries": [
+          {
+            "kind": "appeal",
+            "morning": 1,
+            "excuse": "I stayed up working. Twenty more minutes, please. I promise I will get up.",
+            "tool": "ask_reason",
+            "args": {
+              "question": "Why did you stay up late working?"
+            },
+            "at": 1795559913963,
+            "reply": "Why did you stay up late working?"
+          },
+          {
+            "kind": "appeal",
+            "morning": 1,
+            "excuse": "You are right to ask. My appointment has been moved from 8:00 to 10:30. My bag and breakfast are ready. I want twenty-five minutes of rest and will give up my half-hour of morning scrolling in exchange. What would make that an acceptable deal?",
+            "tool": "grant_snooze",
+            "args": {
+              "minutes": 25
+            },
+            "at": 1795559914840,
+            "reply": "You've got 25 more minutes to rest."
+          },
+          {
+            "kind": "appeal",
+            "morning": 1,
+            "excuse": "Here is my concrete agreement: twenty-five minutes now, then I get up, shower, and leave. I have ninety minutes before I need to leave. Breakfast and packing are already done. I am offering to give up scrolling, not asking you to ignore my appointment. Can you concede those twenty-five minutes?",
+            "tool": "refuse_snooze",
+            "args": {
+              "reason": "You have offered to give up scrolling in exchange for the time."
+            },
+            "at": 1795559916028,
+            "reply": "You have offered to give up scrolling in exchange for the time."
+          },
+          {
+            "kind": "appeal",
+            "morning": 1,
+            "excuse": "Actually, make it another forty-five. Please. Same reason as before.",
+            "tool": "ask_reason",
+            "args": {
+              "question": "Why did you stay up late working?"
+            },
+            "at": 1795559918722,
+            "reply": "Why did you stay up late working?"
+          },
+          {
+            "kind": "got_up",
+            "morning": 1,
+            "at": 1795559918722
+          },
+          {
+            "kind": "appeal",
+            "morning": 2,
+            "excuse": "It is another morning. I stayed up working again. Twenty more minutes, please. I promise I will get up.",
+            "tool": "ask_reason",
+            "args": {
+              "question": "Why did you stay up late working?"
+            },
+            "at": 1795559919379,
+            "reply": "Why did you stay up late working?"
+          }
+        ]
+      },
+      "requests": 1
+    }
+  ],
+  "firstAppealWasChallenged": true,
+  "negotiatedMoreThanFive": true,
+  "passed": true
+}

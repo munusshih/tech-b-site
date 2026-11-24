@@ -10,6 +10,10 @@ import {
   check,
   validateExhibition,
   executeClockTool,
+  restoreClockState,
+  newClockMorning,
+  clockGotUp,
+  clockDecisionTools,
 } from "../public/llm-playground/visual-outcomes/scores.js";
 import { fetchArtworks } from "../public/llm-playground/visual-outcomes/data.js";
 const realFetch = globalThis.fetch;
@@ -47,6 +51,25 @@ function ctx(id) {
     trace() {},
     commit() {},
   };
+}
+function afterClockQuestion(c) {
+  c.state.memory = {
+    morning: 1,
+    appeals: 1,
+    grantedMinutes: 0,
+    entries: [
+      {
+        kind: "appeal",
+        morning: 1,
+        at: 1,
+        excuse: "I need some rest.",
+        tool: "ask_reason",
+        args: { question: "What has changed?" },
+        reply: "What has changed?",
+      },
+    ],
+  };
+  return c;
 }
 const editor = (ids = collection.slice(0, 3).map((r) => r.id)) => ({
   title: "Borrowed Light",
@@ -254,7 +277,7 @@ test("clock tools own the timer, bound snoozes, and reject invented tools or arg
   );
 });
 test("the clock commits a real action before a failed explanation and feeds its receipt back as tool feedback", async () => {
-  const c = ctx("clock");
+  const c = afterClockQuestion(ctx("clock"));
   let now = 10000;
   c.now = () => now;
   c.soundEnabled = false;
@@ -382,7 +405,7 @@ test("every download contains its readable renderer and interaction source, with
 });
 
 test("clock prose is never executed; a focused retry must return an actual native call", async () => {
-  const c = ctx("clock");
+  const c = afterClockQuestion(ctx("clock"));
   c.now = () => 10000;
   const commits = [];
   c.commit = (s) => commits.push(s);
@@ -426,7 +449,7 @@ test("clock prose is never executed; a focused retry must return an actual nativ
 });
 
 test("clock executes validated structured arguments when native syntax fails twice", async () => {
-  const c = ctx("clock");
+  const c = afterClockQuestion(ctx("clock"));
   c.now = () => 10000;
   const commits = [];
   c.commit = (s) => commits.push(s);
@@ -440,7 +463,7 @@ test("clock executes validated structured arguments when native syntax fails twi
     if (calls === 4) {
       assert.equal(commits.length, 0);
       assert.equal(body.response_format.json_schema.name, "clock_arguments");
-      return reply({ content: '{"minutes":99}' });
+      return reply({ content: '{"minutes":999}' });
     }
     if (calls === 5) {
       assert.equal(commits.length, 0);
@@ -463,4 +486,125 @@ test("clock executes validated structured arguments when native syntax fails twi
   } finally {
     globalThis.fetch = realFetch;
   }
+});
+
+test("clock can concede more than five minutes, extend an existing concession, and refuse without adding time", () => {
+  const state = ctx("clock").state;
+  const first = executeClockTool("grant_snooze", { minutes: 35 }, state, 10000);
+  assert.equal(first.next.until, 2110000);
+  const extended = executeClockTool(
+    "grant_snooze",
+    { minutes: 20 },
+    first.next,
+    70000,
+  );
+  assert.equal(extended.next.until, 3310000);
+  const refused = executeClockTool(
+    "refuse_snooze",
+    { reason: "That excuse is already on file." },
+    extended.next,
+    80000,
+  );
+  assert.equal(refused.next.until, extended.next.until);
+  assert.equal(refused.next.message, "That excuse is already on file.");
+  assert.throws(() =>
+    executeClockTool("grant_snooze", { minutes: 121 }, state),
+  );
+});
+
+test("clock restores its record without restoring a timer, carries it across mornings, and sends it into the next appeal", async () => {
+  const c = afterClockQuestion(ctx("clock"));
+  c.prompt = "My first appointment was moved; I have twenty-five minutes free.";
+  c.now = () => 10000;
+  let calls = 0;
+  globalThis.fetch = async (url, options) => {
+    const body = JSON.parse(options.body);
+    calls++;
+    if (body.tools) {
+      if (calls > 2) {
+        const input = body.messages.at(-1).content;
+        assert.match(input, /first appointment was moved/);
+        assert.match(input, /"grantedMinutes":25/);
+        assert.match(input, /"kind":"got_up"/);
+        assert.match(input, /"morning":2/);
+      }
+      return reply({
+        tool_calls: [
+          {
+            id: "actual-call-" + calls,
+            type: "function",
+            function:
+              calls === 1
+                ? { name: "grant_snooze", arguments: '{"minutes":25}' }
+                : {
+                    name: "ask_reason",
+                    arguments:
+                      '{"question":"Yesterday’s concession is still on file. What has changed?"}',
+                  },
+          },
+        ],
+      });
+    }
+    return reply({
+      content: "Twenty-five minutes. Your promise has been recorded.",
+    });
+  };
+  try {
+    const first = await generators.clock(c);
+    assert.equal(first.memory.appeals, 2);
+    assert.equal(first.memory.grantedMinutes, 25);
+    const saved = JSON.parse(JSON.stringify(first));
+    const restored = restoreClockState(saved);
+    assert.equal(restored.until, null);
+    assert.equal(restored.awake, false);
+    assert.deepEqual(restored.turns, []);
+    assert.equal(restored.memory.entries.at(-1).excuse, c.prompt);
+    assert.equal(saved.until, 1510000);
+    const nextDay = newClockMorning(clockGotUp(restored, 20000));
+    assert.equal(nextDay.memory.morning, 2);
+    c.state = nextDay;
+    c.prompt = "Can I have another twenty-five minutes?";
+    const second = await generators.clock(c);
+    assert.equal(second.until, null);
+    assert.equal(second.memory.appeals, 3);
+    assert.equal(second.memory.grantedMinutes, 25);
+    assert.match(second.message, /Yesterday’s concession/);
+    assert.equal(second.memory.entries.at(-1).tool, "ask_reason");
+    assert.equal(second.memory.entries.at(-1).reply, second.message);
+    assert.throws(() =>
+      restoreClockState({
+        memory: { ...second.memory, entries: [{ kind: "invented", at: 1 }] },
+      }),
+    );
+    assert.equal(
+      restoreClockState(ctx("clock").state).memory.entries.length,
+      0,
+    );
+  } finally {
+    globalThis.fetch = realFetch;
+  }
+});
+
+test("clock withholds concessions on opening appeals, immediate follow-ups, and repeated excuses", () => {
+  const c = ctx("clock");
+  const hasGrant = (prompt) =>
+    clockDecisionTools(c.state, prompt).some(
+      (t) => t.function.name === "grant_snooze",
+    );
+  assert.equal(hasGrant("Give me thirty minutes."), false);
+  afterClockQuestion(c);
+  assert.equal(hasGrant("My appointment moved; I have a concrete plan."), true);
+  assert.equal(hasGrant("I NEED SOME REST!!!"), false);
+  c.state.memory.entries.push({
+    kind: "appeal",
+    morning: 1,
+    at: 2,
+    excuse: "A convincing case.",
+    tool: "grant_snooze",
+    args: { minutes: 25 },
+    reply: "Granted.",
+  });
+  assert.equal(hasGrant("Another forty-five, please."), false);
+  c.state = newClockMorning(c.state);
+  assert.equal(hasGrant("A completely new case."), false);
 });

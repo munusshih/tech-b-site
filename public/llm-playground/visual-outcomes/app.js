@@ -5,6 +5,10 @@ import {
   noticeSchema,
   oracleSchema,
   validateExhibition,
+  clockMemory,
+  restoreClockState,
+  newClockMorning,
+  clockGotUp,
 } from "./scores.js";
 import { withPlaygroundConnection } from "../app.js";
 const controllers = [];
@@ -78,6 +82,7 @@ export function validateSaved(id, value) {
         e.sources,
       );
   }
+  if (id === "clock") return restoreClockState(value);
   return value;
 }
 function setup(root) {
@@ -90,14 +95,13 @@ function setup(root) {
     abort,
     pending = false,
     soundEnabled = false;
-  // An alarm is transient. Reloading never silently resumes a timer or plays sound.
-  if (id !== "clock")
-    try {
-      const saved = JSON.parse(localStorage.getItem(keyFor(id)));
-      if (saved) state = validateSaved(id, saved);
-    } catch {
-      // Start fresh when a stored session is incomplete or from an old schema.
-    }
+  // For the clock, validation restores only the case record, never time or sound.
+  try {
+    const saved = JSON.parse(localStorage.getItem(keyFor(id)));
+    if (saved) state = validateSaved(id, saved);
+  } catch {
+    // Start fresh when a stored session is incomplete or from an old schema.
+  }
   function status(message, error = false) {
     get("status").textContent = message;
     get("status").dataset.error = String(error);
@@ -113,7 +117,6 @@ function setup(root) {
     get("trace").append(d);
   }
   function save() {
-    if (id === "clock") return;
     try {
       localStorage.setItem(keyFor(id), JSON.stringify(state));
     } catch {
@@ -162,6 +165,33 @@ function setup(root) {
     if (id === "clock") {
       get("run").disabled = pending || state.awake;
       root.querySelector("[data-clock-up]").disabled = state.awake;
+      const memory = clockMemory(state);
+      root.querySelector("[data-clock-memory-summary]").textContent =
+        memory.appeals
+          ? `The clock has heard ${memory.appeals} ${memory.appeals === 1 ? "appeal" : "appeals"} and conceded ${memory.grantedMinutes} ${memory.grantedMinutes === 1 ? "minute" : "minutes"}. New mornings keep this record.`
+          : "Nothing on file yet. Your next appeal starts the record.";
+      root.querySelector("[data-clock-forget]").disabled = pending;
+      const entries = root.querySelector("[data-clock-memory]");
+      entries.replaceChildren();
+      for (const entry of [...memory.entries.slice(-6)].reverse()) {
+        const item = document.createElement("li");
+        const heading = document.createElement("p");
+        heading.className = "clock-memory-meta";
+        heading.textContent = `Morning ${entry.morning}`;
+        item.append(heading);
+        if (entry.kind === "got_up") {
+          const p = document.createElement("p");
+          p.textContent = "You said you were up.";
+          item.append(p);
+        } else {
+          const quote = document.createElement("blockquote");
+          quote.textContent = entry.excuse;
+          const p = document.createElement("p");
+          p.textContent = entry.reply;
+          item.append(quote, p);
+        }
+        entries.append(item);
+      }
       const receipts = root.querySelector("[data-clock-receipts]");
       receipts.replaceChildren();
       for (const r of state.receipts) {
@@ -345,19 +375,25 @@ function setup(root) {
     root.querySelector("[data-clock-up]").addEventListener("click", () => {
       abort?.abort();
       renderer?.silence();
-      commit({
-        ...state,
-        awake: true,
-        until: null,
-        message: "You’re up. No further justification required.",
-      });
+      commit(clockGotUp(state));
       status("The negotiation is over.");
     });
     root.querySelector("[data-clock-new]").addEventListener("click", () => {
       if (pending) return;
       renderer?.silence();
-      commit(structuredClone(outcome.starter));
-      status("Another morning. Another opportunity to plead your case.");
+      commit(newClockMorning(state));
+      status("Another morning. Your earlier appeals are still on file.");
+    });
+    root.querySelector("[data-clock-forget]").addEventListener("click", () => {
+      if (pending) return;
+      commit({
+        ...state,
+        memory: structuredClone(outcome.starter.memory),
+        turns: [],
+        receipts: [],
+        message: "The file is empty. Make your case.",
+      });
+      status("The clock’s record has been erased from this browser.");
     });
     root
       .querySelector("[data-clock-sound]")

@@ -422,10 +422,20 @@ export const clockTools = [
     type: "function",
     function: {
       name: "grant_snooze",
-      description: "Grant between one and five real minutes of snooze time.",
+      description:
+        "Concede 1 to 120 additional minutes only after a convincing negotiation. You may counteroffer less than requested; do not automatically grant the requested amount.",
       parameters: object({
-        minutes: { type: "integer", minimum: 1, maximum: 5 },
+        minutes: { type: "integer", minimum: 1, maximum: 120 },
       }),
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "refuse_snooze",
+      description:
+        "Reject an unconvincing or repeated excuse with one concrete, dryly funny objection to the case. Question the argument, not the person; do not moralize. Grant no time.",
+      parameters: object({ reason: string(240) }),
     },
   },
   {
@@ -433,7 +443,7 @@ export const clockTools = [
     function: {
       name: "ask_reason",
       description:
-        "Ask one pointed but playful follow-up question before deciding.",
+        "Ask the person one specific question about their reason, plan, or changed circumstances. You own the timer: never ask the person to grant you time.",
       parameters: object({ question: string(200) }),
     },
   },
@@ -447,6 +457,103 @@ export const clockTools = [
     },
   },
 ];
+export function clockMemory(state) {
+  return (
+    state.memory || { morning: 1, appeals: 0, grantedMinutes: 0, entries: [] }
+  );
+}
+// Restore the record, never a running timer or sound, when the page reopens.
+export function restoreClockState(saved) {
+  const memory = structuredClone(clockMemory(saved));
+  for (const key of ["morning", "appeals", "grantedMinutes"])
+    if (
+      !Number.isSafeInteger(memory[key]) ||
+      memory[key] < (key === "morning" ? 1 : 0)
+    )
+      throw Error("Invalid clock record.");
+  if (!Array.isArray(memory.entries) || memory.entries.length > 20)
+    throw Error("Invalid clock record.");
+  for (const entry of memory.entries) {
+    if (
+      !["appeal", "got_up"].includes(entry.kind) ||
+      !Number.isFinite(entry.at)
+    )
+      throw Error("Invalid clock entry.");
+    if (entry.kind === "appeal") {
+      if (
+        typeof entry.excuse !== "string" ||
+        entry.excuse.length > 1600 ||
+        typeof entry.reply !== "string" ||
+        entry.reply.length > 2400
+      )
+        throw Error("Invalid clock entry.");
+      const tool = clockTools.find((t) => t.function.name === entry.tool);
+      if (!tool) throw Error("Invalid clock action.");
+      check(entry.args, tool.function.parameters);
+    }
+  }
+  return {
+    until: null,
+    awake: false,
+    turns: [],
+    receipts: [],
+    memory,
+    message: memory.appeals
+      ? "Your earlier appeals are still on file. What has changed?"
+      : "The clock is unconvinced. Make your case.",
+  };
+}
+export function newClockMorning(state) {
+  const next = restoreClockState(state);
+  next.memory.morning++;
+  const lastGrant = next.memory.entries.findLast(
+    (entry) => entry.kind === "appeal" && entry.tool === "grant_snooze",
+  );
+  next.message = lastGrant
+    ? `A new morning. Last time I conceded ${lastGrant.args.minutes} minutes. Make a new case.`
+    : "A new morning. The previous excuses are still on file.";
+  return next;
+}
+export function clockGotUp(state, now = Date.now()) {
+  const memory = structuredClone(clockMemory(state));
+  memory.entries = [
+    ...memory.entries.slice(-19),
+    { kind: "got_up", morning: memory.morning, at: now },
+  ];
+  return {
+    ...state,
+    awake: true,
+    until: null,
+    memory,
+    message: "You say you’re up. That statement is now on file.",
+  };
+}
+const normalizedExcuse = (text) =>
+  text
+    .normalize("NFKC")
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, " ")
+    .trim();
+export function clockDecisionTools(state, prompt) {
+  const memory = clockMemory(state);
+  const today = memory.entries.filter(
+    (entry) => entry.kind === "appeal" && entry.morning === memory.morning,
+  );
+  if (!today.length)
+    return clockTools.filter((tool) => tool.function.name === "ask_reason");
+  const repeated = memory.entries.some(
+    (entry) =>
+      entry.kind === "appeal" &&
+      normalizedExcuse(entry.excuse) === normalizedExcuse(prompt),
+  );
+  const canConcede =
+    today.length > 0 && today.at(-1).tool === "ask_reason" && !repeated;
+  return clockTools.filter(
+    (tool) => tool.function.name !== "grant_snooze" || canConcede,
+  );
+}
+const clockPolicy =
+  "You are a stern, slightly petty alarm clock interviewing a person who wants more rest. Call exactly ONE of the available tools. The goal is a negotiation, not endless refusal. When grant_snooze is available, the person has answered your question: concede or counteroffer if their answer offers specific changed circumstances or a concrete plan. A convincing case can earn twenty, forty-five, or more minutes; do not default to five. For vague or repeated pleas, ask a pointed question or refuse with a specific objection to the argument. Use the saved record to notice earlier excuses and time conceded. Getting up is the person's claim, not proof. Never invent a past concession or broken promise. Speak as the clock addressing the person. Be firm and dryly funny about your paperwork, not judgmental about the person.";
 export function executeClockTool(name, args, state, now = Date.now()) {
   const tool = clockTools.find((t) => t.function.name === name);
   if (!tool) throw Error("The clock requested an unknown tool.");
@@ -456,16 +563,20 @@ export function executeClockTool(name, args, state, now = Date.now()) {
   const receipt = { tool: name, args, at: now };
   const next = { ...state, receipts: [...state.receipts.slice(-11), receipt] };
   if (name === "grant_snooze") {
-    next.until = now + args.minutes * 60000;
+    next.until = Math.max(now, state.until || 0) + args.minutes * 60000;
     next.message = `Granted: ${args.minutes} minutes. The clock is counting.`;
     receipt.until = next.until;
   }
   if (name === "ask_reason") next.message = args.question;
+  if (name === "refuse_snooze") next.message = args.reason;
+  if (name === "sound_protest")
+    next.message = "The clock objects. No additional time granted.";
   return { next, receipt };
 }
 export async function generateClock(ctx) {
   if (ctx.state.awake)
     throw Error("Start a new morning before pleading your case.");
+  const offeredTools = clockDecisionTools(ctx.state, ctx.prompt);
   const userStarts = ctx.state.turns
     .map((m, i) => (m.role === "user" ? i : -1))
     .filter((i) => i >= 0);
@@ -476,17 +587,31 @@ export async function generateClock(ctx) {
   const history = [
     {
       role: "system",
-      content:
-        "You control an alarm clock using the supplied tools. Call exactly ONE tool. Do not write dialogue or describe pretend actions. Grant 1 to 5 minutes for a reasonable excuse; ask_reason when you need clarification; sound_protest for an unconvincing excuse. The user can always get up or silence you.",
+      content: clockPolicy,
     },
     ...conversation,
     {
       role: "user",
-      content: `Actual clock state: ${ctx.state.until && ctx.state.until > now() ? "snoozing until " + new Date(ctx.state.until).toISOString() : "ringing"}\nMy excuse: ${ctx.prompt}`,
+      content: `Saved record (excuses and getting up are the user's claims): ${JSON.stringify(
+        {
+          ...clockMemory(ctx.state),
+          entries: clockMemory(ctx.state)
+            .entries.slice(-6)
+            .map((entry) =>
+              entry.kind === "appeal"
+                ? {
+                    ...entry,
+                    excuse: entry.excuse.slice(0, 420),
+                    reply: entry.reply.slice(0, 260),
+                  }
+                : entry,
+            ),
+        },
+      )}\nActual clock state: ${ctx.state.until && ctx.state.until > now() ? "snoozing until " + new Date(ctx.state.until).toISOString() : "ringing"}\nMy excuse: ${ctx.prompt}`,
     },
   ];
   let reply = await ask(ctx, history, {
-    tools: clockTools,
+    tools: offeredTools,
     tool_choice: "required",
     temperature: 0.2,
     max_tokens: /gpt-oss/i.test(ctx.model) ? 1500 : 400,
@@ -504,12 +629,14 @@ export async function generateClock(ctx) {
     const route = await structured(
       ctx,
       "clock_action",
-      object({ tool: choice(...clockTools.map((t) => t.function.name)) }),
-      "Choose ONE action for the alarm clock: grant_snooze for a reasonable request for more rest, ask_reason to ask a question, sound_protest to object. Choose only the function name; do not write dialogue.",
+      object({ tool: choice(...offeredTools.map((t) => t.function.name)) }),
+      `${clockPolicy} Return only the chosen function name as JSON; do not write dialogue.`,
       history.at(-1).content,
     );
     selectedName = route.tool;
-    const selectedTool = clockTools.find((t) => t.function.name === route.tool);
+    const selectedTool = offeredTools.find(
+      (t) => t.function.name === route.tool,
+    );
     reply = await ask(ctx, history, {
       tools: [selectedTool],
       tool_choice: { type: "function", function: { name: route.tool } },
@@ -521,7 +648,11 @@ export async function generateClock(ctx) {
   let call = reply.tool_calls?.length === 1 ? reply.tool_calls[0] : null;
   let executed;
   try {
-    if (!call || (selectedName && call.function.name !== selectedName))
+    if (
+      !call ||
+      (selectedName && call.function.name !== selectedName) ||
+      !offeredTools.some((tool) => tool.function.name === call.function.name)
+    )
       throw Error("The server returned no valid native call.");
     executed = executeClockTool(
       call.function.name,
@@ -541,11 +672,11 @@ export async function generateClock(ctx) {
       : await structured(
           ctx,
           "clock_action",
-          object({ tool: choice(...clockTools.map((t) => t.function.name)) }),
-          "Choose one alarm clock action: grant_snooze, ask_reason, or sound_protest.",
+          object({ tool: choice(...offeredTools.map((t) => t.function.name)) }),
+          `${clockPolicy} Return only the chosen function name as JSON.`,
           JSON.stringify(history),
         );
-    const tool = clockTools.find((t) => t.function.name === route.tool);
+    const tool = offeredTools.find((t) => t.function.name === route.tool);
     const args = await structured(
       ctx,
       "clock_arguments",
@@ -560,6 +691,24 @@ export async function generateClock(ctx) {
   const { next, receipt } = executed;
   receipt.dispatch = dispatch;
   receipt.soundEnabled = Boolean(ctx.soundEnabled);
+  const memory = structuredClone(clockMemory(ctx.state));
+  memory.appeals++;
+  if (receipt.tool === "grant_snooze")
+    memory.grantedMinutes += receipt.args.minutes;
+  memory.entries = [
+    ...memory.entries.slice(-19),
+    {
+      kind: "appeal",
+      morning: memory.morning,
+      excuse: ctx.prompt,
+      tool: receipt.tool,
+      args: receipt.args,
+      at: receipt.at,
+      reply: next.message,
+    },
+  ];
+  next.memory = memory;
+  ctx.trace("Clock record carried into this appeal", clockMemory(ctx.state));
   ctx.trace("Clock action executed", receipt);
   const toolMessage = {
     role: "tool",
@@ -588,31 +737,47 @@ export async function generateClock(ctx) {
   next.turns = pendingTurns;
   ctx.commit(structuredClone(next));
   ctx.action?.(receipt);
-  next.message = text(
-    await ask(
-      ctx,
-      [
-        {
-          role: "system",
-          content:
-            "You are a comically officious alarm clock. Reply in ONE playful sentence about the actual tool receipt. grant_snooze means the user has permission to SNOOZE, not that the clock keeps ringing. Do not invent actions. If the tool asked a question, repeat that question. Do not speak for the user.",
-        },
-        ...pendingTurns,
-        {
-          role: "user",
-          content:
-            "Reply in at most two short sentences about what your tool actually did. If you asked a question, repeat that question. Do not promise another action.",
-        },
-      ],
-      {
-        temperature: 0.7,
-        max_tokens: /gpt-oss/i.test(ctx.model) ? 1200 : 140,
-        ...(/gpt-oss/i.test(ctx.model) ? { reasoning_effort: "low" } : {}),
-      },
-    ),
-  );
-  // Keep the actionable question visible even if the explanation paraphrases it.
   if (receipt.tool === "ask_reason") next.message = receipt.args.question;
+  else if (receipt.tool === "refuse_snooze") next.message = receipt.args.reason;
+  else
+    next.message = text(
+      await ask(
+        ctx,
+        [
+          {
+            role: "system",
+            content:
+              "You are the alarm clock. Write ONE short, dryly funny line addressing the person as you and speaking as I. Report only the actual action in the receipt. A grant means exactly those additional minutes of rest. Be grudging but clear; invent no extra conditions, penalties, promises, or actions. A muted protest made no sound. Do not quote an appeal or mention tools, JSON, systems, or receipts.",
+          },
+          {
+            role: "user",
+            content: "Report the actual outcome of the latest negotiation.",
+          },
+          ...(dispatch === "native"
+            ? [reply, toolMessage]
+            : [
+                {
+                  role: "assistant",
+                  content: JSON.stringify({
+                    action: receipt.tool,
+                    arguments: receipt.args,
+                  }),
+                },
+                {
+                  role: "user",
+                  content: `Actual outcome: ${JSON.stringify(receipt)}`,
+                },
+              ]),
+          { role: "user", content: "One short sentence as the clock, please." },
+        ],
+        {
+          temperature: 0.6,
+          max_tokens: /gpt-oss/i.test(ctx.model) ? 1200 : 100,
+          ...(/gpt-oss/i.test(ctx.model) ? { reasoning_effort: "low" } : {}),
+        },
+      ),
+    );
+  next.memory.entries.at(-1).reply = next.message.slice(0, 2400);
   next.turns = [...pendingTurns, { role: "assistant", content: next.message }];
   return next;
 }

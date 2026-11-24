@@ -891,3 +891,39 @@
   font-size: 0.85rem !important;
   line-height: 1.5 !important;
 }
+
+.clock-memory {
+  margin: 1.5rem 0 0;
+  border-top: 1px solid #cfc3e1;
+  padding: 1rem 0;
+}
+.clock-memory summary {
+  cursor: pointer;
+  color: #554074;
+}
+.clock-memory > p {
+  font-size: 0.95rem !important;
+  line-height: 1.6 !important;
+}
+.clock-memory ol {
+  margin: 1rem 0;
+  padding-left: 1.4rem;
+}
+.clock-memory li + li {
+  margin-top: 1.2rem;
+}
+.clock-memory li p {
+  margin: 0.4rem 0 !important;
+  font-size: 0.95rem !important;
+  line-height: 1.6 !important;
+}
+.clock-memory li blockquote {
+  margin: 0.4rem 0;
+  border-left: 2px solid #b8a6ce;
+  padding: 0 0 0 0.8rem;
+  font-style: italic;
+}
+.clock-memory .clock-memory-meta {
+  color: #79618e;
+  font-size: 0.8rem !important;
+}

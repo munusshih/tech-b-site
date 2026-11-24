@@ -77,25 +77,26 @@ export const outcomes = [
     concepts: [
       ["tool-calling", "Tool calling"],
       ["agents", "Feedback and negotiation"],
+      ["memory", "Memory across mornings"],
     ],
     intro:
-      "The alarm is awake, and unfortunately it has opinions. Give it your best excuse for staying in bed. It can grant a short snooze, ask a follow-up, or play a small protest if you’ve enabled sound. You can always get up or silence it yourself. The provotype asks what happens when an ordinary object starts treating a simple button press as something you need to justify.",
+      "The alarm is awake, skeptical, and keeping a record. Ask for the time you actually want, then make a case for it. It can refuse, cross-examine you, make a smaller concession, or be persuaded to give you a proper lie-in. Tomorrow it will still have today’s excuses on file. Does a familiar object become more convincing when it can quote your own promises back to you?",
     prompt:
-      "I was up late finishing my work. Five more minutes would make me a much more pleasant person.",
+      "I was up late finishing my work. I want another twenty minutes, and I promise I’ll get up as soon as it rings.",
     action: "Plead my case",
     steps: [
-      "**Your excuse becomes a turn in a conversation with an object.** `generateClock` sends the clock’s actual timer state, your message, and recent turns to the model. The clock is instructed to be comically officious. It can respond to an earlier exchange because the application sends that exchange again, rather than because the model remembers it on its own.",
-      "**The clock has three actions it can actually take.** `clockTools` describes `grant_snooze`, `ask_reason`, and `sound_protest`. The model must request one action with valid arguments. `executeClockTool` checks the name and arguments before doing anything; written promises to grant time don’t alter the timer. If a small model writes dialogue instead of a call, a short routing request lets it choose a function, and the server is asked for a native call to that function. If the server still cannot produce native tool syntax, we request a structured argument object and validate it against the same function schema before dispatching it. The action log records which path was used; ordinary dialogue never executes an action.",
-      "**JavaScript owns time and sound.** A valid snooze stores an expiry time using `Date.now()`, and the display counts down to that moment. A protest requests one of two short synthesized phrases. Tone.js only plays it after you explicitly enable sound, and the stop control always works. This runs in the page, so closing it ends the toy; it doesn’t set a system alarm.",
-      "**The result returns to the model as feedback.** We append the actual receipt as a `tool` message, then ask for the clock’s short reply. If it asked a question, your next excuse continues that exchange. The visible action log lets you compare the clock’s words with what its tools really did. “I’m up” ends the negotiation without asking the model for permission.",
+      "**An appeal carries a history with it.** `generateClock` sends your message, the real timer state, and recent exchanges to the model. It also includes a compact record from `clockMemory`: earlier excuses, the time it conceded, and when you said you were up. The system instructions ask the clock to be skeptical of repetition and vague promises, while leaving room for a convincing new argument.",
+      "**The clock decides through four tools.** `clockTools` offers `grant_snooze`, `refuse_snooze`, `ask_reason`, and `sound_protest`. The opening appeal always receives a question before a concession becomes available. A concession only becomes available after you answer the clock’s latest question. An immediate request after a concession needs a fresh question too, and repeating the same excuse verbatim will not unlock more time. `clockDecisionTools` enforces those rules by deciding which tools the model receives. A concession can add anything from one minute to two hours, so asking for a longer rest is part of the negotiation. The model can counteroffer a smaller amount. `executeClockTool` validates its choice; ordinary dialogue cannot change the timer. The request log shows whether the server used a native tool call or the checked structured-action route.",
+      "**The record comes from what actually happened.** After an action, JavaScript saves your appeal and its real outcome in `localStorage`. The next request includes that record again. This gives the model context rather than retraining it. “New morning” resets the current negotiation but keeps the file; reloading keeps it too. Open “What the clock remembers” to inspect it, or erase it with “Forget the record.” A claim or promise you made stays a claim, rather than becoming proof that you followed through.",
+      "**The program owns the consequences.** A successful concession adds time to the countdown using `Date.now()`. Refusal adds no time. Tone.js only plays a protest after you enable sound, and you can always stop it or choose “I’m up.” The clock sends the actual receipt back to the model before asking it to respond. Closing the page ends the timer; the saved negotiation record stays for your next visit.",
     ],
     starter: {
       until: null,
       awake: false,
       turns: [],
       receipts: [],
-      message:
-        "Your application for five more minutes is now being considered.",
+      memory: { morning: 1, appeals: 0, grantedMinutes: 0, entries: [] },
+      message: "The clock is unconvinced. Make your case.",
     },
   },
 ];

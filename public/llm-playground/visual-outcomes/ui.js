@@ -30,7 +30,7 @@ const controls = (o) =>
   o.id === "notice"
     ? '<button type="button" data-art-download class="outcome-text-button" hidden>Download this announcement</button>'
     : o.id === "clock"
-      ? '<div class="clock-controls"><button type="button" class="workshop-button workshop-button--secondary" data-clock-up>I’m up</button><button type="button" class="outcome-text-button" data-clock-new>New morning</button><button type="button" class="outcome-text-button" data-clock-sound aria-pressed="false">Enable sound</button><button type="button" class="outcome-text-button" data-clock-quiet hidden>Stop sound</button></div><p class="outcome-hint">A browser toy, not a system alarm. Sound is optional, and you can get up without convincing it.</p>'
+      ? '<div class="clock-controls"><button type="button" class="workshop-button workshop-button--secondary" data-clock-up>I’m up</button><button type="button" class="outcome-text-button" data-clock-new>New morning</button><button type="button" class="outcome-text-button" data-clock-sound aria-pressed="false">Enable sound</button><button type="button" class="outcome-text-button" data-clock-quiet hidden>Stop sound</button></div><details class="clock-memory"><summary>What the clock remembers</summary><p data-clock-memory-summary></p><ol data-clock-memory></ol><button type="button" class="outcome-text-button" data-clock-forget>Forget the record</button><p class="outcome-hint">The record stays in this browser, including across new mornings. The clock receives it again with your next appeal.</p></details><p class="outcome-hint">A browser toy, not a system alarm. Sound is optional, and you can get up without convincing it.</p>'
       : "";
 export const outcomeHTML = (
   o,
@@ -48,7 +48,7 @@ ${o.id === "clock" ? "<details><summary>Actions the clock actually took</summary
 <details><summary>${o.id === "archive" ? "Earlier exhibitions and editorial records" : "Session record"}</summary><div data-visual-history></div></details>
 <details><summary>Requests and responses</summary><div data-visual-trace></div></details>
 ${source ? `<details><summary>Model interaction / scores.js</summary><pre data-visual-code tabindex="0"></pre></details><details><summary>Output / ${o.id}.js</summary><pre data-visual-renderer-code tabindex="0"></pre></details>` : ""}
-<div class="outcome-file-actions"><a href="/llm-playground/downloads/visual-${o.id}.zip" data-visual-download download>Download project ${o.letter}</a><button type="button" data-visual-save>Save session (.json)</button><button type="button" data-visual-reset>${{ notice: "Clear announcements", oracle: "Clear cards and memory", archive: "Clear exhibitions", clock: "Reset clock" }[o.id]}</button></div>
+<div class="outcome-file-actions"><a href="/llm-playground/downloads/visual-${o.id}.zip" data-visual-download download>Download project ${o.letter}</a><button type="button" data-visual-save>Save session (.json)</button><button type="button" data-visual-reset>${{ notice: "Clear announcements", oracle: "Clear cards and memory", archive: "Clear exhibitions", clock: "Clear clock and record" }[o.id]}</button></div>
 </details></section>`;
 export const outcomesHTML =
   outcomesIntroHTML + outcomes.map((o) => outcomeHTML(o)).join("");

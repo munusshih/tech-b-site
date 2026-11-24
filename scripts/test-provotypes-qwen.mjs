@@ -85,6 +85,8 @@ async function run(id, name, options = {}) {
     if (id === "clock") {
       assert.equal(commits.length, 1);
       assert.ok(value.receipts.at(-1).tool);
+      if (options.expectedChallenge)
+        assert.notEqual(value.receipts.at(-1).tool, "grant_snooze");
       if (options.expectedTool)
         assert.equal(value.receipts.at(-1).tool, options.expectedTool);
     }
@@ -137,7 +139,9 @@ await run("archive", "C / four available works (browser regression)", {
       .map((r) => r.id),
   },
 });
-let clock = await run("clock", "D / snooze", { expectedTool: "grant_snooze" });
+let clock = await run("clock", "D / opening challenge", {
+  expectedChallenge: true,
+});
 clock = await run("clock", "D / follow-up question", {
   state: clock || undefined,
   prompt:
