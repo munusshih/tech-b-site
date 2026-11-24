@@ -64,7 +64,7 @@ const askExcerpt = combine(
   ),
   step(
     "Send the messages and settings to the connected local model.",
-    part(ask, "const data = await modelRequest", "const reply ="),
+    part(ask, "let data;", "const reply ="),
   ),
   step(
     "Read the assistant message from the server's response.",

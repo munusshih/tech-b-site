@@ -95,9 +95,25 @@ export async function modelRequest(c, path, body, embedding = false) {
     throw error;
   }
 }
+const isEmbeddingModel = (model) =>
+  model.type === "embedding" ||
+  model.tags?.includes("embedding") ||
+  /embedding|nomic[-_]embed/i.test(model.id || "");
+export function chatModels(models = []) {
+  return models.filter(
+    (model) =>
+      typeof model.id === "string" &&
+      model.id.trim() &&
+      !isEmbeddingModel(model),
+  );
+}
 export async function connect(c, embedding = false) {
   const data = await modelRequest(c, "/v1/models", undefined, embedding);
-  const id = (embedding ? c.embeddingModel : c.model) || data.data?.[0]?.id;
+  const id =
+    (embedding ? c.embeddingModel : c.model) ||
+    (embedding
+      ? data.data?.find(isEmbeddingModel)?.id || data.data?.[0]?.id
+      : chatModels(data.data)[0]?.id);
   if (!id)
     throw new Error("No loaded model found. Load a model in your local app.");
 
@@ -116,7 +132,28 @@ export async function ask(c, messages, options = {}) {
     ...options,
   };
   c.trace("Request", payload);
-  const data = await modelRequest(c, "/v1/chat/completions", payload);
+  let data;
+  try {
+    data = await modelRequest(c, "/v1/chat/completions", payload);
+  } catch (error) {
+    const namedTool = payload.tool_choice?.function?.name;
+    const selectedTool = payload.tools?.find(
+      (tool) => tool.function?.name === namedTool,
+    );
+    // LM Studio versions that accept only string tool_choice values can still
+    // require a particular action by receiving just that tool. Retry only an
+    // explicit HTTP 400 rejection, never a timeout or ambiguous network error.
+    if (
+      !namedTool ||
+      !selectedTool ||
+      !/^HTTP 400:.*Invalid tool_choice type/s.test(error.message)
+    )
+      throw error;
+    payload.tools = [selectedTool];
+    payload.tool_choice = "required";
+    c.trace("Server compatibility: requiring the selected tool", payload);
+    data = await modelRequest(c, "/v1/chat/completions", payload);
+  }
   const reply = data.choices?.[0]?.message;
   if (!reply) throw new Error("Server returned no assistant message.");
   c.trace("Model response", reply);

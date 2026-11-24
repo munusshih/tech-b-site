@@ -22,10 +22,13 @@ async function forward(url, options = {}) {
     ...options,
     signal: AbortSignal.timeout(120000),
   });
-  if (!r.ok)
-    throw new Error(
+  if (!r.ok) {
+    const error = new Error(
       `Upstream HTTP ${r.status}: ${(await r.text()).slice(0, 500)}`,
     );
+    error.status = r.status;
+    throw error;
+  }
   return r.json();
 }
 const mime = {
@@ -154,7 +157,7 @@ const server = createServer(async (req, res) => {
     });
     res.end(content);
   } catch (e) {
-    send(502, { error: e.message });
+    send(e.status || 502, { error: e.message });
   }
 });
 server.listen(port, "127.0.0.1", () =>

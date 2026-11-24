@@ -7,6 +7,8 @@ import { lessons } from "../public/llm-playground/catalog.js";
 import {
   ask,
   modelRequest,
+  chatModels,
+  connect,
   localBase,
   keywords,
   cosine,
@@ -789,6 +791,88 @@ test("model HTTP errors are not hidden by the bridge fallback", async () => {
       /HTTP 400/,
     );
     assert.equal(calls, 2);
+  } finally {
+    globalThis.fetch = realFetch;
+  }
+});
+
+test("LM Studio model discovery separates chat models from embedding models", async () => {
+  const models = [
+    { id: "text-embedding-nomic-embed-text-v1.5" },
+    { id: "qwen2.5-1.5b-instruct" },
+    { id: "vector-model", type: "embedding" },
+    { id: "other-vector", tags: ["embedding"] },
+  ];
+  assert.deepEqual(chatModels(models), [{ id: "qwen2.5-1.5b-instruct" }]);
+  globalThis.fetch = async () => json({ data: models });
+  try {
+    assert.equal(
+      await connect({ base: "http://127.0.0.1:1234" }),
+      "qwen2.5-1.5b-instruct",
+    );
+    assert.equal(
+      await connect({ embeddingBase: "http://127.0.0.1:1234" }, true),
+      "text-embedding-nomic-embed-text-v1.5",
+    );
+  } finally {
+    globalThis.fetch = realFetch;
+  }
+});
+
+test("LM Studio named-tool rejection retries with required and only the selected function", async () => {
+  const calls = [];
+  globalThis.fetch = async (url, options) => {
+    const payload = JSON.parse(options.body);
+    calls.push(payload);
+    if (calls.length === 1)
+      return json(
+        {
+          error:
+            "Invalid tool_choice type: 'object'. Supported string values: none, auto, required",
+        },
+        400,
+      );
+    return json({
+      choices: [
+        {
+          message: {
+            role: "assistant",
+            tool_calls: [
+              {
+                id: "call",
+                type: "function",
+                function: { name: "calculate_materials", arguments: "{}" },
+              },
+            ],
+          },
+        },
+      ],
+    });
+  };
+  const selected = {
+    type: "function",
+    function: {
+      name: "calculate_materials",
+      parameters: { type: "object", properties: {} },
+    },
+  };
+  const other = { type: "function", function: { name: "other" } };
+  try {
+    const result = await ask(
+      { base: "http://127.0.0.1:1234", model: "qwen", trace() {} },
+      [{ role: "user", content: "Calculate" }],
+      {
+        tools: [selected, other],
+        tool_choice: {
+          type: "function",
+          function: { name: "calculate_materials" },
+        },
+      },
+    );
+    assert.equal(calls.length, 2);
+    assert.equal(calls[1].tool_choice, "required");
+    assert.deepEqual(calls[1].tools, [selected]);
+    assert.equal(result.tool_calls[0].function.name, "calculate_materials");
   } finally {
     globalThis.fetch = realFetch;
   }

@@ -1,12 +1,17 @@
 import { lessons } from "./catalog.js";
 import { appendTrace } from "./request-log.js";
 import { renderResult } from "./result-view.js";
-import { localBase, request, modelRequest } from "./shared.js";
+import { localBase, request, modelRequest, chatModels } from "./shared.js";
 const $ = (id) => document.getElementById(id);
 const sections = [...document.querySelectorAll("[data-lesson]")];
 let local = false;
 let active = false;
 const memoryKey = "tech-b-week13-summary-v1";
+const runtimeDefaults = {
+  llama: "http://127.0.0.1:9931",
+  ollama: "http://127.0.0.1:11434",
+  lmstudio: "http://127.0.0.1:1234",
+};
 function panel(root, title, value, summary = false) {
   return renderResult(root, title, value, summary);
 }
@@ -265,15 +270,27 @@ async function init() {
         .localPlayground === true;
   } catch {}
   busy(false);
+  function selectRuntime() {
+    const runtime = $("preset").value;
+    let address = runtimeDefaults[runtime];
+    try {
+      address =
+        localStorage.getItem("workshop.local-address." + runtime) || address;
+      localStorage.setItem("workshop.local-runtime", runtime);
+    } catch {}
+    $("base").value = localBase(address);
+    $("embedding-base").value =
+      runtime === "llama" ? "http://127.0.0.1:9932" : runtimeDefaults[runtime];
+    $("embedding-model").value = "";
+  }
   try {
-    const saved = localStorage.getItem("workshop.local-address.llama");
-    if (saved) $("base").value = localBase(saved);
+    const savedRuntime = localStorage.getItem("workshop.local-runtime");
+    if (Object.hasOwn(runtimeDefaults, savedRuntime))
+      $("preset").value = savedRuntime;
   } catch {}
+  selectRuntime();
   $("preset").addEventListener("change", () => {
-    $("base").value =
-      $("preset").value === "ollama"
-        ? "http://127.0.0.1:11434"
-        : "http://127.0.0.1:9931";
+    selectRuntime();
     $("model").replaceChildren(new Option("Find models first", ""));
     $("connection-status").textContent = "Find models to connect.";
   });
@@ -289,14 +306,15 @@ async function init() {
         { ...connection(), signal: AbortSignal.timeout(10000) },
         "/v1/models",
       );
-      if (!data.data?.length)
-        throw new Error("No models available. Load a chat model first.");
+      const models = chatModels(data.data);
+      if (!models.length)
+        throw new Error(
+          "No chat models available. Load a language model in your app; an embedding model cannot answer these examples.",
+        );
       const previousModel = $("model").value;
-      $("model").replaceChildren(
-        ...data.data.map((m) => new Option(m.id, m.id)),
-      );
-      const preferred = data.data.find((m) => /gpt-oss[-:]20b/i.test(m.id));
-      if (data.data.some((m) => m.id === previousModel))
+      $("model").replaceChildren(...models.map((m) => new Option(m.id, m.id)));
+      const preferred = models.find((m) => /gpt-oss[-:]20b/i.test(m.id));
+      if (models.some((m) => m.id === previousModel))
         $("model").value = previousModel;
       else if (preferred) $("model").value = preferred.id;
       $("connection-status").textContent =
@@ -309,7 +327,7 @@ async function init() {
       } catch {}
     } catch (e) {
       $("connection-status").textContent =
-        e instanceof TypeError
+        e instanceof TypeError || e.name === "TimeoutError"
           ? `The browser couldn’t reach ${$("base").value}. The server may be stopped, or browser access may be blocked. On the published class site, allow local network access if prompted and check the server’s allowed origins. You can also download the workshops and open the local version; Connection help explains how.`
           : e.message;
     } finally {

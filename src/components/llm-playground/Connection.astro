@@ -30,18 +30,27 @@ import InteractiveFrame from "../workshop/InteractiveFrame.astro";
     your operating system and other apps.
   </li>
   <li>
-    <strong>Load the model, then connect.</strong> Open it in Llama App or Ollama
-    and start the local API server. Press “Find models” below and select the model
-    you want to use. That connection will be shared by all the examples on this page.
+    <strong>Load the model, then connect.</strong> Open it in Llama App, Ollama,
+    or LM Studio and start the local API server. Press “Find models” below and select
+    the model you want to use. That connection will be shared by all the examples
+    on this page.
   </li>
 </ul>
+<p>
+  In <a href="https://lmstudio.ai/docs/developer/core/server">LM Studio</a>,
+  find a chat model in Discover, download and load it, then open the Developer
+  tab and start the server. Select “LM Studio” below to use
+  <code>http://127.0.0.1:1234</code>. You can also start it in a terminal with
+  <code>lms server start --port 1234</code>. For this published page, keep the
+  local workshop bridge running if your browser blocks a direct connection.
+</p>
 <InteractiveFrame label="Local model connection" sticker="connect here!">
   <div class="workshop-connection">
     <label class="workshop-field"
       >App<select id="preset"
         ><option value="llama">Llama App</option><option value="ollama"
           >Ollama</option
-        ></select
+        ><option value="lmstudio">LM Studio</option></select
       ></label
     >
     <label class="workshop-field"
@@ -87,7 +96,9 @@ import InteractiveFrame from "../workshop/InteractiveFrame.astro";
       11434 and model name <code>embeddinggemma</code>. With Llama, run <code
         >llama serve -hf unsloth/embeddinggemma-300m-GGUF --embedding --port
         9932</code
-      >.
+      >. In LM Studio, load an embedding model alongside the chat model, use
+      <code>http://127.0.0.1:1234</code> for the embedding server, and enter its
+      model identifier.
     </p><div class="workshop-connection">
       <label class="workshop-field"
         >Embedding server<input

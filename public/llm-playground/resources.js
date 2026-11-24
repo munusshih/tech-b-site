@@ -3,6 +3,7 @@ export const resourcesHTML = `
 <h3 id="reading-local">Local models and techniques</h3>
 <ul class="workshop-resource-list">
 <li><a href="https://llama.app/docs/api">Llama App API documentation</a></li>
+<li><a href="https://lmstudio.ai/docs/developer/openai-compat">LM Studio API documentation</a></li>
 <li><a href="https://docs.ollama.com/capabilities/structured-outputs">Structured outputs with Ollama</a></li>
 <li><a href="https://docs.ollama.com/capabilities/tool-calling">Tool calling with Ollama</a></li>
 <li><a href="https://huggingface.co/unsloth/embeddinggemma-300m-GGUF/tree/main">EmbeddingGemma for Llama App (GGUF)</a></li>

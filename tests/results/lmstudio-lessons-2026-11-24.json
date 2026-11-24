@@ -1,0 +1,312 @@
+{
+  "model": "qwen2.5-1.5b-instruct",
+  "scenarios": [
+    {
+      "name": "prompting",
+      "passed": true,
+      "seconds": 0.804,
+      "result": "1. \"Explore how we can use sound to connect us with nature in our everyday spaces.\"\n2. \"We want you to listen closely and feel like you're right there, hearing the sounds around you.\"",
+      "panels": [
+        {
+          "name": "Without instructions",
+          "value": "This project creates an interactive park bench that uses sounds from birds around it to tell stories about how people use and affect nature in different times. It's like having a live storyteller on your shoulder while you're out exploring the woods!"
+        }
+      ],
+      "memory": ""
+    },
+    {
+      "name": "temperature",
+      "passed": true,
+      "seconds": 0.265,
+      "result": "Run again to compare another sample at each setting.",
+      "panels": [
+        {
+          "name": "Temperature 0.1 / 10 words",
+          "value": "\"Hey there! Just wave your hand to get me going!\""
+        },
+        {
+          "name": "Temperature 0.7 / 8 words",
+          "value": "\"Wave your hand! It's time to wake up!\""
+        },
+        {
+          "name": "Temperature 1.3 / 6 words",
+          "value": "Wave here! I need my input!"
+        }
+      ],
+      "memory": ""
+    },
+    {
+      "name": "structured-output",
+      "passed": true,
+      "seconds": 0.572,
+      "result": {
+        "title": "Repair & Remix night",
+        "date": "",
+        "time": "6–8 pm",
+        "location": "print studio, room 204"
+      },
+      "panels": [
+        {
+          "name": "Ordinary text",
+          "value": "Event title: Repair & Remix night  \nDate: November 27, 2026  \nTime: 6–8 pm  \nLocation: print studio, room 204"
+        }
+      ],
+      "memory": ""
+    },
+    {
+      "name": "tool-calling",
+      "passed": true,
+      "seconds": 1.987,
+      "result": "The request for three cardboard sheets, one roll of tape, six LEDs, and six coin-cell batteries exceeds the budget by $2.00. The total cost is $22.00 but the available budget is only $20.00. \n\nExplanation: \n- Cardboard sheet: 3 x $250 = $750\n- Tape roll: 1 x $400 = $400\n- LED: 6 x $50 = $300\n- Coin-cell battery: 6 x $125 = $750\n\nTotal cost: $750 + $400 + $300 + $750 = $2200\n\nBudget: $2000\nDifference: $2200 - $2000 = $200 over budget",
+      "panels": [
+        {
+          "name": "Calculated by JavaScript",
+          "value": {
+            "kind": "budget",
+            "lines": [
+              {
+                "label": "Cardboard sheet",
+                "cents": 250,
+                "quantity": 3,
+                "subtotal": 750
+              },
+              {
+                "label": "Tape roll",
+                "cents": 400,
+                "quantity": 1,
+                "subtotal": 400
+              },
+              {
+                "label": "LED",
+                "cents": 50,
+                "quantity": 6,
+                "subtotal": 300
+              },
+              {
+                "label": "Coin-cell battery",
+                "cents": 125,
+                "quantity": 6,
+                "subtotal": 750
+              }
+            ],
+            "total": 2200,
+            "budget": 2000,
+            "remaining": -200,
+            "currency": "USD",
+            "display": {
+              "total": "$22.00",
+              "budget": "$20.00",
+              "difference": "$2.00 over budget"
+            }
+          }
+        }
+      ],
+      "memory": ""
+    },
+    {
+      "name": "rag",
+      "passed": true,
+      "seconds": 0.501,
+      "result": "To create a zine in two color ink, you should bring a print-ready PDF and have it printed at the print technician's location as per source [1]. Additionally, for cutting your booklet, you need to book a 30-minute slot on an induction through the workshop desk according to source [2].",
+      "panels": [
+        {
+          "name": "Keyword matches",
+          "value": [
+            {
+              "content": "B: The risograph is available for two-color zines. Bring a print-ready PDF and book through the print technician.",
+              "score": 2
+            },
+            {
+              "content": "A: The laser cutter requires an induction before your first booking. Book a 30-minute slot through the workshop desk.",
+              "score": 1
+            }
+          ]
+        },
+        [
+          {
+            "content": "B: The risograph is available for two-color zines. Bring a print-ready PDF and book through the print technician.",
+            "score": 2
+          },
+          {
+            "content": "A: The laser cutter requires an induction before your first booking. Book a 30-minute slot through the workshop desk.",
+            "score": 1
+          }
+        ]
+      ],
+      "memory": ""
+    },
+    {
+      "name": "agents",
+      "passed": true,
+      "seconds": 1.531,
+      "result": "**Checker passed.**\n\nThe checker passed with the initial placement: listening at (2, 0), table at (4, 3), and wall at (6, 0). No issues were found.",
+      "panels": [
+        {
+          "name": "Round 1: needs revision",
+          "value": {
+            "kind": "layout",
+            "boxes": [
+              {
+                "id": "wall",
+                "x": 6,
+                "y": 0,
+                "width": 2,
+                "height": 1,
+                "label": "Wall display"
+              },
+              {
+                "id": "table",
+                "x": 4,
+                "y": 3,
+                "width": 3,
+                "height": 2,
+                "label": "Making table"
+              },
+              {
+                "id": "listening",
+                "x": 0,
+                "y": 0,
+                "width": 2,
+                "height": 2,
+                "label": "Listening"
+              }
+            ],
+            "entrance": {
+              "x": 0,
+              "y": 0,
+              "width": 2,
+              "height": 2
+            },
+            "issues": [
+              "listening blocks the entrance zone. Move it to x >= 2 or y >= 2."
+            ],
+            "valid": false
+          }
+        },
+        {
+          "name": "Round 2: passes",
+          "value": {
+            "kind": "layout",
+            "boxes": [
+              {
+                "id": "wall",
+                "x": 6,
+                "y": 0,
+                "width": 2,
+                "height": 1,
+                "label": "Wall display"
+              },
+              {
+                "id": "table",
+                "x": 4,
+                "y": 3,
+                "width": 3,
+                "height": 2,
+                "label": "Making table"
+              },
+              {
+                "id": "listening",
+                "x": 2,
+                "y": 0,
+                "width": 2,
+                "height": 2,
+                "label": "Listening"
+              }
+            ],
+            "entrance": {
+              "x": 0,
+              "y": 0,
+              "width": 2,
+              "height": 2
+            },
+            "issues": [],
+            "valid": true
+          }
+        }
+      ],
+      "memory": ""
+    },
+    {
+      "name": "web-search",
+      "passed": true,
+      "seconds": 0.859,
+      "result": "The passage mentions that \"Visual education\" was always the prime motive behind Isotype, and it notes that Otto Neurath began working on what would become the International System of Typographic Picture Education (ISOTYPE), a system of conveying information visually. [1]",
+      "panels": [
+        [
+          {
+            "title": "Isotype (picture language)",
+            "content": "of Isotype technique remains Otto Neurath’s book International picture language (1936). &quot;Visual education&quot; was always the prime motive behind Isotype, which",
+            "url": "https://en.wikipedia.org/?curid=3148419"
+          },
+          {
+            "title": "Marie Neurath",
+            "content": "&quot;enemy aliens&quot;), Marie and Otto Neurath were married, and resumed their work in Oxford, founding the Isotype Institute. The Isotype Institute produced more",
+            "url": "https://en.wikipedia.org/?curid=13804783"
+          },
+          {
+            "title": "Stick figure",
+            "content": "Austrian sociologist Otto Neurath began work on what would become the International System of Typographic Picture Education (ISOTYPE), a system of conveying",
+            "url": "https://en.wikipedia.org/?curid=974802"
+          }
+        ]
+      ],
+      "memory": ""
+    },
+    {
+      "name": "memory",
+      "passed": true,
+      "seconds": 2.415,
+      "result": "Based on the summary provided, it appears that you are planning a sound installation project for an open studio event. Here's a brief analysis of your situation:\n\n1. **Budget**: You have $40 to work with.\n2. **Time**: Only two days available.\n3. **Speaker Availability**: One speaker can be borrowed.\n\nGiven these constraints, here’s one simple direction that could work effectively within the budget and time frame you’ve outlined:\n\n**Direction: Create ambient sounds using natural materials or everyday objects.**\n\nThis approach would allow you to create an immersive experience without needing much equipment beyond what you might find in your studio. You can use items like stones, leaves, or even common household items to generate soundscapes that visitors can interact with through their senses.\n\nHere's a step-by-step outline for your project:\n\n1. **Gather Materials**: Collect natural objects such as stones, leaves, and other everyday materials.\n2. **Set Up Your Studio**: Prepare the space where you will set up your installation.\n3. **Create Soundscapes**: Use the collected items to create different sound effects within the studio environment.\n4. **Display Instructions**: Provide simple instructions for visitors on how to interact with the sounds without speaking.\n\nThis method leverages materials and natural elements available in your environment, making it cost-effective and easy to set up in a short period of time.",
+      "panels": [
+        {
+          "name": "Summary before sending",
+          "value": "(No saved summary.)"
+        },
+        {
+          "name": "Updated saved summary",
+          "value": "Based on the user's request, here is a suggested direction for creating an ambient sound installation within the constraints provided:\n\n- **Create Ambient Sounds Using Natural Materials or Everyday Objects**: Use items such as stones, leaves, or common household objects to generate soundscapes that visitors can interact with through their senses.\n\nThis simple approach fits within a budget of $40 and two days."
+        }
+      ],
+      "memory": "Based on the user's request, here is a suggested direction for creating an ambient sound installation within the constraints provided:\n\n- **Create Ambient Sounds Using Natural Materials or Everyday Objects**: Use items such as stones, leaves, or common household objects to generate soundscapes that visitors can interact with through their senses.\n\nThis simple approach fits within a budget of $40 and two days."
+    },
+    {
+      "name": "multi-agent",
+      "passed": true,
+      "seconds": 1.284,
+      "result": "**Build plan:** a standing-height table with three colored cups\n\n**Visitor action:** drop a token into the cup of their choice\n\n**From accessibility review:** use raised symbols on cups\n\n**From fabrication review:** use tape or a cardboard holder to keep cups stable\n\n**Still needs testing:** Still needs testing",
+      "panels": [
+        {
+          "name": "1. Designer’s proposal",
+          "value": "**Materials:** cups, tokens, cardboard\n\n**Setup:** a standing-height table with three colored cups\n\n**Visitor action:** drop a token into the cup of their choice"
+        },
+        {
+          "name": "2. Accessibility review",
+          "value": "**Barrier:** color blindness\n\n**Suggested change:** use raised symbols on cups"
+        },
+        {
+          "name": "3. Fabrication review",
+          "value": "**Failure point:** cups can tip over when tokens land\n\n**Suggested change:** use tape or a cardboard holder to keep cups stable"
+        }
+      ],
+      "memory": ""
+    },
+    {
+      "name": "mcp",
+      "passed": true,
+      "seconds": 0.414,
+      "result": "To prepare for booking a risograph session, you need to bring a print-ready PDF and book through the print technician.",
+      "panels": [
+        {
+          "name": "Returned by the archive tool",
+          "value": [
+            {
+              "content": "B: The risograph is available for two-color zines. Bring a print-ready PDF and book through the print technician."
+            }
+          ]
+        }
+      ],
+      "memory": ""
+    }
+  ],
+  "passed": true
+}
