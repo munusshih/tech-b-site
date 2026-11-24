@@ -309,11 +309,11 @@ async function init() {
       const models = chatModels(data.data);
       if (!models.length)
         throw new Error(
-          "No chat models available. Load a language model in your app; an embedding model cannot answer these examples.",
+          "Load your chat model in the app, then press Find models again to add it to this menu.",
         );
       const previousModel = $("model").value;
       $("model").replaceChildren(...models.map((m) => new Option(m.id, m.id)));
-      const preferred = models.find((m) => /gpt-oss[-:]20b/i.test(m.id));
+      const preferred = models.find((m) => m.status?.value === "loaded");
       if (models.some((m) => m.id === previousModel))
         $("model").value = previousModel;
       else if (preferred) $("model").value = preferred.id;

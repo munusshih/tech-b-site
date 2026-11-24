@@ -80,7 +80,7 @@ export async function modelRequest(c, path, body, embedding = false) {
       } catch (bridgeError) {
         if (c.signal?.aborted) throw bridgeError;
         throw new Error(
-          "The browser cannot access the model server directly. Start the local workshop bridge: download the workshops, unzip them, and run npm start. Keep that terminal running, then press Find models on this page again. If the browser requests local network access, allow it for this class site.",
+          "Start the local workshop bridge to connect this page: download the workshops, unzip them, and run npm start. Keep that terminal running, then press Find models on this page again. If the browser requests local network access, allow it for this class site.",
           { cause: bridgeError },
         );
       }
@@ -163,7 +163,7 @@ export async function ask(c, messages, options = {}) {
 export function text(r) {
   if (typeof r.content !== "string" || !r.content.trim())
     throw new Error(
-      "Model returned no text. Inspect the trace or try another model.",
+      "The server returned an empty reply. Open the request log to inspect the response, then try the request again.",
     );
 
   return r.content;

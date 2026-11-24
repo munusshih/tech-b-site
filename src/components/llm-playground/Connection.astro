@@ -7,43 +7,24 @@ import InteractiveFrame from "../workshop/InteractiveFrame.astro";
 <h2 id="connect-model">Connect your local model</h2>
 <ul class="workshop-intro-list">
   <li>
-    <strong>Choose a model.</strong> For the full workshop, start with
-    <a href="https://ollama.com/library/gpt-oss:20b">GPT-OSS 20B</a>. Its tool
-    calling support and stronger writing make it a better starting point for the
-    longer requests and handoffs in A–D. Qwen 2.5 1.5B is quicker and smaller,
-    but can repeat text or struggle with multi-step requests.
+    <strong>Open your app and load your model.</strong> Use LM Studio, Llama App,
+    or Ollama. Load the chat model you want to work with so it is ready to receive
+    requests from these examples.
   </li>
   <li>
-    <strong>Download it for the app you use.</strong> In Ollama, run
-    <code>ollama pull gpt-oss:20b</code>. For Llama App, use the
-    <a href="https://huggingface.co/ggml-org/gpt-oss-20b-GGUF"
-      >MXFP4 GGUF download</a
-    >.
+    <strong>Start the local API server.</strong> In
+    <a href="https://lmstudio.ai/docs/developer/core/server">LM Studio</a>, open
+    the Developer tab and press “Start server.” You can also run
+    <code>lms server start --port 1234</code> in a terminal.
   </li>
   <li>
-    <strong>Check the memory available on your computer.</strong> The download is
-    about 14 GB. The <a
-      href="https://cookbook.openai.com/articles/gpt-oss/run-locally-ollama"
-      >local setup guide</a
-    >
-    recommends at least 16 GB of GPU or unified memory, with room still needed for
-    your operating system and other apps.
-  </li>
-  <li>
-    <strong>Load the model, then connect.</strong> Open it in Llama App, Ollama,
-    or LM Studio and start the local API server. Press “Find models” below and select
-    the model you want to use. That connection will be shared by all the examples
-    on this page.
+    <strong>Select your app below, then find your model.</strong> The app menu fills
+    in its usual server address. For LM Studio, that is
+    <code>http://127.0.0.1:1234</code>. Press “Find models,” then choose your
+    model from the menu. This connection is shared by all the examples on the
+    page.
   </li>
 </ul>
-<p>
-  In <a href="https://lmstudio.ai/docs/developer/core/server">LM Studio</a>,
-  find a chat model in Discover, download and load it, then open the Developer
-  tab and start the server. Select “LM Studio” below to use
-  <code>http://127.0.0.1:1234</code>. You can also start it in a terminal with
-  <code>lms server start --port 1234</code>. For this published page, keep the
-  local workshop bridge running if your browser blocks a direct connection.
-</p>
 <InteractiveFrame label="Local model connection" sticker="connect here!">
   <div class="workshop-connection">
     <label class="workshop-field"

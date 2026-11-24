@@ -1,11 +1,7 @@
 import { ask, text } from "../shared.js";
 
 import { tools, calculateCost } from "../materials-tool.js";
-export {
-  tools,
-  materials,
-  calculateCost,
-} from "../materials-tool.js";
+export { tools, materials, calculateCost } from "../materials-tool.js";
 
 export async function run(ctx) {
   const history = [
@@ -31,20 +27,16 @@ export async function run(ctx) {
   history.push(reply);
   if (!reply.tool_calls?.length)
     throw new Error(
-      "Choose a model that supports tool calling.",
+      "No tool call was returned. Open the request log to inspect the reply, then run this request again.",
     );
-  if (reply.tool_calls.length > 3)
-    throw new Error("Tool call limit exceeded.");
+  if (reply.tool_calls.length > 3) throw new Error("Tool call limit exceeded.");
   for (const call of reply.tool_calls) {
     if (call.function.name !== "calculate_materials")
       throw new Error("Unapproved tool requested.");
     const args = JSON.parse(call.function.arguments);
 
     // Our function owns the prices, validation, and arithmetic.
-    const result = calculateCost(
-      args.items,
-      Number(ctx.budget ?? 20),
-    );
+    const result = calculateCost(args.items, Number(ctx.budget ?? 20));
     ctx.panel?.("Calculated by JavaScript", result);
     history.push({
       role: "tool",
