@@ -56,6 +56,10 @@ function connection() {
     embeddingBase: $("embedding-base").value,
     embeddingModel: $("embedding-model").value,
     local,
+    bridgeBase:
+      location.origin === "https://tech-b.munusshih.com"
+        ? "http://127.0.0.1:3213"
+        : undefined,
   };
 }
 // Visual projects share the same model connection and single-request lock.
@@ -306,7 +310,7 @@ async function init() {
     } catch (e) {
       $("connection-status").textContent =
         e instanceof TypeError
-          ? `No response at ${$("base").value}. Start your local API server, then find models again.`
+          ? `The browser couldn’t reach ${$("base").value}. The server may be stopped, or browser access may be blocked. On the published class site, allow local network access if prompted and check the server’s allowed origins. You can also download the workshops and open the local version; Connection help explains how.`
           : e.message;
     } finally {
       busy(false);

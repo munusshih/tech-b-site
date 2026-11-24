@@ -8,6 +8,7 @@ import { localBase } from "./shared.js";
 const root = dirname(fileURLToPath(import.meta.url));
 const port = Number(process.env.PORT || 3213);
 const origin = `http://127.0.0.1:${port}`;
+const publishedOrigin = "https://tech-b.munusshih.com";
 async function body(req) {
   let data = "";
   for await (const part of req) {
@@ -44,12 +45,35 @@ const server = createServer(async (req, res) => {
     // Keep the local proxy available to this application only.
     if (![`127.0.0.1:${port}`, `localhost:${port}`].includes(req.headers.host))
       return send(403, { error: "Invalid host." });
+    const url = new URL(req.url, origin);
+    const fromPublishedSite = req.headers.origin === publishedOrigin;
+    const modelRoute = ["/api/playground", "/api/model"].includes(url.pathname);
     if (
       req.headers.origin &&
-      ![origin, `http://localhost:${port}`].includes(req.headers.origin)
+      ![origin, `http://localhost:${port}`, publishedOrigin].includes(
+        req.headers.origin,
+      )
     )
-      return send(403, { error: "Use the local playground origin." });
-    const url = new URL(req.url, origin);
+      return send(403, {
+        error: "Use the local workshop or the published class site.",
+      });
+    // The class site may use only the model bridge. Files, search, and Llama's
+    // agent-control endpoints are never exposed to cross-origin callers.
+    if (fromPublishedSite) {
+      res.setHeader("Access-Control-Allow-Origin", publishedOrigin);
+      res.setHeader("Vary", "Origin");
+      if (!modelRoute)
+        return send(403, {
+          error: "Only model bridge routes are available to the class site.",
+        });
+      res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+      res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+      res.setHeader("Access-Control-Allow-Private-Network", "true");
+      if (req.method === "OPTIONS") {
+        res.writeHead(204);
+        return res.end();
+      }
+    }
     if (url.pathname === "/api/playground")
       return send(200, { localPlayground: true });
     if (url.pathname === "/api/model" && req.method === "POST") {

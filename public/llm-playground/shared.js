@@ -21,31 +21,54 @@ export function localBase(value) {
 
   return u.origin;
 }
+const bridgedServers = new Set();
 export async function modelRequest(c, path, body, embedding = false) {
   const base = localBase(embedding ? c.embeddingBase : c.base);
   if (body) c.requested?.(embedding ? "embedding" : "chat");
 
+  const bridgeKey = `${c.bridgeBase || ""}/${base}`;
+  const viaBridge = (bridge = "") =>
+    request(`${bridge}/api/model`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ base, path, body }),
+      signal: c.signal,
+    });
   try {
-    return await (c.local
-      ? request("/api/model", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ base, path, body }),
-          signal: c.signal,
-        })
-      : request(
-          base + path,
-          body
-            ? {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(body),
-                signal: c.signal,
-              }
-            : { signal: c.signal },
-        ));
+    if (c.local) return await viaBridge();
+    if (c.bridgeBase && bridgedServers.has(bridgeKey))
+      return await viaBridge(localBase(c.bridgeBase));
+    try {
+      return await request(
+        base + path,
+        body
+          ? {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(body),
+              signal: c.signal,
+            }
+          : { signal: c.signal },
+      );
+    } catch (error) {
+      if (!(error instanceof TypeError) || !c.bridgeBase || c.signal?.aborted)
+        throw error;
+      try {
+        const result = await viaBridge(localBase(c.bridgeBase));
+        bridgedServers.add(bridgeKey);
+        c.trace?.("Local workshop bridge connected", {
+          bridge: c.bridgeBase,
+          modelServer: base,
+        });
+        return result;
+      } catch (bridgeError) {
+        if (c.signal?.aborted) throw bridgeError;
+        throw new Error(
+          "The browser cannot access the model server directly. Start the local workshop bridge: download the workshops, unzip them, and run npm start. Keep that terminal running, then press Find models on this page again. If the browser requests local network access, allow it for this class site.",
+          { cause: bridgeError },
+        );
+      }
+    }
   } catch (error) {
     if (embedding && error.name !== "AbortError") {
       throw new Error(

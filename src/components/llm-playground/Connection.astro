@@ -65,9 +65,17 @@ import InteractiveFrame from "../workshop/InteractiveFrame.astro";
     ><p>
       The local API server must be running. Use the same address as <a
         href="/week-12/llama/">Week 12</a
-      >. If the browser blocks it, download the workshops, unzip it, run <code
-        >npm start</code
-      >, and open <code>http://127.0.0.1:3213</code>.
+      >. On the published class site, Llama App may block a direct browser
+      connection. If that happens, <a
+        href="/llm-playground/downloads/llm-playground-all.zip"
+        download>download the workshops</a
+      >, unzip the folder, and run <code>npm start</code>. Keep that terminal
+      running and press “Find models” here again. The local workshop server acts
+      as a bridge for this class site, forwarding only model-list, chat, and
+      embedding requests to your local model. You can also open <code
+        >http://127.0.0.1:3213</code
+      > to work entirely from the downloaded copy. If the browser asks for local
+      network access, this workshop needs that permission to connect.
     </p><p>
       The optional semantic retrieval mode in RAG needs a separate embedding
       model. Download <a

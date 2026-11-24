@@ -6,6 +6,7 @@ import { once } from "node:events";
 import { lessons } from "../public/llm-playground/catalog.js";
 import {
   ask,
+  modelRequest,
   localBase,
   keywords,
   cosine,
@@ -339,6 +340,72 @@ test("downloaded local server serves the interface and restricts proxy destinati
       headers: { Origin: "https://example.com" },
     });
     assert.equal(crossOrigin.status, 403);
+    const classOrigin = "https://tech-b.munusshih.com";
+    const preflight = await realFetch(base + "/api/model", {
+      method: "OPTIONS",
+      headers: {
+        Origin: classOrigin,
+        "Access-Control-Request-Method": "POST",
+        "Access-Control-Request-Private-Network": "true",
+      },
+    });
+    assert.equal(preflight.status, 204);
+    assert.equal(
+      preflight.headers.get("access-control-allow-origin"),
+      classOrigin,
+    );
+    assert.equal(
+      preflight.headers.get("access-control-allow-private-network"),
+      "true",
+    );
+    for (const route of [
+      "/app.js",
+      "/api/search?q=test",
+      "/tools",
+      "/api/tools",
+    ]) {
+      assert.equal(
+        (await realFetch(base + route, { headers: { Origin: classOrigin } }))
+          .status,
+        403,
+      );
+    }
+    assert.equal(
+      (
+        await realFetch(base + "/api/playground", {
+          headers: { Origin: classOrigin + ".evil.example" },
+        })
+      ).status,
+      403,
+    );
+    const model = createServer((req, res) => {
+      assert.equal(req.url, "/v1/models");
+      assert.equal(req.headers.origin, undefined);
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ data: [{ id: "local-model" }] }));
+    });
+    model.listen(0, "127.0.0.1");
+    await once(model, "listening");
+    try {
+      const forwarded = await realFetch(base + "/api/model", {
+        method: "POST",
+        headers: { Origin: classOrigin, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          base: `http://127.0.0.1:${model.address().port}`,
+          path: "/v1/models",
+        }),
+      });
+      assert.equal(forwarded.status, 200);
+      assert.equal(
+        forwarded.headers.get("access-control-allow-origin"),
+        classOrigin,
+      );
+      assert.deepEqual(await forwarded.json(), {
+        data: [{ id: "local-model" }],
+      });
+    } finally {
+      await new Promise((resolve) => model.close(resolve));
+    }
     const unsupported = await realFetch(base + "/api/model", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -669,6 +736,54 @@ test("GPT-OSS receives room for reasoning and explicit request overrides remain 
     ]);
     assert.equal(sent[2].max_tokens, 700);
     assert.ok(!Object.hasOwn(sent[2], "reasoning_effort"));
+  } finally {
+    globalThis.fetch = realFetch;
+  }
+});
+
+test("published connection uses the local bridge after CORS failure and retains it for chat", async () => {
+  const calls = [];
+  const ctx = {
+    base: "http://127.0.0.1:33221",
+    bridgeBase: "http://127.0.0.1:3213",
+  };
+  globalThis.fetch = async (url, options) => {
+    calls.push({ url, options });
+    if (url.startsWith(ctx.base)) throw new TypeError("Failed to fetch");
+    assert.equal(url, ctx.bridgeBase + "/api/model");
+    return json({ data: [{ id: "model" }] });
+  };
+  try {
+    await modelRequest(ctx, "/v1/models");
+    await modelRequest(ctx, "/v1/chat/completions", {
+      model: "model",
+      messages: [],
+    });
+    assert.equal(calls.length, 3);
+    const payload = JSON.parse(calls[2].options.body);
+    assert.equal(payload.base, ctx.base);
+    assert.equal(payload.path, "/v1/chat/completions");
+    assert.deepEqual(payload.body, { model: "model", messages: [] });
+  } finally {
+    globalThis.fetch = realFetch;
+  }
+});
+
+test("model HTTP errors are not hidden by the bridge fallback", async () => {
+  let calls = 0;
+  globalThis.fetch = async () => {
+    calls++;
+    return json({ error: "Bad request" }, 400);
+  };
+  try {
+    await assert.rejects(
+      modelRequest(
+        { base: "http://127.0.0.1:33222", bridgeBase: "http://127.0.0.1:3213" },
+        "/v1/models",
+      ),
+      /HTTP 400/,
+    );
+    assert.equal(calls, 1);
   } finally {
     globalThis.fetch = realFetch;
   }
