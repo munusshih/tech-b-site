@@ -1,0 +1,17 @@
+---
+import "@/styles/workshop-controls.css";
+const {
+  variant = "primary",
+  href,
+  type = "button",
+  class: className,
+  ...attributes
+} = Astro.props;
+const Tag = href ? "a" : "button";
+---
+
+<Tag
+  class:list={["workshop-button", `workshop-button--${variant}`, className]}
+  {...href ? { href } : { type }}
+  {...attributes}><slot /></Tag
+>

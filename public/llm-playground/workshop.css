@@ -1,0 +1,125 @@
+/* One divider per lesson; no nested section borders or panel chrome. */
+#week-content.playground-content .content-section {
+  transform: none !important;
+  opacity: 1 !important;
+  box-shadow: none !important;
+  border: 0 !important;
+  background: transparent !important;
+  padding: 0 !important;
+}
+#week-content.playground-content .content-section > h2 {
+  margin-top: 2.75rem;
+  border-top: 1px solid var(--sketch-echo, currentColor);
+  padding-top: 1.25rem;
+}
+.playground-content .workshop-lesson {
+  margin-bottom: 2rem;
+  min-width: 0;
+}
+.playground-content .workshop-lesson > p {
+  margin: 0 0 1rem;
+}
+.playground-content .temperature-settings,
+.playground-content .temperature-results {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+/* Results are styled by the shared workshop-results stylesheet. */
+.playground-content [data-trace] pre,
+.playground-content [data-discovered] pre {
+  margin: 0;
+  max-height: 32rem;
+  overflow: auto;
+  font: inherit;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.playground-content .workshop-log {
+  margin: 1rem 0;
+  font-size: 0.9em;
+}
+.playground-content details summary {
+  cursor: pointer;
+}
+.playground-content details[open] > summary {
+  margin-bottom: 0.85rem;
+}
+.playground-content .expressive-code {
+  margin: 1rem 0;
+  min-width: 0;
+}
+.playground-content [hidden] {
+  display: none !important;
+}
+.workshop-button:focus-visible,
+.workshop-field :focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+@media (max-width: 700px) {
+  .workshop-connection,
+  .playground-content .temperature-settings,
+  .playground-content .temperature-results {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* A measured reading column with explicit paragraph rhythm. */
+.playground-content .workshop-explanation {
+  display: grid;
+  gap: 1.2rem;
+  margin: 0 0 1.25rem;
+  max-width: 72ch;
+  font-size: var(--body-copy-size, 1.0625rem);
+}
+.playground-content .workshop-explanation > p {
+  margin: 0;
+  max-width: none;
+  font-weight: 400;
+  font-size: var(--body-copy-size, 1.0625rem);
+  line-height: var(--body-copy-line-height, 1.6);
+  letter-spacing: normal;
+  text-align: left;
+  text-indent: 0;
+  text-wrap: pretty;
+}
+.playground-content .workshop-explanation code {
+  border-radius: 0.2rem;
+  background: color-mix(in srgb, var(--sketch-accent, #6f56bb) 9%, transparent);
+  padding: 0.08em 0.25em;
+  font-size: 0.85em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace !important;
+}
+.download-note {
+  margin: 1.5rem 0;
+  border: 2px dashed currentColor;
+  border-radius: 0.75rem;
+  padding: 1rem;
+}
+
+/* Plain lists for the introduction, connection guide, and reference links. */
+.playground-content .workshop-intro-list,
+.playground-content .workshop-resource-list {
+  margin: 1.25rem 0 2rem;
+  padding-left: 1.4rem;
+  max-width: 72ch;
+}
+.playground-content .workshop-intro-list > li,
+.playground-content .workshop-resource-list > li,
+#week-content .workshop-intro-list > li,
+#week-content .workshop-resource-list > li {
+  padding-left: 0.25rem;
+  line-height: 1.7;
+  list-style: disc;
+}
+.playground-content .workshop-intro-list > li + li {
+  margin-top: 1rem;
+}
+.playground-content .workshop-resource-list > li + li {
+  margin-top: 0.6rem;
+}
+#week-content .workshop-intro-list > li::before,
+#week-content .workshop-resource-list > li::before {
+  content: none;
+}

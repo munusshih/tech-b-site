@@ -1,0 +1,88 @@
+---
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import WeekPost from "@/layouts/WeekPost.astro";
+import { ACTIVE_YEAR } from "@/config";
+import CodeSnippet from "@/components/CodeSnippet.astro";
+import Disclosure from "@/components/workshop/Disclosure.astro";
+import Connection from "@/components/llm-playground/Connection.astro";
+import Lesson from "@/components/llm-playground/Lesson.astro";
+import { outcomesIntroHTML } from "../../../../public/llm-playground/visual-outcomes/ui.js";
+import { lessons } from "../../../../public/llm-playground/catalog.js";
+import "../../../../public/llm-playground/workshop.css";
+import "../../../../public/llm-playground/visual-outcomes/style.css";
+import Outcome from "@/components/llm-playground/Outcome.astro";
+import { outcomes } from "../../../../public/llm-playground/visual-outcomes/catalog.js";
+import { resourcesHTML } from "../../../../public/llm-playground/resources.js";
+import banner from "@/assets/workshop-ntoo-installation.jpg";
+const shared = readFileSync(resolve("public/llm-playground/shared.js"), "utf8");
+---
+
+<WeekPost
+  title="Workshop 4: Local Chain of Thoughts"
+  description="Read a small example, predict what will happen, then test it with your local model."
+  week={13}
+  year={ACTIVE_YEAR}
+  contentClass="playground-content"
+  heroImage={banner}
+  heroImageAlt="Stephanie Dinkins’s Not the Only One, a voice-interactive sculpture with faces on a rounded vessel, displayed on a wooden pedestal."
+  heroImageCaption={"Stephanie Dinkins, [Not the Only One (N’TOO)](https://www.stephaniedinkins.com/ntoo.html), ongoing since 2018. A voice-interactive AI sculpture built from three generations of family oral histories and hosted on local computers. Installation photograph via [DOTDOT](https://dotdot.studio/project/not-the-only-one/)."}
+  pageLinks={[
+    { href: "/week-13/", label: "Back to Week 13" },
+    { href: "/week-12/llama/", label: "Local Model APIs" },
+  ]}
+>
+  <ul class="workshop-intro-list">
+    <li>
+      <strong>Start with the instructions you send.</strong> These workshops let
+      you examine what happens between typing into a language model and getting a
+      response. We’ll begin with prompts, then try examples that search for sources,
+      use a calculator, revise a floor plan, or carry a summary into the next conversation.
+    </li>
+    <li>
+      <strong>Change something and compare the result.</strong> Each example gives
+      you something specific to edit and a response you can inspect. Before running
+      it, predict what will happen, then compare that with what the program actually
+      does.
+    </li>
+    <li>
+      <strong>Work here or open the files yourself.</strong> Open Llama App or Ollama,
+      load a chat model, and connect below. The examples send requests to the model
+      on your own computer. You can also <a
+        href="/llm-playground/downloads/llm-playground-all.zip"
+        download>download all the workshops</a
+      >
+      to edit the files and run them locally.
+    </li>
+    <li>
+      <strong>A few examples need an extra connection.</strong> Web search sends
+      a query to an online search service. Semantic retrieval in RAG needs a separate
+      embedding model, which the connection help explains how to set up. You can
+      try RAG with keyword search using just your chat model.
+    </li>
+  </ul>
+  <Connection />
+  {
+    lessons.map((lesson, index) => (
+      <Lesson lesson={lesson} number={index + 1} />
+    ))
+  }
+  <Fragment set:html={outcomesIntroHTML} />
+  {outcomes.map((outcome) => <Outcome outcome={outcome} />)}
+  <h2 id="shared-code">Shared model functions</h2>
+  <p>
+    You’ll notice that the examples call functions such as <code>ask</code> and
+    <code>grounded</code> rather than writing out the whole model request each time.
+    We’ve put that shared code in <code>shared.js</code> so the examples can focus
+    on the part you’re experimenting with. If you want to follow a request further,
+    open the file below to see how those helpers send messages, retrieve source material,
+    and decide when a tool loop should stop.
+  </p>
+  <Disclosure title="Read shared.js"
+    ><CodeSnippet wrap code={shared} language="js" title="shared.js" />
+  </Disclosure>
+  <Fragment set:html={resourcesHTML} />
+</WeekPost>
+<script is:inline type="module" src="/llm-playground/app.js"></script>
+<script is:inline type="module" src="/llm-playground/visual-outcomes/app.js"
+></script>

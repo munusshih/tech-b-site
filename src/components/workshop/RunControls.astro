@@ -1,0 +1,14 @@
+---
+import "@/styles/workshop-controls.css";
+import Button from "./Button.astro";
+const { label = "Run" } = Astro.props;
+---
+
+<div class="workshop-run-controls">
+  <Button type="submit" data-run>{label}</Button>
+  <div class="workshop-run-controls__secondary">
+    <Button variant="secondary" data-stop disabled hidden>Stop</Button>
+    <Button variant="quiet" data-reset>Reset</Button>
+  </div>
+</div>
+<p data-status role="status" class="workshop-status"></p>

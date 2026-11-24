@@ -1,0 +1,37 @@
+/* Use Expressive Code's existing frame, header, and filename-tab styling. */
+.code-snippet-tabs > .frame > .header {
+  overflow-x: auto;
+}
+.code-snippet-tabs > .frame > .header > .title {
+  flex-shrink: 0;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  white-space: nowrap;
+}
+.code-snippet-tabs > .frame > .header > .title[aria-selected="false"] {
+  opacity: 0.65;
+  background: transparent;
+}
+.code-snippet-tabs > .frame > .header > .title[aria-selected="false"]::after {
+  display: none;
+}
+.code-snippet-tabs :is([role="tab"], [role="tabpanel"]):focus-visible {
+  outline: 2px solid var(--sketch-accent, #6f56bb);
+  outline-offset: -3px;
+}
+.code-snippet-tabs [data-code-panel][hidden] {
+  display: none !important;
+}
+#week-content .code-snippet-tabs [data-code-panel] > .expressive-code {
+  margin: 0;
+  max-width: none;
+}
+.code-snippet-tabs [data-code-panel] .frame {
+  box-shadow: none;
+  border-radius: 0;
+}
+/* The inner highlighter is frameless; only the shared filename bar is visible. */
+.code-snippet-tabs [data-code-panel] .frame > .header {
+  display: none !important;
+}

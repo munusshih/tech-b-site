@@ -1,0 +1,10 @@
+---
+import "@/styles/workshop-panels.css";
+import Sticker from "./Sticker.astro";
+const { label = "Interactive example", sticker = "try it out!" } = Astro.props;
+---
+
+<section class="workshop-interactive" aria-label={label}>
+  <Sticker text={sticker} />
+  <slot />
+</section>

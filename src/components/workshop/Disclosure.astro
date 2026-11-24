@@ -1,0 +1,21 @@
+---
+// Share the existing week-toc disclosure markup and plus/minus treatment.
+import "@/styles/workshop-panels.css";
+const { title, open = false, flush = false } = Astro.props;
+---
+
+<details
+  class:list={[
+    "week-toc",
+    "workshop-disclosure",
+    { "workshop-disclosure--flush": flush },
+  ]}
+  open={open}
+>
+  <summary
+    ><span class="toc-heading-link">{title}</span><span
+      class="toc-disclosure"
+      aria-hidden="true"></span></summary
+  >
+  <div class="workshop-disclosure__body"><slot /></div>
+</details>

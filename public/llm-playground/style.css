@@ -1,0 +1,59 @@
+/* Standalone download: a small, plain workshop shell. */
+:root {
+  background: #f5f4fa;
+  color: #20252b;
+  font-size: 18px;
+  line-height: 1.55;
+  font-family: Georgia, serif;
+  --sketch-ink: #20252b;
+  --sketch-paper: #f5f4fa;
+  --sketch-echo: #b0a9bd;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+.shell {
+  margin: auto;
+  padding: 2rem 1.25rem 5rem;
+  max-width: 1040px;
+}
+h1 {
+  font-size: 2.2rem;
+  line-height: 1.15;
+}
+a {
+  color: inherit;
+}
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+button,
+a.button {
+  cursor: pointer;
+}
+.button {
+  display: inline-block;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  background: transparent;
+  padding: 0.45rem 0.85rem;
+  color: inherit;
+  text-decoration: none;
+}
+pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+code {
+  font-size: 0.9em;
+  font-family: ui-monospace, monospace;
+}
+[hidden] {
+  display: none !important;
+}

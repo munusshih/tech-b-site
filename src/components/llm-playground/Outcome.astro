@@ -1,0 +1,64 @@
+---
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import SectionHeading from "../workshop/SectionHeading.astro";
+import ConceptNote from "./ConceptNote.astro";
+import CodeSnippet from "../CodeSnippet.astro";
+import Disclosure from "../workshop/Disclosure.astro";
+import { outcomeHTML } from "../../../public/llm-playground/visual-outcomes/ui.js";
+
+const { outcome } = Astro.props;
+const modelSource = readFileSync(
+  resolve("public/llm-playground/visual-outcomes/scores.js"),
+  "utf8",
+);
+const functionName =
+  "generate" + outcome.id[0].toUpperCase() + outcome.id.slice(1);
+const modelExample =
+  modelSource.match(
+    new RegExp(
+      `export (async function ${functionName}\\(ctx\\) \\{[\\s\\S]*?^\\})`,
+      "m",
+    ),
+  )?.[1] ?? modelSource;
+const renderer = readFileSync(
+  resolve(`src/scripts/visual-outcomes/${outcome.id}.js`),
+  "utf8",
+);
+---
+
+<SectionHeading
+  id={`outcome-${outcome.id}`}
+  number={outcome.letter}
+  title={outcome.title}
+/>
+<div class="workshop-lesson">
+  <p>{outcome.intro}</p>
+  <ConceptNote
+    lesson={{ noteLabel: "How does it work?", noteSteps: outcome.steps }}
+  />
+
+  <Fragment
+    set:html={outcomeHTML(outcome, {
+      heading: false,
+      notes: false,
+      intro: false,
+      source: false,
+    })}
+  />
+  <Disclosure title="Follow the code">
+    <CodeSnippet
+      wrap
+      title={`${outcome.title} code`}
+      tabs={[
+        { title: "Model interaction", code: modelExample, language: "js" },
+        { title: "scores.js / full source", code: modelSource, language: "js" },
+        {
+          title: `${outcome.id}.js / output`,
+          code: renderer,
+          language: "js",
+        },
+      ]}
+    />
+  </Disclosure>
+</div>

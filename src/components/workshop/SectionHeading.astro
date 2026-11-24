@@ -1,0 +1,10 @@
+---
+import "@/styles/workshop-expressions.css";
+const { id, number, title } = Astro.props;
+---
+
+<h2 id={id} class="workshop-section-heading">
+  <span class="workshop-section-number"
+    >{number}<span class="sr-only">. </span></span
+  ><span>{title}</span>
+</h2>

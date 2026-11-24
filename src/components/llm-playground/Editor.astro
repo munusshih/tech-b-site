@@ -1,0 +1,191 @@
+---
+import Field from "../workshop/Field.astro";
+import Disclosure from "../workshop/Disclosure.astro";
+import Button from "../workshop/Button.astro";
+import RunControls from "../workshop/RunControls.astro";
+import InteractiveFrame from "../workshop/InteractiveFrame.astro";
+import Results from "../workshop/Results.astro";
+const { lesson: l } = Astro.props;
+const labels = {
+  prompting: "Compare instructions",
+  temperature: "Compare temperatures",
+  "structured-output": "Make an event card",
+  "tool-calling": "Calculate materials",
+  rag: "Retrieve and answer",
+  agents: "Run layout agent",
+  "web-search": "Search and answer",
+  memory: "Send",
+  "multi-agent": "Run the design team",
+  mcp: "Ask",
+};
+---
+
+<InteractiveFrame label={`${l.concept} playground`}>
+  <form data-experiment class="workshop-editor">
+    {
+      l.slug === "prompting" && (
+        <Field
+          name="instructions"
+          label="Instructions"
+          value={l.defaults.instructions}
+        />
+      )
+    }
+    <Field
+      name="prompt"
+      label={{
+        prompting: "Your message",
+        temperature: "Same prompt for all three settings",
+        "structured-output": "Event announcement",
+        "tool-calling": "Materials request",
+        rag: "Question",
+        agents: "Layout brief and starting positions",
+        "web-search": "Search query",
+        memory: "Your message",
+        "multi-agent": "Design brief",
+        mcp: "Archive question",
+      }[l.slug]}
+      value={l.defaults.prompt}
+      required
+    />
+    {
+      "documents" in l.defaults && (
+        <Field
+          name="documents"
+          label="Source passages (one per line)"
+          value={l.defaults.documents}
+          rows={4}
+        />
+      )
+    }
+    {
+      l.slug === "rag" && (
+        <>
+          <Field
+            name="retrieval"
+            label="Retrieval method"
+            kind="select"
+            options={[
+              { value: "keyword", label: "Keyword (chat model only)" },
+              { value: "semantic", label: "Semantic (embedding model needed)" },
+              {
+                value: "compare",
+                label: "Compare both (answer uses semantic matches)",
+              },
+            ]}
+          />
+          <p class="workshop-setup-hint" data-embedding-hint hidden>
+            Semantic retrieval needs a separate embedding model. Configure it in{" "}
+            <a href="#connect-model">Connection help and embedding setup</a>.
+          </p>
+        </>
+      )
+    }
+    {
+      l.slug === "tool-calling" && (
+        <>
+          <p class="workshop-setup-hint">
+            Classroom prices: cardboard sheet $2.50; tape roll $4; LED $0.50;
+            coin-cell battery $1.25. These prices are fixed in our function.
+          </p>
+          <Field
+            name="budget"
+            label="Budget ($)"
+            kind="number"
+            value={l.defaults.budget}
+            min="0"
+            max="10000"
+            step="0.01"
+            required
+          />
+        </>
+      )
+    }
+    {
+      l.slug === "temperature" && (
+        <div class="temperature-settings">
+          {[0.1, 0.7, 1.3].map((v, i) => (
+            <Field
+              name={`temperature-${i}`}
+              label={`Temperature ${i + 1}`}
+              kind="number"
+              value={v}
+              min="0"
+              max="2"
+              step="0.1"
+              required
+            />
+          ))}
+        </div>
+      )
+    }
+    {
+      l.slug === "agents" && (
+        <Field
+          name="rounds"
+          label="Tool round limit"
+          kind="number"
+          min="1"
+          max="3"
+          value="3"
+          required
+        />
+      )
+    }
+    {
+      l.slug === "memory" && (
+        <>
+          <>
+            <Field name="memory" label="Saved summary" />
+            <div class="workshop-actions">
+              <>
+                <Button variant="secondary" data-memory="save">
+                  Save summary
+                </Button>
+                <Button variant="quiet" data-memory="forget">
+                  Forget
+                </Button>
+                <Button variant="quiet" data-memory="followup">
+                  Ask a follow-up
+                </Button>
+              </>
+            </div>
+          </>
+        </>
+      )
+    }
+    {
+      l.slug === "multi-agent" && (
+        <Disclosure title="Edit the four roles">
+          {l.roleFields.map((role) => (
+            <Field {...role} />
+          ))}
+        </Disclosure>
+      )
+    }
+    {
+      l.slug === "mcp" && (
+        <>
+          <>
+            <p class="workshop-setup-hint">
+              The demo MCP client and archive server run in this browser.
+              Discover the server’s tools, or ask directly using your connected
+              local model.
+            </p>
+            <Button variant="secondary" data-discover>
+              Discover tools
+            </Button>
+            <div data-discovered />
+          </>
+        </>
+      )
+    }
+    <RunControls label={labels[l.slug]} />
+  </form>
+  <Results
+    comparison={l.slug === "temperature"}
+    pair={["prompting", "structured-output"].includes(l.slug)}
+    team={l.slug === "multi-agent"}
+  />
+  <div data-sources></div>
+</InteractiveFrame>

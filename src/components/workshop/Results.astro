@@ -1,0 +1,31 @@
+---
+import "@/styles/workshop-results.css";
+import Button from "./Button.astro";
+import { resultCardHTML } from "../../../public/llm-playground/result-markup.js";
+const { comparison = false, pair = false, team = false } = Astro.props;
+---
+
+<section class="workshop-output" aria-label="Results" data-output hidden>
+  <div class="workshop-output__toolbar">
+    <p class="workshop-output__label">Results</p><Button
+      variant="quiet"
+      data-copy-results
+      disabled
+      hidden>Copy results</Button
+    >
+  </div>
+  <div
+    data-results
+    class:list={[
+      "workshop-results",
+      {
+        "temperature-results": comparison,
+        "workshop-results--compare": pair,
+        "workshop-results--team": team,
+      },
+    ]}
+    aria-live="polite"
+  >
+  </div>
+  <template data-result-template set:html={resultCardHTML} />
+</section>

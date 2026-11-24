@@ -1,0 +1,117 @@
+/* Shared workshop controls: use these variants in workshop components. */
+.workshop-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  border: 1px solid var(--sketch-ink, currentColor);
+  border-radius: 0.35rem;
+  background: var(--sketch-ink, #222);
+  padding: 0.45rem 1rem;
+  min-height: 2.5rem;
+  color: var(--sketch-paper, #fff);
+  font: inherit;
+  font-weight: 600;
+  line-height: 1.35;
+  text-decoration: none;
+}
+.workshop-button--secondary {
+  background: transparent;
+  color: inherit;
+}
+.workshop-button--quiet {
+  border-color: transparent;
+  background: transparent;
+  color: inherit;
+  font-weight: 400;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.workshop-button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.workshop-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem;
+}
+.workshop-actions p {
+  flex: 1;
+  margin: 0;
+  min-width: 12rem;
+}
+.workshop-field {
+  display: grid;
+  gap: 0.4rem;
+  min-width: 0;
+  font-weight: 600;
+}
+.workshop-field :is(input, textarea, select) {
+  box-sizing: border-box;
+  border: 1px solid var(--sketch-echo, #aaa);
+  background: var(--sketch-paper, #fff);
+  padding: 0.6rem 0.7rem;
+  width: 100%;
+  min-width: 0;
+  color: inherit;
+  font: inherit;
+  font-weight: 400;
+  line-height: var(--body-copy-line-height, 1.6);
+}
+.workshop-field textarea {
+  resize: vertical;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace !important;
+}
+.workshop-editor {
+  display: grid;
+  gap: 1rem;
+  margin: 1rem 0;
+  min-width: 0;
+}
+.workshop-status {
+  margin: 0;
+  font-size: 0.9em;
+}
+.workshop-status:empty {
+  display: none;
+}
+.workshop-connection {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1.5fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* The primary action stays left; utility actions stay together on the right. */
+.workshop-run-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  margin-top: 0.25rem;
+  width: 100%;
+}
+.workshop-run-controls__secondary {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.75rem;
+  margin-left: auto;
+}
+.workshop-run-controls .workshop-button {
+  margin: 0;
+}
+@media (max-width: 480px) {
+  .workshop-run-controls {
+    flex-wrap: nowrap;
+    gap: 0.75rem;
+  }
+  .workshop-run-controls > [data-run] {
+    flex: 1;
+    min-width: 0;
+  }
+}

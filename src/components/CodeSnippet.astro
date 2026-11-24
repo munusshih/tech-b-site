@@ -1,18 +1,29 @@
 ---
 import { Code } from "astro-expressive-code/components";
+import { randomUUID } from "node:crypto";
+import "@/styles/code-snippet-tabs.css";
 
-interface Props {
+interface CodeTab {
   code: string;
+  title: string;
+  language?: string;
+  startLineNumber?: number;
+}
+interface Props {
+  code?: string;
   language?: string;
   title?: string;
   startLineNumber?: number;
+  wrap?: boolean;
+  tabs?: CodeTab[];
 }
-
 const {
-  code,
+  code = "",
   language = "text",
   title,
   startLineNumber = 1,
+  wrap = false,
+  tabs = [],
 } = Astro.props as Props;
 const lang = language.trim().toLowerCase() || "text";
 const names: Record<string, string> = {
@@ -32,13 +43,67 @@ const names: Record<string, string> = {
   tsx: "TSX",
 };
 const caption = title || names[lang] || lang.toUpperCase();
+const groupId = `code-tabs-${randomUUID()}`;
+const single = tabs[0];
 ---
 
-<Code
-  code={code}
-  lang={lang}
-  frame="code"
-  title={caption}
-  showLineNumbers={true}
-  startLineNumber={startLineNumber}
-/>
+{
+  tabs.length > 1 ? (
+    <div class="expressive-code code-snippet-tabs" data-code-tabs>
+      <figure class="frame has-title">
+        <figcaption
+          class="header"
+          role="tablist"
+          aria-label={title || "Code examples"}
+        >
+          {tabs.map((tab, i) => (
+            <button
+              class="title"
+              type="button"
+              role="tab"
+              data-code-tab
+              id={`${groupId}-tab-${i}`}
+              aria-controls={`${groupId}-panel-${i}`}
+              aria-selected={i === 0 ? "true" : "false"}
+              tabindex={i === 0 ? 0 : -1}
+            >
+              {tab.title}
+            </button>
+          ))}
+        </figcaption>
+        {tabs.map((tab, i) => (
+          <div
+            role="tabpanel"
+            data-code-panel
+            id={`${groupId}-panel-${i}`}
+            aria-labelledby={`${groupId}-tab-${i}`}
+            hidden={i !== 0}
+            tabindex="0"
+          >
+            <Code
+              code={tab.code}
+              lang={tab.language || lang}
+              frame="none"
+              showLineNumbers={true}
+              wrap={wrap}
+              startLineNumber={tab.startLineNumber || 1}
+            />
+          </div>
+        ))}
+      </figure>
+    </div>
+  ) : (
+    <Code
+      code={single?.code || code}
+      lang={single?.language || lang}
+      frame="code"
+      title={single?.title || caption}
+      showLineNumbers={true}
+      wrap={wrap}
+      startLineNumber={single?.startLineNumber || startLineNumber}
+    />
+  )
+}
+<script>
+  import "../scripts/code-tabs.js";
+</script>

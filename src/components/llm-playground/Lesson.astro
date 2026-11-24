@@ -1,0 +1,61 @@
+---
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import { marked } from "marked";
+import {
+  lessonCodeTabs,
+  lessonSourceFiles,
+} from "../../lib/playground-code-tabs.js";
+import CodeSnippet from "../CodeSnippet.astro";
+import Disclosure from "../workshop/Disclosure.astro";
+import ConceptNote from "./ConceptNote.astro";
+import TechnicalDetails from "../workshop/TechnicalDetails.astro";
+import Editor from "./Editor.astro";
+import SectionHeading from "../workshop/SectionHeading.astro";
+const { lesson, number } = Astro.props;
+const source = readFileSync(
+  resolve(`public/llm-playground/examples/${lesson.slug}.js`),
+  "utf8",
+);
+const excerpts = [
+  ...source.matchAll(/\/\/ teaching:start\s*([\s\S]*?)\s*\/\/ teaching:end/g),
+].map((match) => match[1].trim());
+const codeTabs = await lessonCodeTabs(lesson, source, excerpts);
+const sourceFiles = lessonSourceFiles(lesson, source);
+const paragraphs = await Promise.all(
+  lesson.paragraphs.map((paragraph) => marked.parse(paragraph)),
+);
+---
+
+{
+  lesson.slug === "rag" && (
+    <>
+      <>
+        <span id="embeddings" aria-hidden="true" />
+        <span id="semantic-rag" aria-hidden="true" />
+      </>
+    </>
+  )
+}
+<SectionHeading id={lesson.slug} number={number} title={lesson.concept} />
+<section data-lesson={lesson.slug} class="workshop-lesson">
+  <div class="workshop-explanation">
+    {paragraphs.map((paragraph) => <Fragment set:html={paragraph} />)}
+  </div>
+  <ConceptNote lesson={lesson} />
+  <Disclosure title="Follow the code">
+    <CodeSnippet
+      wrap
+      tabs={codeTabs}
+      language="js"
+      title={`${lesson.concept} code`}
+    />
+  </Disclosure>
+  <Editor lesson={lesson} />
+  <TechnicalDetails
+    source={source}
+    files={sourceFiles}
+    title={`examples/${lesson.slug}.js`}
+    download={`/llm-playground/downloads/${lesson.slug}.zip`}
+  />
+</section>

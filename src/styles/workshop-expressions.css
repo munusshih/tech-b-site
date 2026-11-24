@@ -1,0 +1,87 @@
+/* Shared expressive accents, separate from the layout of each lesson. */
+#week-content .content-section > .workshop-section-heading,
+.workshop-section-heading {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+#week-content .workshop-section-heading::before {
+  content: none !important;
+}
+.workshop-section-number {
+  display: inline-grid;
+  position: relative;
+  flex-shrink: 0;
+  place-items: center;
+  transform: rotate(-7deg);
+  box-sizing: border-box;
+  box-shadow: 3px 3px 0
+    color-mix(in srgb, var(--sketch-accent, #6f56bb) 20%, transparent);
+  border: 2px solid var(--sketch-accent, #6f56bb);
+  border-radius: 48% 53% 49% 52%;
+  background: color-mix(
+    in srgb,
+    var(--sketch-accent, #6f56bb) 12%,
+    var(--sketch-paper, #f2effc)
+  );
+  width: 3rem;
+  height: 3rem;
+  color: var(--sketch-accent, #6f56bb);
+  font-style: italic;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+.workshop-section-number::after {
+  position: absolute;
+  top: -0.4rem;
+  right: -0.55rem;
+  content: "✳";
+  font-size: 1rem;
+}
+.workshop-sticker {
+  display: inline-block;
+  position: absolute;
+  top: -0.95rem;
+  left: 1rem;
+  transform: rotate(-5deg);
+  z-index: 1;
+  box-shadow: 2px 2px 0
+    color-mix(in srgb, var(--sketch-accent, #6f56bb) 35%, transparent);
+  border: 1.5px solid var(--sketch-ink, #182f36);
+  border-radius: 0.25rem 0.45rem 0.3rem 0.4rem;
+  background: #fff0a6;
+  padding: 0.25rem 0.75rem;
+  pointer-events: none;
+  color: var(--sketch-ink, #182f36);
+  font-style: italic;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.3;
+}
+.workshop-interactive:has(> .workshop-sticker) {
+  margin-top: 2rem;
+  padding-top: 1.8rem;
+}
+
+/* Keep the page title and lesson titles visibly distinct from body copy. */
+#week-content.playground-content > h1 {
+  margin: 0 0 1.75rem;
+  font-weight: 700;
+  font-size: clamp(3rem, 6vw, 5rem);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+#week-content.playground-content .content-section > .workshop-section-heading {
+  gap: 1.3rem;
+  margin-bottom: 1.6rem;
+  font-weight: 700;
+  font-size: clamp(2.5rem, 4.5vw, 3.75rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+.workshop-section-heading > span:last-child {
+  font-size: inherit;
+  line-height: inherit;
+}

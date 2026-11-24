@@ -1,0 +1,327 @@
+/* Results are a reading area, not another stack of interface cards. */
+.workshop-output {
+  margin-top: 1.5rem;
+  border-top: 1px solid
+    color-mix(in srgb, var(--sketch-accent, #6f56bb) 35%, transparent);
+  padding-top: 1rem;
+  min-width: 0;
+}
+.workshop-output__toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.workshop-output__toolbar .workshop-button {
+  padding: 0.2rem 0;
+  min-height: 2rem;
+  font-size: 0.9rem;
+}
+.workshop-output__label {
+  margin: 0 !important;
+  font-weight: 700;
+  font-size: 1.0625rem;
+  line-height: var(--body-copy-line-height, 1.6);
+}
+.workshop-output .workshop-results {
+  display: grid;
+  gap: 1.5rem;
+  min-width: 0;
+}
+.workshop-output .workshop-results--compare {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.workshop-output .temperature-results {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.workshop-result-card {
+  min-width: 0;
+}
+.workshop-result-card__header {
+  margin-bottom: 0.65rem;
+}
+.workshop-result-card__header [data-result-title] {
+  margin: 0 !important;
+  color: var(--sketch-accent, #6f56bb);
+  font-weight: 650;
+  font-size: 1rem;
+  line-height: var(--body-copy-line-height, 1.6);
+}
+.workshop-result-card__body {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.workshop-result-card__body > :first-child {
+  margin-top: 0 !important;
+}
+.workshop-result-card__body > :last-child {
+  margin-bottom: 0 !important;
+}
+.workshop-result-card__body :is(p, li, blockquote) {
+  font-size: var(--body-copy-size, 1.0625rem);
+  line-height: var(--body-copy-line-height, 1.6);
+  text-indent: 0;
+}
+.workshop-result-card__body p {
+  margin: 0 0 0.85rem;
+}
+.workshop-result-card__body h4 {
+  margin: 1rem 0 0.5rem;
+  font-size: 1.125rem;
+  line-height: 1.4;
+}
+.workshop-result-card__body :is(ul, ol) {
+  margin: 0.6rem 0 !important;
+  padding-left: 1.25rem !important;
+}
+.workshop-result-card__body li {
+  margin: 0.3rem 0;
+}
+.workshop-result-card__body li > p {
+  margin: 0;
+}
+.workshop-result-card__body ol {
+  list-style: decimal;
+}
+.workshop-result-card__body ul {
+  list-style: disc;
+}
+#week-content .workshop-result-card__body li::before {
+  content: none;
+}
+.workshop-result-card__body blockquote {
+  margin: 0.75rem 0;
+  border-left: 2px solid var(--sketch-accent, #6f56bb);
+  padding-left: 1rem;
+}
+.workshop-result-card__body :is(pre, code),
+.workshop-result-card__body .shiki span {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace !important;
+}
+.workshop-result-card__body pre {
+  margin: 0;
+  overflow: auto;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.workshop-result-json .shiki {
+  background: transparent !important;
+  padding: 0;
+}
+.workshop-result-card.result-summary {
+  grid-column: 1/-1;
+}
+.workshop-result-card.result-summary .workshop-result-card__header {
+  display: none;
+}
+.workshop-result-card.result-summary .workshop-result-card__body {
+  color: var(--sketch-echo, #596e72);
+  font-size: 0.95rem;
+}
+.workshop-result-table {
+  overflow-x: auto;
+}
+.workshop-result-table table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.workshop-result-table :is(th, td) {
+  border-bottom: 1px solid var(--sketch-echo, #596e72);
+  padding: 0.5rem 0.65rem;
+  text-align: left;
+}
+.workshop-sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  margin: 1rem 0 0 !important;
+  padding: 0 !important;
+  list-style: none;
+}
+.workshop-sources li {
+  margin: 0;
+  font-size: 0.9rem;
+}
+#week-content .workshop-sources li::before {
+  content: none;
+}
+@media (max-width: 700px) {
+  .workshop-output :is(.workshop-results--compare, .temperature-results) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* A single rank marker, with aligned metadata and compact passage spacing. */
+#week-content .workshop-result-card__body > .workshop-match-list {
+  gap: 0;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+#week-content .workshop-match-list > li {
+  display: grid;
+  grid-template-columns: 1.4rem minmax(0, 1fr);
+  gap: 0.25rem 0.6rem;
+  margin: 0;
+  padding: 0.8rem 0;
+  list-style: none !important;
+}
+#week-content .workshop-match-list > li::marker {
+  content: "";
+}
+.workshop-match-list > li + li {
+  border-top: 1px solid
+    color-mix(in srgb, var(--sketch-accent, #6f56bb) 20%, transparent);
+}
+.workshop-match__heading {
+  display: contents;
+}
+.workshop-match__rank {
+  grid-row: 1 / span 3;
+  grid-column: 1;
+}
+.workshop-match__heading > strong,
+.workshop-match__score,
+.workshop-match-list > li > p,
+.workshop-match-list > li > a {
+  grid-column: 2;
+}
+.workshop-match__score {
+  margin: 0;
+  font-size: 0.85rem;
+}
+#week-content .workshop-match-list > li > p {
+  margin: 0;
+}
+.workshop-event-preview {
+  margin-bottom: 1.25rem;
+  border-left: 3px solid var(--sketch-accent, #6f56bb);
+  padding: 0.25rem 0 0.25rem 1rem;
+}
+#week-content .workshop-event-preview h4 {
+  margin: 0 0 0.75rem;
+  font-size: 1.5rem;
+  line-height: 1.3;
+}
+.workshop-event-preview dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.4rem 1rem;
+  margin: 0;
+  font-size: 1rem;
+  line-height: var(--body-copy-line-height, 1.6);
+}
+.workshop-event-preview dt {
+  font-weight: 600;
+}
+.workshop-event-preview dd {
+  margin: 0;
+}
+
+.workshop-result-card.result-answer {
+  grid-column: 1 / -1;
+}
+#week-content .workshop-setup-hint {
+  margin: 0 0 1.25rem;
+  color: var(--sketch-echo, #596e72);
+  font-size: 0.95rem;
+  line-height: var(--body-copy-line-height, 1.6);
+}
+.workshop-match__rank {
+  color: var(--sketch-accent, #6f56bb);
+  font-weight: 700;
+}
+.workshop-match__score {
+  color: var(--sketch-echo, #596e72);
+  font-variant-numeric: tabular-nums;
+}
+.workshop-match-list a {
+  font-size: 0.95rem;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.workshop-output .workshop-results--team {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.workshop-results--team > :first-child {
+  grid-column: 1 / -1;
+}
+.workshop-receipt {
+  overflow-x: auto;
+}
+.workshop-receipt table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.workshop-receipt :is(th, td) {
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--sketch-accent, #6f56bb) 25%, transparent);
+  padding: 0.6rem 0;
+  text-align: left;
+}
+.workshop-receipt :is(th, td):last-child {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.workshop-receipt__total {
+  font-weight: 700;
+}
+#week-content .workshop-receipt > p {
+  margin: 0.9rem 0 0;
+}
+.workshop-layout-preview {
+  margin: 0;
+}
+.workshop-layout-preview svg {
+  display: block;
+  width: 100%;
+  max-width: 40rem;
+}
+.workshop-layout__room {
+  fill: var(--sketch-paper, #fff);
+  stroke: var(--sketch-ink, #18343b);
+  stroke-width: 3;
+}
+.workshop-layout__entrance {
+  fill: #fff2b8;
+  stroke: #8b7043;
+  stroke-dasharray: 8 6;
+  stroke-width: 2;
+}
+.workshop-layout__station {
+  stroke: var(--sketch-accent, #6f56bb);
+  stroke-width: 3;
+  fill-opacity: 0.8;
+}
+.workshop-layout__station--0 {
+  fill: #d4c6ee;
+}
+.workshop-layout__station--1 {
+  fill: #c7e0d8;
+}
+.workshop-layout__station--2 {
+  fill: #f0d2bc;
+}
+.workshop-layout__label {
+  font-weight: 650;
+  font-size: 22px;
+  fill: var(--sketch-ink, #18343b);
+}
+.workshop-layout__dimension {
+  font-size: 18px;
+  fill: var(--sketch-ink, #18343b);
+}
+.workshop-layout-preview figcaption {
+  margin: 0.5rem 0 0;
+  font-size: 0.95rem;
+  line-height: var(--body-copy-line-height, 1.6);
+}
+@media (max-width: 700px) {
+  .workshop-output .workshop-results--team {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,36 @@
+---
+import "@/styles/workshop-controls.css";
+const {
+  name,
+  label,
+  value = "",
+  rows = 3,
+  kind = "textarea",
+  hiddenLabel = false,
+  options = [],
+  ...attributes
+} = Astro.props;
+---
+
+<label class="workshop-field">
+  <span class:list={{ "sr-only": hiddenLabel }}>{label}</span>
+  {
+    kind === "textarea" ? (
+      <textarea
+        data-field={name}
+        rows={rows}
+        maxlength="60000"
+        {...attributes}
+        set:text={value}
+      />
+    ) : kind === "select" ? (
+      <select data-field={name} {...attributes}>
+        {options.map((option) => (
+          <option value={option.value}>{option.label}</option>
+        ))}
+      </select>
+    ) : (
+      <input data-field={name} type={kind} value={value} {...attributes} />
+    )
+  }
+</label>

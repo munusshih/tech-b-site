@@ -3,6 +3,11 @@
 import gsap from "gsap";
 
 document.addEventListener("DOMContentLoaded", () => {
+  // The workshop has its own interactions; keep its reading sections still.
+  if (document.querySelector(".playground-content")) {
+    document.body.style.opacity = "1";
+    return;
+  }
   if (!gsap) {
     document.body.style.opacity = "1";
     return;

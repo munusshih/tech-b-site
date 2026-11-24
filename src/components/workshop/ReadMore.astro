@@ -1,0 +1,30 @@
+---
+import "@/styles/workshop-panels.css";
+interface Props {
+  links: { label: string; href: string }[];
+  title?: string;
+  embedded?: boolean;
+}
+const { links, title = "Read more", embedded = false } = Astro.props as Props;
+---
+
+<section
+  class:list={[
+    "workshop-read-more",
+    { "workshop-read-more--embedded": embedded },
+  ]}
+  aria-label={title}
+>
+  <p class="workshop-read-more__title">{title}</p>
+  <ul>
+    {
+      links.map((link) => (
+        <li>
+          <a href={link.href} target="_blank" rel="noopener noreferrer">
+            {link.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</section>

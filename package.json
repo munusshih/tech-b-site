@@ -18,7 +18,13 @@
     "year:advance": "node scripts/advance-year.js",
     "test:workshops": "npm run build && node --test tests/workshops.test.js",
     "test:workshops:live": "node tests/workshops-custom-live.mjs && node tests/workshops-live.mjs",
-    "test:workshops:custom": "node tests/workshops-custom-live.mjs"
+    "test:workshops:custom": "node tests/workshops-custom-live.mjs",
+    "test:playground:qwen": "node scripts/test-provotypes-qwen.mjs",
+    "playground:downloads": "node scripts/build-llm-playground.mjs",
+    "prebuild": "npm run playground:downloads",
+    "prebuild:static": "npm run playground:downloads",
+    "test:playground": "npm run build && node --test tests/llm-playground.test.js tests/visual-outcomes.test.js",
+    "test:playground:model": "node scripts/test-playground-model.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.3",
@@ -26,6 +32,7 @@
     "@astrojs/sitemap": "^3.4.2",
     "@barba/core": "^2.10.3",
     "@expressive-code/plugin-line-numbers": "^0.44.1",
+    "@modelcontextprotocol/sdk": "^1.32.2",
     "@tailwindcss/vite": "^4.1.11",
     "@vercel/analytics": "^2.0.1",
     "astro": "^5.12.9",
@@ -33,10 +40,13 @@
     "gsap": "^3.13.0",
     "marked": "^16.1.2",
     "node-fetch": "^3.3.2",
-    "p5": "^2.0.4",
+    "p5": "^2.4.0",
+    "p5.brush": "^3.0.0",
     "rita": "4.1.0",
+    "rough-notation": "^0.5.1",
     "sharp": "^0.34.2",
-    "tailwindcss": "^4.1.11"
+    "tailwindcss": "^4.1.11",
+    "tone": "^15.1.22"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.39.1",

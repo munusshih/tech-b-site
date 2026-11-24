@@ -1,0 +1,30 @@
+---
+import "@/styles/workshop-panels.css";
+import CodeSnippet from "../CodeSnippet.astro";
+import Button from "./Button.astro";
+import Disclosure from "./Disclosure.astro";
+import RequestLog from "./RequestLog.astro";
+const { source, title, download, files = [] } = Astro.props;
+---
+
+<section class="workshop-technical" aria-label="Code and requests">
+  <div class="workshop-technical__header">
+    <p>Code &amp; requests</p>{
+      download && (
+        <Button href={download} variant="quiet" download>
+          Download example
+        </Button>
+      )
+    }
+  </div>
+  <RequestLog />
+  <Disclosure title="Full source" flush
+    ><CodeSnippet
+      wrap
+      code={source}
+      tabs={files}
+      language="js"
+      title={title}
+    /></Disclosure
+  >
+</section>

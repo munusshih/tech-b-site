@@ -1,0 +1,14 @@
+---
+import "@/styles/workshop-panels.css";
+import Disclosure from "./Disclosure.astro";
+---
+
+<Disclosure title="Request log" flush>
+  <section class="workshop-request-log" aria-label="Request log">
+    <div data-trace tabindex="0" aria-label="Requests and responses">
+      <p data-log-empty>
+        Requests and responses appear here when you run the example.
+      </p>
+    </div>
+  </section>
+</Disclosure>

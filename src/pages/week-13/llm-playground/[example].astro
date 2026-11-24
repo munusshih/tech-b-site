@@ -1,0 +1,7 @@
+---
+import { lessons } from "../../../../public/llm-playground/catalog.js";
+export function getStaticPaths() {
+  return lessons.map((l) => ({ params: { example: l.slug } }));
+}
+return Astro.redirect(`/week-13/llm-playground/#${Astro.params.example}`, 301);
+---

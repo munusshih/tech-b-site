@@ -1,0 +1,52 @@
+---
+import { marked } from "marked";
+import "../../styles/workshop-panels.css";
+import MunusNote from "../MunusNote.astro";
+const { lesson } = Astro.props;
+const paragraphs = Boolean(lesson.noteParagraphs);
+const notes = await Promise.all(
+  (lesson.noteSteps ?? lesson.noteParagraphs ?? lesson.noteBullets).map(
+    (text) => marked.parseInline(text),
+  ),
+);
+const steps = notes.map((note) => {
+  const match = note.match(/^<strong>([\s\S]*?)<\/strong>\s*([\s\S]*)$/);
+  return match
+    ? { title: match[1], body: match[2] }
+    : { title: "", body: note };
+});
+---
+
+<MunusNote
+  label={lesson.noteLabel}
+  class={lesson.noteSteps ? "munus-note--steps" : undefined}
+>
+  {
+    lesson.noteSteps ? (
+      <ol class="workshop-concept-steps workshop-reading-steps">
+        {steps.map((step) => (
+          <li>
+            <div class="workshop-step-content">
+              {step.title && (
+                <p class="workshop-step-title" set:html={step.title} />
+              )}
+              <div class="workshop-step-copy" set:html={step.body} />
+            </div>
+          </li>
+        ))}
+      </ol>
+    ) : paragraphs ? (
+      <div class="workshop-concept-prose">
+        {notes.map((note) => (
+          <p set:html={note} />
+        ))}
+      </div>
+    ) : (
+      <ul class="workshop-concept-notes">
+        {notes.map((note) => (
+          <li set:html={note} />
+        ))}
+      </ul>
+    )
+  }
+</MunusNote>

@@ -19,6 +19,7 @@ type Props = CollectionEntry<"weeks">["data"] & {
   year: number;
   contentId?: string;
   contentClass?: string;
+  heroImageCaption?: string;
   pageLinks?: { href: string; label: string }[];
 };
 
@@ -30,6 +31,7 @@ const {
   tldr,
   heroImage,
   heroImageAlt,
+  heroImageCaption,
   year,
   contentClass,
   pageLinks,
@@ -65,8 +67,8 @@ function cleanHeadingText(value: string): string {
     .trim();
 }
 
-const heroImageAltHTML = heroImageAlt
-  ? await marked.parseInline(heroImageAlt)
+const heroImageAltHTML = (heroImageCaption || heroImageAlt)
+  ? await marked.parseInline(heroImageCaption || heroImageAlt)
   : null;
 
 function headingSlug(value: string): string {
@@ -201,7 +203,7 @@ const pageTitle = pageLinks ? title : `Week ${week}: ${title}`;
   </head>
   <body>
     <ImageDitherFilter />
-    {Number(year) === 2026 && <WeekCursorFlock />}
+    {Number(year) === 2026 && !contentClass?.includes("playground-content") && <WeekCursorFlock />}
     <header id="week-header">
       <div>
         <a href={`${basePath}/`}>
@@ -241,7 +243,7 @@ const pageTitle = pageLinks ? title : `Week ${week}: ${title}`;
         }
         {
           pageOutline.length > 0 && (
-            <nav class="week-toc" aria-label={`Week ${week} page sections`}>
+            <nav class:list={["week-toc", {"playground-outline": contentClass?.includes("playground-content")}]} aria-label={`Week ${week} page sections`}>
               <h1 class="sidebar-section-title">On This Page</h1>
               <ol>
                 <li class="toc-level-2">
@@ -251,6 +253,7 @@ const pageTitle = pageLinks ? title : `Week ${week}: ${title}`;
                 </li>
                 {groupedPageOutline.map(({ heading, children }) => (
                   <li class={`toc-level-${heading.level}`}>
+                    {contentClass?.includes("playground-content") && ({"connect-model":"Get started", "prompting":"Explore the techniques", "visual-outcomes":"Make something", "shared-code":"Keep exploring"}[heading.id]) && <span class="outline-group-label">{({"connect-model":"Get started", "prompting":"Explore the techniques", "visual-outcomes":"Make something", "shared-code":"Keep exploring"}[heading.id])}</span>}
                     {children.length > 0 ? (
                       <details>
                         <summary>

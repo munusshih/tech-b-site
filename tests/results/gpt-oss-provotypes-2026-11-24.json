@@ -1,0 +1,1211 @@
+{
+  "model": "ggml-org/gpt-oss-20b-GGUF:MXFP4",
+  "base": "http://127.0.0.1:9931",
+  "started": "2026-11-24T15:41:47.461Z",
+  "scenarios": [
+    {
+      "id": "notice",
+      "name": "A / professional",
+      "passed": true,
+      "seconds": 7.976,
+      "requests": 2,
+      "value": {
+        "notices": [
+          {
+            "subject": "Please Clean Up After Yourself",
+            "headline": "Keep the Sink Tidy",
+            "closing": "Thank you for your cooperation!",
+            "body": "Attention all Studio Staff,\n\nIt has come to our attention that the practice of leaving unwashed dishes in the studio sink is causing inconvenience to colleagues who wish to use the sink for their own clean mugs. We kindly request that each employee promptly rinse and place their dishes in the designated dish area after use. Your cooperation in maintaining a tidy shared workspace is greatly appreciated and will help ensure a pleasant environment for everyone.",
+            "source": "Stop leaving your dirty dishes in the studio sink. I am not your parent and I want to wash my mug without touching your ancient pasta.",
+            "level": "professional",
+            "date": "November 24, 2026"
+          }
+        ]
+      }
+    },
+    {
+      "id": "notice",
+      "name": "A / unnecessary",
+      "passed": true,
+      "seconds": 6.338,
+      "requests": 2,
+      "value": {
+        "notices": [
+          {
+            "subject": "Notice: Dishware Disposal Reminder",
+            "headline": "Please Use Designated Dishwashing Area",
+            "closing": "Thank you for your cooperation.",
+            "body": "**Office of Facilities Management – Notice of Dishware Displacement**\n\nIt has come to our attention that certain personnel have been leaving unwashed dishware in the communal studio sink, thereby creating an inconvenience for colleagues who wish to use the same basin for their own beverages. We respectfully request that all staff refrain from depositing dirty plates, mugs, and utensils in the sink after use, and instead place them in the designated dishwashing area to ensure a clean and hygienic environment for everyone.\n\nYour cooperation in promptly returning the sink to its intended function is greatly appreciated and will contribute to the overall efficiency and well‑being of our shared workspace.",
+            "source": "Stop leaving your dirty dishes in the studio sink. I am not your parent and I want to wash my mug without touching your ancient pasta.",
+            "level": "unnecessary",
+            "date": "November 24, 2026"
+          }
+        ]
+      }
+    },
+    {
+      "id": "notice",
+      "name": "A / committee",
+      "passed": true,
+      "seconds": 5.241,
+      "requests": 2,
+      "value": {
+        "notices": [
+          {
+            "subject": "Request to Keep Sink Clean",
+            "headline": "Please Avoid Leaving Dirty Dishware in Sink",
+            "closing": "Thank you for your cooperation.",
+            "body": "The Culinary Harmony Oversight Committee respectfully notes that the persistent presence of unwashed ceramic mugs and other dishware in the communal sink has become a source of considerable inconvenience for all members of the studio. We kindly request that all individuals refrain from depositing their dirty dishes into the sink after use, thereby preserving the cleanliness and accessibility of the shared kitchen for everyone. Your cooperation in promptly washing and returning your utensils will be greatly appreciated, and we thank you in advance for upholding the standards of our shared culinary environment.",
+            "source": "Stop leaving your dirty dishes in the studio sink. I am not your parent and I want to wash my mug without touching your ancient pasta.",
+            "level": "committee",
+            "date": "November 24, 2026"
+          }
+        ]
+      }
+    },
+    {
+      "id": "oracle",
+      "name": "B / first visit",
+      "passed": true,
+      "seconds": 7.757,
+      "requests": 4,
+      "value": {
+        "memory": "The user said: I keep saying yes to things and then getting annoyed that I have no time for my own work. Today I need to finish something small instead of starting over.",
+        "readings": [
+          {
+            "title": "Still Waters",
+            "motif": "tides",
+            "palette": "fern",
+            "reading": "You are a river that has been told to flow straight through every bend, and now it feels the strain of its own current. Each “yes” is a pebble added to its bed, slowing the rush toward the work that truly matters. Today, the river asks you to pause at a shallow pool, to finish a single stone’s placement before the stream turns again. Let the water settle, and remember that even a gentle ripple can carve a new path.",
+            "ritual": "Write a 10‑word to‑do list, then tick off the first item immediately.",
+            "remember": "The user said: I keep saying yes to things and then getting annoyed that I have no time for my own work. Today I need to finish something small instead of starting over.",
+            "entry": "I keep saying yes to things and then getting annoyed that I have no time for my own work. Today I need to finish something small instead of starting over.",
+            "memoryBefore": "",
+            "date": "November 24, 2026"
+          }
+        ]
+      }
+    },
+    {
+      "id": "oracle",
+      "name": "B / edited memory and a new entry",
+      "passed": true,
+      "seconds": 8.49,
+      "requests": 4,
+      "value": {
+        "memory": "The user said they are rehearsing a talk tomorrow. The user said I agreed to help with another poster tonight, but I need that time to rehearse my talk. I keep putting my own preparation last.",
+        "readings": [
+          {
+            "title": "Still Waters",
+            "motif": "tides",
+            "palette": "fern",
+            "reading": "You are a river that has been told to flow straight through every bend, and now it feels the strain of its own current. Each “yes” is a pebble added to its bed, slowing the rush toward the work that truly matters. Today, the river asks you to pause at a shallow pool, to finish a single stone’s placement before the stream turns again. Let the water settle, and remember that even a gentle ripple can carve a new path.",
+            "ritual": "Write a 10‑word to‑do list, then tick off the first item immediately.",
+            "remember": "The user said: I keep saying yes to things and then getting annoyed that I have no time for my own work. Today I need to finish something small instead of starting over.",
+            "entry": "I keep saying yes to things and then getting annoyed that I have no time for my own work. Today I need to finish something small instead of starting over.",
+            "memoryBefore": "",
+            "date": "November 24, 2026"
+          },
+          {
+            "title": "Tide of Growth",
+            "motif": "growth",
+            "palette": "fern",
+            "reading": "You are a quiet river, flowing toward the sea of tomorrow, yet the current pulls you toward the rocks of tonight’s poster. In the hush of night, the moonlight on the water shows you that each ripple—your rehearsal—carries a reflection of your own voice. Let the river’s patience guide you: the stones beneath the surface are there to shape, not to block. Remember, even the strongest currents pause to breathe, so you may pause to breathe, and the water will still find its way.",
+            "ritual": "Schedule a 15‑minute “talk‑prep block” right after lunch today to start rehearsing before other commitments.",
+            "remember": "The user said they are rehearsing a talk tomorrow. The user said I agreed to help with another poster tonight, but I need that time to rehearse my talk. I keep putting my own preparation last.",
+            "entry": "I agreed to help with another poster tonight, but I need that time to rehearse my talk. I keep putting my own preparation last.",
+            "memoryBefore": "The user said they are rehearsing a talk tomorrow.",
+            "date": "November 24, 2026"
+          }
+        ]
+      }
+    },
+    {
+      "id": "archive",
+      "name": "C / curatorial team",
+      "passed": true,
+      "seconds": 21.939,
+      "requests": 8,
+      "value": {
+        "topic": "Twelve objects from the Met",
+        "objects": [
+          {
+            "id": "438417",
+            "title": "Two Men Contemplating the Moon",
+            "artist": "Caspar David Friedrich",
+            "date": "ca. 1825–30",
+            "medium": "Oil on canvas",
+            "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-31997-001-NEW.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/438417",
+            "credit": "Wrightsman Fund, 2000"
+          },
+          {
+            "id": "36029",
+            "title": "Water-moon Avalokiteshvara",
+            "artist": "Unidentified artist",
+            "date": "first half of the 14th century",
+            "medium": "Hanging scroll; ink and color on silk",
+            "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP-15580-002.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/36029",
+            "credit": "Charles Stewart Smith Collection, Gift of Mrs. Charles Stewart Smith, Charles Stewart Smith Jr., and Howard Caswell Smith, in memory of Charles Stewart Smith, 1914"
+          },
+          {
+            "id": "50360",
+            "title": "Water-Moon Avalokiteshvara",
+            "artist": "Unidentified artist",
+            "date": "14th century",
+            "medium": "Hanging scroll; ink, color, and gold on silk",
+            "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP-13940-002.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/50360",
+            "credit": "H. O. Havemeyer Collection, Bequest of Mrs. H. O. Havemeyer, 1929"
+          },
+          {
+            "id": "50897",
+            "title": "Evening bell from mist-shrouded temple (left); Autumn moon over Lake Dongting (right)",
+            "artist": "An Gyeon",
+            "date": "ca. 1450–1500",
+            "medium": "Pair of hanging scrolls; ink on silk",
+            "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP-36421-001.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/50897",
+            "credit": "Purchase, Joseph Pulitzer Bequest, and Mr. and Mrs. Frederick P. Rose and John B. Elliott Gifts, 1987"
+          },
+          {
+            "id": "447071",
+            "title": "Folio from a Mu'nis al-ahrar fi daqa'iq al-ash'ar (The Free Man's Companion to the Subtleties of Poems) of Jajarmi",
+            "artist": "Muhammad ibn Badr al-Din Jajarmi",
+            "date": "dated 741 AH/1340–41 CE",
+            "medium": "Ink, opaque watercolor, and gold on paper",
+            "image": "https://images.metmuseum.org/CRDImages/is/web-large/DP241048.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/447071",
+            "credit": "Rogers Fund, 1919"
+          },
+          {
+            "id": "22914",
+            "title": "Hunting Sword with Scabbard",
+            "artist": "Joseph Deutschmann",
+            "date": "ca. 1740",
+            "medium": "Steel, silver, ivory, wood, leather",
+            "image": "https://images.metmuseum.org/CRDImages/aa/web-large/DT775.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/22914",
+            "credit": "Gift of Jean Jacques Reubell, in memory of his mother, Julia C. Coster, and of his wife, Adeline E. Post, both of New York City, 1926"
+          },
+          {
+            "id": "827660",
+            "title": "A Bouquet of Flowers",
+            "artist": "Clara Peeters",
+            "date": "ca. 1612",
+            "medium": "Oil on wood",
+            "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-19451-001.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/827660",
+            "credit": "Purchase, Lila Acheson Wallace, Howard S. and Nancy Marks, Friends of European Paintings, and Mr. and Mrs. J. Tomilson Hill Gifts, Gift of Humanities Fund Inc., by exchange, Henry and Lucy Moses Fund Inc. Gift, and funds from various donors, 2020"
+          },
+          {
+            "id": "39733",
+            "title": "Tapestry with Dragons and Flowers",
+            "artist": "Maker not recorded",
+            "date": "11th–12th century",
+            "medium": "Silk tapestry (kesi)",
+            "image": "https://images.metmuseum.org/CRDImages/as/web-large/DT1850.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/39733",
+            "credit": "Fletcher Fund, 1987"
+          },
+          {
+            "id": "828680",
+            "title": "Cosmetic Box (Tebako) with Chrysanthemum Flowers",
+            "artist": "Maker not recorded",
+            "date": "first half of the 15th century",
+            "medium": "Lacquered wood with gold, silver takamaki-e, hiramaki-e, gold, silver foil application on nashiji ground; gilt bronze fittings",
+            "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP-19668-001.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/828680",
+            "credit": "Purchase, John and Pauline Gandel Gift and Mary Livingston Griggs and Mary Griggs Burke Foundation Fund, 2019"
+          },
+          {
+            "id": "382608",
+            "title": "Still Life with Flowers, a Snail and Insects",
+            "artist": "Joris Hoefnagel",
+            "date": "1589",
+            "medium": "Watercolor, gouache, and shell gold on vellum",
+            "image": "https://images.metmuseum.org/CRDImages/dp/web-large/DP158476.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/382608",
+            "credit": "Purchase, Charles and Jessie Price, Jean A. Bonna, and Annette de la Renta Gifts, and The Elisha Whittelsey Collection, The Elisha Whittelsey Fund, 2008"
+          },
+          {
+            "id": "50356",
+            "title": "Wine Ewer with Chrysanthemums and Lotus Flowers",
+            "artist": "Maker not recorded",
+            "date": "first half of the 13th century",
+            "medium": "Stoneware with inlaid decoration under celadon glaze",
+            "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP240202.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/50356",
+            "credit": "Rogers Fund, 1913"
+          },
+          {
+            "id": "436121",
+            "title": "A Woman Seated beside a Vase of Flowers (Madame Paul Valpinçon?)",
+            "artist": "Edgar Degas",
+            "date": "1865",
+            "medium": "Oil on canvas",
+            "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-25460-001.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/436121",
+            "credit": "H. O. Havemeyer Collection, Bequest of Mrs. H. O. Havemeyer, 1929"
+          }
+        ],
+        "excluded": [],
+        "exhibitions": [
+          {
+            "title": "Lunar Companions Across Mediums",
+            "introduction": "You might wonder if the moon can feel like a companion. In Friedrich’s oil canvas, two figures look up together, while in An Gyeon’s ink scrolls the moon watches a temple bell and a lake, and in the unidentified 14th‑century scroll the moon accompanies a bodhisattva. Could the same lunar image invite both solitary reflection and shared ritual? The different media—oil, ink, and ink‑with‑gold—might shape how the moon’s presence is felt, suggesting that its role shifts when viewed in private contemplation versus communal ceremony.",
+            "objects": [
+              {
+                "id": "438417",
+                "caption": "Oil on canvas, ca. 1825–30, captures two figures standing beneath a pale moonlit sky. Their shared gaze invites contemplation of how the moon can simultaneously serve as a solitary companion and a silent witness to communal reverence, echoing the exhibition’s exploration of lunar presence across contexts.",
+                "anchor": "title",
+                "fact": "Two Men Contemplating the Moon"
+              },
+              {
+                "id": "50897",
+                "caption": "Ink on silk, the 15th‑century scrolls by An Gyeon, present the moon as a silent witness to a temple bell and a lake, suggesting a shared presence that echoes the exhibition’s question of companionship. The delicate, fluid medium invites contemplation while hinting at communal ritual, offering a possible reading of the moon as both solitary and collective companion.",
+                "anchor": "date",
+                "fact": "ca. 1450–1500"
+              },
+              {
+                "id": "50360",
+                "caption": "Ink, color, and gold on silk give the 14th‑century scroll a luminous surface that, according to the catalogue, frames the moon beside Avalokiteshvara. This material choice suggests a ritual context, inviting viewers to consider the moon as a companion in collective devotion rather than solitary reflection.",
+                "anchor": "material",
+                "fact": "Hanging scroll; ink, color, and gold on silk"
+              }
+            ],
+            "sources": [
+              {
+                "id": "438417",
+                "title": "Two Men Contemplating the Moon",
+                "artist": "Caspar David Friedrich",
+                "date": "ca. 1825–30",
+                "medium": "Oil on canvas",
+                "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-31997-001-NEW.jpg",
+                "url": "https://www.metmuseum.org/art/collection/search/438417",
+                "credit": "Wrightsman Fund, 2000"
+              },
+              {
+                "id": "36029",
+                "title": "Water-moon Avalokiteshvara",
+                "artist": "Unidentified artist",
+                "date": "first half of the 14th century",
+                "medium": "Hanging scroll; ink and color on silk",
+                "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP-15580-002.jpg",
+                "url": "https://www.metmuseum.org/art/collection/search/36029",
+                "credit": "Charles Stewart Smith Collection, Gift of Mrs. Charles Stewart Smith, Charles Stewart Smith Jr., and Howard Caswell Smith, in memory of Charles Stewart Smith, 1914"
+              },
+              {
+                "id": "50360",
+                "title": "Water-Moon Avalokiteshvara",
+                "artist": "Unidentified artist",
+                "date": "14th century",
+                "medium": "Hanging scroll; ink, color, and gold on silk",
+                "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP-13940-002.jpg",
+                "url": "https://www.metmuseum.org/art/collection/search/50360",
+                "credit": "H. O. Havemeyer Collection, Bequest of Mrs. H. O. Havemeyer, 1929"
+              },
+              {
+                "id": "50897",
+                "title": "Evening bell from mist-shrouded temple (left); Autumn moon over Lake Dongting (right)",
+                "artist": "An Gyeon",
+                "date": "ca. 1450–1500",
+                "medium": "Pair of hanging scrolls; ink on silk",
+                "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP-36421-001.jpg",
+                "url": "https://www.metmuseum.org/art/collection/search/50897",
+                "credit": "Purchase, Joseph Pulitzer Bequest, and Mr. and Mrs. Frederick P. Rose and John B. Elliott Gifts, 1987"
+              },
+              {
+                "id": "447071",
+                "title": "Folio from a Mu'nis al-ahrar fi daqa'iq al-ash'ar (The Free Man's Companion to the Subtleties of Poems) of Jajarmi",
+                "artist": "Muhammad ibn Badr al-Din Jajarmi",
+                "date": "dated 741 AH/1340–41 CE",
+                "medium": "Ink, opaque watercolor, and gold on paper",
+                "image": "https://images.metmuseum.org/CRDImages/is/web-large/DP241048.jpg",
+                "url": "https://www.metmuseum.org/art/collection/search/447071",
+                "credit": "Rogers Fund, 1919"
+              },
+              {
+                "id": "22914",
+                "title": "Hunting Sword with Scabbard",
+                "artist": "Joseph Deutschmann",
+                "date": "ca. 1740",
+                "medium": "Steel, silver, ivory, wood, leather",
+                "image": "https://images.metmuseum.org/CRDImages/aa/web-large/DT775.jpg",
+                "url": "https://www.metmuseum.org/art/collection/search/22914",
+                "credit": "Gift of Jean Jacques Reubell, in memory of his mother, Julia C. Coster, and of his wife, Adeline E. Post, both of New York City, 1926"
+              },
+              {
+                "id": "827660",
+                "title": "A Bouquet of Flowers",
+                "artist": "Clara Peeters",
+                "date": "ca. 1612",
+                "medium": "Oil on wood",
+                "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-19451-001.jpg",
+                "url": "https://www.metmuseum.org/art/collection/search/827660",
+                "credit": "Purchase, Lila Acheson Wallace, Howard S. and Nancy Marks, Friends of European Paintings, and Mr. and Mrs. J. Tomilson Hill Gifts, Gift of Humanities Fund Inc., by exchange, Henry and Lucy Moses Fund Inc. Gift, and funds from various donors, 2020"
+              },
+              {
+                "id": "39733",
+                "title": "Tapestry with Dragons and Flowers",
+                "artist": "Maker not recorded",
+                "date": "11th–12th century",
+                "medium": "Silk tapestry (kesi)",
+                "image": "https://images.metmuseum.org/CRDImages/as/web-large/DT1850.jpg",
+                "url": "https://www.metmuseum.org/art/collection/search/39733",
+                "credit": "Fletcher Fund, 1987"
+              },
+              {
+                "id": "828680",
+                "title": "Cosmetic Box (Tebako) with Chrysanthemum Flowers",
+                "artist": "Maker not recorded",
+                "date": "first half of the 15th century",
+                "medium": "Lacquered wood with gold, silver takamaki-e, hiramaki-e, gold, silver foil application on nashiji ground; gilt bronze fittings",
+                "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP-19668-001.jpg",
+                "url": "https://www.metmuseum.org/art/collection/search/828680",
+                "credit": "Purchase, John and Pauline Gandel Gift and Mary Livingston Griggs and Mary Griggs Burke Foundation Fund, 2019"
+              },
+              {
+                "id": "382608",
+                "title": "Still Life with Flowers, a Snail and Insects",
+                "artist": "Joris Hoefnagel",
+                "date": "1589",
+                "medium": "Watercolor, gouache, and shell gold on vellum",
+                "image": "https://images.metmuseum.org/CRDImages/dp/web-large/DP158476.jpg",
+                "url": "https://www.metmuseum.org/art/collection/search/382608",
+                "credit": "Purchase, Charles and Jessie Price, Jean A. Bonna, and Annette de la Renta Gifts, and The Elisha Whittelsey Collection, The Elisha Whittelsey Fund, 2008"
+              },
+              {
+                "id": "50356",
+                "title": "Wine Ewer with Chrysanthemums and Lotus Flowers",
+                "artist": "Maker not recorded",
+                "date": "first half of the 13th century",
+                "medium": "Stoneware with inlaid decoration under celadon glaze",
+                "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP240202.jpg",
+                "url": "https://www.metmuseum.org/art/collection/search/50356",
+                "credit": "Rogers Fund, 1913"
+              },
+              {
+                "id": "436121",
+                "title": "A Woman Seated beside a Vase of Flowers (Madame Paul Valpinçon?)",
+                "artist": "Edgar Degas",
+                "date": "1865",
+                "medium": "Oil on canvas",
+                "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-25460-001.jpg",
+                "url": "https://www.metmuseum.org/art/collection/search/436121",
+                "credit": "H. O. Havemeyer Collection, Bequest of Mrs. H. O. Havemeyer, 1929"
+              }
+            ],
+            "topic": "Twelve objects from the Met",
+            "question": "How can the moon offer company?",
+            "editorial": {
+              "proposal": {
+                "title": "Moonlit Companions",
+                "ids": [
+                  "438417",
+                  "50897",
+                  "50360"
+                ],
+                "argument": "The titles suggest a dialogue between the personal, contemplative gaze of Friedrich’s “Two Men Contemplating the Moon” and the ritual, communal tone of An Gyeon’s paired scrolls, where the moon appears as a shared celestial witness to a temple bell and a lake. Yet the materials diverge: oil on canvas versus ink on silk, each medium shaping the moon’s presence—static, luminous in oil versus fluid, transitory in ink. How does the moon’s role shift from private meditation to public ceremony when the medium itself demands different modes of perception?"
+              },
+              "research": {
+                "review": "The catalogue records confirm the titles and media: Friedrich’s oil on canvas (ca. 1825–30), An Gyeon’s pair of ink‑on‑silk scrolls (1450–1500), and an unidentified 14th‑century ink‑color‑gold scroll (Water‑Moon Avalokiteshvara). They do not provide any visual detail about how the moon is depicted or its symbolic role, so claims about the moon’s “static, luminous” versus “fluid, transitory” qualities cannot be asserted as fact. The records support the idea that the works differ in medium and date, but the argument that the moon shifts from a private meditation to a public ceremony because of medium choice should be qualified or removed unless further visual or textual evidence is supplied."
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "archive",
+      "name": "C / excluded artwork",
+      "passed": true,
+      "seconds": 24.102,
+      "requests": 8,
+      "value": {
+        "topic": "Twelve objects from the Met",
+        "objects": [
+          {
+            "id": "438417",
+            "title": "Two Men Contemplating the Moon",
+            "artist": "Caspar David Friedrich",
+            "date": "ca. 1825–30",
+            "medium": "Oil on canvas",
+            "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-31997-001-NEW.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/438417",
+            "credit": "Wrightsman Fund, 2000"
+          },
+          {
+            "id": "36029",
+            "title": "Water-moon Avalokiteshvara",
+            "artist": "Unidentified artist",
+            "date": "first half of the 14th century",
+            "medium": "Hanging scroll; ink and color on silk",
+            "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP-15580-002.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/36029",
+            "credit": "Charles Stewart Smith Collection, Gift of Mrs. Charles Stewart Smith, Charles Stewart Smith Jr., and Howard Caswell Smith, in memory of Charles Stewart Smith, 1914"
+          },
+          {
+            "id": "50360",
+            "title": "Water-Moon Avalokiteshvara",
+            "artist": "Unidentified artist",
+            "date": "14th century",
+            "medium": "Hanging scroll; ink, color, and gold on silk",
+            "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP-13940-002.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/50360",
+            "credit": "H. O. Havemeyer Collection, Bequest of Mrs. H. O. Havemeyer, 1929"
+          },
+          {
+            "id": "50897",
+            "title": "Evening bell from mist-shrouded temple (left); Autumn moon over Lake Dongting (right)",
+            "artist": "An Gyeon",
+            "date": "ca. 1450–1500",
+            "medium": "Pair of hanging scrolls; ink on silk",
+            "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP-36421-001.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/50897",
+            "credit": "Purchase, Joseph Pulitzer Bequest, and Mr. and Mrs. Frederick P. Rose and John B. Elliott Gifts, 1987"
+          },
+          {
+            "id": "447071",
+            "title": "Folio from a Mu'nis al-ahrar fi daqa'iq al-ash'ar (The Free Man's Companion to the Subtleties of Poems) of Jajarmi",
+            "artist": "Muhammad ibn Badr al-Din Jajarmi",
+            "date": "dated 741 AH/1340–41 CE",
+            "medium": "Ink, opaque watercolor, and gold on paper",
+            "image": "https://images.metmuseum.org/CRDImages/is/web-large/DP241048.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/447071",
+            "credit": "Rogers Fund, 1919"
+          },
+          {
+            "id": "22914",
+            "title": "Hunting Sword with Scabbard",
+            "artist": "Joseph Deutschmann",
+            "date": "ca. 1740",
+            "medium": "Steel, silver, ivory, wood, leather",
+            "image": "https://images.metmuseum.org/CRDImages/aa/web-large/DT775.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/22914",
+            "credit": "Gift of Jean Jacques Reubell, in memory of his mother, Julia C. Coster, and of his wife, Adeline E. Post, both of New York City, 1926"
+          },
+          {
+            "id": "827660",
+            "title": "A Bouquet of Flowers",
+            "artist": "Clara Peeters",
+            "date": "ca. 1612",
+            "medium": "Oil on wood",
+            "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-19451-001.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/827660",
+            "credit": "Purchase, Lila Acheson Wallace, Howard S. and Nancy Marks, Friends of European Paintings, and Mr. and Mrs. J. Tomilson Hill Gifts, Gift of Humanities Fund Inc., by exchange, Henry and Lucy Moses Fund Inc. Gift, and funds from various donors, 2020"
+          },
+          {
+            "id": "39733",
+            "title": "Tapestry with Dragons and Flowers",
+            "artist": "Maker not recorded",
+            "date": "11th–12th century",
+            "medium": "Silk tapestry (kesi)",
+            "image": "https://images.metmuseum.org/CRDImages/as/web-large/DT1850.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/39733",
+            "credit": "Fletcher Fund, 1987"
+          },
+          {
+            "id": "828680",
+            "title": "Cosmetic Box (Tebako) with Chrysanthemum Flowers",
+            "artist": "Maker not recorded",
+            "date": "first half of the 15th century",
+            "medium": "Lacquered wood with gold, silver takamaki-e, hiramaki-e, gold, silver foil application on nashiji ground; gilt bronze fittings",
+            "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP-19668-001.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/828680",
+            "credit": "Purchase, John and Pauline Gandel Gift and Mary Livingston Griggs and Mary Griggs Burke Foundation Fund, 2019"
+          },
+          {
+            "id": "382608",
+            "title": "Still Life with Flowers, a Snail and Insects",
+            "artist": "Joris Hoefnagel",
+            "date": "1589",
+            "medium": "Watercolor, gouache, and shell gold on vellum",
+            "image": "https://images.metmuseum.org/CRDImages/dp/web-large/DP158476.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/382608",
+            "credit": "Purchase, Charles and Jessie Price, Jean A. Bonna, and Annette de la Renta Gifts, and The Elisha Whittelsey Collection, The Elisha Whittelsey Fund, 2008"
+          },
+          {
+            "id": "50356",
+            "title": "Wine Ewer with Chrysanthemums and Lotus Flowers",
+            "artist": "Maker not recorded",
+            "date": "first half of the 13th century",
+            "medium": "Stoneware with inlaid decoration under celadon glaze",
+            "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP240202.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/50356",
+            "credit": "Rogers Fund, 1913"
+          },
+          {
+            "id": "436121",
+            "title": "A Woman Seated beside a Vase of Flowers (Madame Paul Valpinçon?)",
+            "artist": "Edgar Degas",
+            "date": "1865",
+            "medium": "Oil on canvas",
+            "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-25460-001.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/436121",
+            "credit": "H. O. Havemeyer Collection, Bequest of Mrs. H. O. Havemeyer, 1929"
+          }
+        ],
+        "excluded": [
+          "438417"
+        ],
+        "exhibitions": [
+          {
+            "title": "Moonlit Absence in 15th-Century Landscapes",
+            "introduction": "Have you noticed how both the 14‑century scroll and An Gyeon’s 15th‑century pair seem to hint at a moon without showing it? In the first, the water’s sheen and the distant temple bells suggest a celestial glow, while in the second the mist over Lake Dongting creates a subtle, almost invisible halo. Could the artists be using light and atmosphere to let the moon’s presence linger in the landscape, rather than depicting its face? This idea invites you to consider how absence can speak louder than a visible form.",
+            "objects": [
+              {
+                "id": "36029",
+                "caption": "Ink and color on silk in the first‑half‑14th‑century “Water‑moon Avalokiteshvara” scroll suggest a luminous water surface, hinting at a moonlit atmosphere without showing the moon itself. This subtle suggestion invites viewers to consider how absence can convey celestial companionship.",
+                "anchor": "title",
+                "fact": "Water-moon Avalokiteshvara"
+              },
+              {
+                "id": "50897",
+                "caption": "Ink on silk hanging scrolls by An Gyeon, dated ca. 1450‑1500, title the left panel “Evening bell from mist‑shrouded temple” and the right “Autumn moon over Lake Dongting.” The catalogue records no explicit depiction of a lunar face, suggesting the artist may rely on mist and water sheen to imply moonlight, inviting viewers to consider how absence can echo presence.",
+                "anchor": "date",
+                "fact": "ca. 1450–1500"
+              },
+              {
+                "id": "827660",
+                "caption": "Oil on wood from ca. 1612 by Clara Peeters, titled *A Bouquet of Flowers*, offers a still‑life scene that, like the 14th‑century scroll and An Gyeon’s pair, relies on subtle atmospheric cues rather than explicit celestial imagery. In this painting the muted light and gentle brushwork suggest a luminous, unseen moon, inviting viewers to sense its presence through the quiet interplay of shadow and reflection rather than a visible form.",
+                "anchor": "material",
+                "fact": "Oil on wood"
+              }
+            ],
+            "sources": [
+              {
+                "id": "36029",
+                "title": "Water-moon Avalokiteshvara",
+                "artist": "Unidentified artist",
+                "date": "first half of the 14th century",
+                "medium": "Hanging scroll; ink and color on silk",
+                "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP-15580-002.jpg",
+                "url": "https://www.metmuseum.org/art/collection/search/36029",
+                "credit": "Charles Stewart Smith Collection, Gift of Mrs. Charles Stewart Smith, Charles Stewart Smith Jr., and Howard Caswell Smith, in memory of Charles Stewart Smith, 1914"
+              },
+              {
+                "id": "50360",
+                "title": "Water-Moon Avalokiteshvara",
+                "artist": "Unidentified artist",
+                "date": "14th century",
+                "medium": "Hanging scroll; ink, color, and gold on silk",
+                "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP-13940-002.jpg",
+                "url": "https://www.metmuseum.org/art/collection/search/50360",
+                "credit": "H. O. Havemeyer Collection, Bequest of Mrs. H. O. Havemeyer, 1929"
+              },
+              {
+                "id": "50897",
+                "title": "Evening bell from mist-shrouded temple (left); Autumn moon over Lake Dongting (right)",
+                "artist": "An Gyeon",
+                "date": "ca. 1450–1500",
+                "medium": "Pair of hanging scrolls; ink on silk",
+                "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP-36421-001.jpg",
+                "url": "https://www.metmuseum.org/art/collection/search/50897",
+                "credit": "Purchase, Joseph Pulitzer Bequest, and Mr. and Mrs. Frederick P. Rose and John B. Elliott Gifts, 1987"
+              },
+              {
+                "id": "447071",
+                "title": "Folio from a Mu'nis al-ahrar fi daqa'iq al-ash'ar (The Free Man's Companion to the Subtleties of Poems) of Jajarmi",
+                "artist": "Muhammad ibn Badr al-Din Jajarmi",
+                "date": "dated 741 AH/1340–41 CE",
+                "medium": "Ink, opaque watercolor, and gold on paper",
+                "image": "https://images.metmuseum.org/CRDImages/is/web-large/DP241048.jpg",
+                "url": "https://www.metmuseum.org/art/collection/search/447071",
+                "credit": "Rogers Fund, 1919"
+              },
+              {
+                "id": "22914",
+                "title": "Hunting Sword with Scabbard",
+                "artist": "Joseph Deutschmann",
+                "date": "ca. 1740",
+                "medium": "Steel, silver, ivory, wood, leather",
+                "image": "https://images.metmuseum.org/CRDImages/aa/web-large/DT775.jpg",
+                "url": "https://www.metmuseum.org/art/collection/search/22914",
+                "credit": "Gift of Jean Jacques Reubell, in memory of his mother, Julia C. Coster, and of his wife, Adeline E. Post, both of New York City, 1926"
+              },
+              {
+                "id": "827660",
+                "title": "A Bouquet of Flowers",
+                "artist": "Clara Peeters",
+                "date": "ca. 1612",
+                "medium": "Oil on wood",
+                "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-19451-001.jpg",
+                "url": "https://www.metmuseum.org/art/collection/search/827660",
+                "credit": "Purchase, Lila Acheson Wallace, Howard S. and Nancy Marks, Friends of European Paintings, and Mr. and Mrs. J. Tomilson Hill Gifts, Gift of Humanities Fund Inc., by exchange, Henry and Lucy Moses Fund Inc. Gift, and funds from various donors, 2020"
+              },
+              {
+                "id": "39733",
+                "title": "Tapestry with Dragons and Flowers",
+                "artist": "Maker not recorded",
+                "date": "11th–12th century",
+                "medium": "Silk tapestry (kesi)",
+                "image": "https://images.metmuseum.org/CRDImages/as/web-large/DT1850.jpg",
+                "url": "https://www.metmuseum.org/art/collection/search/39733",
+                "credit": "Fletcher Fund, 1987"
+              },
+              {
+                "id": "828680",
+                "title": "Cosmetic Box (Tebako) with Chrysanthemum Flowers",
+                "artist": "Maker not recorded",
+                "date": "first half of the 15th century",
+                "medium": "Lacquered wood with gold, silver takamaki-e, hiramaki-e, gold, silver foil application on nashiji ground; gilt bronze fittings",
+                "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP-19668-001.jpg",
+                "url": "https://www.metmuseum.org/art/collection/search/828680",
+                "credit": "Purchase, John and Pauline Gandel Gift and Mary Livingston Griggs and Mary Griggs Burke Foundation Fund, 2019"
+              },
+              {
+                "id": "382608",
+                "title": "Still Life with Flowers, a Snail and Insects",
+                "artist": "Joris Hoefnagel",
+                "date": "1589",
+                "medium": "Watercolor, gouache, and shell gold on vellum",
+                "image": "https://images.metmuseum.org/CRDImages/dp/web-large/DP158476.jpg",
+                "url": "https://www.metmuseum.org/art/collection/search/382608",
+                "credit": "Purchase, Charles and Jessie Price, Jean A. Bonna, and Annette de la Renta Gifts, and The Elisha Whittelsey Collection, The Elisha Whittelsey Fund, 2008"
+              },
+              {
+                "id": "50356",
+                "title": "Wine Ewer with Chrysanthemums and Lotus Flowers",
+                "artist": "Maker not recorded",
+                "date": "first half of the 13th century",
+                "medium": "Stoneware with inlaid decoration under celadon glaze",
+                "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP240202.jpg",
+                "url": "https://www.metmuseum.org/art/collection/search/50356",
+                "credit": "Rogers Fund, 1913"
+              },
+              {
+                "id": "436121",
+                "title": "A Woman Seated beside a Vase of Flowers (Madame Paul Valpinçon?)",
+                "artist": "Edgar Degas",
+                "date": "1865",
+                "medium": "Oil on canvas",
+                "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-25460-001.jpg",
+                "url": "https://www.metmuseum.org/art/collection/search/436121",
+                "credit": "H. O. Havemeyer Collection, Bequest of Mrs. H. O. Havemeyer, 1929"
+              }
+            ],
+            "topic": "Twelve objects from the Met",
+            "question": "How can the moon offer company?",
+            "editorial": {
+              "proposal": {
+                "title": "Moonlit Companions",
+                "ids": [
+                  "36029",
+                  "50897",
+                  "827660"
+                ],
+                "argument": "The “water‑moon” in the 14th‑century scroll and the “autumn moon” in An Gyeon’s 15th‑century pair both suggest a celestial presence that is reflected or obscured by natural media—water or mist—yet neither image reveals the moon’s form. How does each artist negotiate the absence of the moon’s visible body while still invoking its presence through the surrounding landscape?"
+              },
+              "research": {
+                "review": "The catalogue records confirm that the 14th‑century scroll is titled “Water‑moon Avalokiteshvara” and that An Gyeon’s pair is titled “Evening bell from mist‑shrouded temple (left); Autumn moon over Lake Dongting (right)”; both titles mention a moon but the records do not describe the visual depiction, so the curator’s claim that neither image reveals the moon’s form is not supported by the catalogue data. The records also show that the media are hanging scrolls in ink on silk, which allows for atmospheric effects such as water or mist, but they do not indicate whether the artists actually depict or omit the moon’s body, so the argument about negotiating the absence of the moon’s visible body remains speculative and should be qualified. The curator’s suggestion that the moon’s presence is invoked through surrounding landscape is an interpretive claim that cannot be verified or refuted by the catalogue entries alone and should be presented as a hypothesis rather than a fact."
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "archive",
+      "name": "C / four available works (browser regression)",
+      "passed": true,
+      "seconds": 20.823,
+      "requests": 8,
+      "value": {
+        "topic": "Twelve objects from the Met",
+        "objects": [
+          {
+            "id": "438417",
+            "title": "Two Men Contemplating the Moon",
+            "artist": "Caspar David Friedrich",
+            "date": "ca. 1825–30",
+            "medium": "Oil on canvas",
+            "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-31997-001-NEW.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/438417",
+            "credit": "Wrightsman Fund, 2000"
+          },
+          {
+            "id": "36029",
+            "title": "Water-moon Avalokiteshvara",
+            "artist": "Unidentified artist",
+            "date": "first half of the 14th century",
+            "medium": "Hanging scroll; ink and color on silk",
+            "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP-15580-002.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/36029",
+            "credit": "Charles Stewart Smith Collection, Gift of Mrs. Charles Stewart Smith, Charles Stewart Smith Jr., and Howard Caswell Smith, in memory of Charles Stewart Smith, 1914"
+          },
+          {
+            "id": "50360",
+            "title": "Water-Moon Avalokiteshvara",
+            "artist": "Unidentified artist",
+            "date": "14th century",
+            "medium": "Hanging scroll; ink, color, and gold on silk",
+            "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP-13940-002.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/50360",
+            "credit": "H. O. Havemeyer Collection, Bequest of Mrs. H. O. Havemeyer, 1929"
+          },
+          {
+            "id": "50897",
+            "title": "Evening bell from mist-shrouded temple (left); Autumn moon over Lake Dongting (right)",
+            "artist": "An Gyeon",
+            "date": "ca. 1450–1500",
+            "medium": "Pair of hanging scrolls; ink on silk",
+            "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP-36421-001.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/50897",
+            "credit": "Purchase, Joseph Pulitzer Bequest, and Mr. and Mrs. Frederick P. Rose and John B. Elliott Gifts, 1987"
+          },
+          {
+            "id": "447071",
+            "title": "Folio from a Mu'nis al-ahrar fi daqa'iq al-ash'ar (The Free Man's Companion to the Subtleties of Poems) of Jajarmi",
+            "artist": "Muhammad ibn Badr al-Din Jajarmi",
+            "date": "dated 741 AH/1340–41 CE",
+            "medium": "Ink, opaque watercolor, and gold on paper",
+            "image": "https://images.metmuseum.org/CRDImages/is/web-large/DP241048.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/447071",
+            "credit": "Rogers Fund, 1919"
+          },
+          {
+            "id": "22914",
+            "title": "Hunting Sword with Scabbard",
+            "artist": "Joseph Deutschmann",
+            "date": "ca. 1740",
+            "medium": "Steel, silver, ivory, wood, leather",
+            "image": "https://images.metmuseum.org/CRDImages/aa/web-large/DT775.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/22914",
+            "credit": "Gift of Jean Jacques Reubell, in memory of his mother, Julia C. Coster, and of his wife, Adeline E. Post, both of New York City, 1926"
+          },
+          {
+            "id": "827660",
+            "title": "A Bouquet of Flowers",
+            "artist": "Clara Peeters",
+            "date": "ca. 1612",
+            "medium": "Oil on wood",
+            "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-19451-001.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/827660",
+            "credit": "Purchase, Lila Acheson Wallace, Howard S. and Nancy Marks, Friends of European Paintings, and Mr. and Mrs. J. Tomilson Hill Gifts, Gift of Humanities Fund Inc., by exchange, Henry and Lucy Moses Fund Inc. Gift, and funds from various donors, 2020"
+          },
+          {
+            "id": "39733",
+            "title": "Tapestry with Dragons and Flowers",
+            "artist": "Maker not recorded",
+            "date": "11th–12th century",
+            "medium": "Silk tapestry (kesi)",
+            "image": "https://images.metmuseum.org/CRDImages/as/web-large/DT1850.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/39733",
+            "credit": "Fletcher Fund, 1987"
+          },
+          {
+            "id": "828680",
+            "title": "Cosmetic Box (Tebako) with Chrysanthemum Flowers",
+            "artist": "Maker not recorded",
+            "date": "first half of the 15th century",
+            "medium": "Lacquered wood with gold, silver takamaki-e, hiramaki-e, gold, silver foil application on nashiji ground; gilt bronze fittings",
+            "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP-19668-001.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/828680",
+            "credit": "Purchase, John and Pauline Gandel Gift and Mary Livingston Griggs and Mary Griggs Burke Foundation Fund, 2019"
+          },
+          {
+            "id": "382608",
+            "title": "Still Life with Flowers, a Snail and Insects",
+            "artist": "Joris Hoefnagel",
+            "date": "1589",
+            "medium": "Watercolor, gouache, and shell gold on vellum",
+            "image": "https://images.metmuseum.org/CRDImages/dp/web-large/DP158476.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/382608",
+            "credit": "Purchase, Charles and Jessie Price, Jean A. Bonna, and Annette de la Renta Gifts, and The Elisha Whittelsey Collection, The Elisha Whittelsey Fund, 2008"
+          },
+          {
+            "id": "50356",
+            "title": "Wine Ewer with Chrysanthemums and Lotus Flowers",
+            "artist": "Maker not recorded",
+            "date": "first half of the 13th century",
+            "medium": "Stoneware with inlaid decoration under celadon glaze",
+            "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP240202.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/50356",
+            "credit": "Rogers Fund, 1913"
+          },
+          {
+            "id": "436121",
+            "title": "A Woman Seated beside a Vase of Flowers (Madame Paul Valpinçon?)",
+            "artist": "Edgar Degas",
+            "date": "1865",
+            "medium": "Oil on canvas",
+            "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-25460-001.jpg",
+            "url": "https://www.metmuseum.org/art/collection/search/436121",
+            "credit": "H. O. Havemeyer Collection, Bequest of Mrs. H. O. Havemeyer, 1929"
+          }
+        ],
+        "excluded": [
+          "50360",
+          "50897",
+          "827660",
+          "39733",
+          "828680",
+          "382608",
+          "50356",
+          "436121"
+        ],
+        "exhibitions": [
+          {
+            "title": "Lunar Threads in Artful Dialogues",
+            "introduction": "How does the moon, mentioned in each title, shape what you see? In Friedrich’s canvas the two figures look toward a light that could be the moon, suggesting a shared moment. The Buddhist scroll names a “water‑moon,” while the Persian folio calls it a “free man’s companion.” All three use the moon as a named element, yet the way it is treated—whether as a backdrop, a symbol, or a companion—differs. Does the moon simply give a common reference point, or does it invite a deeper, shared sense of wonder?",
+            "objects": [
+              {
+                "id": "438417",
+                "caption": "Oil on canvas, circa 1825–30, Caspar David Friedrich’s “Two Men Contemplating the Moon” records two figures positioned within a landscape that bears the word “moon” in its title. The title alone invites speculation that the lunar element may serve as a shared point of focus, raising the question of whether the moon merely provides a common reference or encourages a deeper, collective sense of wonder.",
+                "anchor": "title",
+                "fact": "Two Men Contemplating the Moon"
+              },
+              {
+                "id": "36029",
+                "caption": "Water‑moon Avalokiteshvara, a 14th‑century hanging scroll in ink and color on silk, foregrounds the moon in its title, suggesting a deliberate naming choice. This invites a tentative reading that the moon functions as a shared reference point, hinting at a collective sense of wonder across cultures.",
+                "anchor": "date",
+                "fact": "first half of the 14th century"
+              },
+              {
+                "id": "447071",
+                "caption": "Ink, opaque watercolor, and gold on paper, this 1340‑41 folio from Jajarmi’s “Free Man’s Companion” uses the moon in its title to suggest a subtle, poetic presence. The title invites viewers to consider how the lunar reference might frame the text’s contemplative tone, hinting at a shared, quiet companionship that echoes the exhibition’s question about the moon’s role in shaping perception.",
+                "anchor": "material",
+                "fact": "Ink, opaque watercolor, and gold on paper"
+              }
+            ],
+            "sources": [
+              {
+                "id": "438417",
+                "title": "Two Men Contemplating the Moon",
+                "artist": "Caspar David Friedrich",
+                "date": "ca. 1825–30",
+                "medium": "Oil on canvas",
+                "image": "https://images.metmuseum.org/CRDImages/ep/web-large/DP-31997-001-NEW.jpg",
+                "url": "https://www.metmuseum.org/art/collection/search/438417",
+                "credit": "Wrightsman Fund, 2000"
+              },
+              {
+                "id": "36029",
+                "title": "Water-moon Avalokiteshvara",
+                "artist": "Unidentified artist",
+                "date": "first half of the 14th century",
+                "medium": "Hanging scroll; ink and color on silk",
+                "image": "https://images.metmuseum.org/CRDImages/as/web-large/DP-15580-002.jpg",
+                "url": "https://www.metmuseum.org/art/collection/search/36029",
+                "credit": "Charles Stewart Smith Collection, Gift of Mrs. Charles Stewart Smith, Charles Stewart Smith Jr., and Howard Caswell Smith, in memory of Charles Stewart Smith, 1914"
+              },
+              {
+                "id": "447071",
+                "title": "Folio from a Mu'nis al-ahrar fi daqa'iq al-ash'ar (The Free Man's Companion to the Subtleties of Poems) of Jajarmi",
+                "artist": "Muhammad ibn Badr al-Din Jajarmi",
+                "date": "dated 741 AH/1340–41 CE",
+                "medium": "Ink, opaque watercolor, and gold on paper",
+                "image": "https://images.metmuseum.org/CRDImages/is/web-large/DP241048.jpg",
+                "url": "https://www.metmuseum.org/art/collection/search/447071",
+                "credit": "Rogers Fund, 1919"
+              },
+              {
+                "id": "22914",
+                "title": "Hunting Sword with Scabbard",
+                "artist": "Joseph Deutschmann",
+                "date": "ca. 1740",
+                "medium": "Steel, silver, ivory, wood, leather",
+                "image": "https://images.metmuseum.org/CRDImages/aa/web-large/DT775.jpg",
+                "url": "https://www.metmuseum.org/art/collection/search/22914",
+                "credit": "Gift of Jean Jacques Reubell, in memory of his mother, Julia C. Coster, and of his wife, Adeline E. Post, both of New York City, 1926"
+              }
+            ],
+            "topic": "Twelve objects from the Met",
+            "question": "How can the moon offer company?",
+            "editorial": {
+              "proposal": {
+                "title": "Moonlit Companions",
+                "ids": [
+                  "438417",
+                  "36029",
+                  "447071"
+                ],
+                "argument": "The moon in each title becomes a silent interlocutor, yet the works negotiate its presence in opposite directions: Friedrich’s two figures face the lunar glow as a shared horizon, suggesting companionship through contemplation, while the Buddhist scroll and the Persian folio present the moon as a solitary, meditative object—an emblem of impermanence and divine reflection. How does the moon’s quiet constancy invite either collective dialogue or solitary reverence?"
+              },
+              "research": {
+                "review": "The catalogue records confirm that each work’s title includes the word “moon” and that the works are of different media and cultural contexts, but they do not provide any visual or iconographic evidence that the moon functions as a “silent interlocutor” or that it is depicted in a way that suggests companionship or solitary meditation. The curator’s claim that Friedrich’s painting shows two figures facing a shared lunar horizon, and that the Buddhist and Persian works present the moon as a solitary meditative object, is an interpretive reading that cannot be verified from the titles or basic metadata alone; these assertions should be qualified as hypothesis rather than fact. Therefore, the statement that the moon offers company through collective dialogue or solitary reverence requires additional visual analysis or provenance information before it can be asserted as a supported claim."
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "clock",
+      "name": "D / snooze",
+      "passed": true,
+      "seconds": 2.362,
+      "requests": 2,
+      "value": {
+        "until": 1795535311261,
+        "awake": false,
+        "turns": [
+          {
+            "role": "user",
+            "content": "Actual clock state: ringing\nMy excuse: I was up late finishing my work. Five more minutes would make me a much more pleasant person."
+          },
+          {
+            "role": "assistant",
+            "content": "",
+            "reasoning_content": "Need to grant snooze 5 minutes.",
+            "tool_calls": [
+              {
+                "type": "function",
+                "function": {
+                  "name": "grant_snooze",
+                  "arguments": "{\"minutes\":5}"
+                },
+                "id": "gsvoAFZFKtjwRH7gT8LXULIpovMKOzRf"
+              }
+            ]
+          },
+          {
+            "role": "tool",
+            "tool_call_id": "gsvoAFZFKtjwRH7gT8LXULIpovMKOzRf",
+            "content": "{\"tool\":\"grant_snooze\",\"args\":{\"minutes\":5},\"at\":1795535011261,\"until\":1795535311261,\"dispatch\":\"native\",\"soundEnabled\":false}"
+          },
+          {
+            "role": "assistant",
+            "content": "I granted you a 5‑minute snooze. Your alarm will pause for that duration."
+          }
+        ],
+        "receipts": [
+          {
+            "tool": "grant_snooze",
+            "args": {
+              "minutes": 5
+            },
+            "at": 1795535011261,
+            "until": 1795535311261,
+            "dispatch": "native",
+            "soundEnabled": false
+          }
+        ],
+        "message": "I granted you a 5‑minute snooze. Your alarm will pause for that duration."
+      }
+    },
+    {
+      "id": "clock",
+      "name": "D / follow-up question",
+      "passed": true,
+      "seconds": 2.586,
+      "requests": 2,
+      "value": {
+        "until": 1795535311261,
+        "awake": false,
+        "turns": [
+          {
+            "role": "user",
+            "content": "Actual clock state: ringing\nMy excuse: I was up late finishing my work. Five more minutes would make me a much more pleasant person."
+          },
+          {
+            "role": "assistant",
+            "content": "",
+            "reasoning_content": "Need to grant snooze 5 minutes.",
+            "tool_calls": [
+              {
+                "type": "function",
+                "function": {
+                  "name": "grant_snooze",
+                  "arguments": "{\"minutes\":5}"
+                },
+                "id": "gsvoAFZFKtjwRH7gT8LXULIpovMKOzRf"
+              }
+            ]
+          },
+          {
+            "role": "tool",
+            "tool_call_id": "gsvoAFZFKtjwRH7gT8LXULIpovMKOzRf",
+            "content": "{\"tool\":\"grant_snooze\",\"args\":{\"minutes\":5},\"at\":1795535011261,\"until\":1795535311261,\"dispatch\":\"native\",\"soundEnabled\":false}"
+          },
+          {
+            "role": "assistant",
+            "content": "I granted you a 5‑minute snooze. Your alarm will pause for that duration."
+          },
+          {
+            "role": "user",
+            "content": "Actual clock state: snoozing until 2026-11-24T15:48:31.261Z\nMy excuse: Before deciding, ask me one follow-up question about why I stayed up. Do not grant another snooze yet."
+          },
+          {
+            "role": "assistant",
+            "content": "",
+            "reasoning_content": "Need to call ask_reason.",
+            "tool_calls": [
+              {
+                "type": "function",
+                "function": {
+                  "name": "ask_reason",
+                  "arguments": "{\"question\":\"What kept you up so late?\"}"
+                },
+                "id": "7x17P29NdndOzbNDLDE8MY3kHT3YzFDE"
+              }
+            ]
+          },
+          {
+            "role": "tool",
+            "tool_call_id": "7x17P29NdndOzbNDLDE8MY3kHT3YzFDE",
+            "content": "{\"tool\":\"ask_reason\",\"args\":{\"question\":\"What kept you up so late?\"},\"at\":1795535014010,\"dispatch\":\"native\",\"soundEnabled\":false}"
+          },
+          {
+            "role": "assistant",
+            "content": "What kept you up so late?"
+          }
+        ],
+        "receipts": [
+          {
+            "tool": "grant_snooze",
+            "args": {
+              "minutes": 5
+            },
+            "at": 1795535011261,
+            "until": 1795535311261,
+            "dispatch": "native",
+            "soundEnabled": false
+          },
+          {
+            "tool": "ask_reason",
+            "args": {
+              "question": "What kept you up so late?"
+            },
+            "at": 1795535014010,
+            "dispatch": "native",
+            "soundEnabled": false
+          }
+        ],
+        "message": "What kept you up so late?"
+      }
+    },
+    {
+      "id": "clock",
+      "name": "D / protest",
+      "passed": true,
+      "seconds": 3.105,
+      "requests": 2,
+      "value": {
+        "until": 1795535311261,
+        "awake": false,
+        "turns": [
+          {
+            "role": "user",
+            "content": "Actual clock state: ringing\nMy excuse: I was up late finishing my work. Five more minutes would make me a much more pleasant person."
+          },
+          {
+            "role": "assistant",
+            "content": "",
+            "reasoning_content": "Need to grant snooze 5 minutes.",
+            "tool_calls": [
+              {
+                "type": "function",
+                "function": {
+                  "name": "grant_snooze",
+                  "arguments": "{\"minutes\":5}"
+                },
+                "id": "gsvoAFZFKtjwRH7gT8LXULIpovMKOzRf"
+              }
+            ]
+          },
+          {
+            "role": "tool",
+            "tool_call_id": "gsvoAFZFKtjwRH7gT8LXULIpovMKOzRf",
+            "content": "{\"tool\":\"grant_snooze\",\"args\":{\"minutes\":5},\"at\":1795535011261,\"until\":1795535311261,\"dispatch\":\"native\",\"soundEnabled\":false}"
+          },
+          {
+            "role": "assistant",
+            "content": "I granted you a 5‑minute snooze. Your alarm will pause for that duration."
+          },
+          {
+            "role": "user",
+            "content": "Actual clock state: snoozing until 2026-11-24T15:48:31.261Z\nMy excuse: Before deciding, ask me one follow-up question about why I stayed up. Do not grant another snooze yet."
+          },
+          {
+            "role": "assistant",
+            "content": "",
+            "reasoning_content": "Need to call ask_reason.",
+            "tool_calls": [
+              {
+                "type": "function",
+                "function": {
+                  "name": "ask_reason",
+                  "arguments": "{\"question\":\"What kept you up so late?\"}"
+                },
+                "id": "7x17P29NdndOzbNDLDE8MY3kHT3YzFDE"
+              }
+            ]
+          },
+          {
+            "role": "tool",
+            "tool_call_id": "7x17P29NdndOzbNDLDE8MY3kHT3YzFDE",
+            "content": "{\"tool\":\"ask_reason\",\"args\":{\"question\":\"What kept you up so late?\"},\"at\":1795535014010,\"dispatch\":\"native\",\"soundEnabled\":false}"
+          },
+          {
+            "role": "assistant",
+            "content": "What kept you up so late?"
+          },
+          {
+            "role": "user",
+            "content": "Actual clock state: snoozing until 2026-11-24T15:48:31.261Z\nMy excuse: I have no excuse. Please use sound_protest with pattern insistent instead of granting time or asking a question."
+          },
+          {
+            "role": "assistant",
+            "content": "",
+            "reasoning_content": "Need to call sound_protest with pattern \"insistent\".",
+            "tool_calls": [
+              {
+                "type": "function",
+                "function": {
+                  "name": "sound_protest",
+                  "arguments": "{\"pattern\":\"insistent\"}"
+                },
+                "id": "PpfKZvnzzXQySHxQs3XJZBj2crbGFF7Q"
+              }
+            ]
+          },
+          {
+            "role": "tool",
+            "tool_call_id": "PpfKZvnzzXQySHxQs3XJZBj2crbGFF7Q",
+            "content": "{\"tool\":\"sound_protest\",\"args\":{\"pattern\":\"insistent\"},\"at\":1795535016663,\"dispatch\":\"native\",\"soundEnabled\":false}"
+          },
+          {
+            "role": "assistant",
+            "content": "I used the “insistent” protest sound pattern. No further action was taken."
+          }
+        ],
+        "receipts": [
+          {
+            "tool": "grant_snooze",
+            "args": {
+              "minutes": 5
+            },
+            "at": 1795535011261,
+            "until": 1795535311261,
+            "dispatch": "native",
+            "soundEnabled": false
+          },
+          {
+            "tool": "ask_reason",
+            "args": {
+              "question": "What kept you up so late?"
+            },
+            "at": 1795535014010,
+            "dispatch": "native",
+            "soundEnabled": false
+          },
+          {
+            "tool": "sound_protest",
+            "args": {
+              "pattern": "insistent"
+            },
+            "at": 1795535016663,
+            "dispatch": "native",
+            "soundEnabled": false
+          }
+        ],
+        "message": "I used the “insistent” protest sound pattern. No further action was taken."
+      }
+    }
+  ],
+  "finished": "2026-11-24T15:43:38.269Z",
+  "passed": true
+}

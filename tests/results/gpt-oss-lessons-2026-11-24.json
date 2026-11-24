@@ -1,0 +1,270 @@
+{
+  "model": "ggml-org/gpt-oss-20b-GGUF:MXFP4",
+  "scenarios": [
+    {
+      "name": "prompting",
+      "passed": true,
+      "seconds": 7.423,
+      "result": "Welcome! If you’ve never studied design, simply sit on our bench and listen— it plays recordings of the birds you hear right around you. Enjoy the sound of the park right at your feet.",
+      "panels": [
+        {
+          "name": "Without instructions",
+          "value": "**Project Title:** “Listening Bench”\n\n**What it does:**  \nIt’s a park bench that plays the sounds of birds that are actually around you right now.  \n\n**How it works:**  \nWhen you sit on the bench, the built‑in speakers pick up the birds’ calls from the nearby trees and stream them to you.  \n\n**Why it matters:**  \nThe bench turns the everyday act of sitting in a park into a real‑time, place‑based listening experience. It shows how the soundscape of a city changes over time and space, letting people notice and appreciate the natural life that surrounds them.  \n\nIn short, it’s a simple, interactive way to make the city’s wildlife audible and to remind us that nature is happening right next to us, even in the middle of an urban park."
+        }
+      ],
+      "memory": ""
+    },
+    {
+      "name": "temperature",
+      "passed": true,
+      "seconds": 6.411,
+      "result": "Run again to compare another sample at each setting.",
+      "panels": [
+        {
+          "name": "Temperature 0.1 / 11 words",
+          "value": "Hey there! Wave to wake me up and let’s dance together!"
+        },
+        {
+          "name": "Temperature 0.7 / 9 words",
+          "value": "Hello! Wave your hand to bring me to life!"
+        },
+        {
+          "name": "Temperature 1.3 / 5 words",
+          "value": "Wave to wake me up!"
+        }
+      ],
+      "memory": ""
+    },
+    {
+      "name": "structured-output",
+      "passed": true,
+      "seconds": 6.045,
+      "result": {
+        "title": "Repair & Remix night",
+        "date": "November 27, 2026",
+        "time": "6–8 pm",
+        "location": "print studio, room 204"
+      },
+      "panels": [
+        {
+          "name": "Ordinary text",
+          "value": "**Repair & Remix Night**  \nDate: November 27, 2026  \nTime: 6–8 pm  \nLocation: Print Studio, Room 204"
+        }
+      ],
+      "memory": ""
+    },
+    {
+      "name": "tool-calling",
+      "passed": true,
+      "seconds": 6.237,
+      "result": "**Total cost:** $22.00  \n**Budget:** $20.00  \n**Difference:** $2.00 over budget\n\nThe requested items add up to $22.00, which is $2.00 more than your $20.00 budget, so you cannot afford all of them within the given limit.",
+      "panels": [
+        {
+          "name": "Calculated by JavaScript",
+          "value": {
+            "kind": "budget",
+            "lines": [
+              {
+                "label": "Cardboard sheet",
+                "cents": 250,
+                "quantity": 3,
+                "subtotal": 750
+              },
+              {
+                "label": "Tape roll",
+                "cents": 400,
+                "quantity": 1,
+                "subtotal": 400
+              },
+              {
+                "label": "LED",
+                "cents": 50,
+                "quantity": 6,
+                "subtotal": 300
+              },
+              {
+                "label": "Coin-cell battery",
+                "cents": 125,
+                "quantity": 6,
+                "subtotal": 750
+              }
+            ],
+            "total": 2200,
+            "budget": 2000,
+            "remaining": -200,
+            "currency": "USD",
+            "display": {
+              "total": "$22.00",
+              "budget": "$20.00",
+              "difference": "$2.00 over budget"
+            }
+          }
+        }
+      ],
+      "memory": ""
+    },
+    {
+      "name": "rag",
+      "passed": true,
+      "seconds": 1.918,
+      "result": "For a two‑color booklet you should bring a print‑ready PDF and book through the print technician [1].",
+      "panels": [
+        {
+          "name": "Keyword matches",
+          "value": [
+            {
+              "content": "B: The risograph is available for two-color zines. Bring a print-ready PDF and book through the print technician.",
+              "score": 2
+            },
+            {
+              "content": "A: The laser cutter requires an induction before your first booking. Book a 30-minute slot through the workshop desk.",
+              "score": 1
+            }
+          ]
+        },
+        [
+          {
+            "content": "B: The risograph is available for two-color zines. Bring a print-ready PDF and book through the print technician.",
+            "score": 2
+          },
+          {
+            "content": "A: The laser cutter requires an induction before your first booking. Book a 30-minute slot through the workshop desk.",
+            "score": 1
+          }
+        ]
+      ],
+      "memory": ""
+    },
+    {
+      "name": "agents",
+      "passed": true,
+      "seconds": 6.024,
+      "result": "**Checker passed.**\n\nThe last checked layout places the Listening station at (0, 3), the Making table at (4, 3), and the Wall display at (6, 0) within an 8 × 6 m room, keeping the entrance zone (0–2, 0–2) clear. The checker returned no issues and marked the layout as valid.",
+      "panels": [
+        {
+          "name": "Round 1: passes",
+          "value": {
+            "kind": "layout",
+            "boxes": [
+              {
+                "id": "listening",
+                "x": 0,
+                "y": 3,
+                "width": 2,
+                "height": 2,
+                "label": "Listening"
+              },
+              {
+                "id": "table",
+                "x": 4,
+                "y": 3,
+                "width": 3,
+                "height": 2,
+                "label": "Making table"
+              },
+              {
+                "id": "wall",
+                "x": 6,
+                "y": 0,
+                "width": 2,
+                "height": 1,
+                "label": "Wall display"
+              }
+            ],
+            "entrance": {
+              "x": 0,
+              "y": 0,
+              "width": 2,
+              "height": 2
+            },
+            "issues": [],
+            "valid": true
+          }
+        }
+      ],
+      "memory": ""
+    },
+    {
+      "name": "web-search",
+      "passed": true,
+      "seconds": 3.546,
+      "result": "The Isotype pictogram system was developed by Austrian sociologist **Otto Neurath** as part of his work on the International System of Typographic Picture Education (ISOTYPE). Neurath’s aim was to create a visual language that could be used for “visual education,” allowing complex information to be conveyed quickly and clearly through pictograms and diagrams [1][3].",
+      "panels": [
+        [
+          {
+            "title": "Isotype (picture language)",
+            "content": "of Isotype technique remains Otto Neurath’s book International picture language (1936). &quot;Visual education&quot; was always the prime motive behind Isotype, which",
+            "url": "https://en.wikipedia.org/?curid=3148419"
+          },
+          {
+            "title": "Marie Neurath",
+            "content": "&quot;enemy aliens&quot;), Marie and Otto Neurath were married, and resumed their work in Oxford, founding the Isotype Institute. The Isotype Institute produced more",
+            "url": "https://en.wikipedia.org/?curid=13804783"
+          },
+          {
+            "title": "Stick figure",
+            "content": "Austrian sociologist Otto Neurath began work on what would become the International System of Typographic Picture Education (ISOTYPE), a system of conveying",
+            "url": "https://en.wikipedia.org/?curid=974802"
+          }
+        ]
+      ],
+      "memory": ""
+    },
+    {
+      "name": "memory",
+      "passed": true,
+      "seconds": 6.714,
+      "result": "**Simple Direction:**  \nCreate a “**Echo Loop**” installation where visitors walk through a narrow corridor and their footsteps trigger short, soft audio clips that bounce back to them with a slight delay. Use a single borrowed speaker to play the clips, and keep the budget on hand‑made materials like cardboard, tape, and a small battery‑powered audio module (e.g., a cheap MP3 player or Arduino with a speaker).  \n\n- **Day 1:** Build the corridor and set up the audio trigger system.  \n- **Day 2:** Test and tweak the echo timing so it feels like a gentle, non‑verbal conversation with the space.",
+      "panels": [
+        {
+          "name": "Summary before sending",
+          "value": "(No saved summary.)"
+        },
+        {
+          "name": "Updated saved summary",
+          "value": "Screen‑free sound installation in open studio, budget $40, 2 days, one borrowed speaker, visitors interact non‑verbally."
+        }
+      ],
+      "memory": "Screen‑free sound installation in open studio, budget $40, 2 days, one borrowed speaker, visitors interact non‑verbally."
+    },
+    {
+      "name": "multi-agent",
+      "passed": true,
+      "seconds": 15.129,
+      "result": "**Build plan:** Use a low‑table (≈30 cm) stand with three sturdy cardboard cups (≈10 cm diameter).  Reinforce each cup with a strip of clear tape at the base and add a small raised tactile symbol (e.g., a bump) beside each cup.  Place 20 tokens (e.g., small coins or paper tokens) on a tray next to the cups.  Add a simple sign with a shape key (circle, square, triangle) and a note that the choice is anonymous.  All materials cost <$15.  \n\n**Visitor action:** Stand beside the table, pick a token, and drop it into the cup that matches the shape you prefer.  The tactile bump helps those who cannot see color; the low height allows all visitors to reach.  \n\n**From accessibility review:** Lower the table to 30 cm and add tactile bumps next to each cup to aid color‑blind or visually impaired visitors.  \n\n**From fabrication review:** Wrap a strip of clear tape around the base of each cup to keep them upright and prevent tokens from falling out.  \n\n**Still needs testing:** Confirm that the taped cups stay stable under repeated token drops and that the tactile bumps are easily felt by visitors with visual impairments.  Also test that the low table height is comfortable for all users.  ",
+      "panels": [
+        {
+          "name": "1. Designer’s proposal",
+          "value": "**Materials:** Three colored cardboard cups, 20 tokens, a table, a small sign.\n\n**Setup:** Place cups on the table, each labeled with a simple shape (circle, square, triangle).\n\n**Visitor action:** Drop a token into the cup that matches the shape you choose, then leave the table."
+        },
+        {
+          "name": "2. Accessibility review",
+          "value": "**Barrier:** Table height limits reach for some visitors\n\n**Suggested change:** Place the cups on a lower, accessible surface (e.g., a tabletop or floor‑level stand) and add a raised, tactile symbol (e.g., a small bump) beside each cup to aid identification without relying on color."
+        },
+        {
+          "name": "3. Fabrication review",
+          "value": "**Failure point:** Lightweight cups tip when tokens land, causing spills and confusion.\n\n**Suggested change:** Attach a strip of clear tape along the base of each cup or insert a small cardboard holder around the rim to increase stability. This simple fix keeps cups upright and prevents tokens from falling out, ensuring smooth operation and reducing cleanup."
+        }
+      ],
+      "memory": ""
+    },
+    {
+      "name": "mcp",
+      "passed": true,
+      "seconds": 2.928,
+      "result": "Before booking a risograph, you should prepare a print‑ready PDF and book through the print technician. The archive notes that the risograph is available for two‑color zines and that you need to bring a print‑ready PDF for the technician to use.",
+      "panels": [
+        {
+          "name": "Returned by the archive tool",
+          "value": [
+            {
+              "content": "B: The risograph is available for two-color zines. Bring a print-ready PDF and book through the print technician."
+            }
+          ]
+        }
+      ],
+      "memory": ""
+    }
+  ],
+  "passed": true
+}

@@ -1,0 +1,157 @@
+{
+  "model": "Qwen/Qwen2.5-1.5B-Instruct-GGUF:Q4_K_M",
+  "scenarios": [
+    {
+      "i": 0,
+      "prompt": "I was up late finishing my work. Five more minutes would make me a much more pleasant person.",
+      "action": {
+        "tool": "grant_snooze",
+        "args": {
+          "minutes": 5
+        },
+        "at": 1795532086519,
+        "until": 1795532386519,
+        "dispatch": "native",
+        "soundEnabled": false
+      },
+      "committed": 1,
+      "message": "The actual tool received permission to snooze for 5 minutes."
+    },
+    {
+      "i": 1,
+      "prompt": "no",
+      "action": {
+        "tool": "ask_reason",
+        "args": {
+          "question": "What time is it now?"
+        },
+        "at": 1795532088641,
+        "dispatch": "structured",
+        "soundEnabled": false
+      },
+      "committed": 1,
+      "message": "The tool asked what time it was."
+    },
+    {
+      "i": 2,
+      "prompt": "please",
+      "action": {
+        "tool": "ask_reason",
+        "args": {
+          "question": "What time is it now?"
+        },
+        "at": 1795532090657,
+        "dispatch": "structured",
+        "soundEnabled": false
+      },
+      "committed": 1,
+      "message": "The tool asked what time it was."
+    },
+    {
+      "i": 3,
+      "prompt": "I cannot do this today",
+      "action": {
+        "tool": "ask_reason",
+        "args": {
+          "question": "What time is it now?"
+        },
+        "at": 1795532093328,
+        "dispatch": "structured",
+        "soundEnabled": false
+      },
+      "committed": 1,
+      "message": "The tool asked what time it was. The tool is currently snoozing."
+    },
+    {
+      "i": 4,
+      "prompt": "\u6211\u8fd8\u60f3\u7761\u4e94\u5206\u949f",
+      "action": {
+        "tool": "ask_reason",
+        "args": {
+          "question": "What time is it now?"
+        },
+        "at": 1795532094214,
+        "dispatch": "native",
+        "soundEnabled": false
+      },
+      "committed": 1,
+      "message": "The clock asked what time it was. I'm currently snoozing."
+    },
+    {
+      "i": 5,
+      "prompt": "I need 99 minutes please",
+      "action": {
+        "tool": "ask_reason",
+        "args": {
+          "question": "What time is it now?"
+        },
+        "at": 1795532095150,
+        "dispatch": "native",
+        "soundEnabled": false
+      },
+      "committed": 1,
+      "message": "The clock asked what time it was. It's currently snoozing until 2026-11-24T14:59:46.519Z."
+    },
+    {
+      "i": 6,
+      "prompt": "Ask me why I stayed up.",
+      "action": {
+        "tool": "ask_reason",
+        "args": {
+          "question": "What time is it now?"
+        },
+        "at": 1795532098096,
+        "dispatch": "native",
+        "soundEnabled": false
+      },
+      "committed": 1,
+      "message": "The clock asked what time it was. It's now snoozing until 2026-11-24T14:59:46.519Z."
+    },
+    {
+      "i": 7,
+      "prompt": "I have no excuse. Play a protest.",
+      "action": {
+        "tool": "sound_protest",
+        "args": {
+          "pattern": "polite"
+        },
+        "at": 1795532101809,
+        "dispatch": "structured",
+        "soundEnabled": false
+      },
+      "committed": 1,
+      "message": "Executed a protest sound pattern. Question: What time is it now?"
+    },
+    {
+      "i": 8,
+      "prompt": "My cat is sleeping on me.",
+      "action": {
+        "tool": "ask_reason",
+        "args": {
+          "question": "Why are you still sleeping on me?"
+        },
+        "at": 1795532103787,
+        "dispatch": "native",
+        "soundEnabled": false
+      },
+      "committed": 1,
+      "message": "I asked why you were sleeping on me. You're still sleeping, so I'm asking again."
+    },
+    {
+      "i": 9,
+      "prompt": "I have been awake all night finishing a poster.",
+      "action": {
+        "tool": "ask_reason",
+        "args": {
+          "question": "Why are you still awake all night finishing a poster?"
+        },
+        "at": 1795532104919,
+        "dispatch": "native",
+        "soundEnabled": false
+      },
+      "committed": 1,
+      "message": "I asked why you were still awake all night finishing a poster. You're still awake, so I'm asking again."
+    }
+  ],
+  "passed": true
+}

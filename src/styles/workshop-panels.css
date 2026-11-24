@@ -1,0 +1,297 @@
+/* Two shared frames: hands-on controls and supporting technical material. */
+.workshop-interactive {
+  --workshop-frame-color: var(--sketch-accent, #6f56bb);
+  position: relative;
+  margin: 1.4rem 0 1.8rem;
+  box-shadow: 4px 4px 0
+    color-mix(in srgb, var(--workshop-frame-color) 24%, transparent);
+  border: 2px solid var(--workshop-frame-color);
+  border-radius: 1.2rem 0.45rem 1.35rem 0.5rem;
+  background: color-mix(in srgb, var(--sketch-paper, #f2effc) 90%, white);
+  padding: clamp(1rem, 2.5vw, 1.4rem);
+  min-width: 0;
+}
+.workshop-interactive > .workshop-editor {
+  margin-top: 0;
+}
+.workshop-interactive > :last-child {
+  margin-bottom: 0;
+}
+.workshop-technical {
+  margin: 1.2rem 0 1.8rem;
+  border: 1px solid
+    color-mix(in srgb, var(--sketch-echo, #596e72) 55%, transparent);
+  border-radius: 0.55rem;
+  background: color-mix(
+    in srgb,
+    var(--sketch-paper, #f2effc) 94%,
+    var(--sketch-echo, #596e72)
+  );
+  min-width: 0;
+  overflow: hidden;
+}
+.workshop-technical__header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1rem;
+}
+.workshop-technical__header > p {
+  margin: 0;
+  font-weight: 650;
+}
+.workshop-technical__disclosure {
+  border-top: 1px solid
+    color-mix(in srgb, var(--sketch-echo, #596e72) 30%, transparent);
+}
+.workshop-technical__disclosure > summary {
+  cursor: pointer;
+  padding: 0.8rem 1rem;
+  font-weight: 500;
+}
+.workshop-technical__disclosure[open] > summary {
+  margin-bottom: 0;
+}
+.workshop-technical__body {
+  padding: 0 1rem 1rem;
+  min-width: 0;
+}
+.workshop-technical__body:empty::before {
+  opacity: 0.75;
+  content: "Run the example to see its requests here.";
+  font-size: 0.9em;
+}
+.workshop-technical__body > .expressive-code {
+  margin: 0;
+}
+.workshop-technical__header .workshop-button {
+  padding: 0.2rem 0;
+  min-height: 2rem;
+  font-size: 0.9em;
+}
+
+/* Reuse the Week 12 plus/minus disclosure with a consistent hit area and body. */
+.workshop-disclosure.week-toc {
+  margin: 1rem 0;
+  padding: 0;
+}
+.workshop-disclosure.week-toc > summary {
+  align-items: center;
+  padding: 0.85rem 0;
+  min-height: 2.75rem;
+  line-height: 1.4;
+}
+.workshop-disclosure.week-toc[open] > summary {
+  margin: 0;
+}
+.workshop-disclosure__body {
+  display: grid;
+  gap: 1rem;
+  padding: 0.25rem 0 1.25rem;
+  min-width: 0;
+}
+.workshop-disclosure__body > p {
+  margin: 0;
+}
+.workshop-disclosure__body > .expressive-code {
+  margin: 0;
+}
+.workshop-disclosure--flush.week-toc {
+  margin: 0;
+  border-top: 1px solid
+    color-mix(in srgb, var(--sketch-echo, #596e72) 30%, transparent);
+}
+.workshop-disclosure--flush.week-toc > summary {
+  padding: 1rem;
+}
+.workshop-disclosure--flush .workshop-disclosure__body {
+  padding: 0 1rem 1rem;
+}
+/* Runtime JSON uses Shiki, the highlighter behind the static code snippets. */
+.workshop-request-log {
+  min-width: 0;
+}
+.workshop-request-log [data-trace] {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+  max-height: 32rem;
+  overflow: auto;
+  scrollbar-gutter: stable;
+}
+.workshop-request-log [data-log-empty] {
+  margin: 0;
+  font-size: 0.95em;
+}
+.workshop-log-entry {
+  border: 1px solid var(--sketch-echo, #596e72);
+  background: var(--sketch-paper, #f2effc);
+  min-width: 0;
+}
+.workshop-log-entry__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 1px solid var(--sketch-echo, #596e72);
+  padding: 0.6rem 0.8rem;
+}
+.workshop-log-entry__header p {
+  margin: 0 !important;
+  font:
+    600 0.85rem/1.4 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace !important;
+}
+.workshop-log-copy {
+  cursor: pointer;
+  border: 0;
+  background: none;
+  padding: 0.1rem 0.3rem;
+  color: inherit;
+  font: inherit;
+  font-size: 0.85rem;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.playground-content .workshop-log-entry__code pre {
+  margin: 0;
+  background: transparent !important;
+  padding: 0.85rem;
+  max-height: none;
+  font-size: 0.85rem !important;
+  line-height: 1.6 !important;
+}
+.workshop-log-entry__code :is(pre, code, span) {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace !important;
+}
+.workshop-log-entry__code code {
+  display: block;
+  counter-reset: log-line;
+  white-space: normal;
+}
+.workshop-log-entry__code .line {
+  display: block;
+  position: relative;
+  padding-left: 3rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.workshop-log-entry__code .line::before {
+  position: absolute;
+  left: 0;
+  counter-increment: log-line;
+  border-right: 1px solid var(--sketch-accent, #6f56bb);
+  padding-right: 0.65rem;
+  width: 2rem;
+  content: counter(log-line);
+  color: var(--sketch-accent, #6f56bb);
+  user-select: none;
+  text-align: right;
+}
+
+/* A visible marker and a bold lead-in make each spoken note easy to scan. */
+.workshop-concept-notes {
+  display: grid;
+  gap: 0.9rem;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none;
+}
+#week-content .munus-note .workshop-concept-notes > li {
+  position: relative;
+  margin: 0;
+  padding: 0 0 0 1.5rem;
+  font-size: var(--body-copy-size, 1.0625rem);
+  line-height: var(--body-copy-line-height, 1.6);
+}
+#week-content .munus-note .workshop-concept-notes > li::before {
+  position: absolute;
+  inset: 0.05rem auto auto 0;
+  content: "✦";
+  color: var(--sketch-accent, #6f56bb);
+  font-size: 1rem;
+  line-height: var(--body-copy-line-height, 1.6);
+}
+.workshop-concept-notes strong {
+  font-weight: 700;
+}
+.workshop-concept-notes a {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.workshop-concept-notes code {
+  font-size: 0.85em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace !important;
+}
+
+.workshop-concept-steps {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding-left: 1.6rem;
+  list-style: decimal;
+}
+.workshop-concept-steps > li {
+  padding-left: 0.35rem;
+}
+.workshop-concept-steps > li::marker {
+  color: var(--sketch-accent, #6f56bb);
+  font-weight: 700;
+}
+
+/* Reading steps share the page's ordinary list and text rhythm. */
+.workshop-reading-steps {
+  display: block;
+  margin: 0;
+  padding-left: 1.5rem;
+  list-style: decimal;
+}
+.workshop-reading-steps > li {
+  display: list-item;
+  margin: 0;
+  padding: 0 0 0 0.45rem;
+  max-width: none;
+}
+.workshop-reading-steps > li + li {
+  margin-top: 1.6rem;
+}
+.workshop-reading-steps > li::marker {
+  color: var(--sketch-accent, #6f56bb);
+  font-weight: 400;
+  font-size: 1rem;
+}
+.workshop-step-content {
+  min-width: 0;
+}
+.workshop-step-title {
+  margin: 0 0 0.35rem !important;
+  max-width: 65ch;
+  font-weight: 650;
+  font-size: 1rem !important;
+  line-height: 1.6 !important;
+}
+.workshop-step-copy {
+  max-width: 68ch;
+  font-size: 1rem;
+  line-height: 1.7;
+  text-wrap: pretty;
+}
+.workshop-step-copy code {
+  font-size: 0.88em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace !important;
+}
+@media (max-width: 600px) {
+  .workshop-reading-steps {
+    padding-left: 1.25rem;
+  }
+  .workshop-reading-steps > li {
+    padding-left: 0.25rem;
+  }
+  .workshop-reading-steps > li + li {
+    margin-top: 1.3rem;
+  }
+}
