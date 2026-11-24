@@ -36,6 +36,22 @@ export async function modelRequest(c, path, body, embedding = false) {
     });
   try {
     if (c.local) return await viaBridge();
+    // Probe the bridge first: a browser's blocked direct connection may consume
+    // the entire discovery timeout before reporting a CORS/network failure.
+    if (c.bridgeBase && !bridgedServers.has(bridgeKey)) {
+      try {
+        const probe = await request(
+          `${localBase(c.bridgeBase)}/api/playground`,
+          {
+            signal: AbortSignal.any([
+              AbortSignal.timeout(1500),
+              ...(c.signal ? [c.signal] : []),
+            ]),
+          },
+        );
+        if (probe.localPlayground === true) bridgedServers.add(bridgeKey);
+      } catch {}
+    }
     if (c.bridgeBase && bridgedServers.has(bridgeKey))
       return await viaBridge(localBase(c.bridgeBase));
     try {

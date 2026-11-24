@@ -741,7 +741,7 @@ test("GPT-OSS receives room for reasoning and explicit request overrides remain 
   }
 });
 
-test("published connection uses the local bridge after CORS failure and retains it for chat", async () => {
+test("published connection checks the bridge before a blocked direct server and retains it for chat", async () => {
   const calls = [];
   const ctx = {
     base: "http://127.0.0.1:33221",
@@ -749,7 +749,12 @@ test("published connection uses the local bridge after CORS failure and retains 
   };
   globalThis.fetch = async (url, options) => {
     calls.push({ url, options });
-    if (url.startsWith(ctx.base)) throw new TypeError("Failed to fetch");
+    assert.ok(
+      !url.startsWith(ctx.base),
+      "Do not spend the connection timeout on the blocked server",
+    );
+    if (url === ctx.bridgeBase + "/api/playground")
+      return json({ localPlayground: true });
     assert.equal(url, ctx.bridgeBase + "/api/model");
     return json({ data: [{ id: "model" }] });
   };
@@ -783,7 +788,7 @@ test("model HTTP errors are not hidden by the bridge fallback", async () => {
       ),
       /HTTP 400/,
     );
-    assert.equal(calls, 1);
+    assert.equal(calls, 2);
   } finally {
     globalThis.fetch = realFetch;
   }
