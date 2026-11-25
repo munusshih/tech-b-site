@@ -4067,5 +4067,52 @@
         "local": "/student-files/2026/li-zhang-week-12--attention-is-all-you-need-4.png"
       }
     ]
+  },
+  {
+    "timestamp": "11/24/2026 16:33:25",
+    "studentEmail": "mbalde@pratt.edu",
+    "studentId": "lulah-balde",
+    "assignmentTitle": "Week 12: Attention Is All You Need",
+    "projectDescription": "GINJAN CAFE: The barista reads your journal\n\nGINJAN is a ginger drink brand I designed, based on the drink I grew up making with my Guinean mother. For this project I imagined the GINJAN café as a shop with no menu to read. You order by answering one question in a journal: \"What's on your mind today?\"\n\nThe barista is a Markov chain I trained on reflective journal entries, each sorted into one of seven moods: stressed, tired, homesick, happy, sad, restless and calm. It reads your entry, highlights the phrases and words that gave your feelings away, and tells you what it heard. Then you choose the colors and strengths you'd give that entry. Your words and colors blend into a drink from the menu, built one ingredient at a time, with a few extras on the house. You leave with a printed receipt explaining why each ingredient was chosen, and your entry is bottled as a jar on a shared shelf next to everyone else's day.\n\nThe question I'm testing: can a machine read and carefully take apart someone's journal entry, and then make them a drink based on what it found? The training tab shows how the machine learns, including what it gets wrong, like mistaking topics such as \"mom\" or \"home\" for feelings, or missing a \"not.\"",
+    "credit": "lama + claude + figma",
+    "uploadedFiles": "/student-files/2026/lulah-balde-week-12--attention-is-all-you-need-1.png, /student-files/2026/lulah-balde-week-12--attention-is-all-you-need-2.png, /student-files/2026/lulah-balde-week-12--attention-is-all-you-need-3.png, /student-files/2026/lulah-balde-week-12--attention-is-all-you-need-4.png",
+    "linkToWork": "https://peoplesgarments.github.io/GINJANCAFE/",
+    "linkToWorks": [
+      "https://peoplesgarments.github.io/GINJANCAFE/"
+    ],
+    "linkToWorkRaw": "https://peoplesgarments.github.io/GINJANCAFE/",
+    "certification": "Yes",
+    "weeklyResponse": "How important it is to intricately train your model and its design system rather than focusing so much on just the interface itself.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1VPGZ_AO93V8TXdpUBFSdM3TLpsmss6u5",
+        "fileId": "1VPGZ_AO93V8TXdpUBFSdM3TLpsmss6u5",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1VPGZ_AO93V8TXdpUBFSdM3TLpsmss6u5&sz=w800",
+        "embed": "https://drive.google.com/file/d/1VPGZ_AO93V8TXdpUBFSdM3TLpsmss6u5/preview",
+        "local": "/student-files/2026/lulah-balde-week-12--attention-is-all-you-need-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1YmvEUURtWC9Y-_K5Nrtsw71x3UTQfdnd",
+        "fileId": "1YmvEUURtWC9Y-_K5Nrtsw71x3UTQfdnd",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1YmvEUURtWC9Y-_K5Nrtsw71x3UTQfdnd&sz=w800",
+        "embed": "https://drive.google.com/file/d/1YmvEUURtWC9Y-_K5Nrtsw71x3UTQfdnd/preview",
+        "local": "/student-files/2026/lulah-balde-week-12--attention-is-all-you-need-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1ksYJjH4u9Dt5kVHT1MtUQi7WPOduQmOm",
+        "fileId": "1ksYJjH4u9Dt5kVHT1MtUQi7WPOduQmOm",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1ksYJjH4u9Dt5kVHT1MtUQi7WPOduQmOm&sz=w800",
+        "embed": "https://drive.google.com/file/d/1ksYJjH4u9Dt5kVHT1MtUQi7WPOduQmOm/preview",
+        "local": "/student-files/2026/lulah-balde-week-12--attention-is-all-you-need-3.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1dt4Tm8kdHXECC-ONGzlReQLaZxTmmfa4",
+        "fileId": "1dt4Tm8kdHXECC-ONGzlReQLaZxTmmfa4",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1dt4Tm8kdHXECC-ONGzlReQLaZxTmmfa4&sz=w800",
+        "embed": "https://drive.google.com/file/d/1dt4Tm8kdHXECC-ONGzlReQLaZxTmmfa4/preview",
+        "local": "/student-files/2026/lulah-balde-week-12--attention-is-all-you-need-4.png"
+      }
+    ]
   }
 ]
