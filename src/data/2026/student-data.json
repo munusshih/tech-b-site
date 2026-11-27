@@ -4114,5 +4114,56 @@
         "local": "/student-files/2026/lulah-balde-week-12--attention-is-all-you-need-4.png"
       }
     ]
+  },
+  {
+    "timestamp": "11/26/2026 15:16:10",
+    "studentEmail": "schoei@pratt.edu",
+    "studentId": "seulgi-choei",
+    "assignmentTitle": "Week 12: Attention Is All You Need",
+    "projectDescription": "This project began with two questions: What if each person received only the machine’s reading? Can we create something together without sharing the same understanding?\n\nThe process is simple. AI receives an image and interprets it in one paragraph. A person draws an image based only on the description. AI then reads the drawing and makes another description, and the next person makes a new drawing. This process repeats.\n\nInstead of trying to keep the original meaning, I wanted to explore how misunderstandings could become a way of creating something together. Each interpretation creates a deviation, and that deviation becomes the starting point for the next person.\n\nIn this project, I tested three tools: Markov chains, generative grammar with RiTa, and local AI models.",
+    "credit": "Claude",
+    "uploadedFiles": "/student-files/2026/seulgi-choei-week-12--attention-is-all-you-need-1.png, /student-files/2026/seulgi-choei-week-12--attention-is-all-you-need-2.png, /student-files/2026/seulgi-choei-week-12--attention-is-all-you-need-3.png, /student-files/2026/seulgi-choei-week-12--attention-is-all-you-need-4.png, /student-files/2026/seulgi-choei-week-12--attention-is-all-you-need-5.png",
+    "linkToWork": "",
+    "linkToWorkRaw": "",
+    "certification": "Yes",
+    "weeklyResponse": "What I learned this week is that generating language requires different approaches depending on the tool. By experimenting with Markov chains, generative grammar, and local AI models, I was able to learn more about how AI generates language and how different mechanisms shape the results.\nDuring the relay, what I found is that the direction of instruction is reversed. Usually, we instruct AI and receive its output. But this time, the AI gave the instruction and we carried it out.",
+    "teacherFeedback": "",
+    "processedFiles": [
+      {
+        "original": "https://drive.google.com/open?id=1-JWQ2Sd4jy7u44Fyzx-VVFA5mngSelXK",
+        "fileId": "1-JWQ2Sd4jy7u44Fyzx-VVFA5mngSelXK",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1-JWQ2Sd4jy7u44Fyzx-VVFA5mngSelXK&sz=w800",
+        "embed": "https://drive.google.com/file/d/1-JWQ2Sd4jy7u44Fyzx-VVFA5mngSelXK/preview",
+        "local": "/student-files/2026/seulgi-choei-week-12--attention-is-all-you-need-1.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1tmd6wLuFhp3Tns-3hK9nbj8BWnRpImT-",
+        "fileId": "1tmd6wLuFhp3Tns-3hK9nbj8BWnRpImT-",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1tmd6wLuFhp3Tns-3hK9nbj8BWnRpImT-&sz=w800",
+        "embed": "https://drive.google.com/file/d/1tmd6wLuFhp3Tns-3hK9nbj8BWnRpImT-/preview",
+        "local": "/student-files/2026/seulgi-choei-week-12--attention-is-all-you-need-2.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1IkIm9jed62VWCNkFX28PTkKryqS74qDP",
+        "fileId": "1IkIm9jed62VWCNkFX28PTkKryqS74qDP",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1IkIm9jed62VWCNkFX28PTkKryqS74qDP&sz=w800",
+        "embed": "https://drive.google.com/file/d/1IkIm9jed62VWCNkFX28PTkKryqS74qDP/preview",
+        "local": "/student-files/2026/seulgi-choei-week-12--attention-is-all-you-need-3.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1SP_B5seiVsUZyialHbrGTxJIJZtuj0CP",
+        "fileId": "1SP_B5seiVsUZyialHbrGTxJIJZtuj0CP",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1SP_B5seiVsUZyialHbrGTxJIJZtuj0CP&sz=w800",
+        "embed": "https://drive.google.com/file/d/1SP_B5seiVsUZyialHbrGTxJIJZtuj0CP/preview",
+        "local": "/student-files/2026/seulgi-choei-week-12--attention-is-all-you-need-4.png"
+      },
+      {
+        "original": "https://drive.google.com/open?id=1tXG_WBX2AcdWgjucQ8D_LFQUpkbPxHzh",
+        "fileId": "1tXG_WBX2AcdWgjucQ8D_LFQUpkbPxHzh",
+        "thumbnail": "https://drive.google.com/thumbnail?id=1tXG_WBX2AcdWgjucQ8D_LFQUpkbPxHzh&sz=w800",
+        "embed": "https://drive.google.com/file/d/1tXG_WBX2AcdWgjucQ8D_LFQUpkbPxHzh/preview",
+        "local": "/student-files/2026/seulgi-choei-week-12--attention-is-all-you-need-5.png"
+      }
+    ]
   }
 ]
